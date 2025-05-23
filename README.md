@@ -9,7 +9,7 @@ Diese Ressourcen könnten auch für Schüler der Oberstufe nützliche sein, oder
 Unser Ziel ist es, eine gute Balance zwischen Theorie und Praxis zu finden, wobei wir uns eher an der Praxis orientieren.
 Genaugenommen lehren wir Programmieren zusammen mit einigen Konzepten aus der Softwaretechnologie bzw. dem Softwareingenieurswesen.
 Es ist die Meinung des Autors, dass diese beiden Themengebiete, nämlich Programmieren und Softwaretechnologie, nicht getrennt werden können.
-Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
+Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit-Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
 Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die Programmierung gehen.
 
 
@@ -20,9 +20,9 @@ Die Webseite mit aktuellen Informationen über den Kurs ist <https://thomasweise
 Das Kursbuch, in englischer Sprache geschrieben, findet such unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
 
 ### 2.2. Die Slides in Deutsch
-Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlides> gefunden werden und sind hier aufgelistet:
+Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
 
-1. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlides/01_einleitung.pdf)
+1. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_einleitung.pdf)
 
 
 ### 2.3. Die Slides in Englisch
