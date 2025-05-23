@@ -8,7 +8,7 @@ Hier stellen wir alle Ressourcen des Kurses zur Verfügung.
 Diese Ressourcen könnten auch für Schüler der Oberstufe nützliche sein, oder für jeden, die oder der sich für das Thema interessiert.
 Unser Ziel ist es, eine gute Balance zwischen Theorie und Praxis zu finden, wobei wir uns eher an der Praxis orientieren.
 Genaugenommen lehren wir Programmieren zusammen mit einigen Konzepten aus der Softwaretechnologie bzw. dem Softwareingenieurswesen.
-Es ist die Meinung des Autors dass diese beiden Themengebiete, nämlich Programmieren und Softwaretechnologie, nicht getrennt werden können.
+Es ist die Meinung des Autors, dass diese beiden Themengebiete, nämlich Programmieren und Softwaretechnologie, nicht getrennt werden können.
 Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
 Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die Programmierung gehen.
 
@@ -71,4 +71,3 @@ der School of Artificial Intelligence and Big Data ([人工智能与大数据学
 der [Hefei University](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)),
 in Hefei, Anhui, China (中国安徽省合肥市)
 via email an [tweise@hfuu.edu.cn](mailto:tweise@hfuu.edu.cn) mit CC an [tweise@ustc.edu.cn](mailto:tweise@ustc.edu.cn).
-
