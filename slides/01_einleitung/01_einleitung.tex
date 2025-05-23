@@ -5,6 +5,7 @@
 \xdef\sharedDir{../../shared}%
 \RequirePackage{\bookbaseDir/styles/slides}%
 \RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
 %
 \subtitle{Einleitung}%
 %
@@ -18,6 +19,255 @@
 \frametitle{Einleitung}%
 \begin{itemize}%
 \item Dieser Kurs lehrt das Programmieren mit der Programmiersprache Python.%
+\item<2-> Was bedeutet \emph{Programmieren}?%
+\item<3-> Programmieren bedeutet, dass wir Aufgaben an den Computer delegieren.%
+\item<4-> Wir haben eine Aufgabe zu erliegen, irgendeine Sache.%
+\item<5-> Vielleicht ist sie zu kompliziert und dauert zulange.%
+\item<6-> Vielleicht ist es etwas, das wir sehr oft machen müssen.%
+\item<7-> Vielleicht ist es etwas, das wir physisch nicht selbst machen können.%
+\item<8-> Vielleicht sind wir einfach faul.%
+\item<9-> Also wollen wir, dass der Computer es für uns macht.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Wenn wir eine Aufgabe an eine andere Person delegieren, dann müssen wir die Aufgabe erklären.%
+\item<2-> Wenn Sie der Chefkoch in einer Küche sind, dann müssen Sie dem Azubikoch erkläten: \inQuotes{Erst musst Du die Kartoffeln waschen, dann schälen, und dann kannst Du sie kochen.}%
+\item<3-> Wenn Sie zum Friseur gehen um sich die Haare schön machen zu lassen, dann sagen Sie zum Beispiel:
+\inQuotes{Wasch meine Haare, schneide sie oben auf 1cm, trimm die Seiten, und färbe sie grün.}
+\item<4-> Wir geben der anderen Person eine klare und eindeutige Sequenz von Anweisungen in einer Sprache, die sie versteht.%
+\item<5-> In diesem Kurs lernen Sie, wie Sie das selbe mit einem Computer machen können.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{Programmieren vs.\ Softwareentwicklung}%
+%
+\begin{frame}%
+\frametitle{Programmieren}%
+%
+\begin{definition}[Programm]%
+Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für einen Computer um ein spezifisches Ziel zu erreichen.%
+\end{definition}%
+%
+\begin{definition}[Programmieren]%
+\label{def:programming}
+\emph{Programmieren} ist das Schreiben eines Programms\cite{CDE:PMOPIE}.%
+\end{definition}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Programmieren}%
+\begin{itemize}%
+\item In der überwältigen Mehrheit der Fälle erstellen wir ein Programm \emph{nicht}, um es nur ein einziges Mal auszuführen.%
+\item<2-> Wenn wir Aufgaben im realen Leben delegieren, ist das ja ganz ähnlich.
+\item<3-> Als Chefkoch \inQuotes{geben} Sie das \inQuotes{Programm} \emph{Kartoffeln kochen} in den Azubikoch ja auch nur einmal \inQuotes{ein.}
+\item<4-> Danach wollen Sie in der Lage sein, dieses \inQuotes{Programm} auszuführen, in dem Sie sagen:~\inQuotes{Koch doch bitte 2kg Kartoffeln.}
+\item<5-> Solche \inQuotes{Programme} haben also sogar oft implizite Parameter, wie zum Beispiel das eben erwähnte Gewicht von 2kg.%
+\item<6-> Wenn Sie das nächste Mal zum Friseur gehen, wollen Sie vielleicht sagen können:~\inQuotes{Das selbe wie immer, aber heute färbe sie blau.}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Programmieren}%
+\begin{itemize}%
+\item In unseren täglichen Interaktionen erfolgt das Erstellen von wiederverwendbaren, parameterisierten Programmen sehr oft und sehr implizit.%
+\item<2-> Wir denken darüber selten explizit nach.%
+\item<3-> Wenn wir jedoch Computer programmieren, dann denken wir sehr wohl explizit darüber nach.%
+\item<4-> Gleich von Anfang an.%
+\item<5-> \alert{Programmieren ist aber nur ein Teil von Softwareentwicklung}.
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Softwareentwicklung}%
+\begin{itemize}%
+\item Später, in Ihrem Job, wollen Sie ein Programm entwickeln, das eine bestimmte Aufgabe löst.%
+\uncover<2->{%
+\begin{enumerate}%
+\item Sie schreiben das Program.%
+\item<3-> Dann haben Sie die Datei mit dem Programmkode.%
+\item<4-> Das Problem ist gelöst.%
+\end{enumerate}%
+}%
+\item<5-> Ist das so einfach?\uncover<6->{ \alert<6>{Nein.}%
+\uncover<7->{%
+\begin{enumerate}%
+\item Vielleicht fragen Sie sich, ob Sie einen Fehler gemacht haben.\uncover<8->{ Leute machen Fahler.\uncover<9->{ Je schwieriger die Aufgabe ist, die wir lösen wollen, je mehr Programmkode wir schreiben, desto wahrscheinlicher ist es, dass wir irgendwo irgendeinen Fehler machen.\uncover<10->{ \alert<10>{Also müssen Sie Ihre Programme testen.}}}}%
+\item<11-> Was passiert wenn jemand anders Ihre Programme später verwenden will?\uncover<12->{ \alert<12>{Sie müssen eine klare Dokumentation schreiben.}}%
+\item<13-> Was, wenn Ihr Kode Funktionen zur Verfüngung stellt, die andere verwenden können?\uncover<14->{ \alert<14>{Die Ein- und Ausgabedatentypen müssen klar spezifiziert werden.}}%
+\item<15-> Was, wenn jemand anders Ihren Kode lesen und damit arbeiten soll?\uncover<16->{ \alert<16>{Ihr Kode muss klar sein und konsistent einem ordentlichen Stil folgen\cite{PEP8}.}}%
+\end{enumerate}%
+}}%
+\item<17-> Alle diese Dinge müssen beachtet werden!%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Softwareentwicklung}%
+\begin{itemize}%
+\item Softwareentwicklung ist also mehr, als nur Programmieren..%
+\item<2-> Die meisten Berufe sind ja mehr, als nur die \inQuotes{Haupttätigkeit,} die man damit assoziiert\uncover<3->{%
+\begin{itemize}%
+\item Sagen wir, Sie gehen zum Arzt um sich behandeln zu lassen.%
+\item<4-> Dann \emph{hoffen} Sie, dass dieser gut ausgebildet ist, die entsprechenden Operationen durchzuführen.%
+\item<5-> Aber Sie \emph{erwarten absolut,} dass er sich die Hände vor der Operation wäscht.%
+\end{itemize}%
+}%
+\item<6-> Für Programmierer gilt das selbe!\uncover<7->{%
+\begin{itemize}%
+\item Sagen wir, Ihr Chef will, dass Sie ein Programm schreiben.%
+\item<8-> Dann \emph{hofft} er, dass Sie ein Programm schreiben, das gut funktioniert.%
+\item<9-> Aber er \emph{erwartet,} dass der Kode den Sie produzieren lesbar ist, das Sie ihn getestet haben, und dass sie ihn dokumentiert haben.%
+\end{itemize}%
+}%
+\item<10-> Ich will nicht zu einem Arzt gehen, der sich nicht die Hände wäscht, bevor er mich operiert.%
+\item<11-> Ich will Ihnen nicht Programmieren beibringen, ohne den Fokus auf \emph{sauberen} Kode zu legen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Softwareentwicklung}%
+%
+\begin{itemize}%
+\item Programmierer schreiben also nicht nur Kode, sie entwickeln Software.%
+\item<2-> Ein Großteil der Programmierer verbringt nur etwa 50\%~ihrer Zeit mit Programmieren\cite{T2019MOSWBFDHOT2TMOSS,AS2019DS2OSRP}.%
+\item<3-> Andere Studien stellen sogar fest, dass weniger als 20\%~der Arbeitszeit mit Programmieren verbracht wird und vielleicht weitere 15\%~mit dem Korrigieren von Fehlern\cite{MAGTOC2024EHFAP}.%
+%
+\item<4-> Natürlich fokussieren wir uns in diesem Kurs auf das Programmieren.%
+%
+\item<5-> Aber wir werden auch viele Dinge diskutieren, die darüber hinausgehen.\uncover<6->{ Dinge, die in Ihren Werkzeuggürtel gehören.\uncover<7->{ Dinge, die Sie zu \emph{guten} Programmierern machen.}}
+%
+\item<8-> Das Thema unserers Kurs ist das Entwickeln \emph{guter} Software mit \python.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{Warum \python?}%
+%
+\begin{frame}[t]%
+\frametitle{Warum \python?}%
+\begin{enumerate}%
+\item \python\ ist eine sehr weitverbreitete Programmiersprache\cite{CBST2024LOHPPTDDSAMLA,B2023G2GLS}.%
+\uncover<3->{ Nach der jährlichen Stack Overflow Umfrage 2024\cite{SESO:DWMMMT2RFSOADS}, war \python\ die zweitpopulärste Programmiersprache nach \pgls{javascript} and \glslink{HTML}{HTML}/CSS.%
+\uncover<4->{ In \github's Octoverse Report vom Oktober~2024\cite{GS2024OALPTTLATNOGDS}, war \python\ die populärste Programmiersprache (vor \pgls{javascript}).}}
+%
+\item<5-> \python\ wird intensiv auf dem Gebiet der \pgls{AI}\cite{RN2022AIAMA}, \pgls{ML}\cite{SSBD2014UMLFTTA}, und \pgls{DS}\cite{G2019DSFSFPWP} genutzt, die alle Zukunftstechnologien sind.%
+%
+\item<6-> Es existieren sehr mächtige Bibliotheken sowohl für Forschung als auch für die Produktentwicklung, z.B.~\numpy\cite{HMvdWGVCWTBSKPHvKBHFdRWPGMSRWAGO2020APWN,DBvR2024ITN,J2018NPSCADSAWNSAM}, \pandas\cite{B2012DPWP,L2024PW}, \scikitlearn\cite{PVGMTGBPWDVPCBPD2011SMLIP,RLM2022MLWPAS}, \scipy\cite{VGOHRCBPWBvdWBWMMNJKLCPFMVLPCHQHARPvMS2020SFAFSCIP,J2018NPSCADSAWNSAM}, \tensorflow\cite{ABCCDDDGIIKLMMMSTVWWYZ2016TASFLSML,L2023TDDBTADMLMWT}, \pytorch\cite{PGMLBCKLGADKYDRTCSFBC2019PAISHPDLL,RLM2022MLWPAS}, \matplotlib\cite{H2007MA2GE,P2021HOMLPAVWP,J2018NPSCADSAWNSAM}, \simpy\cite{Z2024DESIEWS}, und \moptipy\cite{WW2023RSDEWASSAA}, um nur ein paar zu nennen.%
+%
+\item<7-> \python\ ist sehr einfach zu erlernen\cite{GPBS2006WCTIPIHSUP,VR1999CPFERPASEFTPOT}.%
+\uncover<8->{ Es hat eine einfache und saubere Syntax, die zu einer gut lesbaren Programmstruktur führt. %
+\uncover<9->{ \python\ hat auch sehr mächtige Standarddatentypen, wie z.B.~Listen, Tuples, und Dictionaries.%
+\uncover<10->{ Darum war \python\ auch die populärste Programmiersprache für Leute, die das Programmieren lernen wollen, nach der oben erwähnten Umfrage~\cite{SESO:DWMMMT2RFSOADS}.}}}%
+\end{enumerate}%
+%
+\locateGraphic[B2023G2GLS]{2}{width=0.65\paperwidth}{graphics/languagesByGithubPushes/languagesByGithubPushes}{0.175}{0.26}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\python\ ist ein interpretierte Sprache}%
+\begin{itemize}%
+\item Die meisten Programmiersprachen erfordern, dass Quellkode kompiliert wird.%
+\item<8-> \python\ ist interpretiert.%
+\item<12-> Daher gibt es weniger Schritte im Buildprozess.%
+\end{itemize}%
+\locateGraphic{2}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_01}{0.125}{0.35}%
+\locateGraphic{3}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_02}{0.125}{0.35}%
+\locateGraphic{4}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_03}{0.125}{0.35}%
+\locateGraphic{5}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_04}{0.125}{0.35}%
+\locateGraphic{6}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_05}{0.125}{0.35}%
+\locateGraphic{7}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_06}{0.125}{0.35}%
+\locateGraphic{8}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_07}{0.125}{0.35}%
+\locateGraphic{9}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_08}{0.125}{0.35}%
+\locateGraphic{10}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_09}{0.125}{0.35}%
+\locateGraphic{11-}{width=0.75\paperwidth}{graphics/pythonIsInterpreted/pythonIsInterpreted_10}{0.125}{0.35}%
+\end{frame}%
+%
+\section{Literatur}%
+%
+\begin{frame}[t]\frametitle{Literatur}%
+\begin{itemize}%
+\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item<2-> Weitere Bücher zu \python:\begin{itemize}%
+\item \furtherReading{K2018EIPFEUU},%
+\item \furtherReading{L2025LP},%
+\item \furtherReading{W2024PME},%
+\item \furtherReading{S2024EP1SWTWBP},%
+\item \furtherReading{H2023ABGTP3P},%
+\item \furtherReading{M2023PCC},%
+\item \furtherReading{B2023HFP},%
+\item \furtherReading{J2022PPEIAOSCD}.%%
+\end{itemize}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]\frametitle{Literatur}%
+\begin{itemize}%
+\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Weitere Bücher zu Softwaretests und kontinuierliche Integration:\begin{itemize}%
+\item \furtherReading{O2022PTWP},%
+\item \furtherReading{P2021PUTAAOAEUTIP},%
+\item \furtherReading{DG2020TIP},%
+\item \furtherReading{L2018PCIADACGWE},%
+\item \furtherReading{R2007PPBPDTAM}.%
+\end{itemize}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]\frametitle{Literatur}%
+\begin{itemize}%
+\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Weitere Bücher zu \glsreset{DS}\pgls{DS}, numerische Berechnungen, Visualisierung, und \pgls{AI}:\begin{itemize}%
+\item \furtherReading{M2022PFDA},%
+\item \furtherReading{P2021HOMLPAVWP},%
+\item \furtherReading{G2019DSFSFPWP},%
+\item \furtherReading{J2018NPSCADSAWNSAM}.%
+\end{itemize}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]\frametitle{Literatur}%
+\begin{itemize}%
+\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Bücher zu weiteren Themen:\begin{itemize}%
+\item \furtherReading{M2017WAFSIPAHCIUT},%
+\item \furtherReading{RCKS2019PNP}.%
+\end{itemize}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]\frametitle{Literatur}%
+\begin{itemize}%
+\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Onlineressourcen:\begin{itemize}%
+\item \furtherReading{PSF:P3D},
+\item \furtherReading{PEP0},%.
+\item \furtherReading{D2021RPT},%
+\item \furtherReading{R1999WPT},%
+\item \furtherReading{H2025PM},%
+\item \furtherReading{B2023PFS}.%
+\end{itemize}%
+\end{itemize}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Programmieren ist das Schreiben von Quellkode für Computerprogramme.%
+\item<2-> Wir können dafür eine Programmiersprache wie \python\ verwenden.%
+\item<3-> Um gute, nützliche, und wartbare Programme zu schreiben, ist es nicht genug, eine Programmiersprache zu erlernen.%
+\item<4-> Man muss auch die dazugehörigen Werkzeuge verstehen, die bewährten Praktiken, die Stilrichtlinien, man muss wissen, wie man Programme testet, wie man sie dokumentiert, und so weiter.%
+\item<5-> Man muss die wichtigsten Komponenten der \emph{Softwareentwicklung} verstehen.
+\item<6-> Ich werde versuchen, Ihnen Programmieren zusammen mit mehrerer solcher Aspekte beizubringen.%
+\item<7-> Wir nutzen die Programmiersprache \python\uncover<8->{, weil sie einfach zu lernen ist\uncover<9->{, weit-verbreitet\uncover<10->{, ein reiches Ökosystem von nützlichen Bibliotheken und Werkzeugen bietet\uncover<11->{, und einen einfachen Buildprozess hat.}}}}%
 \end{itemize}%
 \end{frame}%
 %
