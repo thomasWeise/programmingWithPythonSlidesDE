@@ -23,5 +23,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@94f3c658273cf92fb48ef99e5fbc02bd2dc642b2
         with:
           branch: gh-pages
-          folder: /home/runner/work/programmingWithPythonSlides/programmingWithPythonSlidesDE/website/
+          folder: /home/runner/work/programmingWithPythonSlidesDE/programmingWithPythonSlidesDE/website/
           single-commit: true
