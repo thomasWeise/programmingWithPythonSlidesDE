@@ -1,8 +1,8 @@
-﻿# Programming with Python
+﻿# Programming with Python &mdash; Programmieren mit Python
 
 ## 1. Introduction
 
-*"Programming with Python"* ist sowohl ein Buch als auch ein Kurs der [Universität Hefei](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)).
+*"Programming with Python"*, zu Deutsch "Programmieren mit Python", ist sowohl ein Buch als auch ein Kurs der [Universität Hefei](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)).
 Hier stellen wir alle Ressourcen des Kurses zur Verfügung.
 
 Diese Ressourcen könnten auch für Schüler der Oberstufe nützliche sein, oder für jeden, die oder der sich für das Thema interessiert.
@@ -12,12 +12,11 @@ Es ist die Meinung des Autors, dass diese beiden Themengebiete, nämlich Program
 Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit-Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
 Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die Programmierung gehen.
 
-
 ## 2. Ressourcen
 Die Webseite mit aktuellen Informationen über den Kurs ist <https://thomasweise.github.io/programmingWithPython>.
 
 ### 2.1. Das Buch
-Das Kursbuch, in englischer Sprache geschrieben, findet such unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
+Das Kursbuch, in englischer Sprache geschrieben, findet sich unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
 
 ### 2.2. Die Slides in Deutsch
 Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
@@ -48,7 +47,7 @@ Alle Materialien zu diesem Kurs sind frei verfügbar.
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.
 Sie können die Dateien frei teilen.
-Sie können auch den Text und Bilder kopieren, so lange sie das Buch und die Originalquelle zitieren.
+Sie können auch den Text und Bilder kopieren, solange sie das Buch und die Originalquelle zitieren.
 Dazu können Sie zum Beispiel den folgenden BibTeX-Eintrag verwenden:
 
 <pre>@book{programmingWithPython,<br/>&nbsp;author&nbsp;=&nbsp;{<a href="http://iao.hfuu.edu.cn/5">Thomas&nbsp;Weise</a>},<br/>&nbsp;title&nbsp;=&nbsp;{Programming&nbsp;with&nbsp;Python},<br/>&nbsp;year&nbsp;=&nbsp;{2024--2025},<br/>&nbsp;publisher&nbsp;=&nbsp;{<a href="http://iao.hfuu.edu.cn">Institute&nbsp;of&nbsp;Applied&nbsp;Optimization</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/aibd">School&nbsp;of&nbsp;Artificial&nbsp;Intelligence&nbsp;and&nbsp;Big&nbsp;Data</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/">Hefei&nbsp;University</a>},<br/>&nbsp;address&nbsp;=&nbsp;{Hefei,&nbsp;Anhui,&nbsp;China},<br/>&nbsp;url&nbsp;=&nbsp;{<a href="https://thomasweise.github.io/programmingWithPython">https://thomasweise.github.io/programmingWithPython</a>}<br/>}</pre>
@@ -58,7 +57,7 @@ Ihr Feedback würde helfen, den Kurs zu verbessern.
 
 Dieses Buch und der Kurs sind unter der Attribution-NonCommercial-ShareAlike 4.0 International Lizenz veröffentlicht (CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0), siehe [http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-Wir haben das Programm [pdfsizeopt](https://github.com/pts/pdfsizeopt) statisch in den Buildprozess unserer Materialien eingefügt.
+Wir haben das Programm [pdfsizeopt](https://github.com/pts/pdfsizeopt) statisch in den Buildprozess unserer Materialien über das [bookbase Repository](https://github.com/thomasWeise/bookbase) eingefügt.
 Dieses Werkzeug ist natürlich von der Lizenz oben ausgenommen.
 Es steht unter der GNU GENERAL PUBLIC LICENSE Version 2, June 1991 und sein Copyright liegt bei seinen Autoren.
 
