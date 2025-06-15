@@ -43,14 +43,40 @@ Sie können diese unter der untenstehenden Lizenz nutzen.
 
 
 ## 3. Lizenz
-Alle Materialien zu diesem Kurs sind frei verfügbar.
+Alle Materialien, die ich für diesen Kurs erstellt habe, sind frei verfügbar.
+Das Kursmaterial beinhaltet auch Bilder und Grafiken, die von anderen erstellt wurden.
+Diese wurden explizit markiert und stehen unter dem Copyright ihrer entsprechenden Autoren.
+Alle Logos und Trademarks stehen ebenfalls unter dem Copyright ihrer entsprechenden Autoren.
+Mit der Ausnahme dieser Materialien steht das Kursmaterial hier unter der Attribution-NonCommercial-ShareAlike 4.0 International license (CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0), welche unter [http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/) zusammengefasst ist.
+
+Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0 Lizenz sondern unter dem Copyright ihrer Besitzer stehen beinhaltet, aber ist nicht beschränkt auf:
++ das LibreOffice Logo, z.B.,
+  - text/main/introduction/software/libreofficeLogo.pdf
+  - text/main/introduction/software/libreofficeLogo.svg
++ das MariaDB Logo, z.B.,
+  - text/main/introduction/software/mariadbLogo.pdf
+  - text/main/introduction/software/mariadbLogo.svg
++ das PostgreSQL Logo, z.B.,
+  - text/main/introduction/software/postgresqlLogo.pdf
+  - text/main/introduction/software/postgresqlLogo.svg
++ das SQLite Logo, z.B.,
+  - text/main/introduction/software/sqliteLogo.pdf
+  - text/main/introduction/software/sqliteLogo.svg
++ das Psycopg Logo, z.B.,
+  - text/main/gettingStarted/psycopgLogo.pdf
+  - text/main/gettingStarted/psycopgLogo.svg
++ das Python Logo, z.B.,
+  - text/main/gettingStarted/pythonLogo.pdf
+  - text/main/gettingStarted/pythonLogo.svg
+
+
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.
 Sie können die Dateien frei teilen.
 Sie können auch den Text und Bilder kopieren, solange sie das Buch und die Originalquelle zitieren.
 Dazu können Sie zum Beispiel den folgenden BibTeX-Eintrag verwenden:
 
-<pre>@book{programmingWithPython,<br/>&nbsp;author&nbsp;=&nbsp;{<a href="http://iao.hfuu.edu.cn/5">Thomas&nbsp;Weise</a>},<br/>&nbsp;title&nbsp;=&nbsp;{Programming&nbsp;with&nbsp;Python},<br/>&nbsp;year&nbsp;=&nbsp;{2024--2025},<br/>&nbsp;publisher&nbsp;=&nbsp;{<a href="http://iao.hfuu.edu.cn">Institute&nbsp;of&nbsp;Applied&nbsp;Optimization</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/aibd">School&nbsp;of&nbsp;Artificial&nbsp;Intelligence&nbsp;and&nbsp;Big&nbsp;Data</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/">Hefei&nbsp;University</a>},<br/>&nbsp;address&nbsp;=&nbsp;{Hefei,&nbsp;Anhui,&nbsp;China},<br/>&nbsp;url&nbsp;=&nbsp;{<a href="https://thomasweise.github.io/programmingWithPython">https://thomasweise.github.io/programmingWithPython</a>}<br/>}</pre>
+<pre>@book{programmingWithPython,<br/>&nbsp;author&nbsp;=&nbsp;{Thomas&nbsp;Weise},<br/>&nbsp;title&nbsp;=&nbsp;{Programming&nbsp;with&nbsp;Python},<br/>&nbsp;year&nbsp;=&nbsp;{2024--2025},<br/>&nbsp;publisher&nbsp;=&nbsp;{Institute&nbsp;of&nbsp;Applied&nbsp;Optimization,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/aibd">School&nbsp;of&nbsp;Artificial&nbsp;Intelligence&nbsp;and&nbsp;Big&nbsp;Data</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/">Hefei&nbsp;University</a>},<br/>&nbsp;address&nbsp;=&nbsp;{Hefei,&nbsp;Anhui,&nbsp;China},<br/>&nbsp;url&nbsp;=&nbsp;{<a href="https://thomasweise.github.io/programmingWithPython">https://thomasweise.github.io/programmingWithPython</a>}<br/>}</pre>
 
 **Wenn Sie Kommentare oder Vorschläge zu diesem Buch oder dem Kurs haben, oder wenn Sie Fehler gefunden haben, bitte öffnen Sie einen Issue unter [issue here](https://github.com/thomasWeise/programmingWithPython/issues).**
 Ihr Feedback würde helfen, den Kurs zu verbessern.
@@ -64,8 +90,8 @@ Es steht unter der GNU GENERAL PUBLIC LICENSE Version 2, June 1991 und sein Copy
 
 ## 4. Kontakt
 Wenn Sie weitere Fragen oder Vorschläge haben, kontaktieren Sie bitte
-Prof. Dr. [Thomas Weise](http://iao.hfuu.edu.cn/5) (汤卫思教授)
-vom Institute of Applied Optimization (应用优化研究所, [IAO](http://iao.hfuu.edu.cn))
+Prof. Dr. Thomas Weise (汤卫思教授)
+vom Institute of Applied Optimization (应用优化研究所, IAO)
 der School of Artificial Intelligence and Big Data ([人工智能与大数据学院](http://www.hfuu.edu.cn/aibd))
 der [Hefei University](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)),
 in Hefei, Anhui, China (中国安徽省合肥市)
