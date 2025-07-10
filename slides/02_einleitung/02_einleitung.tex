@@ -13,7 +13,7 @@
 %
 \startPresentation%
 %
-\section{1. Einleitung}%
+\section{Einleitung}%
 %
 \begin{frame}%
 \frametitle{Einleitung}%
@@ -96,7 +96,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \item<5-> Ist das so einfach?\uncover<6->{ \alert<6>{Nein.}%
 \uncover<7->{%
 \begin{enumerate}%
-\item Vielleicht fragen Sie sich, ob Sie einen Fehler gemacht haben.\uncover<8->{ Leute machen Fahler.\uncover<9->{ Je schwieriger die Aufgabe ist, die wir lösen wollen, je mehr Programmkode wir schreiben, desto wahrscheinlicher ist es, dass wir irgendwo irgendeinen Fehler machen.\uncover<10->{ \alert<10>{Also müssen Sie Ihre Programme testen.}}}}%
+\item Vielleicht fragen Sie sich, ob Sie einen Fehler gemacht haben.\uncover<8->{ Leute machen Fehler.\uncover<9->{ Je schwieriger die Aufgabe ist, die wir lösen wollen, je mehr Programmkode wir schreiben, desto wahrscheinlicher ist es, dass wir irgendwo irgendeinen Fehler machen.\uncover<10->{ \alert<10>{Also müssen Sie Ihre Programme testen.}}}}%
 \item<11-> Was passiert wenn jemand anders Ihre Programme später verwenden will?\uncover<12->{ \alert<12>{Sie müssen eine klare Dokumentation schreiben.}}%
 \item<13-> Was, wenn Ihr Kode Funktionen zur Verfüngung stellt, die andere verwenden können?\uncover<14->{ \alert<14>{Die Ein- und Ausgabedatentypen müssen klar spezifiziert werden.}}%
 \item<15-> Was, wenn jemand anders Ihren Kode lesen und damit arbeiten soll?\uncover<16->{ \alert<16>{Ihr Kode muss klar sein und konsistent einem ordentlichen Stil folgen\cite{PEP8}.}}%
@@ -110,8 +110,8 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \begin{frame}%
 \frametitle{Softwareentwicklung}%
 \begin{itemize}%
-\item Softwareentwicklung ist also mehr, als nur Programmieren..%
-\item<2-> Die meisten Berufe sind ja mehr, als nur die \inQuotes{Haupttätigkeit,} die man damit assoziiert\uncover<3->{%
+\item Softwareentwicklung ist also mehr als nur Programmieren..%
+\item<2-> Die meisten Berufe sind ja mehr als nur die \inQuotes{Haupttätigkeit,} die man damit assoziiert\uncover<3->{%
 \begin{itemize}%
 \item Sagen wir, Sie gehen zum Arzt um sich behandeln zu lassen.%
 \item<4-> Dann \emph{hoffen} Sie, dass dieser gut ausgebildet ist, die entsprechenden Operationen durchzuführen.%
@@ -142,7 +142,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \item<5-> Aber wir werden auch viele Dinge diskutieren, die darüber hinausgehen.\uncover<6->{ Dinge, die in Ihren Werkzeuggürtel gehören.\uncover<7->{ Dinge, die Sie zu \emph{guten} Programmierern machen.}}
 %
-\item<8-> Das Thema unserers Kurs ist das Entwickeln \emph{guter} Software mit \python.%
+\item<8-> Das Thema unserers Kurs ist das Entwickeln \emph{guter} Software \only<-8>{mit \python}\only<9->{\alert<9->{\large{\textbf{mit \python}}}}.%
 \end{itemize}%
 \end{frame}%
 %
@@ -268,6 +268,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \item<5-> Man muss die wichtigsten Komponenten der \emph{Softwareentwicklung} verstehen.
 \item<6-> Ich werde versuchen, Ihnen Programmieren zusammen mit mehrerer solcher Aspekte beizubringen.%
 \item<7-> Wir nutzen die Programmiersprache \python\uncover<8->{, weil sie einfach zu lernen ist\uncover<9->{, weit-verbreitet\uncover<10->{, ein reiches Ökosystem von nützlichen Bibliotheken und Werkzeugen bietet\uncover<11->{, und einen einfachen Buildprozess hat.}}}}%
+\item<12-> Aber genug der Einleitung. Jetzt installieren wir erst mal \python!%
 \end{itemize}%
 \end{frame}%
 %

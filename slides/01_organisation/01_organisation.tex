@@ -1,0 +1,223 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{1.~Organisation}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Willkommen}%
+%
+\begin{frame}[t]%
+\frametitle{Willkommen}%
+\begin{itemize}%
+%
+\item Willkommen zum Kurs \alert{Programmieren mit Python}.%
+%
+\item<2-> Wir befinden us im Herbst-Winter-Semester 2025 an der Universität Hefei~(合肥大学) in der schönen Stadt Hefei~(合肥市) in der Provinz Anhui~(安徽省) in China.%
+%
+\item<3-> Dieser Kurs lehrt das Programmieren mit der Programmiersprache \python.%
+%
+\item<4-> Der Kurs wird in deutscher Sprache unterrichtet.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{Lehrer}%
+%
+\begin{frame}[t]%
+\frametitle{Lehrer}%
+\begin{itemize}%
+%
+\item Prof.~Dr. Thomas WEISE~(汤卫思)%
+%
+\item<2-> Diplom-Informatiker~(硕士) der TU~Chemnitz in Sachsen, Deutschland, im Jahr 2005.%
+%
+\item<3-> Doktor der Informatik an der Universität Kassel in Hessen, Deutschland, im Jahr 2009.
+%
+\item<4-> 2009-2011:~PostDoc~(博士后) an der University of Science and Technology of China~(USTC, 中国科学技术大学) in Hefei, Anhui, China.%
+%
+\item<5-> 2011-2016:~Associate Professor~(副教授) an der USTC.%
+%
+\item<6-> Seit 2016:~Full Professor~(教授) und Direktor des Institute of Applied Optimization~(应用优化研究所) der Universität Hefei~(合肥大学) in Hefei, Anhui, China.%
+%
+\item<7-> Forschungsfeld:~Optimierung, Operations Research.%
+%
+\item<8-> Kontakt:~\href{mailto:tweise@hfuu.edu.cn}{tweise@hfuu.edu.cn}.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{Aspekte}%
+%
+\begin{frame}%
+\frametitle{Aspekte}%
+\begin{itemize}%
+\item<2-> Die Durchführung des Kurses hat drei wesentliche Aspekte von meiner Seite\uncover<3->{:%
+\begin{enumerate}%
+\item Alles, was gelehrt wird, wird aktiv praktisch und selbstständig von den Studenten ausprobiert.\uncover<4->{ %
+\alert{Auf Ihrem eigenen Laptop-Computer.}}%
+\item<5-> Umfangreiches unterstützendes Lehrmaterial wird zur Verfügung gestellt.\uncover<6->{ %
+Alles kann nachgelesen und nachvollzogen werden.}%
+\item<7-> Das ist keine Arbeit, kein Auswendiglernen.\uncover<8->{ %
+Es soll nicht langweilig sein.\uncover<9->{ %
+Das Ziel ist, dass Sie Freude beim Lernen und bei der Arbeit mit unserem Themengebiet fühlen.%
+}}%
+\end{enumerate}%
+}%
+\end{itemize}%
+\end{frame}%
+%
+\section{Lehrmaterial}%
+%
+\begin{frame}%
+\frametitle{Lehrmaterial}%
+\locateGraphic{}{width=0.5\paperwidth}{\courseUrlQR}{0.25}{0.1}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Buch}%
+\begin{itemize}%
+\item Ich habe für diesen Kurs ein Buch geschrieben:~\citetitle{programmingWithPython}\cite{programmingWithPython}.%
+\item<2-> Das Buch ist in Englisch geschrieben.%
+\item<3-> Dieses Buch steht kostenlos im Internet.%
+\item<4-> Es wird noch aktiv weiterentwickelt.%
+\item<5-> \alert{Sie} können mir helfen, es weiterzuentwickeln, durch Fragen, Anregungen, das Finden von Fehlern, usw.%
+\end{itemize}%%
+\uncover<6->{\centering%
+\resizebox{\linewidth}{!}{URL:~\expandafter\url{\programmingWithPythonUrl/programmingWithPython.pdf}}%
+}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Buch: Features}%
+\begin{itemize}%
+\item Das Buch ist explizit für Anfänger auf dem Gebiet geschrieben.%
+\item<2-> Es beinhaltet viele Beispiele, die Schritt-für-Schritt erklärt werden.%
+\item<3-> Fachbegriffe, die Sie vielleicht nicht kennen, werden in einem Glossary erklärt.%
+\item<4-> Das Glossary beinhaltet auch Abkürzungen, Programme, mathematische Notationen, usw.%
+\item<5-> Zum Beispiel~\pgls{stdin}, \pgls{UCS}, \pgls{UML}, \pgls{HTML}, \pgls{JSON}, \pgls{1NF}, \pgls{breakpoint}, \pgls{venv}, \pgls{clientServerArchitecture}, \realNumbers, \npHard, \psql, \pypi, \matplotlib\dots%
+\item<6-> Diese Terme sind jeweils im Text auf das Glossary verlinkt.%
+\item<7-> Und im Glossary gibt es dann immer weiterführende Literturhinweise.%
+\end{itemize}%%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Slides}%
+\begin{itemize}%
+\item Die Slides zu diesem Kurs sind ebenfalls online.%
+\item<2-> URL:~\expandafter\url{\programmingWithPythonUrl}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[fragile,t]
+\frametitle{Beispiele}%
+\begin{itemize}%
+\item In diesem Kurs werden wir sehr viele Beispiele verwenden.
+\item<2-> Sie können (und sollen!) also jeden Schritt jedes Beispiels genau nachvollziehen.%
+\item<3-> Im Buch finden Sie jeweils im Titel des Programms gleich noch den Link zum Sourcekode auf \github.%
+\end{itemize}%
+\gitLoadAndExecPython{veryFirstProject}{}{veryFirstProject}{very_first_program.py}{}%
+\listingPythonAndOutput{}{veryFirstProject}{}{0.05}{0.5}{0.9}{0.8}%
+\end{frame}
+%
+\begin{frame}%
+\frametitle{Komplexere Beispielprogramme}%
+\parbox{0.435\linewidth}{%
+\begin{itemize}%
+\item Für einige Beispiele mit komplexeren Kommandos werden der Programmkode, die Kommandozeile zu dessen Ausführung, der \glsreset{stdout}\pgls{stdout}, der Exit-Kode, und die Softwareversion mit angezeigt.%
+\item<2-> Natürlich mit einem Link zum Kode auf \github.%
+\end{itemize}%
+}%
+\locateGraphic[Source:~\bracketCite{programmingWithPython}]{}{width=0.5\paperwidth}{graphics/listings}{0.45}{0.15}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Software}%
+\begin{itemize}%
+\item Wir nutzen viele verschiedene Werkzeuge.%
+\item<2-> Diese sind alle kostenlos im Internet verfügbar.%
+\item<3-> Die meisten sind Open Source software.%
+\item<4-> Für jedes Werkzeug haben wir Installationshinweise ausgearbeitet.\uncover<5->{ Mit Screenshots für \microsoftWindows\cite{T1999TLE,B2022ELATCL,H2022LML,SFLR2009LIAN,VV2022LF} und \ubuntu\ \linux\cite{CN2020ULB,H2020ULU2E}.}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Literaturhinweise}%
+\begin{itemize}%
+\item Haben Sie die kleinen roten Zahlen in dem Satz \emph{\inQuotes{Mit Screenshots für \microsoftWindows\cite{T1999TLE,B2022ELATCL,H2022LML,SFLR2009LIAN,VV2022LF} und \ubuntu\ \linux\cite{CN2020ULB,H2020ULU2E}.}} bemerkt?%
+\item<2-> Dies sind Literaturhinweise, die am Ende der Slides gelistet werden.%
+\item<3-> Im Buch \citetitle{programmingWithPython}\cite{programmingWithPython} finden Sie ebenfalls viele Literaturhinweise, dort allerdings in eckigen Klammern, also eher so:~\bracketCite{programmingWithPython}.%
+\item<4-> Wir haben für jeden Fakt, den wir lehren, für jedes Werkzeug, das verwendet wir, für jeden Befehl, den wir benutzen, und für jedes Datenformat, dass wir verwenden Literaturhinweise herausgesucht.%
+\item<5-> Wir beziehen uns auf normative Standards, auf wissenschaftliche Veröffentlichungen, auf Dokumentationen, auf Vorlesungen an anderen Universitäten, und selbst auf aktuelle Gesetzgebung.%
+\item<6-> Wo immer möglich, werden die entsprechenden Quellen im Literaturverzeichnis verlinkt und ich verwende, wo immer möglich, Quellen, die online verfügbar sind.%
+\item<7-> Sie können \emph{alles} nachlesen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Alles ist da.}%
+\begin{itemize}%
+\item Wir wissen, dass es nicht einfach ist, neue Dinge in einer fremden Sprache zu lernen.%
+\item<2-> Daher versuchen wir, alle Informationen so klar wie möglich darzustellen.%
+\item<3-> Wir stellen umfangreiches Lehrmaterial zur Verfügung.%
+\item<4-> Und wir machen den Kurs so praktisch wie möglich.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Ökosystem}%
+%
+\begin{frame}%
+\frametitle{Ökosystem}%
+\begin{itemize}%
+\item Wir versuchen, ein Ökosystem von Lehrmaterial aufzubauen.%
+\item<2-> Aktuell gibt es folgende beiden Kurse\uncover<3->{:\medskip%
+\begin{itemize}%
+\item \python, mit dem Textbuch \emph{\furtherReading{programmingWithPython}}\uncover<4->{ und\medskip}%
+\item<4-> Datenbanken, mit dem Textbuch \emph{\furtherReading{databases}}.%
+\end{itemize}%
+}%
+\item<5-> Diese Kurse sind miteinander verzahnt und vom Material her gleich strukturiert.%
+\item<6-> Sie sind eingeladen, sich die Materialien beider Kurse anzuschauen.%
+\item<7-> Beide werden aktiv weiterentwickelt.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{Voraussetzungen}%
+%
+\begin{frame}%
+\frametitle{Voraussetzungen}%
+\begin{itemize}%
+\item Bringen Sie Ihren Laptop mit.\uncover<2->{\begin{enumerate}%
+\item Ihren eigenen Laptop.%
+\item<3-> Immer.%
+\item<4-> Vollziehen Sie unsere Beispiele nach.%
+\item<5-> Am Besten während der Vorlesung.%
+\item<6-> Auf Ihrem eigenen Laptop.%
+\end{enumerate}}%
+\item<7-> Das sind schon alle Voraussetzungen.%
+\item<8-> Bonus:~Im Idealfall arbeiten Sie mit dem Betriebssystem \ubuntu\ \linux\cite{CN2020ULB,H2020ULU2E}.\uncover<9->{ Sie könnten es ja in einer virtuellen Maschine installieren.}%%
+\end{itemize}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}\frametitle{Kurs Datenbanken}%
+\begin{itemize}%
+\item Willkommen zum Kurs \alert{Datenbanken}.%
+\item<2-> Ich freue mich auf unsere Zusammenarbeit und hoffe, dass wir Spaß mit diesem Gebiet haben werden.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

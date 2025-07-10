@@ -21,7 +21,10 @@ Das Kursbuch, in englischer Sprache geschrieben, findet sich unter <https://thom
 ### 2.2. Die Slides in Deutsch
 Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
 
-1. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_einleitung.pdf)
+1. [Organisation](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_organisation.pdf)
+2. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/02_einleitung.pdf)
+3. [Python Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/03_python_installieren.pdf)
+4. [PyCharm Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/04_pycharm_installieren.pdf)
 
 
 ### 2.3. Die Slides in Englisch

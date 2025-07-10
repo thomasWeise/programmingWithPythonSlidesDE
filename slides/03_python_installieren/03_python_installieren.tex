@@ -1,0 +1,92 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{Python Installieren}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item \python\ ist eine sehr weitverbreitete\cite{CBST2024LOHPPTDDSAMLA,B2023G2GLS} und leicht zu erlernende\cite{GPBS2006WCTIPIHSUP,VR1999CPFERPASEFTPOT} Programmiersprache.%
+\item<2-> Es gibt zwei wichtige Versionen von \python:~\python~\softwareStyle{2} und \python~\softwareStyle{3}.%
+\item<3-> Wir fokussieren uns ausschließlich auf \python~\softwareStyle{3}.%
+\item<4-> Um \python~\softwareStyle{3} zu verwenden, müssen wir es jedoch erst mal installieren.%
+\item<5-> Im folgenden stellen wir einige kurze Installationshinweise zur Verfügung\only<-6>{.}\uncover<7->{, mehr Informationen können Sie finden unter:%
+\begin{itemize}%
+\item der offiziellen \python\ \inQuotes{setup and usage} webseite\furtherReading{PSF:P3D:PSAU}\uncover<8->{,}%
+\item<8-> den \python\ Downloads bei~\url{https://www.python.org/downloads}\uncover<9->{, and}%
+\item<9-> dem \inQuotes{\python~3 Installation \& Setup Guide} unter~\url{https://realpython.com/installing-python}.%
+\end{itemize}%
+}
+\end{itemize}%
+\end{frame}%
+%
+\section{Python unter Ubuntu Linux installieren}%
+%
+\begin{frame}[t]%
+\frametitle{Python unter Ubuntu Linux installieren}%
+\begin{itemize}%
+\item Unter \ubuntu\ \linux\ ist \python~\softwareStyle{3} bereits standardmäßig vorinstalliert.%
+\item<2-> Sie können ein Terminal\cite{B2022ELATCL} durch Druck auf~\ubuntuTerminal\ öffnen.\uncover<3->{ Schreiben Sie dann \bashil{python3 --version} und drücken Sie \keys{\enter}, um die installierte Versionsnummer angezeigt zu bekommen.}%
+\end{itemize}%
+%
+\locateGraphicTB{4}{width=0.8\paperwidth}{graphics/pythonUnderUbuntu/ubuntuTerminalPythonVersion}{0.1}{0.45}%
+\end{frame}%
+%
+\section{Python unter Microsoft Windows installieren}%
+%
+\begin{frame}[t]%
+\frametitle{Python unter Microsoft Windows installieren}%
+\begin{itemize}%
+\only<-1>{\item Nun installieren wir \python\ unter \microsoftWindows\ Version~10.}%
+\only<-2>{\item<2-> Zuerst öffnen wir ein Terminal durch \windowsTerminal.}%
+\only<-5>{\only<-4>{\item<3-> Nun geben wir \bashil{python3 --version} in das Terminal ein und drücken~\keys{\enter}.%
+\item<4-> Wenn \python\ installiert wäre, würde uns das die \python-Version ausgeben.}%
+\item<5-> Wenn \python\ nicht installiert ist, denn können wir es also durch Schreiben von \bashil{python} installieren.}%
+\only<-6>{\item<6-> Wir schreiben also \bashil{python3} und drücken~\keys{\enter}.}%
+\only<-8>{\item<7-> Das Installationsfenster öffnet sich.\uncover<8->{ Wir klicken auf~\menu{Get}.}}%
+\only<-9>{\item<9-> Das Program wird heruntergeladen und installiert.}%
+\only<-10>{\item<10-> \python\ ist jetzt installiert.}%
+\only<-12>{\item<11-> Wir geben erneut \bashil{python3 --version} in das Terminal ein und drücken~\keys{\enter}.\uncover<12->{ Diesmal wird uns die \python-Version ausgegeben.}}%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.6\paperwidth}{graphics/installingPythonWindows/installingPythonWindows01openTerminal}{0.2}{0.3}%
+%
+\locateGraphicTB{3-5}{width=0.6\paperwidth}{graphics/installingPythonWindows/installingPythonWindows02pythonVersion}{0.2}{0.3}%
+%
+\locateGraphicTB{6}{width=0.6\paperwidth}{graphics/installingPythonWindows/installingPythonWindows03python}{0.2}{0.3}%
+%
+\locateGraphicTB{7-8}{width=0.8\paperwidth}{graphics/installingPythonWindows/installingPythonWindows04installGet}{0.1}{0.225}%
+%
+\locateGraphicTB{9}{width=0.8\paperwidth}{graphics/installingPythonWindows/installingPythonWindows05downloading}{0.1}{0.225}%
+%
+\locateGraphicTB{10}{width=0.8\paperwidth}{graphics/installingPythonWindows/installingPythonWindows06finished}{0.1}{0.225}%
+%
+\locateGraphicTB{11-12}{width=0.6\paperwidth}{graphics/installingPythonWindows/installingPythonWindows07pythonVersion}{0.2}{0.3}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Nun haben wir \python~\softwareStyle{3} installiert.%
+\item<2-> Mit dem \python-Interpreter können wir nun \python-Programme ausführen.%
+\item<3-> Cool.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

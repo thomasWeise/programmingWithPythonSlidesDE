@@ -1,0 +1,123 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{PyCharm Installieren}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Nur die Programmiersprache \python\ auf unserem System zu haben ist nicht genug.%
+\item<2-> OK, technisch gesehen, ist es genug um \python-Programme auszuführen.%
+\item<3-> Aber um vernünftig und effizient Software zu entwickeln, braucht man schon mehr.%
+\item<4-> Wir wollen ja\only<5->{ \alert<5>{\textbf{nicht}}} mit dem \microsoftWindows\ NotePad programmieren\dots%
+\item<6-> Wir brauchen ein \glsreset{ide}\pgls{ide}, ein Programm mit dem man mehrere der notwendigen Aufgaben in der Softwareentwicklung durch eine bequeme Benutzeroberfläche erledigen kann.%
+\item<7-> Für \python\ empfehlen wir die \pycharm\cite{VHN2023HOADWP,Y2022PPADT,W2024PME} \pgls{ide}, deren Community Edition kostenlos ist.%
+\item<8-> Die Installationsanweisungen für \pycharm\ finden sich unter \url{https://www.jetbrains.com/help/pycharm/installation-guide.html}.%
+\end{itemize}%
+\locateGraphic{4}{width=0.4\paperwidth}{graphics/usingNotepadAsEditorNoCross}{0.3}{0.45}%
+\locateGraphic{5}{width=0.4\paperwidth}{graphics/usingNotepadAsEditor.pdf}{0.3}{0.45}%
+\end{frame}%
+%
+\section{PyCharm unter Ubuntu Linux installieren}%
+%
+\begin{frame}[t]%
+\frametitle{PyCharm unter Ubuntu Linux installieren}%
+\begin{itemize}%
+\only<-2>{%
+\item \pycharm\ steht unter \ubuntu\ \linux\cite{C2025SD,J2024PCPCE} als Snap-Package zur Verfügung.%
+\item<2-> Der Installationsprozess ist sehr einfach.%
+}%
+%
+\only<-4>{\item<3-> Zuerst öffnen wir ein Terminal in wir \ubuntuTerminal\ drücken.%
+\item<4-> Dann schreiben wir das Kommando \bashil{sudo snap install pycharm-community --classic} und drücken~\keys{\enter}.}%
+\only<-5>{\item<5-> Zur Installation brauchen wir die \glsreset{sudo}\pgls{sudo}\nobreakdashes-Privilegien und müssen daher das \pgls{sudo}\nobreakdashes-Passwort eingeben.}%
+\only<-9>{\item<6-> Die Installation verläuft automatisch.}%
+\only<-11>{\item<10-> Nachdem sie abgeschlossen ist, können Sie den \ubuntu\ Launcher durch Druck auf \keys{\OSwin} öffnen und im Launcher-Fenster \bashil{pycharm} eingeben.\uncover<11->{ Klicken Sie auf das \pycharm-Symbol.}}
+\only<-12>{\item<12-> Der \pycharm\ Startbildschirm erscheint.}%
+\only<-13>{\item<13-> Gegebenenfalls müssen Sie nun Lizenzbedingungen entweder zustimmen oder diese ablehnen.}%
+\item<14-> Jetzt läuft \pycharm!%
+\end{itemize}%
+%
+\locateGraphic{3-4}{width=0.8\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu01snapInstall}{0.1}{0.4}%
+\locateGraphic{5-6}{width=0.8\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu02sudo}{0.1}{0.4}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu03snapInstall}{0.1}{0.4}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu04snapInstall}{0.1}{0.4}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu05snapInstallFinished}{0.1}{0.4}%
+\locateGraphicTB{10-11}{width=0.6\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu06launcher}{0.2}{0.3}%
+\locateGraphicTB{12-13}{width=0.6\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu07welcome}{0.2}{0.3}%
+\locateGraphicTB{14}{width=0.5\paperwidth}{graphics/installingPyCharmUbuntu/installingPyCharmUbuntu08pycharm}{0.25}{0.22}%
+\end{frame}%
+%
+\section{PyCharm unter Microsoft Windows installieren}%
+%
+\begin{frame}[t]%
+\frametitle{PyCharm unter Microsoft Windows installieren}%
+\begin{itemize}%
+\only<-1>{\item Nun wollen wir \pycharm\ unter \microsoftWindows\ herunterladen und installieren.}%
+\only<-2>{\item<2-> Die Download-Webseite für \pycharm\ ist \url{https://www.jetbrains.com/pycharm/download} for \pycharm.}%
+\only<-3>{\item<3-> Wir klicken auf \menu{.exe (Windows)} um den \pycharm\ Community Edition-Download zu starten.}%
+\only<-4>{\item<4-> In dem aufklappenden PopUp-Menü klicken wie ebenfalls auf \menu{.exe (Windows)}.}%
+\only<-5>{\item<5-> Der Download beginnt.}%
+\only<-6>{\item<6-> Nach dem der Download abgeschlossen ist, führen wir das heruntergeladene Programm aus -- z.B.\ durch Klick auf \menu{Open file}.}%
+\only<-7>{\item<7-> Der Installer startet.}%
+\only<-8>{\item<8-> Der Installer tut und macht.}%
+\only<-9>{\item<9-> Da wir \pycharm\ installieren wollen, klicken wir auf \menu{Yes} und erlauben dem Programm, unser System zu verändern.}%
+\only<-10>{\item<10-> Wir sind im Willkommensbildschirm des Installers angekommen. Wir klicken \menu{Next}.}%
+\only<-11>{\item<11-> Wir können den Installationsordner auswählen (oder einfach auf der Standareinstellung lassen) und klicken \menu{Next}.}%
+\only<-12>{\item<12-> Wir lassen alle Optionen auf den Standardeinstellungen und klicken \menu{Next}.}%
+\only<-13>{\item<13-> Wir lassen alle Optionen auf den Standardeinstellungen und klicken \menu{Install}.}%
+\only<-14>{\item<14-> Die Installation beginnt.}%
+\only<-15>{\item<15-> Die Installation ist abgeschlossen. Wir wählen \inQuotes{Run PyCharm Community Edition} aus und klick \menu{Finish}.}%
+\only<-16>{\item<16-> Der Willkommensbildschirm von \pycharm.}%
+\only<-17>{\item<17-> Wir können entscheiden, ob wir den Nutzungsbedingungen zustimmen und klicken auf \menu{Continue}.}%
+\only<-18>{\item<18-> Wir können entscheiden, ob wir Nutzerstatistiken an JetBrains schicken wollen. Ich entscheide mich für \menu{Don't Send}.}%
+\item<19-> \pycharm\ läuft!%
+%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows01download}{0.15}{0.26}%
+\locateGraphicTB{3}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows02download}{0.15}{0.26}%
+\locateGraphicTB{4}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows03download}{0.15}{0.26}%
+\locateGraphicTB{5}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows04download}{0.15}{0.26}%
+\locateGraphicTB{6}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows05runInstaller}{0.15}{0.26}%
+\locateGraphicTB{7}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows06runInstaller}{0.15}{0.26}%
+\locateGraphicTB{8}{width=0.7\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows07runInstaller}{0.15}{0.26}%
+\locateGraphicTB{9}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows08runInstaller}{0.25}{0.28}%
+\locateGraphicTB{10}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows09installation}{0.25}{0.25}%
+\locateGraphicTB{11}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows10installation}{0.25}{0.25}%
+\locateGraphicTB{12}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows11installation}{0.25}{0.25}%
+\locateGraphicTB{13}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows12installation}{0.25}{0.25}%
+\locateGraphicTB{14}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows13installation}{0.25}{0.25}%
+\locateGraphicTB{15}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows14installation}{0.25}{0.25}%
+\locateGraphicTB{16}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows15running}{0.25}{0.3}%
+\locateGraphicTB{17}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows16running}{0.25}{0.3}%
+\locateGraphicTB{18}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows17running}{0.25}{0.3}%
+\locateGraphicTB{19}{width=0.5\paperwidth}{graphics/installingPyCharmWindows/installingPyCharmWindows18running}{0.25}{0.25}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Nun haben wir \pycharm\ installiert.%
+\item<2-> Damit haben wir eine komfortables \glsreset{ide}\pgls{ide} für die Programmiersprache \python.%
+\item<3-> Cool.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
