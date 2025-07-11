@@ -1,0 +1,114 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{6.~Beispiele Herunterladen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Im Rest dieses Kurses werden wir intensiv mit praktischen Beispielen arbeiten.%
+\item<2-> Wenn wir ein Konzept vorstellen, dann probieren wir das praktisch aus.%
+\item<3-> Damit Sie diese Beispiele nachvollziehen können, stellen wir sie in einem \github\ repository zur Verfügung.%
+\item<4-> Dieses Repository finden Sie unter \expandafter\url{\programmingWithPythonCodeRepo}.%
+\end{itemize}%
+\locateGraphicTB{}{width=0.4\paperwidth}{graphics/downloadExamples}{0.3}{0.46}%
+\end{frame}%
+%
+\section{Herunterladen der Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Herunterladen der Beispiele}%
+\begin{itemize}%
+\only<-2>{\item Öffnen Sie einen Webbrowser und besuchen Sie die Webseite \expandafter\url{\programmingWithPythonCodeRepo}.%
+\only<2>{ Klicken Sie auf das nach unten gerichtete Dreieck im Button \menu{Code}.}%
+}%
+%
+\only<3>{\item<3-> In dem sich öffnenden Menü, klicken Sie auf \menu{Download ZIP}.}%
+%
+\only<4-5>{\item<4-> Der Download beginnt und ist irgendwann abgeschlossen.%
+\only<5->{ Öffnen Sie die heruntegrladene Datei.}}%
+\only<6->{\item<6-> Die Datei ist ein ZIP-Archiv, also eine Datei, die andere Dateien und Verzeichnisse enthält.%
+\only<7->{ Sie können Sie an einem Ihnen angenehmen Ort entpacken. %
+\only<8->{ Das erste große Beispiel, mit dem wir als nächstes beginnen, befindet sich üprigens im Unterordner \textil{veryFirstProject}.}%
+}%
+}%
+\end{itemize}%
+%
+\locateGraphicTB{-2}{width=0.6\paperwidth}{graphics/downloadingExamples1website}{0.2}{0.33}%
+\locateGraphicTB{3}{width=0.6\paperwidth}{graphics/downloadingExamples2download}{0.2}{0.33}%
+\locateGraphicTB{4}{width=0.6\paperwidth}{graphics/downloadingExamples3downloaded}{0.2}{0.33}%
+\locateGraphicTB{5}{width=0.6\paperwidth}{graphics/downloadingExamples4open}{0.2}{0.33}%
+\locateGraphicTB{6-7}{width=0.6\paperwidth}{graphics/downloadingExamples5zipOpened}{0.2}{0.33}%
+\locateGraphicTB{8-}{width=0.6\paperwidth}{graphics/downloadingExamples6veryFirstProject}{0.2}{0.33}%
+\end{frame}%
+%
+\section{Repository Klonen}%
+%
+\begin{frame}[t]%
+\frametitle{Repository auf GitHub}%
+\begin{itemize}%
+\item Alternativ zum direkten Herunterladen des \texttt{zip}-Archivs können Sie das Repository mit den Beispielen für diesen Kurs auch einfach in \pycharm\ \emph{clonen}.%
+\item<2-> Unsere Beispiele befinden sich nämlich in einem sogenannten \git-Repository\cite{S2023LG,T2024BGAGVCPMATFTND}.%
+\item<3-> \git\ ist ein \glsreset{VCS}\pgls{VCS}\cite{S2023LG,T2024BGAGVCPMATFTND}, also ein Versionsmanagmentsystem für Softwareentwicklung.%
+\item<4-> Mit so einem System können wir schrittweise an unserem Kode arbeiten und Änderungen in die Kodebasis einfügen.%
+\item<5-> Das \pgls{VCS} merkt sich die Geschichte unseres Projekts und erlaubt es uns, kollaborativ gemeinsam an dem Kode zu arbeiten.%
+\item<6-> Also wir werden nicht kollaborativ gemeinsam an dem Beispiel-Kode arbeiten {\dots} es sind ja Beispiele für diesen Kurs.%
+\item<7-> Aber \git\ ist ein sehr weit verbreites \pgls{VCS}, also schaded es nichts, zumindest grob zu wissen, wie das funktioniert.%
+\item<8-> Unsere Beispiele liegen in einem \git-Repository auf \github\cite{PRGWSUdVLFTEKPKFBV2016TSRFTAOGAG,T2024BGAGVCPMATFTND}.%
+\item<9-> Clonen wir dieses Repository also!%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Repository Klonen}%
+\begin{itemize}%
+\only<-1>{\item Clonen wir dieses Repository also!}%
+%
+\only<-2>{\item<2-> Im \pycharm\ Willkommensbildschirm, klicken Sie auf \menu{Clone Repository}.}%
+%
+\only<-3>{\item<3-> Geben Sie \expandafter\url{\programmingWithPythonCodeRepo} als \menu{URL:} ein.}%
+\only<-5>{\item<4-> Wählen Sie ein Verzeichnis als \menu{Directory:} aus, wo das neue Projekt mit den Beispielen angelegt werden soll.\uncover<5->{ Nehmen Sie nicht \bashil{/tmp}.}}%
+\only<-6>{\item<6-> Klicken Sie auf \menu{Clone}.}%
+%
+\only<-7>{\item<7-> Der Klon-Prozess beginnt.}%
+%
+\only<-9>{\item<8-> Nach dem herunterladen wird \pycharm\ fragen, ob wir dem Projekt vertrauen.\uncover<9->{ Wenn ja, dann klicken Sie auf \menu{Trust Project}.}}%
+%
+\item<10-> Nun können wir alle Beispieldateien sehen.%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.45\paperwidth}{graphics/clone01welcomeToPycharm.pdf}{0.275}{0.27}%
+\locateGraphicTB{3-6}{width=0.45\paperwidth}{graphics/clone02selectRepoAndDestination.pdf}{0.275}{0.27}%
+\locateGraphicTB{7}{width=0.45\paperwidth}{graphics/clone03cloning}{0.275}{0.25}%
+\locateGraphicTB{8-9}{width=0.75\paperwidth}{graphics/clone04trustProject.pdf}{0.125}{0.3}%
+\locateGraphicTB{10-}{width=0.72\paperwidth}{graphics/clone05finished}{0.14}{0.235}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir haben nun das Repository mit den Beispielen für diesen Kurs heruntergeladen.%
+\item<2-> Damit haben Sie alle Programme, die wir im folgenden verwenden, direkt zur Hand.%
+\item<3-> Sie können also unsere Beispiele sehr komfortabel nachvollziehen.%
+\item<4-> Als Seiteneffekt haben wir auch einen kurzen Blick auf \git\ und \github\ geworfen.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

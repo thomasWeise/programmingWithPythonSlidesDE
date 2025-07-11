@@ -25,6 +25,8 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 2. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/02_einleitung.pdf)
 3. [Python Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/03_python_installieren.pdf)
 4. [PyCharm Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/04_pycharm_installieren.pdf)
+5. [Programme Erstellen und Ausführen](https://thomasweise.github.io/programmingWithPythonSlidesDE/05_programme_erstellen_und_ausführen.pdf)
+6. [Beispiele Herunterladen](https://thomasweise.github.io/programmingWithPythonSlidesDE/06_beispiele_herunterladen.pdf)
 
 
 ### 2.3. Die Slides in Englisch

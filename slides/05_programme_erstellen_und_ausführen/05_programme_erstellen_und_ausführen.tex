@@ -1,0 +1,210 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{5.~Programme Erstellen und Ausführen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Jetzt haben wir \pycharm\ und \python\ installiert.%
+\item<2-> Nun wollen wir unser erstes \python-Programm schreiben und ausführen.%
+\item<3-> Das Programm soll einfach \inQuotes{Hello World!} zum \glsreset{stdout}\pgls{stdout} schreiben.%
+\item<4-> Es besteht daher nur aus dem Statement \pythonil{print("Hello World!")}.%
+\end{itemize}%
+%
+\gitLoadAndExecPython{very_first_program}{}{veryFirstProject}{very_first_program.py}{}%
+\listingPythonAndOutput{5}{very_first_program}{}{0.05}{0.45}{0.9}{0.53}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Programme Ausführen}%
+\begin{itemize}%
+\item Es gibt 4 grundsätzliche Methoden, \python-Programme auszuführen\only<-1>{.}\uncover<2->{%
+\begin{enumerate}%
+%
+\item Wir können das Programm in der \pycharm\ \glsreset{ide}\pgls{ide} in eine \python-Datei schreiben und in \pycharm\ ausführen.%
+%
+\item<3-> Wir können das Programm auch in einem normalen Text-Editor schreiben. %
+\uncover<4->{\python-Programme sind ja im Grunde normale Text-Dateien. %
+\uncover<5->{Dann können wir das Programm mit dem Befehl \bashil{python3 programName} im Terminal ausführen.}}
+%
+\item<6-> Wir können auch die \python-Interpreter Konsole in \pycharm\ öffnen und das Programm Zeile-für-Zeile eintippen und ausführen.%
+%
+\item<7-> Natürlich können wir genausogut den \python-Interpreterim normalen Terminal öffnen und die Befehle Zeile-für-Zeile dort eintippen.%
+\end{enumerate}%
+}
+\item<8-> Schauen wir uns diese Möglichkeiten einmal an.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Das Erste PyCharm Projekt und Programm}%
+%
+\begin{frame}[t]
+\frametitle{Das Erste PyCharm Projekt und Programm}%
+\begin{itemize}%
+\only<-1>{\item OK, los geht's.}%
+\only<-2>{\item<2-> Um ein neues Projekt in \pycharm\ zu erstellen, klicken wir auf  \menu{New Project} im Willkommensbildschirm.}%
+%
+\only<-4>{\item<3-> Wir wählen links \menu{Pure Python} aus und dann einen Namen für das Projekt.}%
+\only<-5>{\item<4-> Wir wählen \directory{veryFirstProject} als Name.}%
+\only<-5>{\item<5-> Wir wählen auch das Verzeichnis aus, in dem das Projekt gespeichert werden soll.}%
+\only<-6>{\item<6-> Wir lassen die anderen Einstellungen auf den Standardwerten und/oder wählen unsere \python-Installation als \menu{Custom Environment} aus.}%
+\only<-7>{\item<7-> Dann klicken wir auf \menu{Create}.}%
+%
+\only<-8>{\item<8-> Ein neues, leeres Projekt wurde erstellt.}%
+%
+\only<-9>{\item<9-> Wir erstellen eine \python-Datei in diesem Projekt durch Rechtsklick auf den Projektorder \directory{veryFirstProject} und dann durch auswählen von \menu{New>Python File}.}%
+%
+\only<-10>{\item<10-> In dem sich öffnenden Dialog können wir den Dateiname eingeben.}%
+%
+\only<-11>{\item<11-> Wir nennen unsere Datei \directory{very\_first\_program} und drücken \keys{\enter}.}%
+%
+\only<-12>{\item<12-> Die neue, leere Datei \directory{very\_first\_program.py} wurde im Projektordner \directory{veryFirstProject} erstellt.}%
+%
+\only<-14>{\item<13-> Nun tippen wir das Programm \pythonil{print("Hello World!")} ab.%
+\item<14-> \pycharm\ speichert die Datei automatisch für uns.}%
+%
+\only<-16>{\item<15-> Um das Programm auszuführen, rechtsklicken wir auf die Programmdatei und wählen \menu{Run `very\_first\_program'} us.}%
+\only<-16>{\item<16-> Alternativ könnten wir auch \keys{\ctrl+\shift+F10} drücken.}%
+%
+\only<-18>{\item<17-> Tatsächlich: In der Konsolenfläche im \pycharm-Fenster erscheint der Text \inQuotes{Hello World!}.}%
+\only<-18>{\item<18-> Zusätzlich sehen wir auch, wie das Programm ausgeführt wurde, nämlich den \python-Interpreter mit dem Pfad zu unserer Datei als Parameter.}%
+\item<19-> Wir bekommen auch \inQuotes{Process finished with \pgls{exitCode}~0} angezeigt: Unser Programm ist erfolgreich und ohne Fehler abgelaufen.%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.5\paperwidth}{graphics/firstProgram/firstProgram01createPyCharmProject}{0.25}{0.26}%
+\locateGraphicTB{3-7}{width=0.5\paperwidth}{graphics/firstProgram/firstProgram02createPyCharmProjectData}{0.25}{0.26}%
+\locateGraphicTB{8}{width=0.7\paperwidth}{graphics/firstProgram/firstProgram03PyCharmProjectCreated}{0.15}{0.27}%
+\locateGraphicTB{9}{width=0.7\paperwidth,trim={0 180px 0 0},clip}{graphics/firstProgram/firstProgram04createPythonFile}{0.15}{0.27}%
+\locateGraphicTB{10}{width=0.7\paperwidth}{graphics/firstProgram/firstProgram05createPythonFileEnterName}{0.15}{0.27}%
+\locateGraphicTB{11}{width=0.7\paperwidth}{graphics/firstProgram/firstProgram06createPythonFileNameEntered}{0.15}{0.27}%
+\locateGraphicTB{12}{width=0.7\paperwidth}{graphics/firstProgram/firstProgram07pythonFileCreated}{0.15}{0.27}%
+\locateGraphicTB{13-14}{width=0.7\paperwidth}{graphics/firstProgram/firstProgram08writeHelloWorld}{0.15}{0.27}%
+\locateGraphicTB{15-16}{width=0.6\paperwidth,trim={0 215px 0 60px},clip}{graphics/firstProgram/firstProgram09runProgram}{0.2}{0.34}%
+\locateGraphicTB{17-19}{width=0.6\paperwidth}{graphics/firstProgram/firstProgram10programResult}{0.2}{0.34}%
+\end{frame}%
+%
+\section{Program im Terminal ausführen}%
+%
+\begin{frame}[t]%
+\frametitle{Program im Terminal ausführen}%
+\begin{itemize}%
+%
+\only<-1,10->{\item Führen wir nun das selbe Program im normalen Terminal aus.}%
+%
+\only<-5>{%
+\item<2-> Wir öffnen ein Terminal.\uncover<3->{ %
+(Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+\item<4-> Wir wechseln in das Projektverzeichnis, wo sich die auszuführende \python-Datei befindet.%
+\item<5-> Das Kommando dafür ist \bashil{cd directory} gefolgt von \keys{\enter}.}%
+%
+\only<-6>{\item<6-> Wir sind nun in dem Projektverzeichnis.}%
+%
+\only<-8>{\item<7-> Wir führen ein Programm \inQuotes{program.py} mit dem Befehl \bashil{python3 program.py} (gefolgt von \keys{\enter}) aus.%
+\uncover<8->{ %
+In unserem Fall ist der Dateiname \inQuotes{very\_first\_program.py}.}}%
+%
+\only<-9>{\item<9> Wie erwartet wird erscheint \inQuotes{Hello World!} im Terminal.}%
+\end{itemize}%
+%
+\locateGraphic{2-5}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalPython1cd}{0.1}{0.5}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalPython2cded}{0.1}{0.5}%
+\locateGraphic{7-8}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalPython3python}{0.1}{0.5}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalPython4result}{0.1}{0.5}%
+%
+\uncover<10->{%
+\bestPractice{runningProgram}{Die einzig \alert{richtige} Art, \python\ Programme im Produktiveinsatz auszuführen, ist sie im Terminal mit dem \python\ Interpreter als Programdatei zu starten.}%
+%
+\uncover<11->{%
+\begin{itemize}%
+\item Alle anderen Arten sind vielleicht während der Entwicklung nützlich, haben aber nichts im Produktiveinsatz verloren.%
+\item<12-> Das gilt ganz besonders für das Ausführen mit Hilfe von \pycharm.\uncover<13->{ Machen Sie das niemals im Produktiveinsatz.}%
+\end{itemize}%
+}}%
+%
+\end{frame}%
+%
+\section{Programm in Python Interpreter in PyCharm Eingeben}%
+%
+\begin{frame}[t]%
+\frametitle{Programm in Python Interpreter in PyCharm Eingeben}
+%
+\begin{itemize}%
+%
+\only<-1>{\item Nun wollen wir ein Programm Schritt-für-Schritt in den \python-Interpreter in \pycharm\ eingeben und ausführen.}%
+%
+\only<-2>{\item<2-> Wir drücken den \menu{\pycharmConsole}-Button auf der vertikalen Knopfliste auf der linken Seite des \pycharm-Fensters.}%
+%
+\only<-3>{\item<3-> Die \pycharm\ \python-Interpreter-Konsole öffnet sich.}%
+%
+\only<-4>{\item<4-> Wir tippen das \inQuotes{Hello World!}-Programm ein, i.e., \pythonil{print("Hello World!")}, und drücken \keys{\enter}.}%
+%
+\only<-5>{\item<5-> Die Ausgabe \inQuotes{Hello World!} erscheint.}%
+%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.6\paperwidth}{graphics/pythonInTheTerminal/pycharmConsole1consoleButton.pdf}{0.2}{0.26}%
+\locateGraphicTB{3}{width=0.6\paperwidth}{graphics/pythonInTheTerminal/pycharmConsole2consoleOpen}{0.2}{0.26}%
+\locateGraphicTB{4}{width=0.6\paperwidth}{graphics/pythonInTheTerminal/pycharmConsole3writingCode}{0.2}{0.26}%
+\locateGraphicTB{5}{width=0.6\paperwidth}{graphics/pythonInTheTerminal/pycharmConsole4codeOutput}{0.2}{0.26}%
+\end{frame}%
+%
+\section{Programm in Python Interpreter in Terminal Eingeben}%
+%
+\begin{frame}[t]%
+\frametitle{Programm in Python Interpreter in Terminal Eingeben}%
+\begin{itemize}%
+\only<-1>{\item Jetzt werden wir das Programm in den \python-Interpreter im Terminal eingeben.}%
+%
+\only<-4>{\item<2-> Wir öffnen ein Terminal.\uncover<3->{ %
+(Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+\item<4-> Wir geben \bashil{python3} ein und drücken \keys{\enter}.}%
+%
+\only<-5>{\item<5-> Die \python-Interpreter-Konsole öffnet sich im Terminal.}%
+%
+\only<-6>{\item<6-> Wir tippen das \inQuotes{Hello World!}-Programm ein, i.e., \pythonil{print("Hello World!")}, und drücken \keys{\enter}.}%
+%
+\only<-7>{\item<7-> Die Ausgabe \inQuotes{Hello World!} erscheint.}%
+%
+\only<-8>{\item<8-> Um den interaktiven \python-Interpreter wieder zu verlassen, tippen wir \pythonil{exit()} ein und drücken \keys{\enter}.}%
+%
+\item<9-> Wir sind zurück im normalen Terminal.%
+%
+\end{itemize}%
+%
+\locateGraphic{2-4}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole1python}{0.1}{0.4}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole2pythonRunning}{0.1}{0.4}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole3writingCode}{0.1}{0.4}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole4codeOutput}{0.1}{0.4}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole5exit}{0.1}{0.4}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/pythonInTheTerminal/terminalConsole6left}{0.1}{0.4}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir haben vier Arten kennengelernt, wie wir \python-Programme ausführen können.%
+\item<2-> Auf der einen Seite können wir Programme als Textdateien mit der Endung~\bashil{.py} speichern.\uncover<3->{ Diese können wir dann entweder im Terminal oder in \pycharm\ ausführen.}%
+\item<4-> Auf der anderen Seite können wir Programme auch Zeile-für-Zeile in einer interaktiven \python-Interpreter-Session direkt in den Interpreter eintippen.\uncover<5->{ Auch das können wir entweder im Terminal oder in \pycharm\ machen.}%
+\item<5-> Natürlich werden wir unsere Programme in \inQuotes{richtigen} Projekten immer in Dateien speichern.%
+\item<6-> Aber zum Kennenlernen von \python\ ist eine interaktive Nutzung des Interpreters sehr geeignet\cite{PSF:P3D:TPT:AIITP}.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
