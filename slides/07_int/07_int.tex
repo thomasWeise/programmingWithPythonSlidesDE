@@ -1,0 +1,461 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{7.~Der Datentype int}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%
+\begin{frame}%
+\frametitle{Was wir schon wissen}%
+\begin{itemize}%
+\item Wir können \python-Programme im \pycharm\ \glsreset{ide}\pgls{ide} und auch im Terminal ausführen.%
+\item<2-> Wir kennen bereits zwei \python\ Kommandos\uncover<3->{:%
+\begin{enumerate}%
+\item \pythonil{print("Hello World!")}\pythonIdx{print} druckt den Text \inQuotes{Hello World!} in das Terminal.%
+\item<4-> \pythonil{exit()}\pythonIdx{exit} beendet den \python-Interpreter.%
+\end{enumerate}%
+}%
+\item<5-> Wäre es nicht komisch, wenn \pythonil{print} \emph{nur} \inQuotes{Hello World!} ausgeben könnte?%
+\item<6-> Das würde keinen Sinn ergeben.%
+\item<7-> \pythonil{print} ist eine Funktion, die einen Parameter hat.%
+\item<8-> Dieser Parameter sollte ein Text sein\footnote<8->{\uncover<8->{(zumindest nehmen wir das vereinfachend an)}}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Was Sinn ergibt}%
+\begin{itemize}%
+\item Auch die Funktion~\pythonil{exit} hat einen (optionalen) Parameter.%
+\item<2-> Nämlich den Exit-Kode des Programmes\cite{J2024PTOGBSI8IS12E:TAP}, eine Ganzzahl, wobei 0 für \inQuotes{Erfolg} steht.\medskip%
+\item<3-> Wir erkennen:~Es ergibt Sinn, verschiedene Datentypen zu unterscheiden.%
+\item<4-> Manchmal wollen wir mit Text arbeiten.%
+\item<5-> Manchmal wollen wir mit Zahlen rechnen.%
+\item<6-> Manchmal brauchen wir nur Ja/Nein-Unterscheidungen.%
+\item<7-> Datentypen unterstützen verschiedene Operationen\uncover<8->{, Zahlen können z.B.\ addiert, subtrahiert, oder multipliziert werden\uncover<9->{, Texte können miteinender verkettet oder z.B.\ in Groß- bzw.\ Kleinschreibung umgewandelt werden.}}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Was wir jetzt lernen}%
+\begin{itemize}%
+\item Nun wollen wir die einfachen Datentypen von \python\ kennenlernen\uncover<2->{:%
+\begin{itemize}%
+\item \pythonilIdx{int}: der Datentype für die ganzen Zahlen~\integerNumbers\uncover<3->{,}%
+\item<3-> \pythonilIdx{float}: der Datentyp für eine Untermenge der reellen Zahlen~\realNumbers\uncover<4->{,}%
+\item<4-> \pythonilIdx{bool}: Boolesche Werte, die entweder \pythonilIdx{True}~(Wahr) oder \pythonilIdx{False}~(Falsch) seien können\uncover<5->{,}%
+\item<5-> \pythonilIdx{str}: Text-fragmente beliebiger Länge\uncover<6->{, und}%
+\item<6-> \pythonilIdx{None}: nichts, das Ergebnis einer Operation die keinen Rückgabewert hat.%
+\end{itemize}%
+}%
+\item<7-> Wir fangen mit \pythonil{int} an.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Rechnen mit Ganzen Zahlen}%
+%
+\begin{frame}%
+\frametitle{Der Datentype int}%
+\begin{itemize}%
+\item Das rechnen mit ganzen Zahlen ist das Erste, was man in der Grundschulmathematik lernen.%
+\item<2-> Es ist auch das Erste, dass Sie hier lernen.%
+\item<3-> \emph{Integer} ist ein lateinisches Wort das \inQuotes{ganz} oder \inQuotes{intakt} bedeutet.%
+\item<4-> Die ganzen Zahlen umfassen daher die negativen Ganzzahlen, 0, und die positiven Ganzzahlen -- alle ohne Kommastellen. %
+\item<5-> Viele Programmiersprachen bieten verschiedene Datentypen mit verschiedenen Wertebereichen für Ganzzahlen.\uncover<6->{ In \pgls{Java} ist \pythonil{byte} z.B.\ ein Ganzzahltyp mit Wertebereich~\intRange{-2^7}{2^7-1} wohingegen \pythonil{long} den Wertebereich~\intRange{-2^{63}}{2^{63}-1} abdeckt.\uncover<7->{ Der \softwareStyle{C17}-Standard für \pgls{C} listed mindestens zehn Ganzzahltypen\cite{ISOIEC98892017PLCWDOS}.}}%
+\item<8-> \python~3 hat nur einen einzigen Datentype für die Ganzzahlen:~\pythonilIdx{int}.%
+\item<9-> Dieser Datentyp hat im Grunde eine unbegrenzte Reichweite.%
+\item<10-> Naja, begrenzt durch den Speicher Ihres Komputers.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Grundrechenarten}%
+\begin{itemize}%
+\only<-1>{\item Wir öffnen ein Terminal (Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+%
+\only<2>{\item Wir schreiben \bashil{python3} und drücken~\keys{\enter}.}%
+%
+\only<3>{\item Der \python-Interpreter startet.}%
+%
+\only<4>{\item Wir schreiben \pythonil{4 + 3} und drücken~\keys{\enter}.}%
+\only<5>{\item Das Ergebnis erscheint.}%
+%
+\only<6>{\item Wir schreiben \pythonil{7 * 5} und drücken~\keys{\enter}.}%
+\only<7>{\item Das Ergebnis erscheint.}%
+%
+\only<8>{\item Wir schreiben \pythonil{4 + 3 * 5 } und drücken~\keys{\enter}.}%
+\only<9>{\item Das Ergebnis erscheint: \python\ beherrscht die Operatorreihenfolge!}%
+%
+\only<10>{\item Wir schreiben \pythonil{(4 + 3) * 5} und drücken~\keys{\enter}.}%
+\only<11>{\item Das Ergebnis erscheint: \python\ beherrscht Klammerrechnung.}%
+%
+\only<12>{\item Wir schreiben \pythonil{4 - -12} und drücken~\keys{\enter}.}%
+\only<13>{\item Das Ergebnis erscheint: \python\ beherrscht negative Zahlen.}%
+%
+\only<14>{\item Wir schreiben \pythonil{((4 + 3) * (4 - -12) - 5) * 3} und drücken~\keys{\enter}.}%
+\only<15>{\item Das Ergebnis erscheint: \pythonil{= (7 * 16 - 5) * 3 = 107 * 3 = 321}.}%
+%
+\only<16>{\item Wir schreiben die Ganzzahldivision \pythonil{32 // 4} und drücken~\keys{\enter}.}%
+\only<17>{\item Das Ergebnis~\pythonil{8} erscheint.}%
+%
+\only<18>{\item Wir schreiben die Ganzzahldivision \pythonil{33 // 4} und drücken~\keys{\enter}.}%
+\only<19>{\item Das Ergebnis~\pythonil{8} erscheint (der Rest wäre~1).}%
+%
+\only<20>{\item Wir schreiben die Ganzzahldivision \pythonil{34 // 4} und drücken~\keys{\enter}.}%
+\only<21>{\item Das Ergebnis~\pythonil{8} erscheint (der Rest wäre~2).}%
+%
+\only<22>{\item Wir schreiben die Ganzzahldivision \pythonil{35 // 4} und drücken~\keys{\enter}.}%
+\only<23>{\item Das Ergebnis~\pythonil{8} erscheint (der Rest wäre~3).}%
+%
+\only<24>{\item Wir schreiben die Ganzzahldivision \pythonil{36 // 4} und drücken~\keys{\enter}.}%
+\only<25>{\item Das Ergebnis~\pythonil{9} erscheint (der Rest wäre~0).}%
+%
+\only<26>{\item Wir schreiben die Fließkommadivision \pythonil{32 / 4} und drücken~\keys{\enter}.}%
+\only<27>{\item Das Ergebnis~\pythonil{8.0} erscheint (Fließkommazahlen lernen wir später).}%
+%
+\only<28>{\item Wir schreiben die Fließkommadivision \pythonil{33 / 4} und drücken~\keys{\enter}.}%
+\only<29>{\item Das Ergebnis~\pythonil{8.25} erscheint (Fließkommazahlen lernen wir später).}%
+%
+\only<30>{\item Wir schreiben die Fließkommadivision \pythonil{34 / 4} und drücken~\keys{\enter}.}%
+\only<31>{\item Das Ergebnis~\pythonil{8.5} erscheint (Fließkommazahlen lernen wir später).}%
+%
+\only<32>{\item Wir schreiben die Fließkommadivision \pythonil{35 / 4} und drücken~\keys{\enter}.}%
+\only<33>{\item Das Ergebnis~\pythonil{8.75} erscheint (Fließkommazahlen lernen wir später).}%
+%
+\only<34>{\item Wir schreiben die Fließkommadivision \pythonil{36 / 4} und drücken~\keys{\enter}.}%
+\only<35>{\item Das Ergebnis~\pythonil{9.0} erscheint (Fließkommazahlen lernen wir später).}%
+%
+\only<36>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{33 \% 4} und drücken~\keys{\enter}.}%
+\only<37>{\item Das Ergebnis~\pythonil{1} erscheint.}%
+%
+\only<38>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{34 \% 4} und drücken~\keys{\enter}.}%
+\only<39>{\item Das Ergebnis~\pythonil{2} erscheint.}%
+%
+\only<40>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{35 \% 4} und drücken~\keys{\enter}.}%
+\only<41>{\item Das Ergebnis~\pythonil{3} erscheint.}%
+%
+\only<42>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{36 \% 4} und drücken~\keys{\enter}.}%
+\only<43>{\item Das Ergebnis~\pythonil{0} erscheint.}%
+%
+\only<44>{\item Wir schreiben \pythonil{exit()} um den Interpreter zu verlassen und drücken~\keys{\enter}.}%
+\only<45>{\item Wir sind zurück im normalen Terminal.}%
+%
+\item<46-> In \python\ gibt es zwei Arten von Divisionen\uncover<47->{%
+\begin{enumerate}%
+\item die Ganzzahldivision~\pythonil{//} liefert ganzzahlige Ergebnisse, wobei der Rest mit~\pythonil{\%} berechnet werden kann\uncover<48->{,}%
+\item<48-> die Fließkommadivison liefert Ergebnisse, die keine \pythonil{int}-Werte mehr sind und Kommastellen haben.\uncover<49->{ Wir lernen den Datentyp \pythonil{float} später kennen.}%
+\end{enumerate}%
+}%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/intMath/intMath01terminal}{0.1}{0.3}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/intMath/intMath02python3}{0.1}{0.3}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/intMath/intMath03python3Started}{0.1}{0.3}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/intMath/intMath04calc4p3}{0.1}{0.3}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/intMath/intMath05calc4p3done}{0.1}{0.3}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/intMath/intMath06calc7t5}{0.1}{0.3}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/intMath/intMath07calc7t5done}{0.1}{0.3}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/intMath/intMath08calc4p3t5}{0.1}{0.3}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/intMath/intMath09calc4p3t5done}{0.1}{0.3}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/intMath/intMath10calcB4p3Bt5}{0.1}{0.3}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/intMath/intMath11calcB4p3Bt5done}{0.1}{0.3}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/intMath/intMath12calc4mm12}{0.1}{0.3}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/intMath/intMath13calc4mm12done}{0.1}{0.3}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/intMath/intMath14calcLong}{0.1}{0.3}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/intMath/intMath15calcLongDone}{0.1}{0.3}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/intMath/intMath16calc32id4}{0.1}{0.3}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/intMath/intMath17calc32id4done}{0.1}{0.3}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/intMath/intMath18calc33id4}{0.1}{0.3}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/intMath/intMath19calc33id4done}{0.1}{0.3}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/intMath/intMath20calc34id4}{0.1}{0.3}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/intMath/intMath21calc34id4done}{0.1}{0.3}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/intMath/intMath22calc35id4}{0.1}{0.3}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/intMath/intMath23calc35id4done}{0.1}{0.3}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/intMath/intMath24calc36id4}{0.1}{0.3}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/intMath/intMath25calc36id4done}{0.1}{0.3}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/intMath/intMath26calc32fd4}{0.1}{0.3}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/intMath/intMath27calc32fd4done}{0.1}{0.3}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/intMath/intMath28calc33fd4}{0.1}{0.3}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/intMath/intMath29calc33fd4done}{0.1}{0.3}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/intMath/intMath30calc34fd4}{0.1}{0.3}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/intMath/intMath31calc34fd4done}{0.1}{0.3}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/intMath/intMath32calc35fd4}{0.1}{0.3}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/intMath/intMath33calc35fd4done}{0.1}{0.3}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/intMath/intMath34calc36fd4}{0.1}{0.3}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/intMath/intMath35calc36fd4done}{0.1}{0.3}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/intMath/intMath36calc33mod4}{0.1}{0.3}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/intMath/intMath37calc33mod4done}{0.1}{0.3}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/intMath/intMath38calc34mod4}{0.1}{0.3}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/intMath/intMath39calc34mod4done}{0.1}{0.3}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/intMath/intMath40calc35mod4}{0.1}{0.3}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/intMath/intMath41calc35mod4done}{0.1}{0.3}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/intMath/intMath42calc36mod4}{0.1}{0.3}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/intMath/intMath43calc36mod4done}{0.1}{0.3}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/intMath/intMath44exit}{0.1}{0.3}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/intMath/intMath45exitDone}{0.1}{0.3}%
+%
+\uncover<50->{%
+\bestPractice{intDivision}{Seien Sie immer vorsichtig und passen gut auf, welchen Divisionsoperator Sie mit dem Datentyp \pythonil{int}\pythonIdx{int} verwenden.\uncover<51->{ %
+Wenn Sie ein ganzzahliges Ergebnis brauchen, nutzen Sie immer~\pythonilIdx{//}.\uncover<52->{ %
+Merken Sie sich, dass \pythonilIdx{/} \emph{immer} \pythonilIdx{float}-Werte zurückliefert, selbst wenn das Ergebnis eine Ganzzahl ist.}}}%
+}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Potenzen von Ganzzahlen}%
+%
+\begin{itemize}%
+\only<-3>{%
+\item In \python\ stellt der \pythonil{**} Operator das Potenzieren dar.%
+\item<2-> \pythonil{a ** b} ist equivalent zu~$a^b$.%
+\item<3-> Wir öffnen also wieder ein Terminal und starten eine interaktive \python-Session\dots%
+}%
+%
+\only<4-5>{\item $2^7$ kann als \pythonil{2 ** 7} geschrieben werden\only<5>{ und ergibt~128}.}%
+%
+\only<6-7>{\item $7^{11}$ kann als \pythonil{7 ** 11} geschrieben werden\only<7>{ und ergibt~1\decSep977\decSep326\decSep743}.}%
+%
+\only<8-14>{%
+\item<8-> In vielen Programmiersprachen sind die größten ganzzahligen Datentypen 64~bit breit.%
+\only<-10>{\item<9-> Sind sie vorzeichenbehaftet, ergibt dass den Wertebereich~\intRange{-2^{63}}{2^{63}-1}.}%
+\only<-11>{\item<10-> Ohne Vorzeichen (immer positiv) haben sie den Wertebereich~\intRange{0}{2^{64}-1}.%
+\item<11-> \python's \pythonil{int} ist vorzeichenbehaftet hat aber eine (theoretisch) unbegrenzte Größe.}%
+\item<12-> Berechnen wir $2^{63}$ als \pythonil{2 ** 63}\only<13->{, so bekommen wir 9\decSep223\decSep372\decSep036\decSep854\decSep775\decSep808}.%
+}%
+%
+\only<14-15>{\item $2^{64}$ kann als \pythonil{2 ** 64} geschrieben werden\only<15>{ und ergibt~18\decSep446\decSep744\decSep073\decSep709\decSep551\decSep616}.}%
+%
+\only<16->{\item Probieren wir mal eine wirklich große Zahl.%
+\item<17-> $2^{1024}$ kann als \pythonil{2 ** 1024} geschrieben werden\only<18>{ und ergibt {\dots} sehr viel}.}%
+%
+\end{itemize}%
+%
+\locateGraphic{-3}{width=0.8\paperwidth}{graphics/intMath/intMath03python3Started}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/intPowers/intPowers01calc2by7}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/intPowers/intPowers02calc2by7done}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/intPowers/intPowers03calc7by11}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/intPowers/intPowers04calc7by11done}{0.1}{0.33}%
+\locateGraphic{8-12}{width=0.8\paperwidth}{graphics/intPowers/intPowers05calc2by63}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/intPowers/intPowers06calc2by63done}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/intPowers/intPowers07calc2by64}{0.1}{0.33}%
+\locateGraphic{15-16}{width=0.8\paperwidth}{graphics/intPowers/intPowers08calc2by64done}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/intPowers/intPowers09calc2by1024}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/intPowers/intPowers10calc2by1024done}{0.1}{0.33}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Binäres Zahlensystem und Bit-weise Operatoren}%
+\begin{itemize}%
+\only<-11>{%
+\item Wie Sie ja wissen, werden alle Dinge im Komputer elementar durch 0en und 1en dargestellt.%
+\item<2-> Durch das sogenannte binäre Zahlensystem können beliebige dezimale Zahlen dargestellt werden.%
+\item<3-> binär\nobreakdashes-0 ist dezimal\nobreakdashes-0\uncover<4->{, binär\nobreakdashes-1 ist dezimal\nobreakdashes-1\uncover<5->{, binär\nobreakdashes-10 ist dezimal\nobreakdashes-2\uncover<6->{, binär\nobreakdashes-11 ist dezimal\nobreakdashes-3\uncover<7->{, binär\nobreakdashes-100 ist dezimal\nobreakdashes-4\uncover<8->{, binär\nobreakdashes-101 ist dezimal\nobreakdashes-5\uncover<9->{, binär\nobreakdashes-110 ist dezimal\nobreakdashes-6\uncover<10->{, und so weiter.}}}}}}}%
+\item<11-> So weren auch die \pythonil{int}-Werte in \python\ letztendlich als Binärzahlen dargestellt.%
+}%
+\only<-12>{\item<12-> Frischen wir noch einmal auf, wie das funktioniert.}%
+\only<-28>{%
+\item<13-> Drückt man die Zahl 22 als Summe von Zweierpotenzen aus, so bekommt man~$22={\color{red}1}*2^4+{\color{red}0}*2^3+{\color{red}1}*2^2+{\color{red}1}*2^1+{\color{red}0}*2^0$.\uncover<28->{ Im Binärsystem ergibt das also~${\color{red}{10110}}$}%
+}%
+%
+\only<-45>{%
+\item<29-> Drückt man die Zahl 15 als Summe von Zweierpotenzen aus, so bekommt man~$15={\color{red}0}*2^4+{\color{red}1}*2^3+{\color{red}1}*2^2+{\color{red}1}*2^1+{\color{red}1}*2^0$.\uncover<45->{ Im Binärsystem ergibt das also~${\color{red}{01111}}$}%
+}%
+%
+\only<-48>{%
+\item<46-> Auf solche Bitketten können logische Operatoren Bit-weise angewandt werden.%
+\item<47-> Werden zwei Bitketten mit bit-weisem \inQuotes{und}, bit-weisem \inQuotes{oder}, oder bit-weisem \inQuotes{exklusiven oder} verbunden, dann wird der Operator jeweils auf die Bits am gleichen Index angewendet.%
+\item<48-> Schauen wir uns das mal an.%
+}%
+%
+\only<-53>{%
+\item<49-> Bit-weises \inQuotes{oder} in \python\ wird als~\pythonil{|} ausgedrückt.\uncover<50->{ %
+Es gilt \pythonil{0|0 == 0}, \pythonil{0|1 == 1}, \pythonil{1|0 == 1}, und \pythonil{1|1 == 1}.%
+}}%
+%
+\only<-58>{%
+\item<54-> Bit-weises \inQuotes{und} in \python\ wird als~\pythonil{\&} ausgedrückt.\uncover<55->{ %
+Es gilt \pythonil{0\&0 == 0}, \pythonil{0\&1 == 0}, \pythonil{1\&0 == 0}, und \pythonil{1\&1 == 1}.%
+}}%
+%
+\item<59-> Bit-weises \inQuotes{exklusives oder} in \python\ wird als~\pythonil{\^} ausgedrückt.\uncover<60->{ %
+Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \pythonil{1\^1 == 0}.%
+}
+%
+\end{itemize}%
+%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath01bin22}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath02bin22}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath03bin22}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath04bin22}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath05bin22}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath06bin22}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath07bin22}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath08bin22}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath09bin22}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath10bin22}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath11bin22}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath12bin22}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath13bin22}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath14bin22}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath15bin22}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath16bin22}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath17bin22}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath18bin15}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath19bin15}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath20bin15}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath21bin15}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath22bin15}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath23bin15}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath24bin15}{0.1}{0.33}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath25bin15}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath26bin15}{0.1}{0.33}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath27bin15}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath28bin15}{0.1}{0.33}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath29bin15}{0.1}{0.33}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath30bin15}{0.1}{0.33}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath31bin15}{0.1}{0.33}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath32bin15}{0.1}{0.33}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath33bin15}{0.1}{0.33}%
+\locateGraphic{45-48}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath34bin15}{0.1}{0.33}%
+%
+\locateGraphic{49-50}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath35or}{0.1}{0.33}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath36or}{0.1}{0.33}%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath37or}{0.1}{0.33}%
+\locateGraphic{53}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath38or}{0.1}{0.33}%
+%
+\locateGraphic{54-55}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath39and}{0.1}{0.33}%
+\locateGraphic{56}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath40and}{0.1}{0.33}%
+\locateGraphic{57}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath41and}{0.1}{0.33}%
+\locateGraphic{58}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath42and}{0.1}{0.33}%
+%
+\locateGraphic{59-60}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath43xor}{0.1}{0.33}%
+\locateGraphic{61}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath44xor}{0.1}{0.33}%
+\locateGraphic{62}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath45xor}{0.1}{0.33}%
+\locateGraphic{63}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath46xor}{0.1}{0.33}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Weitere Beispiele für Binärarithmetik und Zahlensysteme}%
+\begin{itemize}%
+\only<-1>{%
+\item Schauen wir uns noch ein paar weitere Beispiele für bit-weise Operatoren und Zahlensysteme in \python\ an.}%
+%
+\only<2-3,6-7,12-13,16-17,20-21,24-25,28-29>{%
+\item<2-> Die Funktion \pythonil{bin(x)} wandelt die \pythonil{int}-Zahl \pythonil{x} in einen Text um, der den Wert als Binärzahl darstellt und das Präfix \pythonil{0b}~hat.%
+}%
+%
+\only<4-5,8-9>{%
+\item<4-> Eine solche Zahl -- mit Präfix \pythonil{0b} -- kann man einfach so in \python\ schreiben und sie wird dann als Binärzahl intepretiert.%
+}%
+%
+\only<10-11>{%
+\item<10-> Führen wir die bit-weise \inQuotes{oder}-Operation \pythonil{22|15 == 31} aus.%
+}%
+%
+\only<14-15>{%
+\item<14-> Führen wir die bit-weise \inQuotes{und}-Operation \pythonil{22\&15 == 6} aus.%
+}%
+%
+\only<18-19>{%
+\item<18-> Führen wir die bit-weise \inQuotes{exklusive oder}-Operation \pythonil{22\^15 == 25} aus.%
+}%
+%
+\only<22-23>{%
+\item<22-> Den Bitstring~\pythonil{0b10110} einen Schritt nach links zu schieben, also \pythonil{22<<1} zu berechnen, bedeutet ergibt \pythonil{0b101100} -- am rechten Ende wurde eine \pythonil{0} angefügt. Das ist equivalent zu einer Multiplikation mit~2.%
+}%
+%
+\only<26-27>{%
+\item<26-> Den Bitstring~\pythonil{0b10110} zwei Schritte nach rechts zu schieben, also \pythonil{22>>1} zu berechnen, bedeutet ergibt \pythonil{0b101} -- am die \pythonil{10} am rechten Ende verschwinden. Das ist equivalent zu einer Ganzzahldivision durch~4.%
+}%
+%
+\only<30-31>{%
+\item<30-> Das Hexadezimalsystem ist in der Informatik weit verbreitet. Es hat die Basis~16 und Ziffern \textil{0123456789ABCDEF}, wodurch sich Zahlen kompakt darstellen lassen und jede Ziffer 4~Bit entspricht.%
+\item<31-> Die Funktion \pythonil{hex(x)} übersetzt die Zahl~\pythonil{x} zu einem Text mit den hexadezimalen Ziffern und Präfix~\pythonil{0x}.%
+}%
+%
+\only<32-33>{%
+\item<32-> Wir können Zahlen auch direkt im Hexadezimalsystem angeben, wobei wieder das Präfix~\pythonil{0x} verwendet wird.%
+\item<33-> \python\ interpretiert solche Zahlen dann als Hexadezimalzahlen und rechnet sie in entsprechende \pythonil{int}-Werte um.%
+}%
+%
+\only<34-35>{%
+\item<34-> Das Oktalsystem ist in der Informatik weit verbreitet. Es hat die Basis~8 und Ziffern \textil{01234567}, wodurch jede Ziffer 3~Bit entspricht.%
+\item<35-> Die Funktion \pythonil{oct(x)} übersetzt die Zahl~\pythonil{x} zu einem Text mit den oktalen Ziffern und Präfix~\pythonil{0o}.%
+}%
+%
+\only<36-37>{%
+\item<36-> Wir können Zahlen auch direkt im Oktalsystem angeben, wobei wieder das Präfix~\pythonil{0o} verwendet wird.%
+\item<37-> \python\ interpretiert solche Zahlen dann als Oktalzahlen und rechnet sie in entsprechende \pythonil{int}-Werte um.%
+}%
+%
+\end{itemize}%
+%
+\locateGraphic{-1}{width=0.8\paperwidth}{graphics/intMath/intMath03python3Started}{0.1}{0.35}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/intBinary/intBinary01bin22}{0.1}{0.35}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/intBinary/intBinary02bin22done}{0.1}{0.35}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/intBinary/intBinary03b22}{0.1}{0.35}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/intBinary/intBinary04b22done}{0.1}{0.35}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/intBinary/intBinary05bin15}{0.1}{0.35}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/intBinary/intBinary06bin15done}{0.1}{0.35}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/intBinary/intBinary07b15}{0.1}{0.35}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/intBinary/intBinary08b15done}{0.1}{0.35}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/intBinary/intBinary09o22or15}{0.1}{0.35}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/intBinary/intBinary10o22or15done}{0.1}{0.35}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/intBinary/intBinary11bin31}{0.1}{0.35}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/intBinary/intBinary12bin31done}{0.1}{0.35}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/intBinary/intBinary13o22and15}{0.1}{0.35}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/intBinary/intBinary14o22and15done}{0.1}{0.35}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/intBinary/intBinary15bin6}{0.1}{0.35}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/intBinary/intBinary16bin6done}{0.1}{0.35}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/intBinary/intBinary17o22xor15}{0.1}{0.35}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/intBinary/intBinary18o22xor15done}{0.1}{0.35}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/intBinary/intBinary19bin25}{0.1}{0.35}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/intBinary/intBinary20bin25done}{0.1}{0.35}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/intBinary/intBinary21o22shl1}{0.1}{0.35}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/intBinary/intBinary22o22shl1done}{0.1}{0.35}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/intBinary/intBinary23bin44}{0.1}{0.35}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/intBinary/intBinary24bin44done}{0.1}{0.35}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/intBinary/intBinary25o22shr2}{0.1}{0.35}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/intBinary/intBinary26o22shr2done}{0.1}{0.35}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/intBinary/intBinary27bin5}{0.1}{0.35}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/intBinary/intBinary28bin5done}{0.1}{0.35}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/intBinary/intBinary29hex22}{0.1}{0.35}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/intBinary/intBinary30hex22done}{0.1}{0.35}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/intBinary/intBinary31h16}{0.1}{0.35}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/intBinary/intBinary32h16done}{0.1}{0.35}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/intBinary/intBinary33oct22}{0.1}{0.35}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/intBinary/intBinary34oct22done}{0.1}{0.35}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/intBinary/intBinary35o26}{0.1}{0.35}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/intBinary/intBinary36o26done}{0.1}{0.35}%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Damit haben wir unseren ersten Datentyp in \python\ kennengelernt.%
+\item<2-> \pythonil{int} repräsentiert Ganzzahlen, die positiv oder negativ seien können und 0~einschließen.%
+\item<3-> Wir können mit diesen Zahlen normal rechnen, wobei \python\ die Operatorenrangfolge mathematisch korrekt beachtet.%
+\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}.}}%
+\item<7-> Wir können auch mit der binären Repräsentation dieser Zahlen rechnen und sie in verschiedene Zahlensysteme, die Sie sicher aus Grundlagenvorlesungen kennen, umrechnen.%
+\item<8-> Und wieder sind wir einen Schritt weiter.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
