@@ -1,0 +1,819 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{8.~Der Datentype float}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Zu viele reelle Zahlen}%
+\begin{itemize}%
+\item In der letzten Einheit haben wir über den Ganzzahldatentyp \pythonil{int} gelernt.%
+\item<2-> Eines der schönen Features der Sprache \python~3 ist, dass Ganzzahlen fast unbegrenzt groß seien dürfen.
+\item<3-> Es gibt nur einen einzigen Datentyp für Ganzzahlen, \pythonil{int}, und der kann jeden Ganzzahlwert speichern, so fern der in den Arbeitsspeicher unseres Computers passt.%
+\item<4-> Nun müssen wir aber auch mit reellen Zahlen aus der Menge~\realNumbers\ rechnen können.%
+\item<5-> Und gerne hätten wir dieses Feature auch für solche Zahlen!%
+\item<6-> Das geht aber nicht.%
+\item<7-> Sie erinnern sich sicherlich an die Zahlen $\numberPi\approx3.141\decSep592\decSep653\decSep590\dots$ und $\numberE\approx2.718\decSep281\decSep828\decSep459\dots$ aus dem Schulunterricht.%
+\item<8-> Sie sind beide transcendental\cite{N1939TTOP,APM1991AAAFI:TOEAP,F2011TTOEAP}, was bedeutet, dass ihre Nachkommastellen niemals enden und auch keinem einfachen Schema folgen.%
+\item<9-> Sie sind unendlich lang und wir würden unendlich viel Speicher brauchen, um sie zu exakt darzustellen.%
+\item<10-> Daher können wir das nicht und \python\ kann es auch nicht.%
+\end{itemize}%
+\end{frame}%
+%
+\section{64~Bit IEEE~Standard~754 Floating Point Number Layout}%
+%
+\begin{frame}%
+\frametitle{Wie funktioniert das?}%
+\begin{itemize}%
+\item Aber wie kann man überhaupt eine brauchbare Untermenge von~\realNumbers\ auf dem Computer darstellen?%
+\item<2-> Wie können wir mit dem Fakt umgehen, dass wir keine beliebigen Nachkommastellen genau darstellen können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
+\item<3-> Wie gehen wir damit um, dass es reelle Zahlen gibt so groß wie~$10^{300}$ und so klein wie~$10^{-300}$?%
+\item<4-> In \python\ gibt es dafür den Datentype~\pythonil{float}.%
+\item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN}.%
+\item<6-> Das Ziel ist es, dass wir eben genau Zahlen so groß wie~$10^{300}$ und so klein wie~$10^{-300}$ darstellen können\only<-6>{.}\uncover<7->{, aber das wir auch akzeptieren, dass wir~$10^{300}+10^{-300}$ nicht exakt erfassen können.}%
+\end{itemize}%
+\end{frame}%
+%%
+\begin{frame}[t]%
+\frametitle{64~Bit IEEE~Standard 754 Floating Point Number Layout}%
+\begin{itemize}%
+%
+\item Schauen wir uns das \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN} kurz an.%
+%
+\only<2-6>{%
+\item<2-> Die ersten 52~Bit -- der sogenannte Significand oder die Mantisse -- speichern die Ziffern der Zahl.%
+}%
+%
+\only<3-7>{%
+\item<3-> Mit 52~Bits können wir $52\log_2 10\approx 15$~bis 16~dezimale Ziffern darstellen.%
+}%
+%
+\only<4->{%
+\item<4-> \pythonil{float}~Zahlen haben eine Präzision von etwa 15~Ziffern.%
+}%
+%
+\only<5-9>{%
+\item<5-> Würden wir nur diese 52~Bits nehmen, dann könnten wir Zahlen von~$0$ bis~$2^{52}-1$ mit einer Auflösung von~$1$ darstellen.%
+}%
+%
+\only<6-10>{%
+\item<6-> Natürlich könnten wir auch eine andere Auflösung auswählen, sagen wir~$0.001$.\uncover<7->{ %
+Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die kleinste Zahl größer als~0 wäre~$0.001$ anstelle von~$1$.}%
+}%
+%
+\only<8-11>{%
+\item<8-> Egal welche Auflösung wir auswählen würden, sie wäre gut in manchen Situationen und schlecht in anderen.%
+}%
+%
+\only<9-12>{%
+\item<9-> Deshalb kommt der zweite Teil der Fließkommarepräsentation ins Spiel: Die 11~Bits des Exponenten speichern die Auflösung.%
+}%
+%
+\only<10-13>{%
+\item<10-> Der Exponent repräsentiert eine Potenz von~2, mit der der Significand multipliziert wird.%
+}%
+%
+\only<11-14>{%
+\item<11-> Damit wir sowohl \textcolor{red}{große} als auch \textcolor{blue}{kleine} Zahlen darstellen können, muss der Exponent sowohl \textcolor{red}{positiv} als auch \textcolor{blue}{negativ} seien können.%
+}%
+\only<12->{%
+\item<12-> Daher wird von dem Exponent immer ein konstanter Bias von~1023 abgezogen.%
+}%
+\only<13->{%
+\item<13-> Ist z.B. 1050 im Exponenten-Feld gespeichert, dann ist der eigentliche Exponent $1050-1023=27$ und der Significand wird mit~$2^{27}=134\decSep217\decSep728$ multipliziert.%
+}%
+%
+\only<14->{%
+\item<14-> Das letzte Bit, das Sign-Bit, speichert das Vorzeichen der Zahl.%
+}%
+%
+\only<15->{%
+\item<15-> Wir können somit Zahlen von $2.225\decSep073\decSep858\decSep507\decSep201\decSep4*10^{-308}$ bis $1.797\decSep693\decSep134\decSep8623\decSep157*10^{308}$ mit einer Auflösung von etwa 15~Ziffern speichern, zusammen mit~0, und dem selben Wertebereich im Negativen, und einige Sonderwerte.%
+}%
+%
+\end{itemize}%
+\locateGraphic{}{width=0.8\paperwidth}{graphics/floatIEEEStructure/floatIEEEStructure}{0.1}{0.8}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Das Wichtige}%
+\begin{itemize}%
+\item Zum Glück muss man all das nicht wirklich wissen, wenn man nur normal vor sich hin programmiert.%
+\item<2-> Die wichtigen Informationen, die Sie sich merken müssen, sind jedoch\uncover<3->{:%
+\begin{enumerate}%
+\item Fließkommazahlen~(\pythonils{float}) können eine große Vielzahl verschiedener Werte repräsentieren.%
+\item<4-> Ihr Wertebereich ist groß, aber begrenzt.%
+\item<5-> Sie können Ganzzahlen und gebrochene Zahlen darstellen.%
+\item<6-> Ihre Genauigkeit ist jedoch auf 15~Ziffern begrenzt.%
+\end{enumerate}%
+}
+%
+\item<7-> Wenn Sie zum Beispiel~1 zu~$10^{16}$ addieren, dann ist das Erbenis immer noch~$10^{16}$, weil nur 15~Ziffern \inQuotes{gespeichert} werden und die~1 einfach \inQuotes{herunterfällt.}%
+%
+\item<8-> \alert{Zahlen können mit \pythonils{float} nicht beliebig genau gespeichert werden\cite{PSF:P3D:TPT:FPAIAL}.}%
+\item<9-> Ansonsten sind \pythonils{float} aber schon ziemlich cool.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Rechnen mit float}%
+%
+\begin{frame}[t]%
+\frametitle{Rechnen mit float}%
+%
+\begin{itemize}%
+\only<-3>{%
+\item Lassen Sie uns nun mit \pythonils{float} rechnen.%
+}
+%
+\only<-4>{%
+\item<2-> Fließkommazahlen werden immer mit dem Dezimalpunkt aufgeschrieben.\uncover<3->{ So ist \pythonil{3.0} ein \pythonil{float}, \pythonil{3}~aber ein~\pythonil{int}.}%
+%
+\item<4-> Beachten Sie: Kommt in einer Rechnung mit \pythonils{int} irgendwo ein \pythonil{float} vor, dann ist das Ergebnis immer ein \pythonil{float}.%
+}%
+%
+\only<-6>{%
+\item<5-> Die Fließkommadivision \pythonil{6 / 3}\only<-5>{\dots}\uncover<6->{ ergibt den \pythonil{float} \pythonil{2.0}.}}%
+%
+%
+\only<-8>{%
+\item<7-> Addieren wir den \pythonil{float} \pythonil{1.0} zum \pythonil{int} \pythonil{1}\only<-7>{\dots}\uncover<8->{ ergibt das den \pythonil{float} \pythonil{8.0}.}}%
+%
+\only<-10>{%
+\item<9-> Substrahieren wir den \pythonil{float} \pythonil{3.6} vom \pythonil{int} \pythonil{5}\only<-9>{\dots}\uncover<10->{ ergibt das den \pythonil{float} \pythonil{1.4}.}}%
+%
+\only<-12>{%
+\item<11-> Multiplizieren wir den \pythonil{int} \pythonil{2} mit dem \pythonil{float} \pythonil{3}\only<-11>{\dots}\uncover<12->{ ergibt das den \pythonil{float} \pythonil{6.0}.}}%
+%
+\only<-14>{%
+\item<13-> Berechnen wir den Rest der Division des \pythonil{float} \pythonil{6.5} durch den \pythonil{int} \pythonil{2}\only<-13>{\dots}\uncover<14->{ ergibt das den \pythonil{float} \pythonil{0.5}.}}%
+%
+\only<-16>{%
+\item<15-> Berechnen wir $3.3^{0.5}\equiv\sqrt{3.3}$\only<-15>{\dots}\uncover<16->{ ergibt das Näherungswert \pythonil{1.816590212458495}, der auf etwa 15~Stellen genau ist.}}%
+%
+\only<-18>{%
+\item<17-> Auch große Berechnungen mit Klammern funktionieren einwandfrei.%
+}%
+%
+\only<19-20>{%
+\item<19-> Wollen wir mathematische Funktionen und Konstanten nutzen, müssen wir diese aus dem Modul~\pythonil{math} importieren.%
+}%
+\only<20-21>{%
+\item<20-> Wir lernen später, was das genau bedeutet.%
+}%
+\only<21-22>{%
+\item<21-> Für jetzt, nehmen wir die Syntax \pythonil{from math import XXX} an, wenn wir \pythonil{XXX} nutzen wollen.%
+}%
+\only<22-23>{%
+\item<22-> Wollen wir die Konstanten \numberPi\ und \numberE\ nutzen, schreiben wir also \pythonil{from math import pi, e}.%
+}%
+%
+\only<-25>{%
+\item<24-> Die Konstante~\numberPi, in \python\ \pythonil{math.pi}\only<-24>{\dots}\uncover<25->{ hat den Näherungswert \pythonil{3.141592653589793}, der auf etwa 15~Stellen genau ist.}}%
+%
+\only<-27>{%
+\item<26-> Die Konstante~\numberE, in \python\ \pythonil{math.e}\only<-26>{\dots}\uncover<27->{ hat den Näherungswert \pythonil{2.718281828459045}, der auf etwa 15~Stellen genau ist.}}%
+%
+\only<-33>{%
+\item<28-> Stellen Sie sich vor, wir sollen den Bruch~$\frac{1}{7}$ als dezimale Kommazahl aufschreiben.%
+\item<29-> Das funktioniert nicht.\uncover<30->{ Wir müssen immer irgendwo abbrechen.}%
+\item<30-> Wir könnten z.B.~$0.14285714285714285$ schreiben {\dots} aber das ist nicht das Gleiche wie~$\frac{1}{7}$.%
+\item<31-> Im binären Format sehen wir das Problem schon bei Zahlen wie~$\frac{1}{10}=0.1$\cite{PSF:P3D:TPT:FPAIAL}.%
+\item<32-> Wir könnten schreiben $\frac{1}{10}\approx\frac{1}{2^4}+\frac{1}{2^5}+\frac{1}{2^8}+\frac{1}{2^9}+\frac{1}{2^{12}}+\frac{1}{2^{13}}+\frac{1}{2^{16}}+\dots$, aber wir würden niemals genau auf~0.1 kommen.%
+\item<33-> Das bedeutet, das 0.1 nicht im genau im \pythonil{float}-Format dargestellt werden kann.%
+}%
+%
+\only<-35>{%
+\item<34-> Aber was bedeutet wiederum das? Addieren wir \inQuotes{zehn \pythonil{0.1}} zusammen\only<-34>{\dots}\uncover<35->{, dann liegt das Ergebnis ganz knapp neben~1!}%
+}%
+%
+\only<-37>{%
+\item<36-> Ziehen wir \pythonil{1.0} von \inQuotes{zehn \pythonil{0.1}} ab\only<-36>{\dots}\uncover<37->{, dann ist das Ergebnis eben nur fast~0!}%
+}%
+%
+\only<-39>{%
+\item<38-> Anderes Thema: \python\ hat natürlich auch trigonometrische und logarithmische Funktionen\only<-38>{.}\uncover<39->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
+}%
+%
+\only<-41>{%
+\item<40-> Aus der Schule wissen wir, dass $\sin{\left(\frac{\numberPi}{4}\right)}=\frac{\sqrt{2}}{2}$ und das darum $\sin^2\left(\frac{\numberPi}{4}\right)=\frac{1}{2}$, also berechnen wir \pythonil{sin(0.25 * pi) ** 2}\only<-40>{\dots}\uncover<41->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+}%
+%
+\only<-43>{%
+\item<42-> Aus der Schule wissen wir, dass $\cos\left(\frac{\numberPi}{3}\right)=\frac{1}{2}$, also berechnen wir \pythonil{cos(pi / 3)}\only<-42>{\dots}\uncover<43->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+}%
+%
+\only<-45>{%
+\item<44-> Aus der Schule wissen wir, dass $\tan\left(\frac{\numberPi}{4}\right)=1$, also berechnen wir \pythonil{tan(pi / 4)}\only<-44>{\dots}\uncover<45->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+}%
+%
+\only<-47>{%
+\item<46-> Aus der Schule wissen wir, dass $\log\left(e^{10}\right)=10$, also berechnen wir \pythonil{log(e ** 10)}\only<-46>{\dots}\uncover<47->{ und das Ergebnis stimmt genau.}%
+}%
+%
+\only<-49>{%
+\item<48-> \python\ hat natürlich auch die Umkehrfunktionen der trigonometrischen Funktionen\only<-48>{.}\uncover<49->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
+}%
+%
+\only<-51>{%
+\item<50-> Aus der Schule wissen wir, dass $\arcsin{\sin x} = x$~$\forall x\in[-\frac{\numberPi}{2},\frac{\numberPi}{2}]$, also berechnen wir \pythonil{asin(sin(0.925))}\only<-50>{\dots}\uncover<51->{ und das Ergebnis stimmt genau.}%
+}%
+%
+\only<-53>{%
+\item<52-> Aus der Schule wissen wir, dass $\arccos{\cos x} = x$~$\forall x\in[0,\numberPi]$, also berechnen wir \pythonil{acos(cos(-0.3))}, wobei -0.3 außerhalb des Intervalls liegt\only<-52>{\dots}\uncover<53->{; und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+}%
+%
+\only<-55>{%
+\item<54-> Aus der Schule wissen wir, dass $\arctan{\tan x} = x$~$\forall x\in(-\frac{\numberPi}{2},\frac{\numberPi}{2})$, also berechnen wir \pythonil{atan(tan(1))}\only<-54>{\dots}\uncover<55->{ und das Ergebnis stimmt genau.}%
+}%
+%
+\item<56-> Damit haben wir erstmal einige grundlegende Rechenarten abgearbeitet.%
+%
+\end{itemize}%
+%
+\locateGraphic{1-4}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics01c6d3}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics02c6d3done}{0.1}{0.33}%
+%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics03c1p7}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics04c1p7done}{0.1}{0.33}%
+%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics05c5m3d6}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics06c5m3d6done}{0.1}{0.33}%
+%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics07c2m3}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics08c2m3done}{0.1}{0.33}%
+%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics09c6d5m2}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics10c6d5m2done}{0.1}{0.33}%
+%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics11c3d3p0d5}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics12c3d3p0d5done}{0.1}{0.33}%
+%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics13cLarge}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics14cLargeDone}{0.1}{0.33}%
+%
+\locateGraphic{19-22}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics15importPiE}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics16importPiEdone}{0.1}{0.33}%
+%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics17pi}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics18piDone}{0.1}{0.33}%
+%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics19e}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics20eDone}{0.1}{0.33}%
+%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics21cMany0d1}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics22cMany0d1done}{0.1}{0.33}%
+%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics23cMany0d1m1}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics24cMany0d1m1done}{0.1}{0.33}%
+%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics25importTrig}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics26importTrigDone}{0.1}{0.33}%
+%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics27sin0d25piPow2}{0.1}{0.33}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics28sin0d25piPow2done}{0.1}{0.33}%
+%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics29cosPiD3}{0.1}{0.33}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics30cosPiD3done}{0.1}{0.33}%
+%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics31tanPiD4}{0.1}{0.33}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics32tanPiD4done}{0.1}{0.33}%
+%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics33logEby10}{0.1}{0.33}%
+\locateGraphic{47}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics34logEby10done}{0.1}{0.33}%
+%
+\locateGraphic{48}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics35importAtrig}{0.1}{0.33}%
+\locateGraphic{49}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics36importAtrigDone}{0.1}{0.33}%
+%
+\locateGraphic{50}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics37asinSin}{0.1}{0.33}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics38asinSinDone}{0.1}{0.33}%
+%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics39acosCos}{0.1}{0.33}%
+\locateGraphic{53}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics40acosCosDone}{0.1}{0.33}%
+%
+\locateGraphic{54}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics41atanTan}{0.1}{0.33}%
+\locateGraphic{55}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics42atanTanDone}{0.1}{0.33}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Fließkommazahlen sind ungenau}%
+\bestPractice{floatImprecise}{%
+Nehmen Sie immer an, dass \pythonil{float}-Werte ungenau sind. %
+Nehmen Sie \alert{niemals} an, dass sie genau sind\cite{PTVF2007NRTAOSC:EAAS,BHK2006CNFCMEARFCS:NS}.%
+}%
+%
+\uncover<2->{%
+\begin{itemize}%
+%
+\item Wegen der begrenzten Präzision kann es sein, dass Sie zwei Zahlen addieren~$a+b=c$ aber dann feststellen dass~$c-a\neq b$. %
+%
+\item<3-> Das ist offensichtlich, wenn wir sehr kleine Zahlen zu sehr großen Zahlen addieren\only<-3>{.}\uncover<4->{: Wir haben nur 15~Ziffern, also wenn wir~$10^{20} + 1$ rechnen, dann kommt mit Fließkommaarithmentik wieder~$10^{20}$ heraus\cite{PTVF2007NRTAOSC:EAAS}.}%
+%
+\item<5-> Ziffern können aber auch verloren gehen, wenn wir Zahlen der selben Größenordnung addieren, denn auch deren Summe kann breiter als das 15-Ziffern-Fenster sein.\uncover<6->{ Dann fällt die niedrigwertigste Ziffer einfach weg\cite{BHK2006CNFCMEARFCS:NS}{\dots}}%
+\end{itemize}%
+}%
+\end{frame}%
+%
+\section{Runden}%
+%
+\begin{frame}[t]%
+\frametitle{Runden}%
+\begin{itemize}%
+\only<-2>{%
+\item Der Weg von \pythonils{float} zurück zu \pythonils{int} geht über runden.%
+\item<2-> \python\ bietet uns mehrere verschiedene Funktionen zum Runden an.%
+}%
+%
+\only<3-8>{%
+\item<3-> Die Funktion \pythonil{round(x)} führt sogenanntes \inQuotes{Banker's Rounding} durch.%
+}%
+%
+\only<4-5>{%
+\item<4-> Dabei wird \pythonil{x} zur nächsten Ganzzahl gerundet.%
+}%
+\only<5-6>{%
+\item<5-> Sind zwei Ganzzahlen gleichweit entfernt, also wenn \pythonil{x} in der Form~\pythonil{z.5} ist, dann \alert{wird zur der Zahl gerundet, die gerade ist.}\cite{PSF:P3D:TPSL:BIF}%
+}%
+\only<6>{%
+\item<6-> In der Schule hatte ich gelernt, dass \pythonil{z.5} zu \pythonil{z + 1} gerundet wird. \pgls{Java}'s \pythonil{Math.round} macht das auch so\cite{O2024JPSEJDKV2AS} {\dots} aber \python's \pythonil{round} macht das nicht!%
+}%
+%
+\only<7>{%
+\item<7-> Banker's Rounding hat den Vorteil, dass es keinen Bias auslöst: Rundet man \pythonil{z.5} immer zu \pythonil{z + 1} und es gibt viele Zahlen der Form \pythonil{z.5}, dann tendiert der Durchschnitt der gerundeten Zahlen dazu, größer als der Durchschnitt der ungerundeten Zahlen zu sein. Beim Banker's Rounding ist das nicht so\cite{MB2005RA1,SE:SO:WDP3RHTE}.%
+}%
+\only<8-9>{%
+\item<8-> Deshalb ist es in \python\ und im IEEE~754~Standard\cite{IEEE2019ISFFPA} bevorzugt und wird z.B.~auch von Alipay\textsuperscript{+} genutzt\cite{APDOC:BR}.
+}%
+%
+\only<9-10>{%
+\item<9-> Wenn wir \pythonil{round(0.4)} aufrufen\only<-9>{\dots}\uncover<10->{, dann kommt~\pythonil{0} heraus.}%
+}%
+%
+\only<11-12>{%
+\item<11-> Wenn wir \pythonil{round(0.5)} aufrufen\only<-9>{\dots}\uncover<12->{, dann kommt auch~\pythonil{0} heraus, weil 0 und 1 gleichweit von 0.5 entfernt sind, aber 0~gerade ist.}%
+}%
+%
+\only<13-14>{%
+\item<13-> Wenn wir \pythonil{round(0.6)} aufrufen\only<-13>{\dots}\uncover<14->{, dann kommt~\pythonil{1} heraus.}%
+}%
+%
+\only<15-16>{%
+\item<15-> Wenn wir \pythonil{round(1.4)} aufrufen\only<-15>{\dots}\uncover<16->{, dann kommt~\pythonil{1} heraus.}%
+}%
+%
+\only<17-18>{%
+\item<17-> Wenn wir \pythonil{round(1.5)} aufrufen\only<-17>{\dots}\uncover<18->{, dann kommt~\pythonil{2} heraus, weil 1 und 2 gleichweit von 1.5 entfernt sind, 2 aber gerade ist.}%
+}%
+%
+\only<19-20>{%
+\item<19-> Das Modul \pythonil{math} stellt die Funktionen \pythonil{floor}~(Abrunden), \pythonil{ceil}~(Aufrunden), und \pythonil{trunc}~(Nachkommastellen abschneiden) zur Verfügung.%
+\item<20-> Wir importieren sie also.%
+}%
+%
+\only<21-22>{%
+\item<21-> Wenn wir \pythonil{floor(0.4)} aufrufen\only<-21>{\dots}\uncover<22->{, dann kommt~\pythonil{0} heraus, weil wir abrunden.}%
+}%
+%
+\only<23-24>{%
+\item<23-> Wenn wir \pythonil{floor(0.5)} aufrufen\only<-23>{\dots}\uncover<24->{, dann kommt~\pythonil{0} heraus, weil wir abrunden.}%
+}%
+%
+\only<25-26>{%
+\item<25-> Wenn wir \pythonil{floor(0.6)} aufrufen\only<-25>{\dots}\uncover<26->{, dann kommt~\pythonil{0} heraus, weil wir abrunden.}%
+}%
+%
+\only<27-28>{%
+\item<27-> Wenn wir \pythonil{floor(-0.4)} aufrufen\only<-27>{\dots}\uncover<28->{, dann kommt~\pythonil{-1} heraus, weil wir abrunden.}%
+}%
+%
+\only<29-30>{%
+\item<29-> Wenn wir \pythonil{trunc(0.4)} aufrufen\only<-29>{\dots}\uncover<30->{, dann kommt~\pythonil{0} heraus, weil wir die Nachkommastellen abschneiden.}%
+}%
+%
+\only<31-32>{%
+\item<31-> Wenn wir \pythonil{trunc(0.6)} aufrufen\only<-31>{\dots}\uncover<32->{, dann kommt~\pythonil{0} heraus, weil wir die Nachkommastellen abschneiden.}%
+}%
+%
+\only<33-34>{%
+\item<33-> Wenn wir \pythonil{trunc(-0.4)} aufrufen\only<-33>{\dots}\uncover<34->{, dann kommt~\pythonil{0} heraus, weil wir die Nachkommastellen abschneiden.}%
+}%
+%
+\only<35-36>{%
+\item<35-> Wenn wir \pythonil{trunc(-0.6)} aufrufen\only<-35>{\dots}\uncover<36->{, dann kommt~\pythonil{0} heraus, weil wir die Nachkommastellen abschneiden.}%
+}%
+%
+\only<37-38>{%
+\item<37-> Wenn wir \pythonil{ceil(0.4)} aufrufen\only<-37>{\dots}\uncover<38->{, dann kommt~\pythonil{1} heraus, weil aufrunden.}%
+}%
+%
+\only<39-40>{%
+\item<39-> Wenn wir \pythonil{ceil(-11.1)} aufrufen\only<-39>{\dots}\uncover<40->{, dann kommt~\pythonil{-11} heraus, weil aufrunden.}%
+}%
+%
+\only<41-42>{%
+\item<41-> Wenn wir \pythonil{ceil(-11.6)} aufrufen\only<-41>{\dots}\uncover<42->{, dann kommt~\pythonil{-11} heraus, weil aufrunden.}%
+}%
+%
+\only<43-44>{%
+\item<43-> Wenn wir \pythonil{ceil(11.6)} aufrufen\only<-43>{\dots}\uncover<44->{, dann kommt~\pythonil{12} heraus, weil aufrunden.}%
+}%
+%
+\only<45-46>{%
+\item<45-> Wenn wir \pythonil{trunc(11.6)} aufrufen\only<-45>{\dots}\uncover<46->{, dann kommt~\pythonil{11} heraus, weil wir die Nachkommastellen abschneiden.}%
+}%
+%
+\only<47-48>{%
+\item<47-> Die Funktion \pythonil{int(x)} funktioniert genau wie \pythonil{trunc(x)}, akzeptiert aber auch andere Datentypen als Parameter und nicht nur \pythonil{float}.%
+\item<48-> \pythonil{trunc(x)} ist als mathematische Operation zu verstehen, wohingegen \pythonil{int(x)} as \inQuotes{Datentypumwandlung} zu betrachten ist {\dots} die genau wie \pythonil{trunc} funktioniert.%
+}%
+%
+\only<49-50>{%
+\item<49-> Wenn wir \pythonil{int(0.9)} aufrufen\only<-49>{\dots}\uncover<50->{, dann kommt~\pythonil{0} heraus, weil der Ganzzahlteil von~\pythonil{0.9} nämlich~\pythonil{1} ist.}%
+}%
+%
+\only<51-52>{%
+\item<51-> Wenn wir \pythonil{int(-0.9)} aufrufen\only<-51>{\dots}\uncover<52->{, dann kommt~\pythonil{0} heraus, weil der Ganzzahlteil von~\pythonil{-0.9} nämlich~\pythonil{1} ist.}%
+}%
+%
+\only<53-54>{%
+\item<53-> Wenn wir \pythonil{int(11.6)} aufrufen\only<-53>{\dots}\uncover<54->{, dann kommt~\pythonil{11} heraus, weil der Ganzzahlteil von~\pythonil{11.6} nämlich~\pythonil{11} ist.}%
+}%
+%
+\only<55->{%
+\item<55-> Wollen wir runden, wie ich es in der Schule gelernt habe, nämlich das~\pythonil{x.5} zu~\pythonil{x + 1} wird, dann können wir einfach \pythonil{int(x + 0.5)} oder \pythonil{trunc(x + 0.5)} rechnen.%%
+}%
+%
+\only<56-57>{%
+\item<56-> Haben wir \pythonil{x = 11.5}, dann rechnen wir \pythonil{int(11.5 + 0.5)}\only<-56>{\dots}\uncover<57->{ und es kommt~\pythonil{12} heraus.}%
+}%
+%
+\only<58-59>{%
+\item<58-> Haben wir \pythonil{x = 12.5}, dann rechnen wir \pythonil{int(12.5 + 0.5)}\only<-58>{\dots}\uncover<59->{ und es kommt~\pythonil{13} heraus.}%
+}%
+%
+\item<60-> Damit sind wir mit dem Thema \inQuotes{runden} fertig.%
+\item<61-> Beachten Sie, wie wichtig es seien kann, die Funktionen, die wir benutzen, genau zu verstehen.%
+\item<62-> \pythonil{round} funktioniert zum Beispiel anders als \pythonil{Math.round} in \pgls{Java}\cite{O2024JPSEJDKV2AS}\dots%
+%
+\end{itemize}%
+%
+\locateGraphic{1-2}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.4}%
+\locateGraphic{3-9}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding01round0d4}{0.1}{0.4}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding02round0d4done}{0.1}{0.4}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding03round0d5}{0.1}{0.4}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding04round0d5done}{0.1}{0.4}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding05round0d6}{0.1}{0.4}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding06round0d6done}{0.1}{0.4}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding07round1d4}{0.1}{0.4}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding08round1d4done}{0.1}{0.4}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding09round1d5}{0.1}{0.4}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding10round1d5done}{0.1}{0.4}%
+%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding11importFloorEtc}{0.1}{0.4}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding12importFloorEtcDone}{0.1}{0.4}%
+%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding13floor0d4}{0.1}{0.4}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding14floor0d4done}{0.1}{0.4}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding15floor0d5}{0.1}{0.4}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding16floor0d5done}{0.1}{0.4}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding17floor0d6}{0.1}{0.4}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding18floor0d6done}{0.1}{0.4}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding19floorm0d4}{0.1}{0.4}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding20floorm0d4done}{0.1}{0.4}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding21trunc0d4}{0.1}{0.4}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding22trunc0d4done}{0.1}{0.4}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding23trunc0d6}{0.1}{0.4}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding24trunc0d6done}{0.1}{0.4}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding25truncm0d4}{0.1}{0.4}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding26truncm0d4done}{0.1}{0.4}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding27truncm0d6}{0.1}{0.4}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding28truncm0d6done}{0.1}{0.4}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding29ceil0d4}{0.1}{0.4}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding30ceil0d4done}{0.1}{0.4}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding31ceilm11d1}{0.1}{0.4}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding32ceilm11d1done}{0.1}{0.4}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding33ceilm11d6}{0.1}{0.4}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding34ceilm11d6done}{0.1}{0.4}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding35ceil11d6}{0.1}{0.4}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding36ceil11d6done}{0.1}{0.4}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding37trunc11d6}{0.1}{0.4}%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding38trunc11d6done}{0.1}{0.4}%
+%
+\locateGraphic{47-49}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding39int0d9}{0.1}{0.4}%
+\locateGraphic{50}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding40int0d9done}{0.1}{0.4}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding41intm0d9}{0.1}{0.4}%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding42intm0d9done}{0.1}{0.4}%
+\locateGraphic{53}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding43int11d6}{0.1}{0.4}%
+\locateGraphic{54}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding44int11d6done}{0.1}{0.4}%
+%
+\locateGraphic{55-56}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding45int11d5p0d5}{0.1}{0.4}%
+\locateGraphic{57}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding46int11d5p0d5done}{0.1}{0.4}%
+\locateGraphic{58}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding47int12d5p0d5}{0.1}{0.4}%
+\locateGraphic{59}{width=0.8\paperwidth}{graphics/floatRounding/floatRounding48int12d5p0d5done}{0.1}{0.4}%
+\end{frame}%
+%
+\section{Wissenschaftliche Notation}%
+%
+\begin{frame}%
+\frametitle{Die Wissenschaftliche Notation: Einleitung}%
+\begin{itemize}%
+\item Wir haben gelernt, dass \pythonils{float} Zahlen so groß wie~$10^{300}$ und so klein wie~$10^{-300}$ darstellen können.%
+\item<2-> Das führt uns zu der Frage, wie man denn solche Zahlen anzeigen kann.%
+\item<3-> Es wäre schon sehr komisch, eine~1 gefolgt von 300~Nullen zu schreiben, um~$10^{300}$ auszugeben.%
+\item<4-> Es wäre auch falsch.%
+\item<5-> Ein \pythonilIdx{float} ist genau auf zwischen 15 und 16 Ziffern.%
+\item<6-> Die ersten 15~Nullen könnten vielleicht korrekt sein {\dots} die restlichen Ziffern wären aber genaugenommen \emph{undefiniert}.
+ \item<7-> \python\ löst dieses Problem wir viele Programmiersprachen: mit der wissenschaftlichen Notation für Fließkommazahlen.%
+ \item<8-> Das ist eine Schreibweise für die Ein- und Ausgabe von Zahlen~(intern werden die Zahlen jedoch ganz normal nach dem IEEE~754~Standard\cite{IEEE2019ISFFPA,H1997IS7FPN} dargestellt).%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Die Wissenschaftliche Notation: Arbeitsweise}%
+\begin{itemize}%
+\item \python\ benutzt die wissenschaftliche Notation automatisch für die Ausgabe aller \pythonil{float}-Werte, deren Betrag kleiner als~$10^{-4}$ oder größer/gleich~$10^{16}$ ist.%
+\item<2-> Solche Zahlen, nennen wir sie~$\alpha$, werden dann repräsentiert als $\alpha=\beta*10^{\gamma}$ und wir schreiben $\beta{\color{orange}\textbf{e}}\gamma$.%
+\item<3-> Um diese Darstellung eindeutig zu machen, ist spezifiziert dass $\beta$ genau eine Ziffer vor dem Dezimalpunkt hat, welche nicht~0 sein kann.%
+\end{itemize}%
+%
+\uncover<4->{\begin{center}%
+\resizebox{0.85\linewidth}{!}{%
+\begin{tabular}{r@{}r@{{\color{orange}\textbf{e}}}l@{~~$\equiv$~~}r@{}l}%
+\multicolumn{2}{c}{$\beta$}&$\gamma$&\multicolumn{2}{c}{$\alpha$}\smallskip\\\hline%
+&\texttt{A.BCDEFG}{\dots}&\texttt{\color{red}{+}}\texttt{HIJ}&&$\texttt{A.BCDEFG}{\dots}*{\color{orange}10}^{HIJ}$\\
+&\texttt{A.BCDEFG}{\dots}&\texttt{\color{red}{-}}\texttt{HIJ}&&$\texttt{A.BCDEFG}{\dots}*{\color{orange}10}^{{\color{red}{-}}HIJ}$\\
+{\color{blue}{-}}&\texttt{A.BCDEFG}{\dots}&\texttt{\color{red}{+}}\texttt{HIJ}&${\color{blue}{-}}$&$\texttt{A.BCDEFG}{\dots}*{\color{orange}10}^{HIJ}$\\
+{\color{blue}{-}}&\texttt{A.BCDEFG}{\dots}&\texttt{\color{red}{-}}\texttt{HIJ}&${\color{blue}{-}}$&$\texttt{A.BCDEFG}{\dots}*{\color{orange}10}^{{\color{red}{-}}HIJ}$%
+\end{tabular}}%
+\end{center}}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Die Wissenschaftliche Notation: Beispiele}%
+\begin{itemize}%
+%
+\only<-1>{%
+\item<1-> Probieren wir das mal aus.}%
+%
+\only<2-3>{%
+\item<2-> Wenn wir \pythonil{0.001} schreiben und \python\ damit zwingen, diese Zahl auszugeben\only<-2>{\dots}\uncover<3->{, dann gibt es auch \pythonil{0.001} wieder aus.}%
+}%
+%
+\only<4-5>{%
+\item<4-> Wenn wir \pythonil{0.0001} schreiben und \python\ damit zwingen, diese Zahl auszugeben\only<-4>{\dots}\uncover<5->{, dann gibt es auch \pythonil{0.0001} wieder aus.}%
+}%
+%
+\only<6-7>{%
+\item<6-> Wenn wir aber \pythonil{0.00009} schreiben und \python\ damit zwingen, diese Zahl auszugeben\only<-6>{\dots}\uncover<7->{, dann benutzt es die wissenschaftliche Notation und gibt \pythonil{9e-05} aus.}%
+}%
+%
+\only<8-9>{%
+\item<8-> \python\ erlaubt uns, Unterstriche~(\pythonil{_}) beliebig in Zahlen einzufügen, um die Lesbarkeit zu erhöhen.%
+\item<9-> Diese Unterstriche werden von \python\ ignoriert.%
+}%
+%
+\only<10-11>{%
+\item<10-> Wenn wir \pythonil{1_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{1000000000000000.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-10>{\dots}\uncover<11->{, dann schreibt es \pythonil{1000000000000000.0}.}%
+}%
+%
+\only<12-13>{%
+\item<12-> Wenn wir \pythonil{9_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{9000000000000000.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-12>{\dots}\uncover<13->{, dann schreibt es \pythonil{9000000000000000.0}.}%
+}%
+%
+\only<14-15>{%
+\item<14-> Wenn wir aber \pythonil{9_999_999_999_999_999.0} schreiben (was das gleiche ist wie \pythonil{9999999999999999.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-14>{\dots}\uncover<15->{, dann schreibt es \pythonil{1e+16} in der wissenschaftlichen Notation~(und weil wir nur 15~Ziffern haben können\dots).}%
+}%
+%
+\only<16-17>{%
+\item<16-> Wenn wir aber \pythonil{10_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{10000000000000000.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-16>{\dots}\uncover<17->{, dann schreibt es \pythonil{1e+16} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<18-19>{%
+\item<18-> Berechnen wir $10^{200}$ als \pythonil{float} in dem wir schreiben~\pythonil{10.0 ** 200}\only<-18>{\dots}\uncover<19->{, dann schreibt es \pythonil{1e+200} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<20-21>{%
+\item<20-> Berechnen wir $-(10^{-200})$ als \pythonil{float} in dem wir schreiben~\pythonil{-(10.0 ** -200)}\only<-20>{\dots}\uncover<21->{, dann schreibt es \pythonil{-1e-200} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<22-23>{%
+\item<22-> Berechnen wir $2.1^{-300.1}$ als \pythonil{float} in dem wir schreiben~\pythonil{2.1 ** -300.1}\only<-22>{\dots}\uncover<23->{, dann schreibt es \pythonil{2.0044242594658263e-97} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<24-25>{%
+\item<24-> Berechnen wir $10^{200.1}$ als \pythonil{float} in dem wir schreiben~\pythonil{10.0 ** 200.1}\only<-24>{\dots}\uncover<25->{, dann schreibt es \pythonil{1.2589254117941507e+200} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<26-27>{%
+\item<26-> Schreiben wir dagegen \pythonil{2e5} in der wissenschaftlichen Notation\only<-26>{\dots}\uncover<27->{, dann schreibt \python\ es als \pythonil{200000.0}.}%
+}%
+%
+\only<28-29>{%
+\item<28-> Schreiben wir \pythonil{2.34e10} in der wissenschaftlichen Notation\only<-28>{\dots}\uncover<29->{, dann schreibt \python\ es als \pythonil{23400000000.0}.}%
+}%
+%
+\only<30-31>{%
+\item<30-> Schreiben wir stattdessen \pythonil{2.3456e+16} in der wissenschaftlichen Notation\only<-30>{\dots}\uncover<31->{, dann schreibt \python\ es ebenfalls als \pythonil{2.3456e+16} in der wissenschaftlichen Notation.}%
+}%
+%
+\only<32-33>{%
+\item<32-> Schreiben wir stattdessen \pythonil{-12e30} in \alert{fast} der wissenschaftlichen Notation\only<-32>{\dots}\uncover<33->{, dann schreibt \python\ es ebenfalls als \pythonil{-1.2e31} in der wissenschaftlichen Notation mit nur einer Vorkomma-Stelle.}%
+}%
+%
+\only<34-35>{%
+\item<34-> Schreiben wir \pythonil{0.023e-20} in \alert{fast} der wissenschaftlichen Notation\only<-34>{\dots}\uncover<35->{, dann schreibt \python\ es ebenfalls als \pythonil{2.3e-22} in der wissenschaftlichen Notation mit genau einer Vorkomma-Stelle, die nicht 0 ist.}%
+}%
+%
+\item<36-> Damit haben wie die wissenschaftliche Notation verstanden.%
+\item<37-> Genauso, wie es \python\ egal ist, ob ein \pythonil{int}-Wert in hexadezimaler, dezimaler, oktaler, oder binärer Schreibweise eingegeben wurde, ist es \python\ egal, ob wir \pythonil{float}-Werte in wissenschaftlicher Notation schreiben oder \inQuotes{normal}.%
+\item<38-> Die wissenschaftliche Notation ist wieder nur ein Textformat für die Ein- und Ausgabe von (\pythonil{float}) Zahlen.%
+\item<39-> Ein \pythonil{float} \inQuotes{weiß nicht} wie es eingegeben wurde.%
+\item<40-> Bei der Ausgabe entscheided \python\ automatisch, welches das sinnvollste Format ist.%
+%
+\end{itemize}%
+%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.33}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/sciNot/sciNot01n0d001}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/sciNot/sciNot02n0d001done}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/sciNot/sciNot03n0d0001}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/sciNot/sciNot04n0d0001done}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/sciNot/sciNot05n0d00009}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/sciNot/sciNot06n0d00009done}{0.1}{0.33}%
+\locateGraphic{8-10}{width=0.8\paperwidth}{graphics/sciNot/sciNot07n1many0}{0.1}{0.33}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/sciNot/sciNot08n1many0done}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/sciNot/sciNot09n9many0}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/sciNot/sciNot10n9many0done}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/sciNot/sciNot11n9many9}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/sciNot/sciNot12n9many9done}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/sciNot/sciNot13n1many0}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/sciNot/sciNot14n1many0done}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/sciNot/sciNot15n10by200}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/sciNot/sciNot16n10by200done}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/sciNot/sciNot17nm10bym200}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/sciNot/sciNot18nm10bym200done}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/sciNot/sciNot19n2d1by300d1}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/sciNot/sciNot20n2d1by300d1done}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/sciNot/sciNot21n10by200d1}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/sciNot/sciNot22n10by200d1done}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/sciNot/sciNot23n2e5}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/sciNot/sciNot24n2e5done}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/sciNot/sciNot25n2d34e10}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/sciNot/sciNot26n2d34e10done}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/sciNot/sciNot27n2d3456e16}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/sciNot/sciNot28n2d3456e16done}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/sciNot/sciNot29nm12e30}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/sciNot/sciNot30nm12e30done}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/sciNot/sciNot31n0d023em20}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/sciNot/sciNot32n0d023em20done}{0.1}{0.33}%
+%
+\uncover<41->{%
+\bestPractice{underscoresInNumbers}{%
+Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müssen, benutzen Sie Unterstriche~(\pythonil{_}) um Gruppen von Zifferen zu trennen\cite{PEP515}. %
+\pythonil{37_859_378}~ist z.B.\ viel leicher zu lesen als is much easier to read than~\pythonil{37859378}.%
+}}%
+\end{frame}%
+%
+\section{Grenzen}%
+%
+\begin{frame}%
+\frametitle{Sehr kleine Zahlen}%
+\begin{itemize}%
+\item Wir wissen, dass der Fließkommatyp \pythonil{float} sowohl sehr kleine als auch sehr große Zahlen darstellen kann.%
+\item<2-> Intern ist er 64~Bits groß, also ist sein Wertebereich natürlich begrenzt.%
+\item<3-> Was passiert, wenn wir diese Grenzen überschreiten?%
+\item<4-> \python\ kann sehr kleine Zahlen, z.B.~$10^{-300}$, als \pythonils{float} speichern.%
+\item<5-> Aber wie klein \emph{genau}?%
+\item<6-> \pgls{Java} benutzt den selben IEEE~754~Standard\cite{IEEE2019ISFFPA} für seinen Datentyp \pythonil{double}.%
+\item<7-> In der entsprechenden Dokumentation\cite{O2024JPSEJDKV2AS:CD} finden wir, dass der kleinste Wert $2^{-1074}$~ist, was ein etwa~$4.940\decSep656\decSep458\decSep412\decSep465\decSep44*10^{-324}$ entspricht.%
+\item<8-> Der kleinste Wert für \python's \pythonils{float} sollte also auch in etwa in dieser Gegend liegen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Sehr kleine Zahlen: Ausprobieren}%
+\begin{itemize}%
+%
+\only<-1>{%
+\item Probieren wir das mal aus: Wir geben verschiedene sehr kleine Zahlen in den \python-Interpreter ein und gucken, was passiert.%
+}%
+%
+\only<2-3>{%
+\item<2-> Wir geben~\pythonil{1e-323} ein\only<-2>{\dots}\uncover<3->{ und \python\ gibt auch wieder \pythonil{1e-323} aus.}%
+}%
+%
+\only<4-5>{%
+\item<4-> Wir geben~\pythonil{9e-324} ein\only<-4>{\dots}\uncover<5->{ und \python\ gibt uns stattdessen wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+}%
+%
+\only<6-7>{%
+\item<6-> Wir geben~\pythonil{8e-324} ein\only<-6>{\dots}\uncover<7->{ und \python\ gibt uns wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+}%
+%
+\only<8-9>{%
+\item<8-> Wir geben~\pythonil{7e-324} ein\only<-7>{\dots}\uncover<9->{ und \python\ gibt uns nun \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+}%
+%
+\only<10-11>{%
+\item<10-> Wir geben~\pythonil{6e-324} ein\only<-10>{\dots}\uncover<11->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+}%
+%
+\only<12-13>{%
+\item<12-> Wir geben~\pythonil{5e-324} ein\only<-12>{\dots}\uncover<13->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Das bedeutet, dass im \pythonil{float} Format \pythonil{7e-324 == 6e-324 == 5e-324} gilt.}%
+}%
+%
+\only<14-15>{%
+\item<14-> Wir geben~\pythonil{4.94065645841246544e-324} ein, nämlich die kleinse \pythonil{double}-Zahl in \pgls{Java}\cite{O2024JPSEJDKV2AS:CD}\only<-14>{\dots}\uncover<15->{ und \python\ gibt uns wieder \pythonil{5e-324} aus.}%
+}%
+%
+\only<16-17>{%
+\item<16-> Wir geben~\pythonil{4e-324} ein\only<-16>{\dots}\uncover<17->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Das bedeutet, dass im \pythonil{float} Format \pythonil{7e-324 == 4e-324} gilt.}%
+}%
+%
+\only<18-19>{%
+\item<18-> Wir geben~\pythonil{3e-324} ein\only<-18>{\dots}\uncover<19->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Das bedeutet, dass im \pythonil{float} Format \pythonil{7e-324 == 3e-324} gilt.}%
+}%
+%
+\only<20-21>{%
+\item<20-> Wir geben~\pythonil{2e-324} ein\only<-20>{\dots}\uncover<21->{ und \python\ gibt uns~\pythonil{0} aus. \pythonil{2e-324} ist also einfach zu klein, um noch dargestellt zu werden.}%
+}%
+%
+\only<22-23>{%
+\item<22-> Wir geben~\pythonil{1e-324} ein\only<-22>{\dots}\uncover<23->{ und \python\ gibt uns natürlich auch~\pythonil{0} aus. \pythonil{1e-324} ist natürlich dann auch zu klein, um noch dargestellt zu werden.}%
+}%
+%
+\only<24-25>{%
+\item<24-> Wir geben~\pythonil{0 == 3e-324} ein\only<-24>{\dots}\uncover<25->{ und \python\ sagt, dass das \pythonil{False}, also \emph{nicht wahr} ist.}%
+}%
+%
+\only<26-27>{%
+\item<26-> Wir geben~\pythonil{0 == 2e-324} ein\only<-26>{\dots}\uncover<27->{ und \python\ sagt, dass das \pythonil{True}, also \emph{wahr} ist. Stimmt ja auch:~\pythonil{2e-324} ist so klein, dass es als~\pythonil{0} gespeichert wird.}%
+}%
+%
+\item<28-> Wir können also sehr kleine Zahlen mit \pythonils{float} speichern.%
+\item<29-> Aber es gibt eine Grenze, und wenn wir diese unterschreiten, werden die Zahlen als~\pythonil{0} interpretiert.%
+\item<30-> Und wenn wir der Grenze sehr nahe kommen, dann fallen immer mehr Zahlen aufeinander, weil wir nur noch die letzten paar Bits des Significand nutzen.%
+%
+\end{itemize}%
+%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.33}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/verySmall/verySmall01n1em323}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/verySmall/verySmall02n1em323done}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/verySmall/verySmall03n9em324}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/verySmall/verySmall04n9em324done}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/verySmall/verySmall05n8em324}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/verySmall/verySmall06n8em324done}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/verySmall/verySmall07n7em324}{0.1}{0.33}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/verySmall/verySmall08n7em324done}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/verySmall/verySmall09n6em324}{0.1}{0.33}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/verySmall/verySmall10n6em324done}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/verySmall/verySmall11n5em324}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/verySmall/verySmall12n5em324done}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/verySmall/verySmall13n4d9em324}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/verySmall/verySmall14n4d9em324done}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/verySmall/verySmall15n4em324}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/verySmall/verySmall16n4em324done}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/verySmall/verySmall17n3em324}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/verySmall/verySmall18n3em324done}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/verySmall/verySmall19n2em324}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/verySmall/verySmall20n2em324done}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/verySmall/verySmall21n1em324}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/verySmall/verySmall22n1em324done}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/verySmall/verySmall23n0eq3em324}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/verySmall/verySmall24n0eq3em324done}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/verySmall/verySmall25n0eq2em324}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/verySmall/verySmall26n0eq2em324done}{0.1}{0.33}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item \python\ bietet uns beliebig große Ganzzahlen mit dem Datentyp~\pythonil{int} an.%
+\item<2-> Für reelle Zahlen können wir den Datentype~\pythonil{float} benutzen.%
+\item<3-> Dieser Datentyp ist \alert{nicht} beliebig genau, sondern sollte \alert{immer} als ungenau betrachtet werden.%
+\item<4-> Er reicht aber aus, um viele Berechnungen genau genug durchzuführen {\dots} 15~Ziffern sind schon ziemlich viel\dots.%
+\item<5-> Durch runden können \pythonils{float} in \pythonils{int} überführt werden~(wobei zu beachten ist, das die Funktion \pythonil{round} Banker's Rounding durchführt).%
+\item<6-> Sehr große oder kleine \pythonil{float}-Werte können in der wissenschaftlichen Notation dargestellt werden.%
+\item<7-> \pythonil{inf}, \pythonil{-inf}, und \pythonil{nan} sind \pythonil{float}-Konstanten, die für \inQuotes{zu groß für einen \pythonil{float}}, \inQuotes{negativ-zu groß für einen \pythonil{float}}, und \inQuotes{nicht definiert} stehen.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

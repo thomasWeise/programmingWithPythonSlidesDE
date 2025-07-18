@@ -73,7 +73,7 @@
 \item<5-> Viele Programmiersprachen bieten verschiedene Datentypen mit verschiedenen Wertebereichen für Ganzzahlen.\uncover<6->{ In \pgls{Java} ist \pythonil{byte} z.B.\ ein Ganzzahltyp mit Wertebereich~\intRange{-2^7}{2^7-1} wohingegen \pythonil{long} den Wertebereich~\intRange{-2^{63}}{2^{63}-1} abdeckt.\uncover<7->{ Der \softwareStyle{C17}-Standard für \pgls{C} listed mindestens zehn Ganzzahltypen\cite{ISOIEC98892017PLCWDOS}.}}%
 \item<8-> \python~3 hat nur einen einzigen Datentype für die Ganzzahlen:~\pythonilIdx{int}.%
 \item<9-> Dieser Datentyp hat im Grunde eine unbegrenzte Reichweite.%
-\item<10-> Naja, begrenzt durch den Speicher Ihres Komputers.%
+\item<10-> Naja, begrenzt durch den Speicher Ihres Computers.%
 \end{itemize}%
 \end{frame}%
 %
@@ -258,7 +258,7 @@ Merken Sie sich, dass \pythonilIdx{/} \emph{immer} \pythonilIdx{float}-Werte zur
 \frametitle{Binäres Zahlensystem und Bit-weise Operatoren}%
 \begin{itemize}%
 \only<-11>{%
-\item Wie Sie ja wissen, werden alle Dinge im Komputer elementar durch 0en und 1en dargestellt.%
+\item Wie Sie ja wissen, werden alle Dinge im Computer elementar durch 0en und 1en dargestellt.%
 \item<2-> Durch das sogenannte binäre Zahlensystem können beliebige dezimale Zahlen dargestellt werden.%
 \item<3-> binär\nobreakdashes-0 ist dezimal\nobreakdashes-0\uncover<4->{, binär\nobreakdashes-1 ist dezimal\nobreakdashes-1\uncover<5->{, binär\nobreakdashes-10 ist dezimal\nobreakdashes-2\uncover<6->{, binär\nobreakdashes-11 ist dezimal\nobreakdashes-3\uncover<7->{, binär\nobreakdashes-100 ist dezimal\nobreakdashes-4\uncover<8->{, binär\nobreakdashes-101 ist dezimal\nobreakdashes-5\uncover<9->{, binär\nobreakdashes-110 ist dezimal\nobreakdashes-6\uncover<10->{, und so weiter.}}}}}}}%
 \item<11-> So weren auch die \pythonil{int}-Werte in \python\ letztendlich als Binärzahlen dargestellt.%
@@ -273,7 +273,7 @@ Merken Sie sich, dass \pythonilIdx{/} \emph{immer} \pythonilIdx{float}-Werte zur
 }%
 %
 \only<-48>{%
-\item<46-> Auf solche Bitketten können logische Operatoren Bit-weise angewandt werden.%
+\only<-47>{\item<46-> Auf solche Bitketten können logische Operatoren Bit-weise angewandt werden.}%
 \item<47-> Werden zwei Bitketten mit bit-weisem \inQuotes{und}, bit-weisem \inQuotes{oder}, oder bit-weisem \inQuotes{exklusiven oder} verbunden, dann wird der Operator jeweils auf die Bits am gleichen Index angewendet.%
 \item<48-> Schauen wir uns das mal an.%
 }%
@@ -327,7 +327,7 @@ Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \p
 \locateGraphic{42}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath31bin15}{0.1}{0.33}%
 \locateGraphic{43}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath32bin15}{0.1}{0.33}%
 \locateGraphic{44}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath33bin15}{0.1}{0.33}%
-\locateGraphic{45-48}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath34bin15}{0.1}{0.33}%
+\locateGraphic{45-47}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath34bin15}{0.1}{0.33}%
 %
 \locateGraphic{49-50}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath35or}{0.1}{0.33}%
 \locateGraphic{51}{width=0.8\paperwidth}{graphics/binaryMath/binaryMath36or}{0.1}{0.33}%
@@ -398,6 +398,13 @@ Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \p
 \item<36-> Wir können Zahlen auch direkt im Oktalsystem angeben, wobei wieder das Präfix~\pythonil{0o} verwendet wird.%
 \item<37-> \python\ interpretiert solche Zahlen dann als Oktalzahlen und rechnet sie in entsprechende \pythonil{int}-Werte um.%
 }%
+%
+\item<38-> Sie werden sich nun vielleicht fragen:~\inQuotes{Woher weiß ein \pythonil{int}, dass es im hexadezimalen, dezimalen, binären, oder oktalen Format eingegeben wurde?}%
+\item<39-> Das weiß es eben nicht!
+\item<40-> Diese Formate sind nur Textformate für die Ein- und Ausgabe von \pythonil{int}-Werten.%
+\item<41-> Sie können diese in Ihrem Programmkode verwenden, im \python-Interpreter, or in der Eingabe Ihrer Programme.%
+\item<42-> Sie werden alle in die selbe \pythonil{int}~Struktur umgerechnet.%
+\item<43-> Und danach spielt es gar keine Rolle mehr, in welchem Format die ursprünglich spezifiziert waren.%
 %
 \end{itemize}%
 %

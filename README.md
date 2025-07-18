@@ -27,6 +27,8 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 4. [PyCharm Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/04_pycharm_installieren.pdf)
 5. [Programme Erstellen und Ausführen](https://thomasweise.github.io/programmingWithPythonSlidesDE/05_programme_erstellen_und_ausführen.pdf)
 6. [Beispiele Herunterladen](https://thomasweise.github.io/programmingWithPythonSlidesDE/06_beispiele_herunterladen.pdf)
+7. [Der Datentyp `int`](https://thomasweise.github.io/programmingWithPythonSlidesDE/07_int.pdf)
+8. [Der Datentyp `float`](https://thomasweise.github.io/programmingWithPythonSlidesDE/08_float.pdf)
 
 
 ### 2.3. Die Slides in Englisch
