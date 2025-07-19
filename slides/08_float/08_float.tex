@@ -798,6 +798,288 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 \locateGraphic{27}{width=0.8\paperwidth}{graphics/verySmall/verySmall26n0eq2em324done}{0.1}{0.33}%
 \end{frame}%
 %
+%
+\begin{frame}%
+\frametitle{Sehr große Zahlen}%
+\begin{itemize}%
+\item Für kleine Zahlen gibt es ein natürliches Ende: sehr sehr kleine Zahlen sind einfach~0.%
+\item<2-> Was passiert mit sehr großen Zahlen?%
+\item<3-> Die \pgls{Java}-Dokumentation\cite{O2024JPSEJDKV2AS:CD} nennt~$(2-2^{-52})*2^{1023}\approx1.797\decSep693\decSep134\decSep862\decSep315\decSep708\dots*10^{308}$ als die größte Zahl, die mit 64-Bit Fließkommazahlen dargstellt werden kann.%
+\item<4-> Was passiert danach?%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Sehr große Zahlen: Ausprobieren}%
+\begin{itemize}%
+%
+\only<-1>{%
+\item Probieren wir das mal aus: Wir geben verschiedene sehr große Zahlen in den \python-Interpreter ein und gucken, was passiert.%
+}%
+%
+\only<2-3>{%
+\item<2-> Wir geben~\pythonil{1.7976931348623157e+308} ein, was geringfügig kleiner als die in der \pgls{Java}-Dokumentation genannte Zahl ist\only<-2>{\dots}\uncover<3->{ und \python\ gibt auch wieder \pythonil{1.7976931348623157e+308} aus.}%
+}%
+%
+\only<4-5>{%
+\item<4-> Wir geben~\pythonil{1.7976931348623158e+308} ein, also genau die in der \pgls{Java}-Dokumentation genannte Zahl~$1.797\decSep693\decSep134\decSep862\decSep315\decSep708\dots*10^{308}$\only<-4>{\dots}\uncover<5->{, \python\ gibt aber wieder \pythonil{1.7976931348623157e+308} aus {\dots} die beiden Zahlen sind zu nahe beieinander und können bei der Genauigkeit von 15~Ziffern nicht unterschieden werden.}%
+}%
+%
+\only<6-8>{%
+\item<6-> Wir geben~\pythonil{1.7976931348623159e+308} ein, was geringfügig größer als die in der \pgls{Java}-Dokumentation genannte Zahl ist\only<-6>{\dots}\uncover<7->{ und \python\ gibt \pythonil{inf} aus.}%
+\item<8-> \pythonil{inf} ist eine Konstante aus dem Modul \pythonil{math} die bedeutet \emph{\inQuotes{zu groß, um mit einem \pythonil{float} als Zahl dargestellt zu werden}}, was unendlich~($+\infty$) einschließt, aber eben \alert{auch} einfach alle Zahlen größer als \pythonil{1.7976931348623158e+308}.%
+}%
+%
+\only<9-10>{%
+\item<9-> Wir geben~\pythonil{-1.7976931348623159e+308} ein\only<-9>{\dots}\uncover<10->{ und bekommen \pythonil{-inf} angezeigt.}%
+}%
+%
+\only<11-12>{%
+\item<11-> Wenn wir rechnen~\pythonil{-1.7976931348623157e+308 * 3}\only<-11>{\dots}\uncover<12->{, dann ergibt das ebenfalls \pythonil{-inf}.}%
+}%
+%
+\only<13-14>{%
+\item<13-> \pythonil{int} hat einen unbegrenzten Wertebereich, wir können also~\pythonil{1.7976931348623157e+308} als \pythonil{int} schreiben\only<-13>{\dots}\uncover<14->{ und das geht problemlos.}%
+}%
+%
+\only<15-16>{%
+\item<15-> Diesen \pythonil{int} können wir in einen \pythonil{float} umwandeln, in dem wir ihn mit~\pythonil{1.0} multiplizieren\only<-15>{\dots}\uncover<16->{ und es kommt \pythonil{1.7976931348623157e+308} heraus.}%
+}%
+%
+\only<17-18>{%
+\item<17-> Wir schreiben jetzt eine Zahl, die zehnmal so groß ist, in dem wir mit \pythonil{10 ** 293} anstelle von \pythonil{10 ** 292} multiplizieren\only<-17>{\dots}\uncover<18->{ und das geht problemlos.}%
+}%
+%
+\only<19-20>{%
+\item<19->  Diesen \pythonil{int} können wir versuchen in einen \pythonil{float} umwandeln, in dem wir ihn mit~\pythonil{1.0} multiplizieren\only<-19>{\dots}\uncover<20->{ und \python\ sagt:~\inQuotes{Nein, könnt Ihr nicht.}.~(\pythonils{Exception} lernen wir später.)}%
+}%
+%
+\only<21-22>{%
+\item<21-> Importieren wir mal \pythonil{e} und \pythonil{log} aus dem Modul~\pythonil{math} um mehr Unsinn zu machen.\only<-21>{\dots}\uncover<22->{ Und das geht problemlos.}%
+}%
+%
+\only<23-24>{%
+\item<23-> Die größte \pythonil{float}-Zahl, die noch geht, war \pythonil{1.7976931348623157e+308}. Rechnen wir mal \pythonil{log(1.7976931348623157e+308)} aus\only<-23>{\dots}\uncover<24->{, was \pythonil{709.782712893384} ergibt.}%
+}%
+%
+\only<25-26>{%
+\item<25-> \pythonil{e ** 709.782712893384} sollte also in etwa wieder die größte Zahl ergeben\only<-25>{\dots}\uncover<26->{. \pythonil{1.7976931348622053e+308} liegt nahe genug dran {\dots} wie gesagt, wir haben begrenzte Genauigkeit mit \pythonils{float}.}%
+}%
+%
+\only<27-28>{%
+\item<27-> Was passiert, wenn wir \pythonil{e ** 709.782712893385} anstatt \pythonil{e ** 709.782712893384} versuchen?\uncover<28->{ Dann sagt \python:~\inQuotes{Nö. Macht Ihr nicht.}}%
+}%
+%
+\only<29-30>{%
+\item<29-> Wenn \pythonil{1.7976931348623157e+308} die größte Zahl ist, was ist dann \pythonil{1 / 1.7976931348623157e+308}?\uncover<30->{. \pythonil{5.562684646268003e-309}, was schon sehr klein ist.}%
+}%
+%
+\only<31-32>{%
+\item<31-> Wenn \pythonil{1.7976931348623159e+308} zu \pythonil{inf} wird, was passiert mit \pythonil{1 / 1.7976931348623159e+308}?\uncover<32->{. Es wird zu~\pythonil{0.0}.}%
+}%
+%
+\only<33-34>{%
+\item<33-> Importieren wir mal \pythonil{inf} aus dem Modul~\pythonil{math}\only<-33>{\dots}\uncover<34->{ Und das geht problemlos.}%
+}%
+%
+\only<35-36>{%
+\item<35-> Wenn \pythonil{1.7976931348623159e+308} zu \pythonil{inf} wird, was ist dann \pythonil{1.7976931348623159e+308 == inf}?\uncover<36->{. Es ist \pythonil{True}, also \inQuotes{Wahr}.}%
+}%
+%
+\only<37-38>{%
+\item<37-> \pythonil{1.7976931348623158e+308} ist die größte Zahl, die noch \inQuotes{geht}. Was ist dann \pythonil{1.7976931348623158e+308 == inf}?\uncover<38->{. Es ist \pythonil{False}, also \inQuotes{Falsch}.}%
+}%
+%
+\item<39-> Während \pythonil{0} der natürliche Grenzwert für kleine Zahlen ist, definiert \python\ die Konstante \pythonil{inf} als Wert für Zahlen, die \emph{zu groß} sind.%
+%
+\item<40-> Nun ist 0 eine verständliche Kontante mit klaren mathematischen Eigenschaften.%
+%
+\item<41-> \pythonil{inf} ist viel verwirrender.%
+%
+\item<42-> Es bedeutet \alert{nicht} unendlich.%
+%
+\item<43-> $1.797\decSep693\decSep134\decSep862\decSep315\decSep9*10^{308}$ ist nämlich nicht das gleiche wie~$+\infty$.%
+%
+\item<44-> \pythonil{inf} verhält sich aber in einigen Rechnungen ähnlich wie unendlich.%
+%
+\item<45-> Ein sogenannter Überlauf bei einer Berechnung kann zu \pythonil{inf} führen, manchmal aber auch zu einem Fehler der die Berrechnung direkt stopp.%
+%
+\item<46-> Solche Fehler sind eigentlich die bessere Variante:~Es gibt sehr wenige echte Berechnungen, bei denen~\pythonil{inf} ein vernünftiges, erwartetes Ergebnis ist.%
+%
+\item<47-> Es ist also sogar besser, wenn die Berechnung einfach mit einem Fehler abbricht {\dots} dann wissen wir wenigstens, das etwas schief gelaufen ist~(vielleicht waren die Eingabewerte ja falsch\dots)%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.4}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge01n1d7976931348623157e308}{0.1}{0.4}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge02n1d7976931348623157e308done}{0.1}{0.4}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge03n1d7976931348623158}{0.1}{0.4}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge04n1d7976931348623158done}{0.1}{0.4}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge05n1d7976931348623159}{0.1}{0.4}%
+\locateGraphic{7-8}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge06n1d7976931348623159done}{0.1}{0.4}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge07nm1d7976931348623159}{0.1}{0.4}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge08nm1d7976931348623159done}{0.1}{0.4}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge09nm1d7976931348623159m2}{0.1}{0.4}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge10nm1d7976931348623159m2done}{0.1}{0.4}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge11n17976931348623157m10p292}{0.1}{0.4}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge12n17976931348623157m10p292done}{0.1}{0.4}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge13n17976931348623157m10p292f}{0.1}{0.4}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge14n17976931348623157m10p292fdone}{0.1}{0.4}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge15n17976931348623157m10p293}{0.1}{0.4}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge16n17976931348623157m10p293done}{0.1}{0.4}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge17n17976931348623157m10p293f}{0.1}{0.4}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge18n17976931348623157m10p293fdone}{0.1}{0.4}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge19importElog}{0.1}{0.4}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge20importElogDone}{0.1}{0.4}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge21log1d7976931348623157e308}{0.1}{0.4}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge22log1d7976931348623157e308done}{0.1}{0.4}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge23e709d782712893384}{0.1}{0.4}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge24e709d782712893384done}{0.1}{0.4}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge25e709d782712893385}{0.1}{0.4}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge26e709d782712893385done}{0.1}{0.4}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge27n1d1d7976931348623157e308}{0.1}{0.4}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge28n1d1d7976931348623157e308done}{0.1}{0.4}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge29n1d1d7976931348623159e308}{0.1}{0.4}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge30n1d1d7976931348623159e308done}{0.1}{0.4}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge31importInf}{0.1}{0.4}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge32importInfdone}{0.1}{0.4}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge33infE1d7976931348623159e308}{0.1}{0.4}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge34infE1d7976931348623159e308done}{0.1}{0.4}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge35infE1d7976931348623158e308}{0.1}{0.4}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/veryLarge/veryLarge36infE1d7976931348623158e308done}{0.1}{0.4}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Das ist keine Zahl!}%
+\begin{itemize}%
+\item Also gut, wir wissen jetzt, dass sehr große Zahlen irgendwann den Wertebereich von \pythonil{float} zum überlaufen bringen und zu \pythonil{inf} werden.%
+\item<2-> Nun haben wir gesagt, dass \pythonil{inf} praktisch alle Zahlen umfasst, die zu groß für den Wertebereich von~\pythonil{float} sind.%
+\item<3-> Das sind sehr viele Zahlen.%
+\item<4-> Es schließt auch~$+\infty$, also unendlich, mit ein.%
+\item<5-> Wenn wir mit \pythonil{inf} rechnen (was eigentlich selten eine gute Idee ist), dann verhalten sich die meisten Funktionen so, als wäre es~$+\infty$.%
+\item<6-> Was bedeutet das?%
+\item<7-> Und was passiert, wenn wir ganz komische Sachen mit~\pythonil{inf} machen?%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Das ist keine Zahl! -- Ausprobieren}%
+\begin{itemize}%
+%
+\only<-1>{%
+\item Probieren wir das mal aus: Rechnen wild mit \pythonil{inf} und gucken, was passiert.%
+}%
+%
+\only<2-3>{%
+\item<2-> Zuerst importieren wir wieder \pythonil{inf} aus dem Modul~\pythonil{math}\only<-2>{\dots}\uncover<3->{ Und das geht problemlos.}%
+}%
+%
+\only<4-5>{%
+\item<4-> Fangen wir einfach an:~\pythonil{inf - 1}\only<-4>{\dots}\uncover<5->{ bleibt natürlich~\pythonil{inf}.}%
+}%
+%
+\only<6-7>{%
+\item<6-> \pythonil{inf - 1e300} ist eigentlich schon etwas komisch, weil wir ja auch zu \pythonil{inf} über eine sehr große Zahl, z.B.~\pythonil{1e310} hätten gekommen seien können\only<-6>{\dots}\uncover<7->{. Aber das Ergebnis bleibt~\pythonil{inf}, denn \pythonil{inf} verhält sich hier wie~$+\infty$.}%
+}%
+%
+\only<8-11>{%
+\item<8-> Dann machen wir doch \pythonil{inf - inf}\only<-8>{\dots}\uncover<9->{; \pythonil{inf} verhält sich wie~$+\infty$, aber $\infty - \infty$ ist nicht definiert.}%
+\item<10-> \pythonil{nan} bedeutet \emph{\inQuotes{Not a Number}} also \emph{\inQuotes{Das ist keine Zahl!}}.%
+\item<11-> Kommt irgendwo in einer Rechnung \pythonil{nan} vor, dann ist das Ergebnis immer auch \pythonil{nan}.%
+}%
+%
+\only<12-13>{%
+\item<12-> Nagut. Probieren wir \pythonil{inf / 1e300}\only<-12>{\dots}\uncover<13->{, was wieder \pythonil{inf} ergibt.}%
+}%
+%
+\only<14-15>{%
+\item<14-> Wie wäre es dann mit \pythonil{inf / inf}?\uncover<15->{ Das ist nicht definiert und ergibt~\pythonil{nan}.}%
+}%
+%
+\only<16-17>{%
+\item<16-> Und was ist mit \pythonil{inf * 0}?\uncover<15->{ Das ist auch nicht definiert und ergibt~\pythonil{nan}.}%
+}%
+%
+\only<18-19>{%
+\item<18-> Wir wollen direkt mit \pythonil{nan} herumspielen und importieren daher die Konstante \pythonil{nan} aus dem Modul~\pythonil{math}\only<-18>{\dots}\uncover<19->{ Und schwupps haben wir sie importiert.}%
+}%
+%
+\only<20-21>{%
+\item<20-> Nun können wir \pythonil{nan + 1} rechnen\only<-20>{\dots}\uncover<21->{, was wieder \pythonil{nan} ergibt.}%
+}%
+%
+\only<22-23>{%
+\item<22-> Aber was ist \pythonil{nan + inf}?\uncover<23->{ Wieder \pythonil{nan}. Es gibt kein Entkommen.}%
+}%
+%
+\only<24-25>{%
+\item<24-> Was genau ist eigentlich \pythonil{nan}? Ist es gleich~1?\uncover<25->{ Nein, natürlich nicht.}%
+}%
+%
+\only<26-27>{%
+\item<26-> Was genau ist eigentlich \pythonil{nan}? Ist es ungleich~1?\uncover<27->{ Ja. Na klar.}%
+}%
+%
+\only<28-29>{%
+\item<28-> Was genau ist eigentlich \pythonil{nan}? Ist \pythonil{nan} gleich \pythonil{nan}?\uncover<29->{ \alert{NEIN!} \pythonil{nan} ist der \emph{einzige} \pythonil{float}-Wert, der \alert{ungleich} seiner selbst ist!}%
+}%
+%
+\only<30-31>{%
+\item<30-> Dann gilt also $\pythonil{nan}\neq\pythonil{nan}$?\uncover<31->{ \alert{JA!} Wie gesagt, \pythonil{nan} ist der \emph{einzige} \pythonil{float}-Wert, der \alert{ungleich} seiner selbst ist!}%
+}%
+%
+\only<32-33>{%
+\item<32-> Also $\pythonil{inf}=\pythonil{inf}$ gilt aber?\uncover<33->{ Ja. Was komisch ist, weil \pythonil{inf - inf} ja nicht definiert ist\dots}%
+}%
+%
+\only<34-35>{%
+\item<34-> Und $\pythonil{inf}\neq\pythonil{inf}$ stimmt dann aber nicht?\uncover<35->{ Ja. Was immer noch komisch ist, weil \pythonil{inf - inf} ja nicht definiert ist\dots}%
+}%
+%
+\item<36-> \pythonil{nan} ist eine Konstante, die für \inQuotes{undefiniert} steht.%
+\item<37-> Genauso, wie ein \pythonil{float}-Wert irgendwo in einer Rechnunung mit \pythonils{int} die Berechnung \inQuotes{infiziert} und das Ergebnis dann immer ein \pythonil{float} ist\only<-37>{\dots}\uncover<38->{, so \inQuotes{infiziert} \pythonil{nan} jede Berechnung so dass das Ergebnis immer \pythonil{nan} wird.}%
+%
+\item<39-> Es gilt \pythonil{nan != nan}.%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.4}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/nan/nan01importInf}{0.1}{0.4}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/nan/nan02importInfDone}{0.1}{0.4}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/nan/nan03infM1}{0.1}{0.4}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/nan/nan04infM1done}{0.1}{0.4}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/nan/nan05infM1e300}{0.1}{0.4}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/nan/nan06infM1e300done}{0.1}{0.4}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/nan/nan07infMinf}{0.1}{0.4}%
+\locateGraphic{9-11}{width=0.8\paperwidth}{graphics/nan/nan08infMinfDone}{0.1}{0.4}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/nan/nan09infD1e300}{0.1}{0.4}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/nan/nan10infD1e300done}{0.1}{0.4}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/nan/nan11infDinf}{0.1}{0.4}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/nan/nan12infDinfDone}{0.1}{0.4}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/nan/nan13infM0}{0.1}{0.4}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/nan/nan14infM0done}{0.1}{0.4}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/nan/nan15importNan}{0.1}{0.4}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/nan/nan16importNanDone}{0.1}{0.4}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/nan/nan17nanP1}{0.1}{0.4}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/nan/nan18nanP1done}{0.1}{0.4}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/nan/nan19nanPinf}{0.1}{0.4}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/nan/nan20nanPinfDone}{0.1}{0.4}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/nan/nan21nanEq1}{0.1}{0.4}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/nan/nan22nanEq1done}{0.1}{0.4}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/nan/nan23nanNeq1}{0.1}{0.4}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/nan/nan24nanNeq1Done}{0.1}{0.4}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/nan/nan25nanEqNan}{0.1}{0.4}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/nan/nan26nanEqNanDone}{0.1}{0.4}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/nan/nan27nanNeqNan}{0.1}{0.4}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/nan/nan28nanNeqNanDone}{0.1}{0.4}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/nan/nan29infEqInf}{0.1}{0.4}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/nan/nan30infEqInfDone}{0.1}{0.4}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/nan/nan31infNeqInf}{0.1}{0.4}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/nan/nan32infNeqInfDone}{0.1}{0.4}%
+%
+\end{frame}%
+%
 \section{Zusammenfassung}%
 %
 \begin{frame}%
