@@ -585,15 +585,15 @@ Nehmen Sie \alert{niemals} an, dass sie genau sind\cite{PTVF2007NRTAOSC:EAAS,BHK
 }%
 %
 \only<10-11>{%
-\item<10-> Wenn wir \pythonil{1_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{1000000000000000.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-10>{\dots}\uncover<11->{, dann schreibt es \pythonil{1000000000000000.0}.}%
+\item<10-> Wenn wir \pythonil{1_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{1000000000000000.0} bzw.~$1*10^{15}$) und \python\ damit zwingen, diese Zahl auszugeben\only<-10>{\dots}\uncover<11->{, dann schreibt es \pythonil{1000000000000000.0}.}%
 }%
 %
 \only<12-13>{%
-\item<12-> Wenn wir \pythonil{9_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{9000000000000000.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-12>{\dots}\uncover<13->{, dann schreibt es \pythonil{9000000000000000.0}.}%
+\item<12-> Wenn wir \pythonil{9_000_000_000_000_000.0} schreiben (was das gleiche ist wie \pythonil{9000000000000000.0} bzw.~$9*10^{15}$) und \python\ damit zwingen, diese Zahl auszugeben\only<-12>{\dots}\uncover<13->{, dann schreibt es \pythonil{9000000000000000.0}.}%
 }%
 %
 \only<14-15>{%
-\item<14-> Wenn wir aber \pythonil{9_999_999_999_999_999.0} schreiben (was das gleiche ist wie \pythonil{9999999999999999.0}) und \python\ damit zwingen, diese Zahl auszugeben\only<-14>{\dots}\uncover<15->{, dann schreibt es \pythonil{1e+16} in der wissenschaftlichen Notation~(und weil wir nur 15~Ziffern haben können\dots).}%
+\item<14-> Wenn wir aber \pythonil{9_999_999_999_999_999.0} schreiben (was das gleiche ist wie \pythonil{9999999999999999.0} bzw.~$9.999999999999999*10^{15}$) und \python\ damit zwingen, diese Zahl auszugeben\only<-14>{\dots}\uncover<15->{, dann schreibt es \pythonil{1e+16} in der wissenschaftlichen Notation~(und weil wir nur 15~Ziffern haben können aber 16 9en angegeben haben\dots).}%
 }%
 %
 \only<16-17>{%
@@ -1002,7 +1002,7 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 }%
 %
 \only<18-19>{%
-\item<18-> Wir wollen direkt mit \pythonil{nan} herumspielen und importieren daher die Konstante \pythonil{nan} aus dem Modul~\pythonil{math}\only<-18>{\dots}\uncover<19->{ Und schwupps haben wir sie importiert.}%
+\item<18-> Wir wollen direkt mit \pythonil{nan} herumspielen und importieren daher die Konstante \pythonil{nan} aus dem Modul~\pythonil{math}\only<-18>{\dots}\uncover<19->{. Und schwupps haben wir sie importiert.}%
 }%
 %
 \only<20-21>{%
@@ -1077,6 +1077,113 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 \locateGraphic{33}{width=0.8\paperwidth}{graphics/nan/nan30infEqInfDone}{0.1}{0.4}%
 \locateGraphic{34}{width=0.8\paperwidth}{graphics/nan/nan31infNeqInf}{0.1}{0.4}%
 \locateGraphic{35}{width=0.8\paperwidth}{graphics/nan/nan32infNeqInfDone}{0.1}{0.4}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Wo kommen \pythonil{inf} und \pythonil{nan} her?}%
+\begin{itemize}%
+\item OK, das Ergebnis einer Berechnung könnte also \pythonil{inf} oder \pythonil{nan} sein.%
+\item<2-> Wir mussten einige komische Verrenkungen machen, um diese Werte zu produzieren.%
+\item<3-> Es gibt vier grundlegende Szenarios, weshalb \pythonil{info} oder \pythonil{nan} in unseren Berechnungen vorkommen können\only<3->{.}\uncover<4->{:%
+\begin{enumerate}%
+\item Weil es so seien soll. Vielleicht sind sie ja genau das Ergebnis, das herauskommen soll. Das korrekte Ergebnis einer korrekten Berechnung mit korrekten Eingabedaten. Genau das was wir wollten.\uncover<5->{ (Klingt das sehr wahrscheinlich?)}%
+\item<6-> Vielleicht sind ja die Eingabedaten falsch. Die Zahlen mit denen wir rechnen stimmen nicht.%
+\item<7-> Vielleicht ist auch unsere Formel falsch. Vielleicht haben wir uns ja vertippt.%
+\item<8-> Vielleicht hat jemand mit Absicht falsche Daten eingegeben, damit sich unser Program falsch verhält? Werte wie \pythonil{nan} können durchaus ein Problem für den Systemschutz~(Security) sein\cite{C2026ROT2UCCAOONPA}.
+\end{enumerate}%
+}%
+\item<10-> So oder so: Wir brauchen verlässliche Möglichkeiten, alle \inQuotes{komischen} \pythonil{float}-Werte zu erkennen und abzufangen.%
+\item<11-> Dafür gibt es im modul \pythonil{math} die Funktionen \pythonil{isfinite}, \pythonil{isinf}, und \pythonil{isnan}.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Testen auf inf und nan: Ausprobieren}%
+\begin{itemize}%
+%
+\only<-1>{%
+\item Probieren wir das mal aus.%
+}%
+%
+\only<2-3>{%
+\item<2-> Zuerst importieren wir alle Funktionen und Konstanten, die wir brauchen, vom Modul~\pythonil{math}\only<-2>{\dots}\uncover<3->{. Und schwupps haben wir sie importiert.}%
+}%
+%
+\only<4-5>{%
+\item<4-> Mit \pythonil{isfinite} prüfen wir, ob eine Zahl finite ist, also weder unendlich noch undefiniert\only<-4>{\dots}\uncover<5->{. \pythonil{isfinite(0.3)} ist daher \pythonil{True}.}%
+}%
+%
+\only<6-7>{%
+\item<6-> Der Test \pythonil{isfinite(inf)} jedoch\only<-6>{\dots}\uncover<7->{ schlägt fehl und ergibt \pythonil{False}.}%
+}%
+%
+\only<8-9>{%
+\item<8-> Der Test \pythonil{isfinite(nan)}\only<-8>{\dots}\uncover<9->{ ergibt ebenfalls \pythonil{False}.}%
+}%
+%
+\only<10-11>{%
+\item<10-> \pythonil{isinf} prüft, ob eine Zahl \pythonil{inf} oder \pythonil{-inf} ist. Der Test \pythonil{isinf(0.3)}\only<-10>{\dots}\uncover<11->{ ist natürlich \pythonil{False}.}%
+}%
+%
+\only<12-13>{%
+\item<12-> \pythonil{isinf} prüft, ob eine Zahl \pythonil{inf} oder \pythonil{-inf} ist. Der Test \pythonil{isinf(-inf)}\only<-12>{\dots}\uncover<13->{ ist folgerichtig \pythonil{True}.}%
+}%
+%
+\only<14-15>{%
+\item<14-> \pythonil{nan} ist undefiniert. Es hat gar keinen Wert oder auch jeden beliebigen Wert. Der Test \pythonil{isinf(nan)}\only<-14>{\dots}\uncover<15->{ ist deshalb \pythonil{False}.}%
+}%
+%
+\only<16-17>{%
+\item<16-> \pythonil{isnan} prüft, ob ein Wert \pythonil{nan} ist, also undefiniert. \pythonil{isnan(0.3455)}\only<-16>{\dots}\uncover<17->{ ist \pythonil{False}, weil 0.3455 natürlich definiert ist.}%
+}%
+%
+\only<18-19>{%
+\item<18-> Fragen wir ob \pythonil{isnan(inf)}\only<-18>{\dots}\uncover<19->{ dann ist die Antwort \pythonil{False}. \pythonil{inf} ist zwar auch keine Zahl~(not a number, pardon the pun), aber definiert, also nicht nicht-definiert.}%
+}%
+%
+\only<20-21>{%
+\item<20-> Interessanterweise ist ja \pythonil{nan == nan} \pythonil{False} und \pythonil{nan != nan} \python{True}. \pythonil{isnan} nützlich, weil es sich leichter liest als der Test \pythonil{x != x} fpr eine Zahl \pythonil{x}. \pythonil{isnan(nan)} ergibt\only<-20>{\dots}\uncover<21->{ \pythonil{True}.}%
+}%
+%
+\item<22-> Es ist wichtig, dass wir so eigenartige Werte wie \pythonil{inf}, \pythonil{-inf} und \pythonil{nan} abfangen können.%
+%
+\item<23-> Manchmal würden wir das bereits machen, wenn wir Eingabewerte einlesen.%
+%
+\item<24-> Manchmal machen wir das während unserer Berechnungen.%
+%
+\item<25-> Was wir in der Regel nicht wollen, ist Kode der solche Werte ausgibt.%
+%
+\item<26-> Ein gutes Werkzeug dafür ist \pythonil{isfinite}.%
+%
+\item<27-> Normalerweise wollen wir nur mit Werten~\pythonil{x} arbeiten, für die \pythonil{isfinite(x) == True}.%
+%
+\item<28-> Alles andere ist normalerweise ein Zeichen für einen Fehler.%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/floatArithmetics/floatArithemetics00openPython3}{0.1}{0.4}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/check/check01import}{0.1}{0.4}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/check/check02importDone}{0.1}{0.4}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/check/check03isFinite1e34}{0.1}{0.4}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/check/check04isFinite1e34Done}{0.1}{0.4}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/check/check05isFiniteInf}{0.1}{0.4}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/check/check06isFiniteInfDone}{0.1}{0.4}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/check/check07isFiniteNan}{0.1}{0.4}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/check/check08isFiniteNanDone}{0.1}{0.4}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/check/check09isInf0d3}{0.1}{0.4}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/check/check10isInf0d3done}{0.1}{0.4}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/check/check11isInfMinf}{0.1}{0.4}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/check/check12isInfMinfDone}{0.1}{0.4}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/check/check13isInfNan}{0.1}{0.4}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/check/check14isInfNanDone}{0.1}{0.4}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/check/check15isNan0d3455}{0.1}{0.4}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/check/check16isNan0d3455done}{0.1}{0.4}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/check/check17isNanInf}{0.1}{0.4}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/check/check18isNanInfDone}{0.1}{0.4}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/check/check19isNanNan}{0.1}{0.4}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/check/check20isNanNanDone}{0.1}{0.4}%
 %
 \end{frame}%
 %
