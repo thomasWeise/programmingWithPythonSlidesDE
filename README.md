@@ -29,6 +29,7 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 6. [Beispiele Herunterladen](https://thomasweise.github.io/programmingWithPythonSlidesDE/06_beispiele_herunterladen.pdf)
 7. [Der Datentyp `int`](https://thomasweise.github.io/programmingWithPythonSlidesDE/07_int.pdf)
 8. [Der Datentyp `float`](https://thomasweise.github.io/programmingWithPythonSlidesDE/08_float.pdf)
+9. [Zwischenspiel: Python Dokumentation und Informationsquellen](https://thomasweise.github.io/programmingWithPythonSlidesDE/09_dokumentation.pdf)
 
 
 ### 2.3. Die Slides in Englisch
@@ -57,24 +58,12 @@ Alle Logos und Trademarks stehen ebenfalls unter dem Copyright ihrer entsprechen
 Mit der Ausnahme dieser Materialien steht das Kursmaterial hier unter der Attribution-NonCommercial-ShareAlike 4.0 International license (CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0), welche unter [http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/) zusammengefasst ist.
 
 Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0 Lizenz sondern unter dem Copyright ihrer Besitzer stehen beinhaltet, aber ist nicht beschränkt auf:
-+ das LibreOffice Logo, z.B.,
-  - text/main/introduction/software/libreofficeLogo.pdf
-  - text/main/introduction/software/libreofficeLogo.svg
-+ das MariaDB Logo, z.B.,
-  - text/main/introduction/software/mariadbLogo.pdf
-  - text/main/introduction/software/mariadbLogo.svg
-+ das PostgreSQL Logo, z.B.,
-  - text/main/introduction/software/postgresqlLogo.pdf
-  - text/main/introduction/software/postgresqlLogo.svg
-+ das SQLite Logo, z.B.,
-  - text/main/introduction/software/sqliteLogo.pdf
-  - text/main/introduction/software/sqliteLogo.svg
-+ das Psycopg Logo, z.B.,
-  - text/main/gettingStarted/psycopgLogo.pdf
-  - text/main/gettingStarted/psycopgLogo.svg
+
 + das Python Logo, z.B.,
   - text/main/gettingStarted/pythonLogo.pdf
   - text/main/gettingStarted/pythonLogo.svg
++ alle Screenshots von Webseiten
++ die Titelseite des Turbo Pascal User's Manual
 
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.

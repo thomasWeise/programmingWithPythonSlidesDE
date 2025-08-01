@@ -1,0 +1,338 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{9.~Zwischenspiel:~Python Dokumentation und Informationsquellen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\parbox{0.65\linewidth}{%
+\begin{itemize}%
+\item Ich habe Programmieren in den 1990ern mit \glsreset{turboPascal}\pgls{turboPascal}\cite{B1992TPV7UB} gelernt.%
+\item<2-> Hauptsächlich habe ich es mir selber beigebracht, wobei ich zwei Quellen verwendet habe\only<-2>{.}\uncover<3->{:\begin{enumerate}%
+\item Bücher%
+\item<4-> Das großartige Hilfesystem von \pgls{turboPascal}%
+\end{enumerate}}%
+%
+\item<5-> Dieses Hilfesystem hatte jeden einzelnen Befehl der Sprache aufgelistet, mit Beispielen!%
+\item<6-> So konnte ich selbstständig neue Befehle lernen und ausprobieren.%
+\item<7-> \emph{Wie können Sie neue Befehle für \python\ lernen und ausprobieren?}
+\end{itemize}}%
+%
+\locateGraphic[Die Titelseite vom \citetitle{B1992TPV7UB}\cite{B1992TPV7UB}, copyright Borland.]{}{width=0.305\paperwidth}{graphics/turboPascal}{0.67}{0.1}%
+\end{frame}%
+%
+\section{Die offizielle Dokumentation verwenden}%
+%
+\begin{frame}[t]%
+\frametitle{Die offizielle Dokumentation verwenden}%
+\begin{itemize}%
+\only<-5,12->{%
+\item Angenommen, Sie kennen den Namen eines Kommandos und wollen mehr darüber erfahren, z.B.~die genaue Bedeutung, Beschränkungen für die Werte der Parameter, mögliche Fehler, usw.%
+\item<2-> Dafür gibt es einen kompletten Katalog mit Hilfe für \python:~die \citetitle{PSF:P3D}\cite{PSF:P3D} bei~\citeurl{PSF:P3D}.%
+\item<3-> Dies sollte Ihr erster Ansatzpunkt sein, wenn Sie mehr über \python\ lernen wollen.%
+\item<4-> Diese Hilfe steht auch in Chinesisch bereit!%
+}%
+\only<-6>{\item<5-> Nehmen wir an, Sie wollen mehr über die Funktion~\pythonil{ceil} erfahren.}%
+\only<-6>{\item<6-> Wir besuchen die Website \citetitle{PSF:P3D} bei~\citeurl{PSF:P3D}.}%
+\only<-7>{\item<7-> Wir können verschiedene Sprachen auswählen, auch Chinesisch {\dots} aber lassen wir es bei Englisch.}%
+\only<-8>{\item<8-> Wir gegen \pythonil{ceil} in die Suchbox ein und klicken auf~\menu{Go}.}%
+\only<-9>{\item<9-> Wir müssen nun etwas warten.}%
+\only<-10>{\item<10-> Die Ergebnisse erscheinen. Wir klicken auf \pythonil{math.ceil}.}%
+\only<-11>{\item<11-> Nun werden wir zur Bescheibung der Funktion gebracht.}%
+\item<12-> Kennen wir den Namen der Funktion, die wir suchen, so finden wir bei der offiziellen \python\ Dokumentation die Beschreibung.%
+\end{itemize}%
+%
+\locateGraphicTB{6}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc01website}{0.225}{0.3}%
+\locateGraphicTB{7}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc02language}{0.225}{0.3}%
+\locateGraphicTB{8}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc03searchCeil}{0.225}{0.3}%
+\locateGraphicTB{9}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc04wait}{0.225}{0.3}%
+\locateGraphicTB{10}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc05results}{0.225}{0.3}%
+\locateGraphicTB{11}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc06mathceil}{0.225}{0.3}%
+\end{frame}%
+%
+\section{Suchen mit einer Suchmaschine}%
+%
+\begin{frame}[t]%
+\frametitle{Suchen mit einer Suchmaschine}%
+\begin{itemize}%
+\only<-4>{%
+\item Kennen wir den Namen der Funktion, die wir suchen, so finden wir bei der offiziellen \python\ Dokumentation die Beschreibung.%
+\item<2-> Was aber, wenn wir den Namen \alert{nicht} kennen?%
+\item<3-> Nehmen wir an, wir suchen eine Funktion, die Zahlen aufrundet.%
+}%
+%
+\only<-5>{\item<4-> Versuchen wir es zuerst wieder mit der offiziellen Dokumentation.}%
+%
+\only<-8>{\item<6-> Wir überlegen uns, wie man \inQuotes{aufrunden} auf Englisch formulieren kann.%
+\uncover<7->{ Probieren wir es mit \inQuotes{round towards positive infinity}.%
+\uncover<8->{ Wir geben das in die Suchmaske ein und klicken~\menu{Go}.}}%
+}%
+%
+\only<-10>{\item<9-> Diesmal finden wir nichts nützliches.%
+\uncover<10->{ Wir könnten zwar auf \inQuotes{\pythonil{math} -- Mathematical functions} klicken und uns durch den ganzen Katalog mathematischer Funktionen durcharbeiten {\dots} aber das ist vielleicht zu umständlich.}%
+}%
+\only<-12>{\item<11-> Öffnen wir stattdessen eine Suchmaschen (hier:~\url{https://bing.com}) und geben die selbe Frage dort ein.%
+\uncover<12->{ Gleich der erste Link sieht interessant aus.}%
+}%
+%
+\only<-13>{\item<13-> Er bringt uns zu einer Webseite über das Runden in \python: \citetitle{D2021RPT:A2024HTRNIP}\cite{D2021RPT:A2024HTRNIP} unter \citeurl{D2021RPT:A2024HTRNIP}.}%
+\only<-15>{\item<14-> Wenn wir etwas herunterscrollen finden wir die gesuchte Information.%
+\uncover<15->{ Sogar einen Link zur offiziellen Dokumentation.}%
+}%
+%
+\only<16->{%
+\item<16-> Wir folgen diesem Link. Wir schlagen \alert{immer} alle gefunden Informationen nochmal in der offiziellen Dokumentation nach.%
+%
+\item<17-> Wir können also durchaus mit einer Suchmaschine auch Funktionen finden, deren Namen wir nicht kennen.%
+}%
+%
+\end{itemize}%
+%
+\locateGraphicTB{5}{width=0.55\paperwidth}{graphics/pythondoc/pythondoc01website}{0.225}{0.3}%
+\locateGraphicTB{6-8}{width=0.55\paperwidth}{graphics/rounding/rounding01searchInDocumentation}{0.225}{0.3}%
+\locateGraphicTB{9-10}{width=0.55\paperwidth}{graphics/rounding/rounding02foundNothingUseful}{0.225}{0.3}%
+\locateGraphicTB{11-12}{width=0.55\paperwidth}{graphics/rounding/rounding03searchEngine}{0.225}{0.3}%
+\locateGraphicTB{13}{width=0.55\paperwidth}{graphics/rounding/rounding04realPython}{0.225}{0.3}%
+\locateGraphicTB{14-15}{width=0.55\paperwidth}{graphics/rounding/rounding05realPythonScrolledToCeil}{0.225}{0.3}%
+\locateGraphicTB{16}{width=0.55\paperwidth}{graphics/rounding/rounding06foundCeilInPythonDoc}{0.225}{0.3}%
+%
+\end{frame}%
+%
+\section{Suchen mit Community-Portalen}%
+%
+\begin{frame}[t]%
+\frametitle{Suchen mit Community-Portalen}%
+\begin{itemize}%
+\only<-3>{%
+\item Es gibt sehr viele Community-Portale rund ums Programmieren.%
+\item<2-> Auch in diesen Portalen können wir nach nützlichen Informationen suchen.%
+}%
+\only<-4>{\item<3-> Probieren wir das mal aus und besuchen das bekannte Portal \citetitle{SE:SO}\cite{SE:SO} bei \citeurl{SE:SO}.}
+%
+\only<-5>{\item<5-> Warnung: Manchmal fordert uns diese Webseite auf, weitere \pglspl{javascript} von anderen Quellen zu laden. Wenn das passiert dann machen wir das.}%
+%
+\only<-6>{\item<6-> Wenn die Webseite voll geladen ist, können wir unsere Frage eingeben.}%
+%
+\only<-7>{\item<7-> Wir probieren es diesmal mit \inQuotes{python round towards infinity}.}%
+%
+\only<-9>{\item<8-> Alle Fragen, die der Community gestellt wurden, und die so ähnlich klingen, werden gelistet.%
+\uncover<9->{ Wir müssen etwas herunterscrollen, um eine Frage zu finden, die passend klingt.}%
+}%
+%
+\only<-10>{\item<10-> Wir finden die Frage \citetitle{SE:SO:HTIDWRTIIP}\cite{SE:SO:HTIDWRTIIP}, welche passend klingt, und klicken darauf.}%
+%
+\only<-12>{\item<11-> Die Frage klingt tatsächlich passend, ist aber eigenartig.%
+\uncover<12->{ Es wird z.B. geschrieben, dass \pythonil{3/2} eins ergibt, was unserem Verständnis des Divisionsoperators widerspricht.}%
+}%
+%
+\only<-14>{\item<13-> Weiter unten stellen wir fest, dass die Frage für \python~2 gestellt war, nicht für \python~3. Unter \python~2 funktionierte der Operator \pythonil{/} wir der \pythonil{//}\nobreakdashes-Operator unter \python~3\cite{PEP238}.%
+\uncover<14->{ Wir finden aber eine gute Erklärung und einen Verweis auf \pythonil{ceil}, was unser Problem löst.}%
+}%
+%
+\item<15-> Auch mit Community-Portalen können wir also gute Antworten auf unsere Fragen finden.%
+%
+\end{itemize}%
+%
+\locateGraphicTB{4-5}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow01websiteLoading}{0.225}{0.3}%
+\locateGraphicTB{6}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow02websiteLoadedEnterQuery}{0.225}{0.3}%
+\locateGraphicTB{7}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow03queryEntered}{0.225}{0.3}%
+\locateGraphicTB{8-9}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow04queryAnsweres}{0.225}{0.3}%
+\locateGraphicTB{10}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow05foundVaguelyRelatedQuestion}{0.225}{0.3}%
+\locateGraphicTB{11-12}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow06questionFits}{0.225}{0.3}%
+\locateGraphicTB{13}{width=0.55\paperwidth}{graphics/stackOverflow/stackOverflow07solutionFits}{0.225}{0.3}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zwischenstand}%
+\begin{itemize}%
+\item Wir können nun Antworten auf unsere Fragen auf drei Wegen finden\only<-1>{.}\uncover<2->{:%
+\begin{enumerate}%
+\item über die offizielle Dokumentation\uncover<3->{,}%
+\item<3-> über eine Suchmaschine, die uns zu anderen Webseiten im Internet bringt\uncover<4->{, und}%
+\item<4-> über Community-Portale.%
+\end{enumerate}%
+}%
+\item<5-> \alert{Nur die offizielle Dokumentation unserer Programmiersprache ist autoritativ.}%
+\item<6-> Nur der offiziellen Dokumentation können wir voll vertrauen.%
+\item<7-> Alle anderen Quellen sind von irgendwelchen anderen Leuten geschrieben.%
+\item<8-> Sie können falsch sein.\uncover<9->{ Oder veraltet.}%
+\item<10-> Alles, was wir inderen Quellen finden, muss also in der offiziellen Dokumentation nachgeprüft werden.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Suchen mit AI}%
+%
+\begin{frame}[t]%
+\frametitle{Suchen mit AI: Ausprobieren}%
+\begin{itemize}%
+\only<-3>{%
+\item Können wir auch mit einer \glsFull{AI} nach Antworten suchen?%
+\item<2-> Ja klar, warum nicht.%
+\item<3-> Probieren wir das mal aus.%
+}%
+%
+\only<-4>{\item<4-> Wir öffnen die BaiDu~(百度) Suchseite unter~\url{https://baidu.com} und klicken auf \inQuotes{AI搜索已接入DeepSeek\nobreakdashes-V3最新版模型}.%
+}%
+%
+\only<-5>{\item<5-> Wir kommen auf die Seite \inQuotes{Hi，AI搜索已支持R1满血版，快来试试吧！}, auf der wir unseren Prompt f+r das DeepSeek\nobreakdashes-R1 Modell\cite{DAGYZSZXZMWBZYWWGSLGLXWWFLZDZRDCJLLDLHCLZBXWDXGQLGLWCYQLCNLCDHGGHYWZZWZXXZZTLWLTHZWCDGZPWCJCLZCYWYZPL2024DRIRCILVRL} in das Eingabefeld unten eintippen können%
+}%
+%
+\only<-6>{\item<6-> Wir schreiben \inQuotes{How can I round floating point numbers towards positive infinity in Python?} und drücken~\keys{\enter}.%%
+}%
+%
+\only<-7>{\item<7-> Die \pgls{AI} holt zu einer langatmigen Antwort aus.}%
+\only<-8>{\item<8-> Diese Antwort beinhaltet auch die richtige Lösung.}%
+\only<-9>{\item<9-> Sogar mit einem Beispiel!}%
+\only<-10>{\item<10-> Die vollständige Antwort ist lang und umständlich.}%
+\only<-11>{\item<11-> Sie beinhaltet aber auch die \textcolor{blue}{richtige Antwort}, die \pythonil{ceil}~Funktion.}%
+\only<-12>{\item<12-> Aber eben auch Fehler: \textcolor{red}{Like 2.0000000001, would ceil round it to 3? Probably not}.}%%
+%
+\end{itemize}%
+%
+\locateGraphicTB{4}{width=0.55\paperwidth}{graphics/aiBaidu/ai01baidu}{0.225}{0.3}%
+\locateGraphicTB{5}{width=0.55\paperwidth}{graphics/aiBaidu/ai02deepseek}{0.225}{0.3}%
+\locateGraphicTB{6}{width=0.55\paperwidth}{graphics/aiBaidu/ai03deepseekQuery}{0.225}{0.3}%
+\locateGraphicTB{7}{width=0.55\paperwidth}{graphics/aiBaidu/ai04deepseekAnswer1}{0.225}{0.3}%
+\locateGraphicTB{8}{width=0.55\paperwidth}{graphics/aiBaidu/ai05deepseekAnswer2}{0.225}{0.3}%
+\locateGraphicTB{9}{width=0.55\paperwidth}{graphics/aiBaidu/ai06deepseekAnswer3}{0.225}{0.3}%
+%
+\locate{10-}{
+\parbox{0.98\paperwidth}{\noindent%
+\centering%
+\emph{\footnotesize{Teil der Ausgabe der DeepSeek-Suche von Baidu vom 2025\nobreakdashes-04\nobreakdashes-27, manuell hinzugefügte Formatierung.}}\\%
+\resizebox{0.98\paperwidth}{!}{%
+\fcolorbox{yellow!20!black}{yellow!10!white}{%
+\resizebox{0.98\paperwidth}{!}{%
+\parbox{1.4\paperwidth}{\noindent%
+{\tiny{\input{graphics/aiBaidu/deepseek_answer_20250427.tex}}}%
+}}}}}%
+}{0.01}{0.23}%
+%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Suchen mit AI: Nachteile (1)}%
+\begin{itemize}%
+%
+\item Antworten, die wir von Webseiten, \pgls{AI}-Werkzeugen, oder anderen nicht-autoritativen Quellen bekommen, können falsch, unvollständig, oder veraltet sein.%
+%
+\item<2-> Wir dürfen nur Kode verwenden, den wir vollständig verstehen.\uncover<3->{ Wir dürfen niemals Funktionen vertrauen, deren offizelle Dokumentation wir nicht gelesen haben.}%
+%
+\item<4-> Kode, den wir nicht mit unseren eigenen Worten erklären können, ist \alert{falsch}.%
+%
+\item<5-> \pglspl{AI} kann uns gute Vorschläge für \inQuotes{Allerweltsfragen} geben, für Probleme, die oftmals gestellt und gelöst wurden.%
+\uncover<6->{ Sind Sie jedoch Masterstudent oder Doktorand und arbeiten wissenschaftlich, dann wurde Ihr Problem eben gerade nicht von vielen Leuten gestellt und gelöst.}%%
+%
+\item<7-> Werkzeuge wie \glsFullpl{LLM} laden zu Faulheit ein.%
+%
+\item<8-> Ihr Wert ist Ihr Können, Ihre Kenntnis, und Ihre Erfahrung.%
+\uncover<9->{ Bestehen diese darin, Lösungen einer \pgls{AI} zu kopieren, dann kann man Sie auch durch einen billigeren Schulabgänger ersetzen.}%
+%
+\end{itemize}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Suchen mit AI: Nachteile (2)}%
+\begin{itemize}%
+\only<-5,8->{%
+%
+\item Ein Wichtiges Features von Software sind durchgängige, einheitliche Architektur und Stiel.\uncover<2->{ Ein aus \pgls{AI}-Versatzstücken zusammengeschustertes System lässt sich nicht warten oder verstehen.}%
+%
+\item<3-> \pgls{AI}-Werkzeuge können Fehler machen, die kein Mensch machen würde.\uncover<4->{ %
+Ein Beispiel findet sich in \citetitle{BSHETB:VSK2025CIC}\cite{BSHETB:VSK2025CIC}, wo dokumentiert wird, wie Microsoft Copilot eine Klasse auf eine verwirrende Art umbenannt hat, was zu einem besonders schwer zu findenden Fehler geführt hat.}%
+}%
+%
+\item<5-> Hier ist ein Beispiel, wie eine Vibe-Coding \pgls{AI} die \glslink{db}{Produktivdatenbank} eines Unternehmens gelöscht hat.%
+%
+\item<8-> \pgls{AI}-Werkzeuge schlagen manchmal das Benutzen von \alert{nicht existierenden} Packages vor, was zu großen Sicherheitsproblemen im Kode führen kann\cite{AT:G2025AGCCBADFTSSCHW}.%
+%
+\end{itemize}%
+%
+\locateGraphicTB[Quelle \& Copyright:~\bracketCite{T2025ACPGRDCFADECDRCAAAESIMACEIJADAPD}]{6}{width=0.45\paperwidth}{graphics/aiDBdelete/aiDBdeleteTomsHW}{0.033333333}{0.3}%
+\locateGraphicTB[Quelle \& Copyright:~\bracketCite{N2025AAPCTWOASCDTAFACFOMP}]{6}{width=0.45\paperwidth}{graphics/aiDBdelete/aiDBdeleteFortune}{0.516666666}{0.3}%
+\locateGraphicTB[Quelle \& Copyright:~\bracketCite{S2025AMRCKLPUVR}]{7}{width=0.95\paperwidth}{graphics/aiDBdelete/aiDBdeleteGolem}{0.025}{0.3}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Suchen mit AI: Nachteile (3)}%
+\begin{itemize}%
+\item In der Grundschule haben Sie das Rechnen gelernt.%
+\item<2-> Haben Sie von Anfang an einen Taschenrechner bekommen?%
+\item<3-> Nein.%
+\item<4-> Warum nicht?%
+\item<5-> Weil Sie dann nicht gelernt hätten, zu Rechnen.%
+\item<6-> Sie könnten zwar den Taschenrechner bedienen und Aufgaben lösen.%
+\item<7-> Aber Sie hätten überhaupt gar nicht verstanden, wie Rechnen und Mathematik funktionieren.%
+\item<8-> Der Sinn dieses Kurses ist es, das Programmieren zu lernen.%
+\item<9-> Wenn Sie Lösungen durch eine \pgls{AI} generieren lassen, werden Sie das nie lernen.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Weitere Elemente der Offiziellen Dokumentation}%
+%
+\begin{frame}[t]%
+\frametitle{Weitere Elemente der Offiziellen Dokumentation}%
+\begin{itemize}%
+\only<-1>{%
+\item Es gibt noch weitere Dokumente der offiziellen \python~Dokumentation.%
+}%
+\only<-2,6->{%
+\item<2-> Die \citetitle{PSF:P3D:PSAU} Seite\cite{PSF:P3D:PSAU} unter~\citeurl{PSF:P3D:PSAU}.%
+}%
+\only<-3,6->{%
+\item<3-> Die \citetitle{PSF:P3D:TPT} Seite\cite{PSF:P3D:TPT} unter~\citeurl{PSF:P3D:TPT}.%
+}%
+\only<-4,6->{%
+\item<4-> Die \citetitle{PSF:P3D:TPSL} Seite\cite{PSF:P3D:TPSL} unter~\citeurl{PSF:P3D:TPSL}.%
+}%
+\item<5-> Die \citetitle{PEP0} Liste\cite{PEP0} unter~\citeurl{PEP0}.%
+\item<6-> Alle davon sind Teil der offiziellen \python~Dokumentation.%
+\item<7-> Bitte lernen Sie, diese Seiten zu lesen und zu benutzen.%
+\end{itemize}%
+%
+\locateGraphicTB{2}{width=0.65\paperwidth}{graphics/pythondocOther/pythondocOther01setupAndUsage}{0.175}{0.25}%
+\locateGraphicTB{3}{width=0.65\paperwidth}{graphics/pythondocOther/pythondocOther02tutorial}{0.175}{0.25}%
+\locateGraphicTB{4}{width=0.65\paperwidth}{graphics/pythondocOther/pythondocOther03standardLibrary}{0.175}{0.25}%
+\locateGraphicTB{5}{width=0.65\paperwidth}{graphics/pythondocOther/pythondocOther04pep0}{0.175}{0.25}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Ein wichtiges Werkzeug für alle Programmierer ist die offizielle Dokumentation der verwendeten Programmiersprache oder Bibliotheken.%
+\item<2-> Wir können (nur) der offiziellen Dokumentation vertrauen.%
+\item<3-> Es ist eine wichtige Fähigkeit, in der Lage zu seien, sich hinzusetzen und eine Dokumentation zu lesen und zu verstehen.%
+\item<4-> Wir können vielfältige andere Werkzeuge benutzen, um Informationen zu finden\only<-4>{.}\uncover<5->{:%
+\begin{enumerate}%
+\item Suchmaschinen, die uns zu anderen Webseiten führen\uncover<6->{,}%
+\item<6-> Community-Portale, in denen wir Fragen durchsuchen und selber stellen können\uncover<7->{, und}%
+\item<7-> \pgls{AI}-Werkzeuge, die uns Kode vorschlagen können.%
+\end{enumerate}}%
+%
+\item<8-> Alle diese Werkzeuge können uns helfen.%
+\item<9-> Wir dürfen aber nur Kode verwenden, den wir selbst vollständig verstehen.%
+\item<10-> Wir müssen immer alle Funktionen, die wir nicht kennen, in der offiziellen autoritativen Dokumentation nachschlagen.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

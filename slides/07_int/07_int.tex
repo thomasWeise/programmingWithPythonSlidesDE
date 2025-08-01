@@ -152,7 +152,7 @@
 \item<46-> In \python\ gibt es zwei Arten von Divisionen\uncover<47->{%
 \begin{enumerate}%
 \item die Ganzzahldivision~\pythonil{//} liefert ganzzahlige Ergebnisse, wobei der Rest mit~\pythonil{\%} berechnet werden kann\uncover<48->{,}%
-\item<48-> die Fließkommadivison liefert Ergebnisse, die keine \pythonil{int}-Werte mehr sind und Kommastellen haben.\uncover<49->{ Wir lernen den Datentyp \pythonil{float} später kennen.}%
+\item<48-> die Fließkommadivison liefert Ergebnisse, die keine \pythonil{int}-Werte mehr sind und Kommastellen haben\cite{PEP238}.\uncover<49->{ Wir lernen den Datentyp \pythonil{float} später kennen.}%
 \end{enumerate}%
 }%
 %
@@ -456,7 +456,7 @@ Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \p
 \item Damit haben wir unseren ersten Datentyp in \python\ kennengelernt.%
 \item<2-> \pythonil{int} repräsentiert Ganzzahlen, die positiv oder negativ seien können und 0~einschließen.%
 \item<3-> Wir können mit diesen Zahlen normal rechnen, wobei \python\ die Operatorenrangfolge mathematisch korrekt beachtet.%
-\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}.}}%
+\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}\cite{PEP238}.}}%
 \item<7-> Wir können auch mit der binären Repräsentation dieser Zahlen rechnen und sie in verschiedene Zahlensysteme, die Sie sicher aus Grundlagenvorlesungen kennen, umrechnen.%
 \item<8-> Und wieder sind wir einen Schritt weiter.%
 \end{itemize}%
