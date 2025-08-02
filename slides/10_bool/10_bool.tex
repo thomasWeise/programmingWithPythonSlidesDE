@@ -1,0 +1,319 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{10.~Der Datentyp bool}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Wir haben bereits vergleiche von Zahlen, z.B.~\pythonil{5 < 6}, erwähnt.%
+\item<2-> Diese können entweder \pythonilIdx{True}~(Wahr) oder \pythonilIdx{False}~(Falsch) als Ergebnis haben.%
+\item<3-> Diese beiden Werte formen einen weiteren grundlegenden Datentyp in \python:~\pythonil{bool}.%
+\item<4-> Die beiden Werte dieses Datentyps sind von grundlegender Wichtigkeit wenn ein Programm Entscheidungen auf der Basis von Daten trifft.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Vergleiche}%
+%%
+\begin{frame}%
+\frametitle{Vergleiche}%
+\begin{itemize}%
+\item Als wir über die Datentypen \pythonil{int} und \pythonil{float} gesprochen haben, haben wir bereits Vergleiche verwendet.%
+%
+\item<2-> \python\ unterstützt 6~verschiedene Vergleiche\only<-2>{.}\uncover<3->{%
+\begin{enumerate}%
+\item gleich: $a = b$ entspricht \pythonil{a == b},%
+\item<4-> ungleich: $a \neq b$ entspricht \pythonil{a != b},%
+\item<5-> kleiner als: $a < b$ entspricht \pythonil{a < b},%
+\item<6-> kleiner oder gleich: $a \leq b$ entspricht \pythonil{a <= b},%
+\item<7-> größer als: $a > b$ entspricht \pythonil{a > b}\pythonIdx{>}, und%
+\item<8-> größer oder gleich: $a \geq b$ entspricht \pythonil{a >= b}.%
+\end{enumerate}%
+}%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Vergleiche}%
+\begin{itemize}%
+\only<-1,57->{\item Probieren wir das mal aus.}%
+%
+\only<-2>{\item<2-> Wir öffnen ein Terminal (Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+%
+\only<-3>{\item<3-> Wir schreiben \bashil{python3} und drücken~\keys{\enter}.}%
+%
+\only<-4>{\item<4-> Der \python-Interpreter startet.}%
+%
+\only<-6>{\item<5-> Wir testen, ob $6>6$ gilt.\uncover<6->{ Nein, tut es nicht.}}%
+%
+\only<-8>{\item<7-> Wir testen, ob $6\geq6$ gilt.\uncover<8->{ Ja, tut es.}}%
+%
+\only<-10>{\item<9-> Wir testen, ob $6=6$ gilt.\uncover<10->{ Ja, tut es.}}%
+%
+\only<-12>{\item<11-> Wir testen, ob $6\leq6$ gilt.\uncover<12->{ Ja, tut es.}}%
+%
+\only<-14>{\item<13-> Wir testen, ob $6<6$ gilt.\uncover<14->{ Nein, tut es nicht.}}%
+%
+\only<-16>{\item<15-> Wir testen, ob $6\neq6$ gilt.\uncover<16->{ Nein, tut es nicht.}}%
+%
+\only<-18>{\item<17-> Wir testen, ob $5>6$ gilt.\uncover<18->{ Nein, tut es nicht.}}%
+%
+\only<-20>{\item<19-> Wir testen, ob $5\geq6$ gilt.\uncover<20->{ Nein, tut es nicht.}}%
+%
+\only<-22>{\item<21-> Wir testen, ob $5=6$ gilt.\uncover<22->{ Nein, tut es nicht.}}%
+%
+\only<-24>{\item<23-> Wir testen, ob $5\leq6$ gilt.\uncover<24->{ Ja, tut es.}}%
+%
+\only<-26>{\item<25-> Wir testen, ob $5<6$ gilt.\uncover<26->{ Ja, tut es.}}%
+%
+\only<-28>{\item<27-> Wir testen, ob $5\neq6$ gilt.\uncover<28->{ Ja, tut es.}}%
+%
+\only<-30>{\item<29-> Wir testen, ob $6\geq5$ gilt.\uncover<30->{ Ja, tut es.}}%
+%
+\only<-32>{\item<32-> Wir testen, ob $6>5$ gilt.\uncover<32->{ Ja, tut es.}}%
+%
+\only<-34>{\item<33-> Wir testen, ob $6==5$ gilt.\uncover<34->{ Nein, tut es nicht.}}%
+%
+\only<-36>{\item<35-> Wir testen, ob $6\leq$ gilt.\uncover<36->{ Nein, tut es nicht.}}%
+%
+\only<-38>{\item<37-> Wir testen, ob $6<5$ gilt.\uncover<38->{ Nein, tut es nicht.}}%
+%
+\only<-40>{\item<39-> Wir testen, ob $6\neq5$ gilt.\uncover<40->{ Ja, tut es.}}%
+%
+\only<-44>{\item<41-> \only<-42>{Wir können auch \pythonils{float} miteinander und mit \pythonils{int} vergleichen.%
+\uncover<42->{ Dabei werden \pythonils{float} ohne Nachkommastelle wit \pythonils{int} betrachtet.}}%
+\uncover<43->{Wir vergleichen 5.5 mit 5.\uncover<44->{ Es ist natürlich nicht das selbe.}}%
+}%
+%
+\only<-46>{\item<45-> Wir testen, ob $5.0==5$ gilt.\uncover<46->{ Ja, tut es, denn \pythonil{5.0} wird wie ein \pythonil{int} behandelt.}}%
+%
+\only<-50>{\item<47-> \only<-48>{Wir können Vergleiche auch verketten~(chainen).%
+\uncover<48->{ Dabei ist das Ergebnis nur dann \pythonil{True}, wenn alle Teilvergleiche auch \pythonil{True} sind.}}%
+\uncover<49->{Wir testen, ob $3<4<5<6$ stimmt.\uncover<50->{ Tut es: \pythonil{3<4} stimmt, \pythonil{4<5} stimmt, und \pythonil{5<6} stimmt.}}%
+}%
+%
+\only<-52>{\item<51-> Wir testen, ob $5\geq4>4\geq3$ gilt.\uncover<52->{ Nein, tut es nicht. Es stimmt zwar, dass \pythonil{5>=4} und \pythonil{4>=3}, aber \pythonil{4>4} stimmt nicht, weshalb der ganze Vergleich \pythonil{False} ergibt.}}%
+%
+\only<-54>{\item<53-> Die Funktion \pythonil{type(x)} liefert uns den Datentyp von~\pythonil{x}.\uncover<54->{ \pythonil{type(True)} ergibt daher \pythonil{bool}, was als \textil{<class 'bool'>} ausgegeben wird.}}%
+%
+\only<-56>{\item<55-> Das Ergebnis von \pythonil{5 == 5} ist \pythonil{True}.\uncover<56->{ \pythonil{type(5 == 5)} ist daher \pythonil{type(True)} und ergibt wieder \pythonil{bool}.}}%
+%
+\item<57-> Das war einfach.%
+%
+\end{itemize}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/comparisons/comparisons01terminal}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/comparisons/comparisons02python3}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/comparisons/comparisons03python3done}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/comparisons/comparisons04c6gt6}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/comparisons/comparisons05c6gt6done}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/comparisons/comparisons06c6ge6}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/comparisons/comparisons07c6ge6done}{0.1}{0.33}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/comparisons/comparisons08c6eq6}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/comparisons/comparisons09c6eq6done}{0.1}{0.33}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/comparisons/comparisons10c6le6}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/comparisons/comparisons11c6le6done}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/comparisons/comparisons12c6lt6}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/comparisons/comparisons13c6lt6done}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/comparisons/comparisons14c6ne6}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/comparisons/comparisons15c6ne6done}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/comparisons/comparisons16c5gt6}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/comparisons/comparisons17c5gt6done}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/comparisons/comparisons18c5ge6}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/comparisons/comparisons19c5ge6done}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/comparisons/comparisons20c5eq6}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/comparisons/comparisons21c5eq6done}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/comparisons/comparisons22c5le6}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/comparisons/comparisons23c5le6done}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/comparisons/comparisons24c5lt6}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/comparisons/comparisons25c5lt6done}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/comparisons/comparisons26c5ne6}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/comparisons/comparisons27c5ne6done}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/comparisons/comparisons28c6gt5}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/comparisons/comparisons29c6gt5done}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/comparisons/comparisons30c6ge5}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/comparisons/comparisons31c6ge5done}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/comparisons/comparisons32c6eq5}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/comparisons/comparisons33c6eq5done}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/comparisons/comparisons34c6le5}{0.1}{0.33}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/comparisons/comparisons35c6le5done}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/comparisons/comparisons36c6lt5}{0.1}{0.33}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/comparisons/comparisons37c6lt5done}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/comparisons/comparisons38c6ne5}{0.1}{0.33}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/comparisons/comparisons39c6ne5done}{0.1}{0.33}%
+\locateGraphic{41-43}{width=0.8\paperwidth}{graphics/comparisons/comparisons40c5d5eq5}{0.1}{0.33}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/comparisons/comparisons41c5d5eq5done}{0.1}{0.33}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/comparisons/comparisons42c5d0eq5}{0.1}{0.33}%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/comparisons/comparisons43c5d0eq5done}{0.1}{0.33}%
+\locateGraphic{47-49}{width=0.8\paperwidth}{graphics/comparisons/comparisons44c3lt4lt5lt6}{0.1}{0.33}%
+\locateGraphic{50}{width=0.8\paperwidth}{graphics/comparisons/comparisons45c3lt4lt5lt6done}{0.1}{0.33}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/comparisons/comparisons46c5ge4gt4ge3}{0.1}{0.33}%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/comparisons/comparisons47c5ge4gt4ge3done}{0.1}{0.33}%
+\locateGraphic{53}{width=0.8\paperwidth}{graphics/comparisons/comparisons48typeTrue}{0.1}{0.33}%
+\locateGraphic{54}{width=0.8\paperwidth}{graphics/comparisons/comparisons49typeTrueDone}{0.1}{0.33}%
+\locateGraphic{55}{width=0.8\paperwidth}{graphics/comparisons/comparisons50type5eq5}{0.1}{0.33}%
+\locateGraphic{56}{width=0.8\paperwidth}{graphics/comparisons/comparisons51type5eq5done}{0.1}{0.33}%
+\end{frame}%
+%
+\section{Boolesche/Logische Operatoren}%
+%
+\begin{frame}[t]%
+\frametitle{Boolesche/Logische Operatoren}%
+\begin{itemize}%
+\item Die wichtigsten Operationen die wir mit Booleschen Werten machen können sind die bekannten Booleschen Operatoren \pythonilIdx{and}~(und), \pythonilIdx{or}~(oder), und \pythonilIdx{not}~(nicht).
+%
+\item<2-> Eine Konjunktion, also~\pythonilIdx{and}, ist \pythonilIdx{True} dann und nur dann wenn beide Operanden auch \pythonilIdx{True} sind. Andernfalls ist das Ergebnis~\pythonilIdx{False}.%
+%
+\item<3-> Eine Disjunktion, also~\pythonilIdx{or}, ist \pythonilIdx{True} wenn wenigstens einer der beiden Operanden \pythonilIdx{True} ist. Andernfalls ist das Ergebnis~\pythonilIdx{False}.%
+%
+\item<4-> Eine Negation, also~\pythonilIdx{not}, ist \pythonilIdx{True} wenn ihr Operant \pythonilIdx{False} ist. Andernfalls ist das Ergebnis~\pythonil{False}.%
+%
+\end{itemize}%
+%
+\locate{2}{%
+\resizebox{0.5\paperwidth}{!}{%
+\begin{tabular}{|c|c|c|}%
+\hline%
+\pythonil{a}&\pythonil{b}&\pythonil{a and b}\\%
+\hline%
+\pythonilIdx{False}&\pythonilIdx{False}&\pythonilIdx{False}\\%
+\hline%
+\pythonilIdx{False}&\pythonilIdx{True}&\pythonilIdx{False}\\%
+\hline%
+\pythonilIdx{True}&\pythonilIdx{False}&\pythonilIdx{False}\\%
+\hline%
+\pythonilIdx{True}&\pythonilIdx{True}&\pythonilIdx{True}\\%
+\hline%
+\end{tabular}%
+}%
+}{0.25}{0.485}%
+%
+\locate{3}{%
+\resizebox{0.5\paperwidth}{!}{%
+\begin{tabular}{|c|c|c|}%
+\hline%
+\pythonil{a}&\pythonil{b}&\pythonil{a or b}\\
+\hline%
+\pythonilIdx{False}&\pythonilIdx{False}&\pythonilIdx{False}\\%
+\hline%
+\pythonilIdx{False}&\pythonilIdx{True}&\pythonilIdx{True}\\%
+\hline%
+\pythonilIdx{True}&\pythonilIdx{False}&\pythonilIdx{True}\\%
+\hline%
+\pythonilIdx{True}&\pythonilIdx{True}&\pythonilIdx{True}\\%
+\hline%
+\end{tabular}%
+}%
+}{0.25}{0.485}%
+%
+\locate{4}{%
+\resizebox{0.4\paperwidth}{!}{%
+\begin{tabular}{|c|c|}%
+\hline%
+\pythonil{a}&\pythonil{not a}\\%
+\hline%
+\pythonilIdx{False}&\pythonilIdx{True}\\%
+\hline%
+\pythonilIdx{True}&\pythonilIdx{False}\\%
+\hline%
+\end{tabular}%
+}%
+}{0.3}{0.59}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Boolesche/Logische Operatoren ausprobieren}%
+\begin{itemize}%
+\only<-1,30->{\item Probieren wir das mal aus.}%
+%
+\only<-3>{\item<2-> Was ergibt \pythonil{False and False}?\uncover<3->{ Das ergibt~\pythonil{False}.}}%
+%
+\only<-5>{\item<4-> Was ergibt \pythonil{False and True}?\uncover<5->{ Das ergibt~\pythonil{False}.}}%
+%
+\only<-7>{\item<6-> Was ergibt \pythonil{True and False}?\uncover<7->{ Das ergibt~\pythonil{False}.}}%
+%
+\only<-9>{\item<8-> Was ergibt \pythonil{True and True}?\uncover<3->{ Das ergibt~\pythonil{True}.}}%
+%
+\only<-11>{\item<10-> Was ergibt \pythonil{False or False}?\uncover<11->{ Das ergibt~\pythonil{False}.}}%
+%
+\only<-13>{\item<12-> Was ergibt \pythonil{False or True}?\uncover<13->{ Das ergibt~\pythonil{True}.}}%
+%
+\only<-15>{\item<14-> Was ergibt \pythonil{True or False}?\uncover<15->{ Das ergibt~\pythonil{True}.}}%
+%
+\only<-17>{\item<16-> Was ergibt \pythonil{True or True}?\uncover<17->{ Das ergibt~\pythonil{True}.}}%
+%
+\only<-19>{\item<18-> Was ergibt \pythonil{not True}?\uncover<19->{ Das ergibt~\pythonil{False}.}}%
+%
+\only<-21>{\item<20-> Was ergibt \pythonil{not False}?\uncover<21->{ Das ergibt~\pythonil{True}.}}%
+%
+\only<-26>{\item<22-> Was ergibt \pythonil{(True or False) and ((False or True) or (False and False))}?\uncover<23->{ Das ergibt~\pythonil{True}.%
+\uncover<24->{ \pythonil{(True or False)} ist \pythonil{True}, \pythonil{(False or True)} auch, und \pythonil{(False and False)} ist \pythonil{False}.%
+\uncover<25->{ Also haben wir \pythonil{True and (True or False)}. %
+\uncover<26->{ Also haben wir \pythonil{True and True}.%
+}}}}}%
+%
+\only<-29>{\item<27-> Was ergibt \pythonil{(5 < 4) or (6 < 9 < 8)}?\uncover<28->{ Das ergibt~\pythonil{False}.%
+\uncover<29->{ \pythonil{5 < 4} ist \pythonil{False} und \pythonil{6 < 9 < 8} ist auch \pythonil{False}.%
+}}}%
+%
+\item<30-> OK, ich denke, das ist auch klar.%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/comparisons/comparisons03python3done}{0.1}{0.33}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/logic/logic01FalseAndFalse}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/logic/logic02FalseAndFalseDone}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/logic/logic03FalseAndTrue}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/logic/logic04FalseAndTrueDone}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/logic/logic05TrueAndFalse}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/logic/logic06TrueAndFalseDone}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/logic/logic07TrueAndTrue}{0.1}{0.33}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/logic/logic08TrueAndTrueDone}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/logic/logic09FalseOrFalse}{0.1}{0.33}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/logic/logic10FalseOrFalseDone}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/logic/logic11FalseOrTrue}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/logic/logic12FalseOrTrueDone}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/logic/logic13TrueOrFalse}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/logic/logic14TrueOrFalseDone}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/logic/logic15TrueOrTrue}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/logic/logic16TrueOrTrueDone}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/logic/logic17NotTrue}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/logic/logic18NotTrueDone}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/logic/logic19NotFalse}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/logic/logic20NotFalseDone}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/logic/logic21bigExpr}{0.1}{0.33}%
+\locateGraphic{23-26}{width=0.8\paperwidth}{graphics/logic/logic22bigExprDone}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/logic/logic23compExpr}{0.1}{0.33}%
+\locateGraphic{28-29}{width=0.8\paperwidth}{graphics/logic/logic24compExprDone}{0.1}{0.33}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Die Booleschen Werte \pythonil{True} und \pythonil{False} werden von dem Datentyp~\pythonil{bool} bereitgestellt.%
+\item<2-> Sie sind oftmals das Ergebnis von Vergleichen.%
+\item<3-> Sie können mit den bekannten Operatoren \pythonil{and}, \pythonil{or}, und \pythonil{not} verbunden werden.%
+\item<4-> Das ist relativ einfach zu verstehen.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
