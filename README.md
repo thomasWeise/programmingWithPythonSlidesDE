@@ -31,6 +31,7 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 8. [Der Datentyp `float`](https://thomasweise.github.io/programmingWithPythonSlidesDE/08_float.pdf)
 9. [Zwischenspiel: Python Dokumentation und Informationsquellen](https://thomasweise.github.io/programmingWithPythonSlidesDE/09_dokumentation.pdf)
 10. [Der Datentyp `bool`](https://thomasweise.github.io/programmingWithPythonSlidesDE/10_bool.pdf)
+11. [Der Datentyp `str`](https://thomasweise.github.io/programmingWithPythonSlidesDE/11_str.pdf)
 
 
 ### 2.3. Die Slides in Englisch

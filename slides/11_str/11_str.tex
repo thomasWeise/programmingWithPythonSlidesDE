@@ -1,0 +1,326 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{11.~Der Datentyp str}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Der vierte und letzte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.%
+\item<2-> Zeichenketten sind beliebig lange Sequenzen von Text-Zeichen.%
+\item<3-> In \python\ sind sie durch den Datentyp \pythonil{str} repräsentiert.%
+\item<4-> Wir haben sie bereits oftmals implizit oder explizit genutzt, z.B. in unserem ersten Programm, das einfach \pythonil{\"Hello World\"} ausgedruckt hat.%
+\item<5-> \pythonil{\"Hello World\"} is so ein Text-String.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{Grundlegende Operationen}%
+%
+\begin{frame}[t]%
+\frametitle{Strings Definieren, Verketten, und Indizieren}%
+\begin{itemize}%
+%
+\only<-1,53->{\item Schauen wir uns die grundlegenden Operationen für Strings an.}%
+%
+\only<-2>{\item<2-> Wir öffnen ein Terminal (Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+%
+\only<-3>{\item<3-> Wir schreiben \bashil{python3} und drücken~\keys{\enter}.}%
+%
+\only<-4>{\item<4-> Der \python-Interpreter startet.}%
+%
+\only<-9,12>{\item<5-> Es gibt zwei grundlegende Methoden, Strings zu definieren.\uncover<6->{\only<-7>{ %
+Entweder mit einfachen oder doppelten Anführungszeichen.}\uncover<7->{ %
+Probieren wir es zuerst mit den doppelten Anführungszeichen und schreiben \pythonil{\"Hello World!\"}.\uncover<8->{ %
+Beachten Sie, dass die Anführungszeichen selbst nicht zum String gehören, sondern ihn nur begrenzen.\uncover<9->{ %
+Der Text wird uns wieder ausgegeben.%
+}}}}}%
+%
+\only<-12>{\item<10-> Nun probieren wir es mit einfachen Anführungszeichen und schreiben \pythonil{'Hello World!'}.\uncover<11->{ Und das wird uns auch wieder ausgegeben.%
+}}%
+%
+\only<-14>{\item<13-> Strings können mit \pythonil{+} aneinander angehängt (verkettet) werden.\uncover<14->{ Sie ergeben dann ein einzigen String, der aus allen Teilstrings in der richtigen Reihenfolge besteht.%
+}}%
+%
+\only<-16>{\item<15-> Die Funktion \pythonil{len(x)} liefert uns die Länge des Strings~\pythonil{x}, also die Anzahl der Zeichen in der Zeichenkette.\uncover<16->{ \inQuotes{Hello} besteht aus fünf Zeichen.%
+}}%
+%
+\only<-18>{\item<17-> Wir können auch einzelne Zeichen aus einem String herausholen. \pythonil{x[i]} liefert das \mbox{$\pythonil{i}+1$\nobreakdashes-te} Zeichen.\uncover<18->{ Das erste Zeichen ist also an Index~0, bei \inQuotes{Hello} ist das~\inQuotes{H}. Dieses Zeichen ist natürlich wieder ein~\pythonil{str}~(nur mit Länge~1).%
+}}%
+%
+\only<-20>{\item<19-> Das zweite Zeichen bekommen wir durch~\pythonil{[1]}.\uncover<20->{ Bei \inQuotes{Hello} ist das~\inQuotes{e}.%
+}}%
+%
+\only<-22>{\item<21-> Das dritte Zeichen bekommen wir durch~\pythonil{[2]}.\uncover<22->{ Bei \inQuotes{Hello} ist das~\inQuotes{l}.%
+}}%
+%
+\only<-24>{\item<23-> Das vierte Zeichen bekommen wir durch~\pythonil{[3]}.\uncover<24->{ Bei \inQuotes{Hello} ist das~\inQuotes{l}.%
+}}%
+%
+\only<-26>{\item<25-> Das fünfte Zeichen bekommen wir durch~\pythonil{[4]}.\uncover<26->{ Bei \inQuotes{Hello} ist das~\inQuotes{o}.%
+}}%
+%
+\only<-28>{\item<27-> \inQuotes{Hello} hat fünf Zeichen. Was passiert, wenn wir versuchen, auf das sechste Zeichen via~\pythonil{[5]} zuzugreifen?\uncover<28->{ Dann gibt es eine Fehlermeldung. Das geht nämlich nicht.%
+}}%
+%
+\only<-30>{\item<29-> Wir können einen String auch \inQuotes{von hinten} indizieren. \pythonil{x[-1]} liefert das letzte Zeichen des Strings~\pythonil{x}.\uncover<30->{ Bei \inQuotes{Hello} ist das~\inQuotes{o}.%
+}}%
+%
+\only<-32>{\item<31-> Das vorletze Zeichen bekommen wir durch Index~\pythonil{[-2]}.\uncover<32->{ Bei \inQuotes{Hello} ist das~\inQuotes{l}.%
+}}%
+%
+\only<-34>{\item<33-> Das vor-vorletze Zeichen bekommen wir durch Index~\pythonil{[-3]}.\uncover<34->{ Bei \inQuotes{Hello} ist das~\inQuotes{l}.%
+}}%
+%
+\only<-36>{\item<35-> Das vierte Zeichen von hinten bekommen wir durch Index~\pythonil{[-4]}.\uncover<36->{ Bei \inQuotes{Hello} ist das~\inQuotes{e}.%
+}}%
+%
+\only<-38>{\item<37-> Das fünfte Zeichen von hinten bekommen wir durch Index~\pythonil{[-5]}.\uncover<36->{ Bei \inQuotes{Hello} ist das~\inQuotes{H}.%
+}}%
+%
+\only<-40>{\item<39-> \inQuotes{Hello} hat nur fünf Zeichen. Was passiert, wenn wir versuchen, auf das sechste Zeichen von hinten zuzugreifen?\uncover<40->{ Dann gibt es wieder eine Fehlermeldung, weil das nämlich nicht geht.%
+}}%
+%
+\only<-42>{\item<41-> Wir können auch ganze Substrings (Unterzeichenketten) extrahieren, in dem wir den  Index~\pythonil{i} des ersten Zeichens und den Index~\pythonil{j} \emph{nach} dem letzten zu extrahierenden Zeichen angeben als~\pythonil{[i:j]}.\uncover<42->{ \pythonil{[0:3]} ergibt also die Zeichen an den Indizes~0, 1, 2. Bei \inQuotes{Hello} ist das \pythonil{\"Hel\"}.%
+}}%
+%
+\only<-44>{\item<43-> \pythonil{\"Hello\"[1:3]} ist der Substring, der beim zweiten Zeichen anfängt~(Index~1) und \alert{vor} dem vierten Zeichen~(Index~3) aufhört.\uncover<44->{ Also \pythonil{\"el\"}.%
+}}%
+%
+\only<-46>{\item<45-> Lassen wir einfach den zweiten Index weg, dann werden alle Zeichen bis zum Ende des Strings zurückgegeben.\uncover<46->{ \pythonil{\"Hello\"[2:]} ergibt also die Zeichen an den Indices 2, 3, 4, und~5, also \pythonil{\"llo\"}.%
+}}%
+%
+\only<-48>{\item<47-> Wir können genausogut auch negative Indizes verwenden, die dann wieder von hinten Zählen.\uncover<48->{ \pythonil{\"Hello\"[1:-2]} started an Index~1 und hört \alert{vor} dem zweiten Zeichen von hinten~(Index~3) auf. Die Indizes im Originalstring gehen von~0 bis~5, wir haben also die Zeichen an den Indizes von~1 bis~2, demach also \pythonil{\"el\"}.%
+}}%
+%
+\only<-50>{\item<49-> Wir können auch den ersten Index weglassen, dann fängt der zurückgelieferte String am Anfang der Zeichenkette an und geht bis \alert{vor} den zweiten Index.\uncover<50->{ \pythonil{\"Hello\"[:-2]} fängt am Anfang an und hört \alert{vor} dem vorletzten Zeichen auf, ist also~\pythonil{\"Hel\"}.%
+}}%
+%
+\only<-52>{\item<51-> Wir können auch drei Werte angeben, \pythonil{[i:j:k]}, wobei \pythonil{i} wieder der Index des ersten Zeichens und \pythonil{j} der Index \alert{nach} dem letzten Zeichen ist. \pythonil{k}~ist die Schrittweite.\uncover<51->{ \pythonil{\"Hello World!\"[1:8:2]} liefert \alert{jedes zweite} Zeichen beginnend an Index~1 und endent \alert{vor} Index~8, also die Zeichen an den Indices~1, 3, 5, und~7. Das sind~\pythonil{\"el o\"}.%
+}}%
+%
+\only<53->{%
+\item<53-> Damit haben wir also erstmal ein Grundverständnis, was Strings sind, wie wir sie verketten, ihre Länge bestimmen, und wieder auseinanderfummeln können.%
+}%
+%
+\end{itemize}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/strBasic/strBasic01terminal}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/strBasic/strBasic02python3}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{5-8}{width=0.8\paperwidth}{graphics/strBasic/strBasic04dqHW}{0.1}{0.33}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/strBasic/strBasic05dqHWdone}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/strBasic/strBasic06sqHW}{0.1}{0.33}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/strBasic/strBasic07sqHWdone}{0.1}{0.33}%
+%
+\locate{12}{%
+\parbox{0.9\paperwidth}{%
+\bestPractice{strDoubleQuote}{%
+Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführungszeichen~(\pythonil{\"...\"}) bevorzugt werden.~(Der \citetitle{PEP8}\cite{PEP8} gibt keine Empfehlung, aber vielleicht für Konsistenz mit den~\citetitle{PEP257}\cite{PEP257}.)%
+}}}{0.05}{0.53}%
+%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/strBasic/strBasic08strConcat}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/strBasic/strBasic09strConcatDone}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/strBasic/strBasic10strLen}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/strBasic/strBasic11strLenDone}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/strBasic/strBasic12Hello0}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/strBasic/strBasic13Hello0done}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/strBasic/strBasic14Hello1}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/strBasic/strBasic15Hello1done}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/strBasic/strBasic16Hello2}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/strBasic/strBasic17Hello2done}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/strBasic/strBasic18Hello3}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/strBasic/strBasic19Hello3done}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/strBasic/strBasic20Hello4}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/strBasic/strBasic21Hello4done}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/strBasic/strBasic22Hello5}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/strBasic/strBasic23Hello5done}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/strBasic/strBasic24HelloM1}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/strBasic/strBasic25HelloM1done}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/strBasic/strBasic26HelloM2}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/strBasic/strBasic27HelloM2done}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/strBasic/strBasic28HelloM3}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/strBasic/strBasic29HelloM3done}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/strBasic/strBasic30HelloM4}{0.1}{0.33}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/strBasic/strBasic31HelloM4done}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/strBasic/strBasic32HelloM5}{0.1}{0.33}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/strBasic/strBasic33HelloM5done}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/strBasic/strBasic34HelloM6}{0.1}{0.33}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/strBasic/strBasic35HelloM6done}{0.1}{0.33}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/strBasic/strBasic36Hello0C3}{0.1}{0.33}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/strBasic/strBasic37Hello0C3done}{0.1}{0.33}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/strBasic/strBasic38Hello1C3}{0.1}{0.33}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/strBasic/strBasic39Hello1C3done}{0.1}{0.33}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/strBasic/strBasic40Hello2C}{0.1}{0.33}%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/strBasic/strBasic41Hello2Cdone}{0.1}{0.33}%
+\locateGraphic{47}{width=0.8\paperwidth}{graphics/strBasic/strBasic42Hello1Cm2}{0.1}{0.33}%
+\locateGraphic{48}{width=0.8\paperwidth}{graphics/strBasic/strBasic43Hello1Cm2done}{0.1}{0.33}%
+\locateGraphic{49}{width=0.8\paperwidth}{graphics/strBasic/strBasic44HelloCm2}{0.1}{0.33}%
+\locateGraphic{50}{width=0.8\paperwidth}{graphics/strBasic/strBasic45HelloCm2done}{0.1}{0.33}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/strBasic/strBasic46HelloWorld1C8C2}{0.1}{0.33}%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/strBasic/strBasic47HelloWorld1C8C2done}{0.1}{0.33}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Weitere Grundlegende String Operationen}%
+\begin{itemize}%
+%
+\only<-1,53->{\item Schauen wir uns die ein paar weitere grundlegenden Operationen für Strings an.}%
+%
+\only<-3>{\item<2-> Mit dem Operator \pythonil{a in b} prüfen wir, ob die Zeichenkette~\pythonil{a} irgendwo im String~\pythonil{b} enthalten ist.\uncover<3->{ Das ist hier der Fall: \pythonil{\"World\"} ist tatsächlich im String~\pythonil{\"Hello World!\"} enthalten.%
+}}%
+%
+\only<-5>{\item<4-> Ist \pythonil{\"Earth\"} irgendwo in~\pythonil{\"Hello World!\"} enthalten?\uncover<5->{ Nein.%
+}}%
+%
+\only<-7>{\item<6-> Die Funktion~\pythonil{a.find(b)} sucht den Index, an dem die Zeichenkette \pythonil{b} in \pythonil{a} beginnt.\uncover<7->{ \pythonil{\"World\"} beginnt an Index~6 in \pythonil{\"Hello World!\"}.%
+}}%
+%
+\only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind \inQuotes{case-sensitive}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
+Somit gilt \pythonil{\"W\" != \"w\"}.}\uncover<10->{ %
+Somit kann \pythonil{\"world\"} nicht in \pythonil{\"Hello World!\"} gefunden werden.\uncover<11->{ %
+Somit liefert die Function~\pythonil{-1} zurück.\uncover<12->{ %
+Beachte also:~Niemals das Ergebnis von \pythonil{find} direkt zum Indizieren nehmen, denn \pythonil{-1} steht für \inQuotes{letztes Zeichen}\dots%
+}}}}}%
+%
+\only<-14>{\item<13-> Wo befindet sich~\pythonil{\"l\"} in \pythonil{\"Hello World!\"}?\uncover<14->{ An Index~2.%
+}}%
+%
+\only<-16>{\item<15-> Wir können auch den Index angeben, ab dem gesucht werden soll:~Wo befindet sich~\pythonil{\"l\"} in \pythonil{\"Hello World!\"} \emph{wenn wir ab Index~3 suchen}?\uncover<16->{ An Index~3.%
+}}%
+%
+\only<-18>{\item<17-> Wo befindet sich~\pythonil{\"l\"} in \pythonil{\"Hello World!\"} wenn wir ab Index~4 suchen?\uncover<18->{ An Index~9.%
+}}%
+%
+\only<-20>{\item<19-> Wo befindet sich~\pythonil{\"l\"} in \pythonil{\"Hello World!\"} wenn wir ab Index~10 suchen?\uncover<20->{ Dann finden wir kein \inQuotes{l} mehr und \pythonil{-1} wird zurückgegeben.%
+}}%
+%
+\only<-22>{\item<21-> \pythonil{rfind} sucht von hinten/rechts nach vorne.\uncover<22->{ Von rechts aus gehen findet sich das erste Auftreten von \pythonil{\"l\"} in \pythonil{\"Hello World!\"} an Index~9.%
+}}%
+%
+\only<-24>{\item<23-> Sowohl bei \pythonil{find} als auch bei \pythonil{rfind} können wir keinen Index, den Startindex, oder den Start- und den (exklusiven) End-Index für die Suche angeben. Wir suchen nun in der Zeichekette von Index~2 bis \alert{vor} Index~9 von rechts.\uncover<24->{ Und finden \pythonil{\"l\"} an Index~3.%
+}}%
+%
+\only<-26>{\item<25-> Wir suchen nun in der Zeichekette von Index~0 bis \alert{vor} Index~3 von rechts.\uncover<26->{ Und finden \pythonil{\"l\"} an Index~2.%
+}}%
+%
+\only<-28>{\item<27-> Wir suchen nun in der Zeichekette von Index~0 bis \alert{vor} Index~2 von rechts.\uncover<28->{ Und finden \pythonil{\"l\"} gar nicht mehr, bekommen also \pythonil{-1} zurück.%
+}}%
+%
+\only<-30>{\item<29-> \pythonil{a.replace(b, c)} ersetzt alle Auftreten von \pythonil{b} in \pythonil{a} mit \pythonil{c} und gibt das Ergebnis als neuen String zurück\uncover<30->{ Ersetzen wir alle \pythonil{\"Hello\"} in \pythonil{\"Hello World!\"} mit \pythonil{\"Hi\"}, so bekommen wir \pythonil{\"Hi World!\"}.%
+}}%
+%
+\only<-32>{\item<31-> Ersetzen wir alle \pythonil{\"Hello\"} in \pythonil{\"Hello World! Hello!\"} mit \pythonil{\"Hi\"}\only<-31>{\dots}\uncover<32->{, so bekommen wir \pythonil{\"Hi World! Hi!\"}.%
+}}%
+%
+\only<-34>{\item<33-> Ersetzen wir alle \pythonil{\"Hello\"} in \pythonil{\"Hello World!\"} mit \pythonil{\"Hello! Hello!\"}\only<-33>{\dots}\uncover<34->{, so bekommen wir \pythonil{\"Hello! Hello! World!\"}. %
+Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ersetzten Strings.%
+}}%
+%
+\only<-36>{\item<35-> \pythonil{a.strip()} entfernt alle so-genannten \inQuotes{whitespace}-Zeichen~(Leerzeichen, Newlines, Tabs) am Anfang und Ende eines Strings und gibt das Ergebnis als neuen String zurück\uncover<36->{ \pythonil{\" Hello World! \"} wird so zu \pythonil{\"Hello World!\"}.%
+}}%
+%
+\only<-38>{\item<37-> \pythonil{a.lstrip()} entfernt alle so-genannten \inQuotes{whitespace}-Zeichen~(Leerzeichen, Newlines, Tabs) am Anfang eines Strings und gibt das Ergebnis als neuen String zurück\uncover<38->{ \pythonil{\" Hello World! \"} wird so zu \pythonil{\"Hello World! \"}.%
+}}%
+%
+\only<-40>{\item<39-> \pythonil{a.rstrip()} entfernt alle so-genannten \inQuotes{whitespace}-Zeichen~(Leerzeichen, Newlines, Tabs) am Ende eines Strings und gibt das Ergebnis als neuen String zurück\uncover<40->{ \pythonil{\" Hello World! \"} wird so zu \pythonil{\" Hello World!\"}.%
+}}%
+%
+\only<-42>{\item<41-> \pythonil{a.lower()} wandelt alle Großbuchstaben in \pythonil{a} in Kleinbuchstaben um und gibt das Ergebnis als neuen String zurück.\uncover<42->{ \pythonil{\"Hello World!\"} wird so zu \pythonil{\"hello world!\"}.%
+}}%
+%
+\only<-44>{\item<43-> \pythonil{a.upper()} wandelt alle Kleinbuchstaben in \pythonil{a} in Großbuchstaben um und gibt das Ergebnis als neuen String zurück.\uncover<44->{ \pythonil{\"Hello World!\"} wird so zu \pythonil{\"HELLOW WORLD\"}.%
+}}%
+%
+\only<-46>{\item<45-> \pythonil{a.startswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} anfängt.\uncover<46->{ Und weil es case-sensitive ist, ergibt das hier \pythonil{False}.%
+}}%
+%
+\only<-48>{\item<47-> \pythonil{a.startswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} anfängt.\uncover<48->{ Aber jetzt stimmt es.%
+}}%
+%
+\only<-50>{\item<49-> \pythonil{a.endswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} endet.\uncover<50->{ Und das ist hier natürlich nicht der Fall.%
+}}%
+%
+\only<-52>{\item<51-> \pythonil{a.endswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} endet.\uncover<52->{ Aber das stimmt.%
+}}%
+%
+\item<53-> So, nun haben wir schon ziemlich viele String-Funktionen gelernt.%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/strOp/strOp01inYes}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/strOp/strOp02inYesDone}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/strOp/strOp03inNo}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/strOp/strOp04inNoDone}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/strOp/strOp05findWorld}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/strOp/strOp06findWorldDone}{0.1}{0.33}%
+\locateGraphic{8-9}{width=0.8\paperwidth}{graphics/strOp/strOp07findworld}{0.1}{0.33}%
+\locateGraphic{10-12}{width=0.8\paperwidth}{graphics/strOp/strOp08findworldDone}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/strOp/strOp09findl}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/strOp/strOp10findlDone}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/strOp/strOp11findl3}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/strOp/strOp12findl3done}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/strOp/strOp13findl4}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/strOp/strOp14findl4done}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/strOp/strOp15findl10}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/strOp/strOp16findl10done}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/strOp/strOp17rfindl}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/strOp/strOp18rfindlDone}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/strOp/strOp19rfindl2c9}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/strOp/strOp20rfindl2c9done}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/strOp/strOp21rfindl0c3}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/strOp/strOp22rfindl0c3done}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/strOp/strOp23rfindl0c2}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/strOp/strOp24rfindl0c2done}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/strOp/strOp25replaceHelloHi}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/strOp/strOp26replaceHelloHiDone}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/strOp/strOp27replaceHelloHi2}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/strOp/strOp28replaceHelloHi2done}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/strOp/strOp29replaceHelloHelloHello}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/strOp/strOp30replaceHelloHelloHelloDone}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/strOp/strOp31strip}{0.1}{0.33}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/strOp/strOp32stripDone}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/strOp/strOp33lstrip}{0.1}{0.33}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/strOp/strOp34lstripDone}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/strOp/strOp35rstrip}{0.1}{0.33}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/strOp/strOp36rstripDone}{0.1}{0.33}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/strOp/strOp37lower}{0.1}{0.33}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/strOp/strOp38lowerDone}{0.1}{0.33}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/strOp/strOp39upper}{0.1}{0.33}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/strOp/strOp40upperDone}{0.1}{0.33}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/strOp/strOp41startswithNo}{0.1}{0.33}%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/strOp/strOp42startswithNoDone}{0.1}{0.33}%
+\locateGraphic{47}{width=0.8\paperwidth}{graphics/strOp/strOp43startswithYes}{0.1}{0.33}%
+\locateGraphic{48}{width=0.8\paperwidth}{graphics/strOp/strOp44startswithYesDone}{0.1}{0.33}%
+\locateGraphic{49}{width=0.8\paperwidth}{graphics/strOp/strOp45endswithNo}{0.1}{0.33}%
+\locateGraphic{50}{width=0.8\paperwidth}{graphics/strOp/strOp46endswithNoDone}{0.1}{0.33}%
+\locateGraphic{51}{width=0.8\paperwidth}{graphics/strOp/strOp47endswithYes}{0.1}{0.33}%
+\locateGraphic{52}{width=0.8\paperwidth}{graphics/strOp/strOp48endswithYesDone}{0.1}{0.33}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Fertig.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
