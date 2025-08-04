@@ -18,7 +18,7 @@
 \begin{frame}%
 \frametitle{Einleitung}%
 \begin{itemize}%
-\item Der vierte und letzte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.%
+\item Der vierte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.\cite{PSF:P3D:TPSL:TSTS}%
 \item<2-> Zeichenketten sind beliebig lange Sequenzen von Text-Zeichen.%
 \item<3-> In \python\ sind sie durch den Datentyp \pythonil{str} repräsentiert.%
 \item<4-> Wir haben sie bereits oftmals implizit oder explizit genutzt, z.B. in unserem ersten Programm, das einfach \pythonil{\"Hello World\"} ausgedruckt hat.%
@@ -309,6 +309,173 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \locateGraphic{50}{width=0.8\paperwidth}{graphics/strOp/strOp46endswithNoDone}{0.1}{0.33}%
 \locateGraphic{51}{width=0.8\paperwidth}{graphics/strOp/strOp47endswithYes}{0.1}{0.33}%
 \locateGraphic{52}{width=0.8\paperwidth}{graphics/strOp/strOp48endswithYesDone}{0.1}{0.33}%
+\end{frame}%
+%
+\section{Die Funktion str und f-Strings}%
+%
+\begin{frame}[t]%
+\frametitle{Die Funktion str}%
+\begin{itemize}%
+\only<-2>{%
+\item Für Werte~\pythonil{a} der meisten Datentypen liefert die Funktion \pythonil{str(a)} einen entsprechenden String zurück.%
+\item<2-> Probieren wir das mal aus.%
+}%
+%
+\only<-4>{\item<3-> Wenden wir die Funktion \pythonil{str} auf den \pythonil{int}\nobreakdashes-Wert~\pythonil{23} an\only<-3>{\dots}\uncover<4->{ so liefert sie den \pythonil{str}\nobreakdashes-Wert~\pythonil{\"23\"}.%
+}}%
+%
+\only<-6>{\item<5-> Wenden wir die Funktion \pythonil{str} auf den \pythonil{float}\nobreakdashes-Wert~\pythonil{23.5} an\only<-5>{\dots}\uncover<6->{ so liefert sie den \pythonil{str}\nobreakdashes-Wert~\pythonil{\"23.5\"}.%
+}}%
+%
+\only<-8>{\item<7-> Wenn der Ausdruck \pythonil{str(4) + str(5)} ausgerechnet wird\only<-7>{\dots}\uncover<8->{, dann werden zuerst die beiden \pythonil{str}\nobreakdashes-Funktionen ausgerechnet, was dann \pythonil{\"4\" + \"5\"} ergibt. Dies ergibt dann wiederum~\pythonil{\"45\"}.%
+}}%
+%
+\only<-10>{\item<9-> Wir können nahezu beliebige Aufrufe von \pythonil{str(...)} mit anderen Strings und \pythonil{+} kombinieren.\uncover<10->{ Beispielsweise ist \pythonil{str(1 < 5)} das selbe wie \pythonil{str(True)}, was \pythonil{\"True\"} ergibt. \pythonil{str(1 + 5)} ist das selbe wie \pythonil{str(6)}, was dann \pythonil{\"6\"} ergibt. Alle Strings zusammen ergeben dann\dots%
+}}%
+%
+\end{itemize}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/toStr/toStr01str23}{0.1}{0.33}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/toStr/toStr02str23done}{0.1}{0.33}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/toStr/toStr03str23d5}{0.1}{0.33}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/toStr/toStr04str23d5done}{0.1}{0.33}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/toStr/toStr05strPlusStr}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/toStr/toStr06strPlusStrDone}{0.1}{0.33}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/toStr/toStr07multiConvConc}{0.1}{0.33}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/toStr/toStr08multiConvConcDone}{0.1}{0.33}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{f-strings}%
+\begin{itemize}%
+%
+\only<-10,50->{%
+\only<-10>{%
+\item \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"} {\dots} das sieht ziemlich umständlich aus.}%
+\item<2-> In der Tat gibt es eine Möglichkeit, schön formatierte Zeichenketten zu erstellen, die Ergebnisse von Berechnungen beinhalten können\only<-2>{.}\uncover<3->{:~\glsFullpl{fstring}.}%
+\item<4-> \Glspl{fstring} erlauben es uns, die Ergebnisse von Ausdrücken in Zeichenketten einzufügen\cite{PEP498,PSF:P3D:TPT:FSL,M2017WAFSIPAHCIUT,B2023PFS,DEVC:WFAAPODSCMIP,G2025MFIP}.%
+\item<5-> Sie haben eine einfache Syntax\only<-5>{.}\uncover<6->{:%
+\begin{enumerate}%
+\item Sie sind mit \pythonil{f\"...\"} begrenzt~(beachten Sie das kleine \textil{f} vor dem einleitenden Anführungszeichen!).%
+\item<7-> Sie können beliebige Ausdrücke enthalten, die jeweils mit \pythonil{\{\...\}} begrenzt sind.%
+\item<8-> Zusätzlich können Markierungen für die Formatierung der Ausdruck-Ergebnisse angegeben werden.%
+\item<9-> Während der sogenannten \glsFull{strinterpolation}, welche automatisch passiert, werden diese Ausdrücke dann ausgerechnet und ihre Ergebnisse an ihrer Stelle in den Text eingefügt.%
+\end{enumerate}%
+}%
+\only<-10>{%
+\item<10-> So wird aus \pythonil{f\"a\{6-1\}b\"} dann \pythonil{\"a5b\"}.}%
+}%
+%
+\only<-11>{%
+\item<11-> Probieren wir das mal aus.%
+}%
+%
+\only<-13>{\item<12-> Eine \pythonil{int}-Zahl ist ein Ausdruck. Schreiben wir also mal einen \gls{fstring}, der eine Zahl in einen Text umwandelt und mit anderem Text kombiniert.\uncover<13->{ Das funktioniert problemlos.%
+}}%
+%
+\only<-15>{\item<14-> \Glspl{fstring} erlauben es uns auch, die Erbenisse von Ausdrücken zu formatieren. Schreiben wir z.B.\ \textil{:,} hinten an den Ausdruck (hier: der Zahl) ran, dann wird der Ausdruck als Zahl behandelt und es werden Tausender-Trennzeichen~(hier: Kommas) bei der Umwandlung in Text eingefügt.\uncover<15->{ Aus der Zahl \textil{12345678901234} wird der Text~\textil{12,345,678,901,234}.%%
+}}%
+%
+\only<-17>{\item<16-> Wir haben in den Slides zum Datentyp \pythonil{int} verschiedene Zahlensysteme erwähnt. Fügen wir \textil{:x} an den Ausdruck an, so wird sein Ergebnis als Hexadezimalzahl dargestellt.\uncover<17->{ So wird aus der (Dezimal-)Zahl \textil{12345678901234} die Hexadezimalzahl \textil{b3a73ce2ff2}.%
+}}%
+%
+\only<-19>{\item<18-> Wollen wir zusätzlich noch das \textil{0x}\nobreakdashes-Präfix mit davor haben, schreiben wir \textil{:\#x} anstatt von \textil{:x}.\uncover<19->{ So wird aus der (Dezimal-)Zahl \textil{12345678901234} die Hexadezimalzahl \textil{0xb3a73ce2ff2}.%
+}}%
+%
+\only<-21>{\item<20-> Fügen wir \textil{:b} an den Ausdruck an, so wird sein Ergebnis als Binärzahl dargestellt.\uncover<21->{ So wird aus der (Dezimal-)Zahl \textil{1234567890} die Binärzahl \textil{1001001100101100000001011010010}.%
+}}%
+%
+\only<-23>{\item<22-> Fügen wir \textil{:\#b} an den Ausdruck an, so wird sein Ergebnis als Binärzahl mit dem Präfix~\textil{0b} dargestellt.\uncover<23->{ So wird aus der (Dezimal-)Zahl \textil{1234567890} die Binärzahl \textil{0b1001001100101100000001011010010}.%
+}}%
+%
+\only<-25>{\item<24-> Nun sind \pythonil{int}-Zahlen zwar Ausdrücke, aber nicht besonders spannend. Probieren wir es diesmal mit einer echten kleinen Berechnung.\uncover<25->{ \pythonil{f\"\{5 + 4\}\"} wird tatsächlich zu~\pythonil{\"9\"}.%
+}}%
+%
+\only<-27>{\item<26-> Wir können in \glspl{fstring} auf \alert{alle} Werte zugreifen, auf die wir aktuell Zugriff haben. Importieren wir also interessehalber mal wieder \numberPi\ from \pythonil{math}\nobreakdashes-Modul.\uncover<27->{ Was natürlich klappt.%
+}}%
+%
+\only<-29>{\item<28-> Nun können wir auch \pythonil{pi} in \glspl{fstring} verwenden.\uncover<29->{ Und sein Wert wird eingefügt.%
+}}%
+%
+\only<-31>{\item<30-> Wenn wir alle Stellen der \pythonil{float}\nobreakdashes-Konstante \numberPi\ drucken, dann ist das ziemlich viel. Wollen wir nur \pythonil{NNN} Nachkommastellen einer Zahl angezeigt bekommen, so fügen wir einfach \textil{:.NNNf} an den Ausdruck an.\uncover<31->{ Das \textil{:.2f} bewirkt, dass der \pythonil{float}\nobreakdashes-Wert \pythonil{pi} auf zwei Nachkommastellen gerundet wird.%
+}}%
+%
+\only<-33>{\item<32-> Wir können eine Zahl in Prozent konvertieren, in dem wir \textil{:\%} an den Ausdruck anhängen. Wollen wir den Prozentwert mit \textil{NNN} Nachkommastellen, so hängen wir stattdessen~\textil{:.NNN\%} an.\uncover<33->{ $\frac{1}{321}\approx0.00311526$, was $0.311526\%$~entspricht. Die Ausgabe stimmt also.%
+}}%
+%
+\only<-35>{\item<34-> Wir können auch Tausender-Trennzeichen und Nachkommastellenangaben kombinieren.\uncover<35->{ \pythonil{1.2345533e4} entspricht $1.2345533*10^4$, was wiederum $12345.533$~ist. Auf eine Nachkommastelle genau ergibt das $12345.5$.%
+}}%
+%
+\only<-37>{\item<36-> Importieren wir die Sinus\nobreakdashes-Funktion aus dem Modul~\pythonil{math}.\uncover<37->{ Gar kein Problem.%
+}}%
+%
+\only<-39>{\item<38-> Und schon können wir sie in \glspl{fstring} verwenden, deren Ausgabe wir wieder beliebig formatieren können.\uncover<39->{ $\sin{\frac{\numberPi}{4}}=\frac{\sqrt{2}}{2}\approx0.7071067811865476$.%
+}}%
+%
+\only<-41>{\item<40-> Das Format \textil{:e} druckt eine Zahl in der wissenschaftlichen Notation. \textil{:.DDDg} benutzt ebenfalls die wissenschaftliche Notation, druckt jedoch nur \textil{DDD}~Ziffern~(insgesamt, nicht Nachkommastellen).\uncover<41->{ Aus \textil{:.3g} folgert, dass nur drei Ziffern~(\textil{1.24}) gedruckt werden.%
+}}%
+%
+\only<-43>{\item<42-> Wenn die geschwungenen Klammern~\textil{\{} und \textil{\}} Ausdrücke in den Zeichenketten begrenzen {\dots} was machen wir dann, wenn wir mal eine geschwungene Klammer in einem String haben wollen?\uncover<43->{ Einfach \emph{zwei} geschwungene Klammern schreiben.%
+}}%
+%
+\only<-45>{\item<44-> Ein wirklich cooles Feature ist, dass wir sowohl einen Ausdruck~\pythonil{A} als auch dessen Ergebnis~\pythonil{A} ausdrucken können, in dem wir \pythonil{f\"\{A = \}\"} schreiben.\uncover<45->{ Das wird dann in~\pythonil{\"A = E\"} umgewandelt.%
+}}%
+%
+\only<-47>{\item<46-> Das funktioniert auch mit komplizierten Ausdrücken.\uncover<47->{ Problemlos.%
+}}%
+%
+\only<-49>{\item<48-> Kommen wir nun zu unserem Anfangsbeispiel, dem komplizierten String \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"}, zurück. Als \gls{fstring} sieht das so aus: \pythonil{f\"\{1 < 5\} is True and \{1 + 5\} = 6.\"}\uncover<47->{ Beide Varianten ergeben \pythonil{\"True is True and 6 = 6.\"}.%
+}}%
+%
+\item<50-> Das waren natürlich nur einige Beispiele.%
+\item<51-> Mehr Informationen gibt es unter %
+\citetitle{B2023PFS}\cite{B2023PFS}, %
+\citetitle{PSF:P3D:TPT:FSL}\cite{PSF:P3D:TPT:FSL}, und %
+\citetitle{PEP498}\cite{PEP498}.%
+%
+\end{itemize}%
+%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/fstrings/fstrings01bigInt}{0.1}{0.33}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/fstrings/fstrings02bigIntDone}{0.1}{0.33}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/fstrings/fstrings03bigIntTsep}{0.1}{0.33}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/fstrings/fstrings04bigIntTsepDone}{0.1}{0.33}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/fstrings/fstrings05bigIntHex}{0.1}{0.33}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/fstrings/fstrings06bigIntHexDone}{0.1}{0.33}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/fstrings/fstrings07bigInt0x}{0.1}{0.33}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/fstrings/fstrings08bigInt0xDone}{0.1}{0.33}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/fstrings/fstrings09intBin}{0.1}{0.33}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/fstrings/fstrings10intBinDone}{0.1}{0.33}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/fstrings/fstrings11int0b}{0.1}{0.33}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/fstrings/fstrings12int0bDone}{0.1}{0.33}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/fstrings/fstrings13int5p4}{0.1}{0.33}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/fstrings/fstrings14int5p4done}{0.1}{0.33}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/fstrings/fstrings15importPi}{0.1}{0.33}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/fstrings/fstrings16importPiDone}{0.1}{0.33}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/fstrings/fstrings17pi}{0.1}{0.33}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/fstrings/fstrings18piDone}{0.1}{0.33}%
+\locateGraphic{30}{width=0.8\paperwidth}{graphics/fstrings/fstrings19pi2dec}{0.1}{0.33}%
+\locateGraphic{31}{width=0.8\paperwidth}{graphics/fstrings/fstrings20pi2decDone}{0.1}{0.33}%
+\locateGraphic{32}{width=0.8\paperwidth}{graphics/fstrings/fstrings21c1d321perc2f}{0.1}{0.33}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/fstrings/fstrings22c1d321perc2fDone}{0.1}{0.33}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/fstrings/fstrings23bigWts2f}{0.1}{0.33}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/fstrings/fstrings24bigWts2fDone}{0.1}{0.33}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/fstrings/fstrings25importSin}{0.1}{0.33}%
+\locateGraphic{37}{width=0.8\paperwidth}{graphics/fstrings/fstrings26importSinDone}{0.1}{0.33}%
+\locateGraphic{38}{width=0.8\paperwidth}{graphics/fstrings/fstrings27sin5f}{0.1}{0.33}%
+\locateGraphic{39}{width=0.8\paperwidth}{graphics/fstrings/fstrings28sin5fdone}{0.1}{0.33}%
+\locateGraphic{40}{width=0.8\paperwidth}{graphics/fstrings/fstrings29eAndG}{0.1}{0.33}%
+\locateGraphic{41}{width=0.8\paperwidth}{graphics/fstrings/fstrings30eAndGdone}{0.1}{0.33}%
+\locateGraphic{42}{width=0.8\paperwidth}{graphics/fstrings/fstrings31braces}{0.1}{0.33}%
+\locateGraphic{43}{width=0.8\paperwidth}{graphics/fstrings/fstrings32bracesDone}{0.1}{0.33}%
+\locateGraphic{44}{width=0.8\paperwidth}{graphics/fstrings/fstrings33expr5p4}{0.1}{0.33}%
+\locateGraphic{45}{width=0.8\paperwidth}{graphics/fstrings/fstrings34expr5p4done}{0.1}{0.33}%
+\locateGraphic{46}{width=0.8\paperwidth}{graphics/fstrings/fstrings35exprSin}{0.1}{0.33}%
+\locateGraphic{47}{width=0.8\paperwidth}{graphics/fstrings/fstrings36exprSinDone}{0.1}{0.33}%
+\locateGraphic{48}{width=0.8\paperwidth}{graphics/fstrings/fstrings37oldExample}{0.1}{0.33}%
+\locateGraphic{49}{width=0.8\paperwidth}{graphics/fstrings/fstrings38oldExampleDone}{0.1}{0.33}%
 \end{frame}%
 %
 \section{Zusammenfassung}%
