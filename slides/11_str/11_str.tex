@@ -354,14 +354,14 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-10,50->{%
 \only<-10>{%
 \item \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"} {\dots} das sieht ziemlich umständlich aus.}%
-\item<2-> In der Tat gibt es eine Möglichkeit, schön formatierte Zeichenketten zu erstellen, die Ergebnisse von Berechnungen beinhalten können\only<-2>{.}\uncover<3->{:~\glsFullpl{fstring}.}%
-\item<4-> \Glspl{fstring} erlauben es uns, die Ergebnisse von Ausdrücken in Zeichenketten einzufügen\cite{PEP498,PSF:P3D:TPT:FSL,M2017WAFSIPAHCIUT,B2023PFS,DEVC:WFAAPODSCMIP,G2025MFIP}.%
+\item<2-> In der Tat gibt es eine Möglichkeit, schön formatierte Zeichenketten zu erstellen, die Ergebnisse von Berechnungen beinhalten können\only<-2>{.}\uncover<3->{:~\glslink{fstring}{f\nobreakdashes-Strings}.}%
+\item<4-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns, die Ergebnisse von Ausdrücken in Zeichenketten einzufügen\cite{PEP498,PSF:P3D:TPT:FSL,M2017WAFSIPAHCIUT,B2023PFS,DEVC:WFAAPODSCMIP,G2025MFIP}.%
 \item<5-> Sie haben eine einfache Syntax\only<-5>{.}\uncover<6->{:%
 \begin{enumerate}%
 \item Sie sind mit \pythonil{f\"...\"} begrenzt~(beachten Sie das kleine \textil{f} vor dem einleitenden Anführungszeichen!).%
 \item<7-> Sie können beliebige Ausdrücke enthalten, die jeweils mit \pythonil{\{\...\}} begrenzt sind.%
 \item<8-> Zusätzlich können Markierungen für die Formatierung der Ausdruck-Ergebnisse angegeben werden.%
-\item<9-> Während der sogenannten \glsFull{strinterpolation}, welche automatisch passiert, werden diese Ausdrücke dann ausgerechnet und ihre Ergebnisse an ihrer Stelle in den Text eingefügt.%
+\item<9-> Während der sogenannten \glslink{strinterpolation}{String\nobreakdashes-Interpolation}, welche automatisch passiert, werden diese Ausdrücke dann ausgerechnet und ihre Ergebnisse an ihrer Stelle in den Text eingefügt.%
 \end{enumerate}%
 }%
 \only<-10>{%
@@ -372,10 +372,10 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \item<11-> Probieren wir das mal aus.%
 }%
 %
-\only<-13>{\item<12-> Eine \pythonil{int}-Zahl ist ein Ausdruck. Schreiben wir also mal einen \gls{fstring}, der eine Zahl in einen Text umwandelt und mit anderem Text kombiniert.\uncover<13->{ Das funktioniert problemlos.%
+\only<-13>{\item<12-> Eine \pythonil{int}-Zahl ist ein Ausdruck. Schreiben wir also mal einen \glslink{fstring}{f\nobreakdashes-String}, der eine Zahl in einen Text umwandelt und mit anderem Text kombiniert.\uncover<13->{ Das funktioniert problemlos.%
 }}%
 %
-\only<-15>{\item<14-> \Glspl{fstring} erlauben es uns auch, die Erbenisse von Ausdrücken zu formatieren. Schreiben wir z.B.\ \textil{:,} hinten an den Ausdruck (hier: der Zahl) ran, dann wird der Ausdruck als Zahl behandelt und es werden Tausender-Trennzeichen~(hier: Kommas) bei der Umwandlung in Text eingefügt.\uncover<15->{ Aus der Zahl \textil{12345678901234} wird der Text~\textil{12,345,678,901,234}.%%
+\only<-15>{\item<14-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns auch, die Erbenisse von Ausdrücken zu formatieren. Schreiben wir z.B.\ \textil{:,} hinten an den Ausdruck (hier: der Zahl) ran, dann wird der Ausdruck als Zahl behandelt und es werden Tausender-Trennzeichen~(hier: Kommas) bei der Umwandlung in Text eingefügt.\uncover<15->{ Aus der Zahl \textil{12345678901234} wird der Text~\textil{12,345,678,901,234}.%%
 }}%
 %
 \only<-17>{\item<16-> Wir haben in den Slides zum Datentyp \pythonil{int} verschiedene Zahlensysteme erwähnt. Fügen wir \textil{:x} an den Ausdruck an, so wird sein Ergebnis als Hexadezimalzahl dargestellt.\uncover<17->{ So wird aus der (Dezimal-)Zahl \textil{12345678901234} die Hexadezimalzahl \textil{b3a73ce2ff2}.%
@@ -393,10 +393,10 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-25>{\item<24-> Nun sind \pythonil{int}-Zahlen zwar Ausdrücke, aber nicht besonders spannend. Probieren wir es diesmal mit einer echten kleinen Berechnung.\uncover<25->{ \pythonil{f\"\{5 + 4\}\"} wird tatsächlich zu~\pythonil{\"9\"}.%
 }}%
 %
-\only<-27>{\item<26-> Wir können in \glspl{fstring} auf \alert{alle} Werte zugreifen, auf die wir aktuell Zugriff haben. Importieren wir also interessehalber mal wieder \numberPi\ from \pythonil{math}\nobreakdashes-Modul.\uncover<27->{ Was natürlich klappt.%
+\only<-27>{\item<26-> Wir können in \glslink{fstring}{f\nobreakdashes-Strings} auf \alert{alle} Werte zugreifen, auf die wir aktuell Zugriff haben. Importieren wir also interessehalber mal wieder \numberPi\ from \pythonil{math}\nobreakdashes-Modul.\uncover<27->{ Was natürlich klappt.%
 }}%
 %
-\only<-29>{\item<28-> Nun können wir auch \pythonil{pi} in \glspl{fstring} verwenden.\uncover<29->{ Und sein Wert wird eingefügt.%
+\only<-29>{\item<28-> Nun können wir auch \pythonil{pi} in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.\uncover<29->{ Und sein Wert wird eingefügt.%
 }}%
 %
 \only<-31>{\item<30-> Wenn wir alle Stellen der \pythonil{float}\nobreakdashes-Konstante \numberPi\ drucken, dann ist das ziemlich viel. Wollen wir nur \pythonil{NNN} Nachkommastellen einer Zahl angezeigt bekommen, so fügen wir einfach \textil{:.NNNf} an den Ausdruck an.\uncover<31->{ Das \textil{:.2f} bewirkt, dass der \pythonil{float}\nobreakdashes-Wert \pythonil{pi} auf zwei Nachkommastellen gerundet wird.%
@@ -411,7 +411,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-37>{\item<36-> Importieren wir die Sinus\nobreakdashes-Funktion aus dem Modul~\pythonil{math}.\uncover<37->{ Gar kein Problem.%
 }}%
 %
-\only<-39>{\item<38-> Und schon können wir sie in \glspl{fstring} verwenden, deren Ausgabe wir wieder beliebig formatieren können.\uncover<39->{ $\sin{\frac{\numberPi}{4}}=\frac{\sqrt{2}}{2}\approx0.7071067811865476$.%
+\only<-39>{\item<38-> Und schon können wir sie in \glslink{fstring}{f\nobreakdashes-Strings} verwenden, deren Ausgabe wir wieder beliebig formatieren können.\uncover<39->{ $\sin{\frac{\numberPi}{4}}=\frac{\sqrt{2}}{2}\approx0.7071067811865476$.%
 }}%
 %
 \only<-41>{\item<40-> Das Format \textil{:e} druckt eine Zahl in der wissenschaftlichen Notation. \textil{:.DDDg} benutzt ebenfalls die wissenschaftliche Notation, druckt jedoch nur \textil{DDD}~Ziffern~(insgesamt, nicht Nachkommastellen).\uncover<41->{ Aus \textil{:.3g} folgert, dass nur drei Ziffern~(\textil{1.24}) gedruckt werden.%
@@ -426,7 +426,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-47>{\item<46-> Das funktioniert auch mit komplizierten Ausdrücken.\uncover<47->{ Problemlos.%
 }}%
 %
-\only<-49>{\item<48-> Kommen wir nun zu unserem Anfangsbeispiel, dem komplizierten String \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"}, zurück. Als \gls{fstring} sieht das so aus: \pythonil{f\"\{1 < 5\} is True and \{1 + 5\} = 6.\"}\uncover<47->{ Beide Varianten ergeben \pythonil{\"True is True and 6 = 6.\"}.%
+\only<-49>{\item<48-> Kommen wir nun zu unserem Anfangsbeispiel, dem komplizierten String \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"}, zurück. Als \glslink{fstring}{f\nobreakdashes-String} sieht das so aus: \pythonil{f\"\{1 < 5\} is True and \{1 + 5\} = 6.\"}\uncover<47->{ Beide Varianten ergeben \pythonil{\"True is True and 6 = 6.\"}.%
 }}%
 %
 \item<50-> Das waren natürlich nur einige Beispiele.%
@@ -478,12 +478,295 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \locateGraphic{49}{width=0.8\paperwidth}{graphics/fstrings/fstrings38oldExampleDone}{0.1}{0.33}%
 \end{frame}%
 %
+\section{Strings in Andere Datentypen Konvertieren}%
+%
+\begin{frame}[t]%
+\frametitle{Strings in Andere Datentypen Konvertieren}%
+\begin{itemize}%
+\only<-6,26->{%
+\item Oft wollen wir Daten in unser Program einlesen oder eingeben.%
+\item<2-> Die Daten sind of als Text gespeichert oder werden als Text in ein \glslink{terminal}{Terminal} eingegeben.%
+\item<3-> Wir brauchen sie dann aber oft als andere Datentypen, z.B.\ als Zahlen.%
+\item<4-> Viele Datentypen in \python\ bieten eine Funktion an, die eine Zeichenkette in sie umwandelt.%
+\only<-6>{%
+\item<5-> \pythonil{int(\"4\")} erzeugt z.B.\ den \pythonil{int}\nobreakdashes-Wert~\pythonil{4}.%
+}%
+}%
+\only<-7>{%
+\item<6-> Schauen wir uns das mal an.%
+}%
+%
+\only<-9>{\item<8-> Die Funktion \pythonil{int(a)} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{int}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<9->{ \pythonil{int(\"1111\")} ergibt daher den Integer~\pythonil{1111}.%
+}}%
+%
+\only<-11>{\item<10-> Die Funktion hat einen optionalen zweiten Parameter, der die Basis des zu benutzenden Zahlensystems angibt. Die bekannten Präfixe werden automatisch erkannt.\uncover<11->{ \pythonil{int(\"0x1111\", 16)} wandelt eine Hexdezimalzahl \textil{0x1111} um, es gilt $1*1+1*16+1*16^2+1*16^3=1+16+256+4096=4396$ und das ergibt daher den Integer~\pythonil{4369}.%
+}}%
+%
+\only<-13>{\item<12-> Die Funktion hat einen optionalen zweiten Parameter, der die Basis des zu benutzenden Zahlensystems angibt. Die bekannten Präfixe werden automatisch erkannt.\uncover<13->{ \pythonil{int(\"0b1111\", 2)} wandelt eine Binärzahl \textil{0b1111} um, es gilt $1*1+1*2+1*2^2+1*2^3=1+2+4+8=15$ und das ergibt daher den Integer~\pythonil{15}.%
+}}%
+%
+\only<-15>{\item<14-> Die Funktion~\pythonil{float} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{float}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<15->{ \pythonil{float} erkennt die wissenschaftliche Notation und \pythonil{float(\"2.233e4\")} wird daher~\pythonil{22330.0}.%
+}}%
+%
+\only<-17>{\item<16-> Natürlich geht das auch ohne wissenschaftliche Notation.\uncover<16->{ \pythonil{float(\"0.1123\")} wird zu~\pythonil{0.1123}.%
+}}%
+%
+\only<-19>{\item<18-> Es werden auch die Konstanten für \inQuotes{zu groß für \pythonil{float}} und \inQuotes{keine Zahl} erkannt.\uncover<18->{ \pythonil{float(\"inf\")} wird zu~\pythonil{math.inf}.%
+}}%
+%
+\only<-21>{\item<20-> Es werden auch die Konstanten für \inQuotes{zu groß für \pythonil{float}} und \inQuotes{keine Zahl} erkannt.\uncover<21->{ Und \pythonil{float(\"nan\")} wird zu~\pythonil{math.nan}.%
+}}%
+%
+\only<-23>{\item<22-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<23->{ Aus \pythonil{bool(\"True\")} wird daher~\pythonil{True}.%
+}}%
+%
+\only<-25>{\item<24-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<25->{ Und \pythonil{bool(\"False\")} wird zu~\pythonil{False}.%
+}}%
+%
+\item<26-> Das war relativ einfach.%
+%
+\end{itemize}%
+%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/fromStr/fromStr01int1111}{0.1}{0.37}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/fromStr/fromStr02int1111done}{0.1}{0.37}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/fromStr/fromStr03int0x1111}{0.1}{0.37}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/fromStr/fromStr04int0x1111done}{0.1}{0.37}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/fromStr/fromStr05int0b1111}{0.1}{0.37}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/fromStr/fromStr06int0b1111done}{0.1}{0.37}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/fromStr/fromStr07float2d233e4}{0.1}{0.37}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/fromStr/fromStr08float2d233e4done}{0.1}{0.37}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/fromStr/fromStr09float0d1123}{0.1}{0.37}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/fromStr/fromStr10float0d1123done}{0.1}{0.37}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/fromStr/fromStr11floatInf}{0.1}{0.37}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/fromStr/fromStr12floatInfDone}{0.1}{0.37}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/fromStr/fromStr13floatNan}{0.1}{0.37}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/fromStr/fromStr14floatNanDone}{0.1}{0.37}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/fromStr/fromStr15boolTrue}{0.1}{0.37}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/fromStr/fromStr16boolTrueDone}{0.1}{0.37}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/fromStr/fromStr17boolFalse}{0.1}{0.37}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/fromStr/fromStr18boolFalseDone}{0.1}{0.37}%
+\end{frame}%
+%
+%
+\section{Strings Escaping}%
+%
+\begin{frame}[t]%
+\frametitle{Strings Escaping}%
+\begin{itemize}%
+\only<-2,30->{%
+\item Zeichenketten werden durch Anführungszeichen begrenzt.%
+\item<2-> Was machen wir, wenn wir Anführungszeichen \alert{in} einer Zeichenkette haben wollen?%
+}%
+%
+\only<-4>{\item<3-> Wenn wir unsere Strings durch doppelte Anführungszeichen~(\textil{\"}) begrenzen, dann können problemlos einfache Anführungszeichen~(\textil{\'}) einfügren.\uncover<4->{ Beachten Sie, dass wenn wir Strings mit \pythonil{print} ausgeben, die begrenzenden Anführungszeichen nicht in der Ausgabe enthalten sind.%
+}}%
+%
+\only<-6>{\item<5-> Wenn wir doppelte Anführungszeichen~(\textil{\"}) brauchen, dann begrenzen wir unsere Strings eben mit einfachen Anführungszeichen~(\textil{\'}).\uncover<6->{ Beachten Sie, dass wenn wir Strings mit \pythonil{print} ausgeben, die begrenzenden Anführungszeichen nicht in der Ausgabe enthalten sind.%
+}}%
+%
+\only<-11,30->{\only<-9,30->{\item<7-> Aber was machen wir, wenn wir \alert{beide} Arten von Anführungszeichen brauchen?\uncover<8->{ %
+Dann können wir nicht auf \inQuotes{andere} Anführungszeichen zur Begrenzung der Strings ausweichen.}%
+\uncover<9->{ %
+\item<9-> Dann brauche wir sogenannte \glslink{escapeSequence}{Escape-Sequenzen}\cite{PSF:P3D:TPLR:ES}.}}%
+\uncover<10->{ %
+\item<10-> Wir können dem doppelten Anführungszeichen einfach in Backslash~(\inQuotes{\textbackslash}) voranstellen.\uncover<11->{ Dann wird es nicht mehr als String-Begrenzer interpretiert und verwandelt sich in ein normales doppeltes Anführungszeichen.%
+}}%
+}%
+%
+\only<-13>{\item<12-> So können wir bequem doppelte Anführungszeichen in Strings haben, die mit doppelten Anführungszeichen begrenzt sind.\uncover<13->{ Die Backslashes verschwinden dann in der Ausgabe.%
+}}%
+%
+\only<-15>{\item<14-> So können wir bequem einfache Anführungszeichen in Strings haben, die mit einfache Anführungszeichen begrenzt sind.\uncover<13->{ Die Backslashes verschwinden dann in der Ausgabe.%
+}}%
+%
+\only<-17>{\item<16-> Aber was machen wir, wenn wir ein Backslash~(\inQuotes{\textbackslash}) in einem String haben wollen?\uncover<17->{ Einfach noch ein Backslash davor schreiben. Aus dem doppelten Backslash wird dann ein einfaches Backslash.%
+}}%
+%
+\only<-19>{\item<18-> Natürlich können wir beliebige viele \glslink{escapeSequence}{Escape-Sequenzen} in unseren Strings verwenden.\uncover<19->{ %
+Der String \pythonil{\"\\\"\\\'\\\\\\\"\\\"\"} beginnt und endet mit \textil{\"}. Das erste Zeichen ist ein durch \textil{\\\"} escapedes~\textil{\"}. Darauf folget ein escapedes einfaches Anführungszeichen, ein escapedes Backslash, ein zweites escapedes doppeltes Anführungszeichen, und ein drittes escapedes doppeltes Anführungszeichen.%
+}}%
+%
+\only<-21>{\item<20-> Die Sequenz~\textil{\\n} steht für \inQuotes{Newline}, also den Anfang einer neuen Zeile.\uncover<21->{ Somit können wir mehrzeilige Strings in einer einzigen Zeile schreiben.%
+}}%
+%
+\only<-23>{\item<22-> Unter Windows kann man auch die Sequenz~\textil{\\r\\n} verwenden.\uncover<23->{ Muss man aber nicht, \python\ gibt auch mit~\textil{\\n} den richtigen Text aus.%
+}}%
+%
+\only<-25>{\item<24-> Die Sequenz~\textil{\\t} steht für \inQuotes{Tabulator}, welcher oft equivalent zu mehreren (oft~4) Leerzeichen ausgegeben wird.\uncover<24->{ Das braucht man selten.%
+}}%
+%
+\only<-29>{\item<26-> Wollen wir einen String über mehrere Zeilen hinweg schreiben, dann können wir ans Ende der Zeile einfach ein Backslash~(\inQuotes{\textbackslash}) schreiben.\uncover<27->{ Wenn wir dann \keys{\enter}~drücken, geht es in der nächsten Zeile einfach weiter, die im Interpreter dann mit drei Punkten beginnt.\uncover<28->{ So können wir den Text weiterschreiben.\uncover<29->{ Der String beinhaltet dann keinen Zeilenumbruch.}}%
+}}%
+%
+\item<30-> \glslink{escapeSequence}{Escape-Sequenzen} sind also nützliche Werkzeuge, um Zeichen in Strings zu schreiben, die wir sonst nicht schreiben könnten.%
+%
+\end{itemize}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.33}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/escape/escape01singleQuote}{0.1}{0.37}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/escape/escape02singleQuoteDone}{0.1}{0.37}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/escape/escape03doubleQuote}{0.1}{0.37}%
+\locateGraphic{6-7}{width=0.8\paperwidth}{graphics/escape/escape04doubleQuoteDone}{0.1}{0.37}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/escape/escape05bothQuotes}{0.1}{0.37}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/escape/escape06bothQuotesDone}{0.1}{0.37}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/escape/escape07doubleQuotes2}{0.1}{0.37}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/escape/escape08doubleQuotes2Done}{0.1}{0.37}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/escape/escape09singleQuotes2}{0.1}{0.37}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/escape/escape10singleQuotes2done}{0.1}{0.37}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/escape/escape11backslash}{0.1}{0.37}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/escape/escape12backslashDone}{0.1}{0.37}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/escape/escape13complex}{0.1}{0.37}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/escape/escape14complexDone}{0.1}{0.37}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/escape/escape15newline}{0.1}{0.37}%
+\locateGraphic{21}{width=0.8\paperwidth}{graphics/escape/escape16newlineDone}{0.1}{0.37}%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/escape/escape17winNewline}{0.1}{0.37}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/escape/escape18winNewlineDone}{0.1}{0.37}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/escape/escape19tab}{0.1}{0.37}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/escape/escape20tabDone}{0.1}{0.37}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/escape/escape21backslashNewline1}{0.1}{0.37}%
+\locateGraphic{27}{width=0.8\paperwidth}{graphics/escape/escape22backslashNewline2}{0.1}{0.37}%
+\locateGraphic{28}{width=0.8\paperwidth}{graphics/escape/escape23backslashNewline3}{0.1}{0.37}%
+\locateGraphic{29}{width=0.8\paperwidth}{graphics/escape/escape24backslashNewlineDone}{0.1}{0.37}%
+\end{frame}%
+%
+\section{Mehrzeilige Strings}%
+%
+\begin{frame}[t]%
+\frametitle{Mehrzeilige Strings}%
+\begin{itemize}%
+\only<-3>{%
+\item Wir können Strings erstellen, die über mehrere Zeilen gehen, in dem wir die \glslink{escapeSequence}{Escape\nobreakdashes-Sequenz}~\textil{\\n} einfügen.%
+\item<2-> Wenn die Strings lang werden, dann kann das aber zu häßlichen sehr langen Kodezeilen führen.%
+}%
+%
+\only<-4>{%
+\item<3-> Für lange mehrzeilige Strings gibt es die Syntax mit dreifachen doppelten Anführungszeichen:~\pythonil{\"\"\"...\"\"\"}.%
+}%
+%
+%
+\only<-10>{\item<5-> Wir beginnen solche Strings immer mit \textil{\"\"\"} anstelle von \textil{\"}.\uncover<6->{ %
+Machen wir einen Zeilenumbruch in so einem String\only<-6>{\dots}\uncover<7->{, %
+dann können wir wieder auf der nächsten Zeile weiterschreiben\only<-7>{\dots}\uncover<8->{, %
+die im Interpreter wieder mit drei Punkten anfängt.\uncover<9->{ %
+Wir können so beliebig viele Zeilenumbrüche schreiben.\uncover<10->{ %
+Diese sind dann Teil des Strings~(anders als bei \textil{\\} an Zeilenende!).%
+}}}}}}%
+%
+\only<-16>{\item<11-> Diese mehrzeilige Syntax lässt sich mit \glslink{fstring}{f\nobreakdashes-Strings} kombinieren.\uncover<12->{ %
+Solche mehrzeiligen \glslink{fstring}{f\nobreakdashes-Strings} sind von~\pythonil{f\"\"\"...\"\"\"} begrenzt.\uncover<13->{ %
+Sie können beliebige Ausdrücke enthalten und normal \glslink{strinterpolation}{interpoliert}.%
+}}}%
+%
+\item<17-> Somit haben wir nun auch eine Methode, große Textstücke als Strings in unsere Programme einzufügen.%
+\item<18-> Das wird später bei der Dokumentation von Kode nützlich.%
+%
+\end{itemize}%
+%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.37}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/multiline/multiline01multiDQ1}{0.1}{0.37}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/multiline/multiline02multiDQ2}{0.1}{0.37}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/multiline/multiline03multiDQ3}{0.1}{0.37}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/multiline/multiline04multiDQ4}{0.1}{0.37}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/multiline/multiline05multiDQ5}{0.1}{0.37}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/multiline/multiline06multiDQdone}{0.1}{0.37}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/multiline/multiline07multiDQF1}{0.1}{0.37}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/multiline/multiline08multiDQF2}{0.1}{0.37}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/multiline/multiline09multiDQF3}{0.1}{0.37}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/multiline/multiline10multiDQF4}{0.1}{0.37}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/multiline/multiline11multiDQF5}{0.1}{0.37}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/multiline/multiline12multiDQFdone}{0.1}{0.37}%
+%
+\uncover<19->{%
+\bestPractice{longstrDoubleQuote}{Wenn wir mehrzeilige Strings definieren, dann sollte immer doppelte Anführungszeichen verwendet werden und nicht einfache~(natürlich immer in dreifacher Ausfertigung).\cite{PEP257,PEP8}}%
+}%
+\end{frame}%
+%
+\section{Unicode}%
+%
+\begin{frame}%
+\frametitle{Texte als Zahlen}%
+\begin{itemize}%
+\item Der Speicher unserer Computer speichert Gruppen von Bits in fester Größe, sagen wir, Bytes zu jeweils 8~Bit.%
+\item<2-> Diese Bytes werden oft als Ganzzahlen betrachtet.%
+\item<3-> Während \python\ \inQuotes{beliebig-große} \pythonils{int} anbietet, die aus entsprechend vielen Bytes bestehen, nutzen wir in anderen Programmiersprachen oftmals jeweils 8~Bytes, um einen Integer darzustellen.
+\item<4-> Der Datentyp \pythonil{float} ist in \python\ ebenfalls 8~Bytes groß -- wie diese interpretiert werden haben Sie schon gelernt.%
+\item<5-> Aber wie funktioniert das mit Text?%
+\item<6-> In dem jedes Zeichen eines Textes als eine Zahl dargestellt wird.%
+\item<7-> Ein \pythonil{str} ist dann nichts als eine Sequenz von Zahlen.%
+\item<8-> Das System weiß, welches Zeichen zu welcher Zahl gehört.
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zeichen als Zahlen}%
+\begin{itemize}%
+\item Historisch gesehen gibt es viele \inQuotes{Zeichen-zu-Zahlen} Mappings.%
+\item<2-> Die bekannteste solche Zuordnung ist ASCII\cite{ASA1963ASCII,USAS1967USCFII}, welche sieben Bits pro Zeichen verwendete.%
+\item<3-> Darum konnte ASCII auch nur Lateinische Buchstaben, Satzzeichen, Ziffern, und ein Kontrollzeichen~(wie \textil{\\t} und \textil{\\n}\dots) darstellen.%
+\item<4-> Ihnen ist vielleicht aufgefallen, dass verschiedene Sprachen verschiedene Zeichen verwenden {\dots} und zwar mehr als insgesamt~$2^7=128$.%
+\item<5-> Deshalb gibt es verschiedene solche Zuordnungen.%
+\item<6-> In China existieren verschiedene, auf Chinesische Zeichen spezialisierte, Zuordnungen, z.B.\ das historische GB~2312\cite{GBT23121980PROCNSG21CCECSFIE}, GBK\cite{GBK1995CICSNSE}, und das neuere GB~18030\cite{GB180302022ITCCCS}.%
+\item<7-> Die große Mehrheit der Systeme heute~(und \python) verwendet einen gemeinsamen Standard für \alert{alle} Sprachen: \glsFull{unicode}\cite{TUC2023U1510,TUC2023U151ACS,ISOIEC106462020ITUCCSU}.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Unicode Beispiel}%
+\only<-1,21->{%
+\begin{itemize}%
+\only<-23,27->{%
+\item Jedem Zeichen ist eine Zahl zugeordnet.\only<-1>{ Gucken wir uns das mal an.}%
+\item<21-> \inQuotes{你}~entspricht der Hexadezimalzahl~4f60, \inQuotes{好}~ist durch die Hexadezimalzahl~597d repräsentiert, und der Voll\nobreakdashes-weite Satzpunkt~\inQuotes{。} entspricht der Hexadezimalzahl~3002.%
+\item<22-> Alle Zeichen können als so-genanntes Unicode-Escape, also \textil{\\u}~gefolgt von der entsprechenden Hexadezimalzahl geschrieben Werden.}%
+\only<-24>{\item<23->{ Gucken wir uns das mal an.}}%
+%
+\item<25-> Wir verwenden die Unicode-Escapes \textil{\\u4f60}, \textil{\\u597d}, und \textil{\\u3002} für die drei Zeichen~\inQuotes{你好。}.\uncover<26->{ %
+Und tatsächlich wird der korrekte Text gedruckt.%
+}%
+%
+\item<27-> Damit haben Sie nun also auch eine Vorstellung, wie Text im Speicher des Computers dargstellt wird.%
+%
+\end{itemize}%
+}%
+\locateGraphic{2}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset01}{0.29}{0.1}%
+\locateGraphic{3}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset02}{0.29}{0.1}%
+\locateGraphic{4}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset03}{0.29}{0.1}%
+\locateGraphic{5}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset04}{0.29}{0.1}%
+\locateGraphic{6}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset05}{0.29}{0.1}%
+\locateGraphic{7}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset06}{0.29}{0.1}%
+\locateGraphic{8}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset07}{0.29}{0.1}%
+\locateGraphic{9}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset08}{0.29}{0.1}%
+\locateGraphic{10}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset09}{0.29}{0.1}%
+\locateGraphic{11}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset10}{0.29}{0.1}%
+\locateGraphic{12}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset11}{0.29}{0.1}%
+\locateGraphic{13}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset12}{0.29}{0.1}%
+\locateGraphic{14}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset13}{0.29}{0.1}%
+\locateGraphic{15}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset14}{0.29}{0.1}%
+\locateGraphic{16}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset15}{0.29}{0.1}%
+\locateGraphic{17}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset16}{0.29}{0.1}%
+\locateGraphic{18}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset17}{0.29}{0.1}%
+\locateGraphic{19}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset18}{0.29}{0.1}%
+\locateGraphic{20}{width=0.42\paperwidth}{graphics/unicodeCharacterTableSubset/unicodeCharacterTableSubset19}{0.29}{0.1}%
+%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/strBasic/strBasic03python3done}{0.1}{0.37}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/unicodeEscape/unicodeEscape01print}{0.1}{0.37}%
+\locateGraphic{26}{width=0.8\paperwidth}{graphics/unicodeEscape/unicodeEscape02printDone}{0.1}{0.37}%
+\end{frame}%
+%
 \section{Zusammenfassung}%
 %
 \begin{frame}%
 \frametitle{Zusammenfassung}%
 \begin{itemize}%
-\item Fertig.%
+\item Zeichenketten, Strings, also Instanzen der Klasse~\pythonil{str} sind wichtig.%
+\item<2-> Oftmals bekommen wir Daten in Form von solchen Zeichenketten als Input für unsere Programme.%
+\item<3-> Wir wandeln sie dann in andere Datentypen, with \pythonil{int} oder \pythonil{float} um, um mit ihnen zu arbeiten.%
+\item<4-> Danach geben wir die Ergebnisse unserer Berechnungen wieder als Text aus. Dabei können wir z.B.\ f\nobreakdashes-Strings nutzen, um andere Datentypen elegant als Strings zu formatieren.%
+\item<5-> Manchmal wollen wir auch mit Strings direkt arbeiten, z.B.\ Teile von ihnen extrahieren oder Groß-\ in Kleinbuchstaben umwandeln.%
+\item<6-> Wir können Sonderzeichen durch Escape-Sequenzen in Strings einführen und mehrzeilige Strings erstellen.%
+\item<7-> Intern werden die Zeichen einer Zeichenkette durch Zahlen repräsentiert, wobei die Zuordnung von Zahlen zu Zeichen meist auf \pgls{unicode} basiert.%
+\item<8-> Das war schon recht viel. Hat aber auch Spaß gemacht.%
 \end{itemize}%
 \end{frame}%
 %
