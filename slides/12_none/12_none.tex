@@ -1,0 +1,145 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{12.~None}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Der letzte einfache Datentyp, den wir besprechen werden, ist \pythonilIdx{NoneType} and und sein einziger Wert,~\pythonilIdx{None}.%
+\item<2-> Wir kennen bereits den Datentyp~\pythonil{bool}, der nur zwei Werte annehmen kann,~\pythonil{True} und~\pythonil{False}.%
+\item<3-> Wir haben auch gelernt, dass der Datentyp~\pythonil{float} einen besonderen Wert hat, nämlich \inQuotes{Not a Number}, welcher als~\pythonilIdx{nan} geschrieben wird.%
+\item<4-> \pythonilIdx{None} wird in Situationen genutzt, in denen wir spezifizieren wollen, dass etwas keinen Wert hat.%
+\item<5-> Es ist kein \pythonil{int}, \pythonil{float}, \pythonil{str} oder \pythonil{bool}.%
+\item<6-> \pythonilIdx{None} ist nicht das selbe wie~\pythonil{0}, es ist nicht das selbe wie~\pythonilIdx{nan}, und es entspricht auch nicht dem leeren String~\pythonil{\"\"}.%
+\item<7-> Es ist einfach \alert{nichts}.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Ausprobieren}%
+%
+\begin{frame}[t]%
+\frametitle{Probieren wir das mal aus}%
+\begin{itemize}%
+\only<-1,26->{\item Probieren wir das mal aus.}%
+%
+\only<-2>{\item<2-> Wir öffnen ein Terminal (Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
+%
+\only<-3>{\item<3-> Wir schreiben \bashil{python3} und drücken~\keys{\enter}.}%
+%
+\only<-4>{\item<4-> Der \python-Interpreter startet.}%
+%
+\only<-6>{\item<5-> Normalerweise, wenn wir einen Wert~(z.B.~\pythonil{3}) in die \python-Konsole schreiben und~\keys{\enter} drücken, dann wird der Wert uns wieder ausgegeben. Schreiben wir dagegen \pythonil{None} in die \python-Konsole und drücken~\keys{\enter}, dann\only<-5>{\dots}\uncover<6->{ %
+passiert gar nichts.%
+}}%
+%
+\only<-8>{\item<7-> Wollen wir \pythonil{None} ausgeben, dann müssen wir explizit \pythonil{print(None)} schreiben.\uncover<8->{ %
+Dann wird es wirklich ausgegeben.%
+}}%
+%
+\only<-10>{\item<9-> Lassen Sie uns jetzt prüfen, ob etwas \pythonil{None} ist oder nicht. Normalerweise würden wir dafür den \pythonil{==}~Operator verwenden, aber das soll man nicht, wenn \pythonil{None} vorkommen kann~\cite{PEP8}.\uncover<10->{ Wir machen es trotzdem. Nur spaßeshalber. Und es funktioniert trotzdem wie erwartet.%
+}}%
+%
+\only<-12>{\item<11-> Ist ein String gleich \pythonil{None}?\uncover<12->{ Nein.%
+}}%
+%
+\only<-14>{\item<13-> Ist \pythonil{None} gleich \pythonil{None}?\uncover<14->{ Ja. Das ist interessant, weil wir ja wissen, dass \pythonil{nan == nan} \pythonil{False} ergibt. Aber \pythonil{nan} ist ja auch \inQuotes{undefiniert} und \pythonil{None} ist \inQuotes{Nichts}.%
+}}%
+%
+\only<-16,21>{\item<15-> Der Operator \pythonil{is} prüft die Identität von Objekten: \pythonil{a is b} ist \pythonil{True}, wenn \pythonil{a} und \pythonil{b} das selbe Objekt sind~(nicht nur das gleiche). Testen wir mal \pythonil{1 is None}.\uncover<16->{ %
+Das stimmt natürlich nicht.~(Und wir bekommen auch eine Warnung, dass die Frage an sich schon sinnlos ist.)%
+}}%
+%
+\only<-18,21>{\item<17-> \only<-20>{Der Operator \pythonil{is} prüft die Identität von Objekten: \pythonil{a is b} ist \pythonil{True}, wenn \pythonil{a} und \pythonil{b} das selbe Objekt sind~(nicht nur das gleiche). }Testen wir mal \pythonil{\"Hello World!\" is None}.\uncover<18->{ %
+Das stimmt natürlich nicht.~(Und wir bekommen auch eine Warnung, dass die Frage an sich schon sinnlos ist.)%
+}}%
+%
+\only<-21>{\item<19-> \only<-20>{Der Operator \pythonil{is} prüft die Identität von Objekten: \pythonil{a is b} ist \pythonil{True}, wenn \pythonil{a} und \pythonil{b} das selbe Objekt sind~(nicht nur das gleiche). }Testen wir nun \pythonil{None is None}.\uncover<20->{ %
+Das stimmt natürlich.%
+}}%
+%
+\only<-23>{\item<22-> Wir haben bereits viele Funktionen in \python\ kennengelernt, die Werte zurückliefern. So gibt uns \pythonil{sin} z.B.\ einen \pythonil{float}-Wert zurück. Was aber liefern Funktionen wie \pythonil{print} zurück, die keinen Rückgabewert haben?\uncover<23->{ %
+\pythonil{None}. Die liefern \pythonil{None} zurück, weil \pythonil{None} nämlich \inQuotes{Nichts} ist.%
+}}%
+%
+\only<24->{%
+\item<24-> Was ist der Datentyp von \pythonil{None}?\uncover<25->{ %
+Der ist \pythonil{NoneType}.%
+}%
+%
+\item<26-> Das war's auch schon, mehr brauchen wir uns hier gar nicht anschauen.%
+\item<27-> \pythonil{None} steht für \inQuotes{Nichts}.%
+\item<28-> Es ist kein Wert und keine Zahl.%
+\item<29-> Funktionen, die nichts zurückliefern, liefern \pythonil{None} zurück.%
+\item<30-> Wenn wir wissen wollen, ob \pythonil{X} \pythonil{None} ist, dann schreiben wir \pythonil{x is None}.%
+}%
+%
+\end{itemize}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/none/none01openTerminal}{0.1}{0.37}%
+\locateGraphic{3}{width=0.8\paperwidth}{graphics/none/none02python3}{0.1}{0.37}%
+\locateGraphic{4}{width=0.8\paperwidth}{graphics/none/none03python3Done}{0.1}{0.37}%
+\locateGraphic{5}{width=0.8\paperwidth}{graphics/none/none04none}{0.1}{0.37}%
+\locateGraphic{6}{width=0.8\paperwidth}{graphics/none/none05noneDone}{0.1}{0.37}%
+\locateGraphic{7}{width=0.8\paperwidth}{graphics/none/none06printNone}{0.1}{0.37}%
+\locateGraphic{8}{width=0.8\paperwidth}{graphics/none/none07printNoneDone}{0.1}{0.37}%
+\locateGraphic{9}{width=0.8\paperwidth}{graphics/none/none08c1eqNone}{0.1}{0.37}%
+\locateGraphic{10}{width=0.8\paperwidth}{graphics/none/none09c1eqNoneDone}{0.1}{0.37}%
+\locateGraphic{11}{width=0.8\paperwidth}{graphics/none/none10strEqNone}{0.1}{0.37}%
+\locateGraphic{12}{width=0.8\paperwidth}{graphics/none/none11strEqNoneDone}{0.1}{0.37}%
+\locateGraphic{13}{width=0.8\paperwidth}{graphics/none/none12noneEqNone}{0.1}{0.37}%
+\locateGraphic{14}{width=0.8\paperwidth}{graphics/none/none13noneEqNoneDone}{0.1}{0.37}%
+\locateGraphic{15}{width=0.8\paperwidth}{graphics/none/none14c1isNone}{0.1}{0.37}%
+\locateGraphic{16}{width=0.8\paperwidth}{graphics/none/none15c1isNoneDone}{0.1}{0.37}%
+\locateGraphic{17}{width=0.8\paperwidth}{graphics/none/none16strIsNone}{0.1}{0.37}%
+\locateGraphic{18}{width=0.8\paperwidth}{graphics/none/none17strIsNoneDone}{0.1}{0.37}%
+\locateGraphic{19}{width=0.8\paperwidth}{graphics/none/none18noneIsNone}{0.1}{0.37}%
+\locateGraphic{20}{width=0.8\paperwidth}{graphics/none/none19noneIsNoneDone}{0.1}{0.37}%
+%
+\locate{21}{%
+\parbox{0.9\paperwidth}{%
+\bestPractice{cmpWithNone}{%
+Vergleiche mit Singletons wie \pythonil{None} müssen immer mit dem \pythonil{is} oder dem \pythonil{is not}~Operator gemacht werden, niemals mit Gleichheitsoperatoren wie~\python{==} oder~\pythonil{!=}~\cite{PEP8}.}%
+}}{0.05}{0.54}%
+%
+\locateGraphic{22}{width=0.8\paperwidth}{graphics/none/none20printPrint}{0.1}{0.37}%
+\locateGraphic{23}{width=0.8\paperwidth}{graphics/none/none21printPrintDone}{0.1}{0.37}%
+\locateGraphic{24}{width=0.8\paperwidth}{graphics/none/none22typeNone}{0.1}{0.37}%
+\locateGraphic{25}{width=0.8\paperwidth}{graphics/none/none23typeNoneDone}{0.1}{0.37}%
+\end{frame}
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Das war ein sehr kurzes Kapitel. Trotzdem haben wir einiges gelernt.%
+\item<2-> \pythonil{None} steht für \inQuotes{Nichts}.%
+\item<3-> Wofür braucht man das?\uncover<4->{%
+\begin{enumerate}%
+\item Funktionen, die keine Ergebnisse zurückliefern, liefern \pythonil{None} zurück.%
+\item<5-> Manchmal speichert man mehrere Werte während einer Berechnung. Man kann Variablen~(kommt später) mit \pythonil{None} initialisieren um auszudrücken, dass sie noch keinen Wert haben. Das ist besser als mit~\pythonil{0} oder~\pythonil{nan}\dots%
+\item<6-> Manche Funktionen haben optinionale Parameter~(kommt später) und man nimmt gerne~\pythonil{None} als Standardwert für diese.%
+\end{enumerate}%
+}%
+\item<7-> Der Operator \pythonil{a is b} prüft, ob zwei Werte \pythonil{a} und \pythonil{b} das selbe Objekt sind~(das gucken wir uns irgendwann viel später mal genauer an).%
+\item<8-> Anders als für \pythonil{nan}, wo ja \pythonil{nan == nan} \pythonil{False} ergibt, gilt \pythonil{None is None} (und auch \pythonil{None == None})
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
