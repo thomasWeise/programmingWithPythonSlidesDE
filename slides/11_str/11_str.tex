@@ -21,7 +21,7 @@
 \item Der vierte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.\cite{PSF:P3D:TPSL:TSTS}%
 \item<2-> Zeichenketten sind beliebig lange Sequenzen von Text-Zeichen.%
 \item<3-> In \python\ sind sie durch den Datentyp \pythonil{str} repräsentiert.%
-\item<4-> Wir haben sie bereits oftmals implizit oder explizit genutzt, z.B. in unserem ersten Programm, das einfach \pythonil{\"Hello World\"} ausgedruckt hat.%
+\item<4-> Wir haben sie bereits oftmals implizit oder explizit genutzt, \DEzB\ in unserem ersten Programm, das einfach \pythonil{\"Hello World\"} ausgedruckt hat.%
 \item<5-> \pythonil{\"Hello World\"} is so ein Text-String.%
 \end{itemize}%
 \end{frame}%
@@ -375,7 +375,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-13>{\item<12-> Eine \pythonil{int}-Zahl ist ein Ausdruck. Schreiben wir also mal einen \glslink{fstring}{f\nobreakdashes-String}, der eine Zahl in einen Text umwandelt und mit anderem Text kombiniert.\uncover<13->{ Das funktioniert problemlos.%
 }}%
 %
-\only<-15>{\item<14-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns auch, die Erbenisse von Ausdrücken zu formatieren. Schreiben wir z.B.\ \textil{:,} hinten an den Ausdruck (hier: der Zahl) ran, dann wird der Ausdruck als Zahl behandelt und es werden Tausender-Trennzeichen~(hier: Kommas) bei der Umwandlung in Text eingefügt.\uncover<15->{ Aus der Zahl \textil{12345678901234} wird der Text~\textil{12,345,678,901,234}.%%
+\only<-15>{\item<14-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns auch, die Erbenisse von Ausdrücken zu formatieren. Schreiben wir \DEzB\ \textil{:,} hinten an den Ausdruck (hier: der Zahl) ran, dann wird der Ausdruck als Zahl behandelt und es werden Tausender-Trennzeichen~(hier: Kommas) bei der Umwandlung in Text eingefügt.\uncover<15->{ Aus der Zahl \textil{12345678901234} wird der Text~\textil{12,345,678,901,234}.%%
 }}%
 %
 \only<-17>{\item<16-> Wir haben in den Slides zum Datentyp \pythonil{int} verschiedene Zahlensysteme erwähnt. Fügen wir \textil{:x} an den Ausdruck an, so wird sein Ergebnis als Hexadezimalzahl dargestellt.\uncover<17->{ So wird aus der (Dezimal-)Zahl \textil{12345678901234} die Hexadezimalzahl \textil{b3a73ce2ff2}.%
@@ -486,17 +486,17 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-6,26->{%
 \item Oft wollen wir Daten in unser Program einlesen oder eingeben.%
 \item<2-> Die Daten sind of als Text gespeichert oder werden als Text in ein \glslink{terminal}{Terminal} eingegeben.%
-\item<3-> Wir brauchen sie dann aber oft als andere Datentypen, z.B.\ als Zahlen.%
+\item<3-> Wir brauchen sie dann aber oft als andere Datentypen, \DEzB\ als Zahlen.%
 \item<4-> Viele Datentypen in \python\ bieten eine Funktion an, die eine Zeichenkette in sie umwandelt.%
 \only<-6>{%
-\item<5-> \pythonil{int(\"4\")} erzeugt z.B.\ den \pythonil{int}\nobreakdashes-Wert~\pythonil{4}.%
+\item<5-> \pythonil{int(\"4\")} erzeugt \DEzB\ den \pythonil{int}\nobreakdashes-Wert~\pythonil{4}.%
 }%
 }%
 \only<-7>{%
 \item<6-> Schauen wir uns das mal an.%
 }%
 %
-\only<-9>{\item<8-> Die Funktion \pythonil{int(a)} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{int}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<9->{ \pythonil{int(\"1111\")} ergibt daher den Integer~\pythonil{1111}.%
+\only<-9>{\item<8-> Die Funktion \pythonil{int(a)} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{int}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<9->{ \pythonil{int(\"1111\")} ergibt daher den Integer~\pythonil{1111}.%
 }}%
 %
 \only<-11>{\item<10-> Die Funktion hat einen optionalen zweiten Parameter, der die Basis des zu benutzenden Zahlensystems angibt. Die bekannten Präfixe werden automatisch erkannt.\uncover<11->{ \pythonil{int(\"0x1111\", 16)} wandelt eine Hexdezimalzahl \textil{0x1111} um, es gilt $1*1+1*16+1*16^2+1*16^3=1+16+256+4096=4396$ und das ergibt daher den Integer~\pythonil{4369}.%
@@ -505,7 +505,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-13>{\item<12-> Die Funktion hat einen optionalen zweiten Parameter, der die Basis des zu benutzenden Zahlensystems angibt. Die bekannten Präfixe werden automatisch erkannt.\uncover<13->{ \pythonil{int(\"0b1111\", 2)} wandelt eine Binärzahl \textil{0b1111} um, es gilt $1*1+1*2+1*2^2+1*2^3=1+2+4+8=15$ und das ergibt daher den Integer~\pythonil{15}.%
 }}%
 %
-\only<-15>{\item<14-> Die Funktion~\pythonil{float} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{float}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<15->{ \pythonil{float} erkennt die wissenschaftliche Notation und \pythonil{float(\"2.233e4\")} wird daher~\pythonil{22330.0}.%
+\only<-15>{\item<14-> Die Funktion~\pythonil{float} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{float}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<15->{ \pythonil{float} erkennt die wissenschaftliche Notation und \pythonil{float(\"2.233e4\")} wird daher~\pythonil{22330.0}.%
 }}%
 %
 \only<-17>{\item<16-> Natürlich geht das auch ohne wissenschaftliche Notation.\uncover<16->{ \pythonil{float(\"0.1123\")} wird zu~\pythonil{0.1123}.%
@@ -517,10 +517,10 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-21>{\item<20-> Es werden auch die Konstanten für \inQuotes{zu groß für \pythonil{float}} und \inQuotes{keine Zahl} erkannt.\uncover<21->{ Und \pythonil{float(\"nan\")} wird zu~\pythonil{math.nan}.%
 }}%
 %
-\only<-23>{\item<22-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<23->{ Aus \pythonil{bool(\"True\")} wird daher~\pythonil{True}.%
+\only<-23>{\item<22-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<23->{ Aus \pythonil{bool(\"True\")} wird daher~\pythonil{True}.%
 }}%
 %
-\only<-25>{\item<24-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte z.B.\ ein String sein.\uncover<25->{ Und \pythonil{bool(\"False\")} wird zu~\pythonil{False}.%
+\only<-25>{\item<24-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<25->{ Und \pythonil{bool(\"False\")} wird zu~\pythonil{False}.%
 }}%
 %
 \item<26-> Das war relativ einfach.%
@@ -706,7 +706,7 @@ Sie können beliebige Ausdrücke enthalten und normal \glslink{strinterpolation}
 \item<3-> Darum konnte ASCII auch nur Lateinische Buchstaben, Satzzeichen, Ziffern, und ein Kontrollzeichen~(wie \textil{\\t} und \textil{\\n}\dots) darstellen.%
 \item<4-> Ihnen ist vielleicht aufgefallen, dass verschiedene Sprachen verschiedene Zeichen verwenden {\dots} und zwar mehr als insgesamt~$2^7=128$.%
 \item<5-> Deshalb gibt es verschiedene solche Zuordnungen.%
-\item<6-> In China existieren verschiedene, auf Chinesische Zeichen spezialisierte, Zuordnungen, z.B.\ das historische GB~2312\cite{GBT23121980PROCNSG21CCECSFIE}, GBK\cite{GBK1995CICSNSE}, und das neuere GB~18030\cite{GB180302022ITCCCS}.%
+\item<6-> In China existieren verschiedene, auf Chinesische Zeichen spezialisierte, Zuordnungen, \DEzB\ das historische GB~2312\cite{GBT23121980PROCNSG21CCECSFIE}, GBK\cite{GBK1995CICSNSE}, und das neuere GB~18030\cite{GB180302022ITCCCS}.%
 \item<7-> Die große Mehrheit der Systeme heute~(und \python) verwendet einen gemeinsamen Standard für \alert{alle} Sprachen: \glsFull{unicode}\cite{TUC2023U1510,TUC2023U151ACS,ISOIEC106462020ITUCCSU}.%
 \end{itemize}%
 \end{frame}%
@@ -762,8 +762,8 @@ Und tatsächlich wird der korrekte Text gedruckt.%
 \item Zeichenketten, Strings, also Instanzen der Klasse~\pythonil{str} sind wichtig.%
 \item<2-> Oftmals bekommen wir Daten in Form von solchen Zeichenketten als Input für unsere Programme.%
 \item<3-> Wir wandeln sie dann in andere Datentypen, with \pythonil{int} oder \pythonil{float} um, um mit ihnen zu arbeiten.%
-\item<4-> Danach geben wir die Ergebnisse unserer Berechnungen wieder als Text aus. Dabei können wir z.B.\ f\nobreakdashes-Strings nutzen, um andere Datentypen elegant als Strings zu formatieren.%
-\item<5-> Manchmal wollen wir auch mit Strings direkt arbeiten, z.B.\ Teile von ihnen extrahieren oder Groß-\ in Kleinbuchstaben umwandeln.%
+\item<4-> Danach geben wir die Ergebnisse unserer Berechnungen wieder als Text aus. Dabei können wir \DEzB\ f\nobreakdashes-Strings nutzen, um andere Datentypen elegant als Strings zu formatieren.%
+\item<5-> Manchmal wollen wir auch mit Strings direkt arbeiten, \DEzB\ Teile von ihnen extrahieren oder Groß-\ in Kleinbuchstaben umwandeln.%
 \item<6-> Wir können Sonderzeichen durch Escape-Sequenzen in Strings einführen und mehrzeilige Strings erstellen.%
 \item<7-> Intern werden die Zeichen einer Zeichenkette durch Zahlen repräsentiert, wobei die Zuordnung von Zahlen zu Zeichen meist auf \pgls{unicode} basiert.%
 \item<8-> Das war schon recht viel. Hat aber auch Spaß gemacht.%

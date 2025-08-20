@@ -62,11 +62,23 @@ Mit der Ausnahme dieser Materialien steht das Kursmaterial hier unter der Attrib
 
 Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0 Lizenz sondern unter dem Copyright ihrer Besitzer stehen beinhaltet, aber ist nicht beschränkt auf:
 
-+ das Python Logo, z.B.,
++ das Python Logo, \DEzB,
   - text/main/gettingStarted/pythonLogo.pdf
   - text/main/gettingStarted/pythonLogo.svg
 + alle Screenshots von Webseiten
-+ die Titelseite des Turbo Pascal User's Manual
++ die Titelseite des Turbo Pascal User's Manual im Ordner "slides/09_dokumentation/graphics"
++ die Fotos im Ordner "slides/01_organisation/graphics":
+  - [Chemnitz Karl-Marx-Kopf (chemnitzKM.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Brueckenstrasze_Karl-Marx-Monument_1) Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+  - [Chemnitz Roter Turm (chemnitzRT.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Red_Tower) Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+  - [Chemnitz Rathaus (chemnitzARH.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Marktet_Square_Old_Town_Hall)  Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+  - [TU Chemnitz Strana (chemnitzTUC.jpg)](https://dium.uniud.it/it/didattica/erasmus/accordi-attivi/technische-universit%C3%A4t-chemnitz) Kolossos [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
+  - [Chemnitz Market (chemnitzMA.jpg)](https://pixabay.com/photos/chemnitz-christmas-christmas-market-2847837) [eagle77](https://pixabay.com/users/eagle77-6271011) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Chemnitz Schlossteich (chemnitzST.jpg)](https://pixabay.com/photos/chemnitz-castle-pond-pond-lake-3552667) [eagle77](https://pixabay.com/users/eagle77-6271011) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Chemnitz City Center (chemnitzCC.jpg)](https://pixabay.com/photos/chemnitz-building-red-tower-1752712) [Firstclasspixel](https://pixabay.com/users/firstclasspixel-2344651) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Kassel Königsplatz (kasselKP.jpg)](https://pixabay.com/photos/kassel-kassel-downtown-downtown-628483) [till_westhof](https://pixabay.com/users/till_westhof-604861) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Kassel Herkules (kasselHERC.jpg)](https://pixabay.com/photos/hercules-statue-stairs-kassel-park-4174005) [webandi](https://pixabay.com/users/webandi-1460261) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Kassel Mountain Park (kasselMP.jpg)](https://pixabay.com/photos/kassel-world-heritage-1092096) [Barni1](https://pixabay.com/users/barni1-773830) [Pixabay Content License](https://pixabay.com/service/license-summary)
+  - [Kassel Schloss Wilhelmshöhe (kasselWH.jpg)](https://pixabay.com/photos/wilhelmsh%C3%B6he-castle-kassel-1201140) [Pixabay Content License](https://pixabay.com/service/license-summary)
 
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
