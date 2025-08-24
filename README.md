@@ -1,0 +1,109 @@
+﻿# Programming with Python &mdash; Programmieren mit Python
+
+## 1. Introduction
+
+*"Programming with Python"*, zu Deutsch "Programmieren mit Python", ist sowohl ein Buch als auch ein Kurs der [Universität Hefei](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)).
+Hier stellen wir alle Ressourcen des Kurses zur Verfügung.
+
+Diese Ressourcen könnten auch für Schüler der Oberstufe nützliche sein, oder für jeden, die oder der sich für das Thema interessiert.
+Unser Ziel ist es, eine gute Balance zwischen Theorie und Praxis zu finden, wobei wir uns eher an der Praxis orientieren.
+Genaugenommen lehren wir Programmieren zusammen mit einigen Konzepten aus der Softwaretechnologie bzw. dem Softwareingenieurswesen.
+Es ist die Meinung des Autors, dass diese beiden Themengebiete, nämlich Programmieren und Softwaretechnologie, nicht getrennt werden können.
+Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit-Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
+Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die Programmierung gehen.
+
+## 2. Ressourcen
+Die Webseite mit aktuellen Informationen über den Kurs ist <https://thomasweise.github.io/programmingWithPython>.
+
+### 2.1. Das Buch
+Das Kursbuch, in englischer Sprache geschrieben, findet sich unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
+
+### 2.2. Die Slides in Deutsch
+Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
+
+1. [Organisation](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_organisation.pdf)
+2. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/02_einleitung.pdf)
+3. [Python Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/03_python_installieren.pdf)
+4. [PyCharm Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/04_pycharm_installieren.pdf)
+5. [Programme Erstellen und Ausführen](https://thomasweise.github.io/programmingWithPythonSlidesDE/05_programme_erstellen_und_ausführen.pdf)
+6. [Beispiele Herunterladen](https://thomasweise.github.io/programmingWithPythonSlidesDE/06_beispiele_herunterladen.pdf)
+7. [Der Datentyp `int`](https://thomasweise.github.io/programmingWithPythonSlidesDE/07_int.pdf)
+8. [Der Datentyp `float`](https://thomasweise.github.io/programmingWithPythonSlidesDE/08_float.pdf)
+9. [Zwischenspiel: Python Dokumentation und Informationsquellen](https://thomasweise.github.io/programmingWithPythonSlidesDE/09_dokumentation.pdf)
+10. [Der Datentyp `bool`](https://thomasweise.github.io/programmingWithPythonSlidesDE/10_bool.pdf)
+11. [Der Datentyp `str`](https://thomasweise.github.io/programmingWithPythonSlidesDE/11_str.pdf)
+12. [`None`](https://thomasweise.github.io/programmingWithPythonSlidesDE/12_none.pdf)
+13. [Variablen: Wertzuweisung](https://thomasweise.github.io/programmingWithPythonSlidesDE/13_variablen_wertzuweisung.pdf)
+
+
+### 2.3. Die Slides in Englisch
+Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
+The slides for the course are available at <https://thomasweise.github.io/programmingWithPythonSlides> and also listed below.
+
+1. [Introduction](https://thomasweise.github.io/programmingWithPythonSlides/01_introduction.pdf)
+2. [Getting Started](https://thomasweise.github.io/programmingWithPythonSlides/02_getting_started.pdf)
+
+### 2.4. Die Beispielprogramme
+Unser Kurs bietet sehr viele Beispiele.
+Sie können diese unter <https://github.com/thomasWeise/programmingWithPythonCode> finde.
+
+
+### 2.5. LaTeX Quelltexte, Grafiken, die Bibliographie, etc.
+Das Buch und die Slides zu diesem Kurs sind in LaTeX geschrieben.
+Sie können die Quelldateien unter <https://github.com/thomasWeise/programmingWithPython>, <https://github.com/thomasWeise/programmingWithPythonSlidesDE>, und <https://github.com/thomasWeise/programmingWithPythonSlides> finden.
+Sie können diese unter der untenstehenden Lizenz nutzen.
+
+
+## 3. Lizenz
+Alle Materialien, die ich für diesen Kurs erstellt habe, sind frei verfügbar.
+Das Kursmaterial beinhaltet auch Bilder und Grafiken, die von anderen erstellt wurden.
+Diese wurden explizit markiert und stehen unter dem Copyright ihrer entsprechenden Autoren.
+Alle Logos und Trademarks stehen ebenfalls unter dem Copyright ihrer entsprechenden Autoren.
+Mit der Ausnahme dieser Materialien steht das Kursmaterial hier unter der Attribution-NonCommercial-ShareAlike 4.0 International license (CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0), welche unter [http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/) zusammengefasst ist.
+
+Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0 Lizenz sondern unter dem Copyright ihrer Besitzer stehen beinhaltet, aber ist nicht beschränkt auf:
+
++ das Python Logo, \DEzB,
+  - text/main/gettingStarted/pythonLogo.pdf
+  - text/main/gettingStarted/pythonLogo.svg
++ alle Screenshots von Webseiten
++ die Titelseite des Turbo Pascal User's Manual im Ordner "slides/09_dokumentation/graphics"
++ die Fotos im Ordner "slides/01_organisation/graphics":
+    - [Chemnitz Karl-Marx-Kopf (chemnitzKM.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Brueckenstrasze_Karl-Marx-Monument_1) Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+    - [Chemnitz Roter Turm (chemnitzRT.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Red_Tower) Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+    - [Chemnitz Rathaus (chemnitzARH.jpg)](https://global-geography.org/af/Geography/Europe/Germany/Pictures/Saxony/Chemnitz_-_Marktet_Square_Old_Town_Hall)  Ewald Judt [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+    - [TU Chemnitz Strana (chemnitzTUC.jpg)](https://dium.uniud.it/it/didattica/erasmus/accordi-attivi/technische-universit%C3%A4t-chemnitz) Kolossos [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
+    - [Chemnitz Market (chemnitzMA.jpg)](https://pixabay.com/photos/chemnitz-christmas-christmas-market-2847837) [eagle77](https://pixabay.com/users/eagle77-6271011) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Chemnitz Schlossteich (chemnitzST.jpg)](https://pixabay.com/photos/chemnitz-castle-pond-pond-lake-3552667) [eagle77](https://pixabay.com/users/eagle77-6271011) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Chemnitz City Center (chemnitzCC.jpg)](https://pixabay.com/photos/chemnitz-building-red-tower-1752712) [Firstclasspixel](https://pixabay.com/users/firstclasspixel-2344651) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Kassel Königsplatz (kasselKP.jpg)](https://pixabay.com/photos/kassel-kassel-downtown-downtown-628483) [till_westhof](https://pixabay.com/users/till_westhof-604861) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Kassel Herkules (kasselHERC.jpg)](https://pixabay.com/photos/hercules-statue-stairs-kassel-park-4174005) [webandi](https://pixabay.com/users/webandi-1460261) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Kassel Mountain Park (kasselMP.jpg)](https://pixabay.com/photos/kassel-world-heritage-1092096) [Barni1](https://pixabay.com/users/barni1-773830) [Pixabay Content License](https://pixabay.com/service/license-summary)
+    - [Kassel Schloss Wilhelmshöhe (kasselWH.jpg)](https://pixabay.com/photos/wilhelmsh%C3%B6he-castle-kassel-1201140) [Pixabay Content License](https://pixabay.com/service/license-summary)
+
+Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
+Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.
+Sie können die Dateien frei teilen.
+Sie können auch den Text und Bilder kopieren, solange sie das Buch und die Originalquelle zitieren.
+Dazu können Sie zum Beispiel den folgenden BibTeX-Eintrag verwenden:
+
+<pre>@book{programmingWithPython,<br/>&nbsp;author&nbsp;=&nbsp;{Thomas&nbsp;Weise},<br/>&nbsp;title&nbsp;=&nbsp;{Programming&nbsp;with&nbsp;Python},<br/>&nbsp;year&nbsp;=&nbsp;{2024--2025},<br/>&nbsp;publisher&nbsp;=&nbsp;{Institute&nbsp;of&nbsp;Applied&nbsp;Optimization,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/aibd">School&nbsp;of&nbsp;Artificial&nbsp;Intelligence&nbsp;and&nbsp;Big&nbsp;Data</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/">Hefei&nbsp;University</a>},<br/>&nbsp;address&nbsp;=&nbsp;{Hefei,&nbsp;Anhui,&nbsp;China},<br/>&nbsp;url&nbsp;=&nbsp;{<a href="https://thomasweise.github.io/programmingWithPython">https://thomasweise.github.io/programmingWithPython</a>}<br/>}</pre>
+
+**Wenn Sie Kommentare oder Vorschläge zu diesem Buch oder dem Kurs haben, oder wenn Sie Fehler gefunden haben, bitte öffnen Sie einen Issue unter [issue here](https://github.com/thomasWeise/programmingWithPython/issues).**
+Ihr Feedback würde helfen, den Kurs zu verbessern.
+
+Dieses Buch und der Kurs sind unter der Attribution-NonCommercial-ShareAlike 4.0 International Lizenz veröffentlicht (CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0), siehe [http://creativecommons.org/licenses/by-nc-sa/4.0/](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+Wir haben das Programm [pdfsizeopt](https://github.com/pts/pdfsizeopt) statisch in den Buildprozess unserer Materialien über das [bookbase Repository](https://github.com/thomasWeise/bookbase) eingefügt.
+Dieses Werkzeug ist natürlich von der Lizenz oben ausgenommen.
+Es steht unter der GNU GENERAL PUBLIC LICENSE Version 2, June 1991 und sein Copyright liegt bei seinen Autoren.
+
+
+## 4. Kontakt
+Wenn Sie weitere Fragen oder Vorschläge haben, kontaktieren Sie bitte
+Prof. Dr. Thomas Weise (汤卫思教授)
+vom Institute of Applied Optimization (应用优化研究所, IAO)
+der School of Artificial Intelligence and Big Data ([人工智能与大数据学院](http://www.hfuu.edu.cn/aibd))
+der [Hefei University](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)),
+in Hefei, Anhui, China (中国安徽省合肥市)
+via email an [tweise@hfuu.edu.cn](mailto:tweise@hfuu.edu.cn) mit CC an [tweise@ustc.edu.cn](mailto:tweise@ustc.edu.cn).
