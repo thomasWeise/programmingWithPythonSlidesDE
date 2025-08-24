@@ -1,0 +1,250 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{13.~Variablen:~Wertzuweisung}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Wir haben bereits verschiedene Datentypen in \python\ kennengelernt.%
+\item<2-> Wir wissen, wie man Ausdrücke schreibt, die \DEzB~eine mathematische Berechnung durchführen oder Zeichenketten bearbeiten.%
+\item<3-> Wir sind aber noch einiges davon entfernt, richtige Programme zu schreiben.%
+\item<4-> Ausdrücke sind oft Berechnungen, die im Großen und Ganzen in einem Schritt ausgeführt werden und mit nur eine Zeile Kode definiert werden.%
+\item<5-> Für kompliziertere Berechnungen müssten wir in der Lage sein, irgendwie Werte zu speichern.%
+\item<6-> Dafür gibt es \alert{Variable}.
+\end{itemize}%
+\end{frame}%
+%
+\section{Variablen und Kommentare}%
+%
+\begin{frame}%
+\frametitle{Variablen Definieren und Werte Zuweisen}%
+\begin{itemize}%
+\item Wie in der Mathematik ist eine Variable in \python\ im Grunde nur ein Name, dem ein Wert zugewiesen wurde.%
+\item<2-> Wir können Variablen definieren und ihnen Werte zuweisen, in dem wir schreiben \pythonil{Name = Wert}.%
+\item<3-> Hier ist \pythonil{Name} der Name der Variablen und \pythonil{Wert} ist der Wert, den wir dem Name zuweisen.%
+\item<4-> Wenn wir den gespeicherten Wert benutzen wollen, dann brauchen wir stattdessen nur \pythonil{Name} zu schreiben.%
+\item<5-> Wir können \pythonil{Name} in beliebigen Ausdrücken verwenden und \python\ benutzt dann stattdessen \pythonil{Wert}.%
+\item<6-> Das haben Sie sogar schon gesehen, als wir nämlich die Variablen~\pythonilIdx{pi}, \pythonilIdx{e}, \pythonilIdx{inf}, und \pythonilIdx{nan} verwendet haben, die wir aus dem Modul~\pythonilIdx{math} importiert haben.%
+\item<7-> Sie können auch den Wert ändern, den eine Variable speichert, in dem Sie der Variablen einfach einen neuen Wert zuweise, \DEzB~\pythonil{Name = Neuer_Wert}.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Programme}%
+\begin{itemize}%
+\item Wir können nun Zwischenergebnisse speichern und wieder abrufen.
+\item<2-> Zum ersten Mal können wir nun Programme schreiben, die Berechnung über mehrer Schritte durchführen und aus mehreren Zeilen Kode bestehen.%
+\item<3-> \python-Programme werden in Textdateien mit der Endung~\textil{.py} gespeicher, \DEzB~\textil{hallo.py}.%
+\item<4-> In genau dem Moment, in dem wir damit beginnen echte Programme zu schreiben, passieren zwei Dinge\only<-4>{.}\uncover<5->{:%
+\begin{enumerate}%
+\item Unser Kode wird viel komplexer.%
+\item<6-> Unser Kode kann wieder verwendet werden, also mehrmals ausgeführt werden.\uncover<7->{ Von uns, heute, morgen, oder in zehn Jahren.\uncover<8->{ Und mit anderen Leuten geteilt werden, die den Kode dann heute, morgen, oder in zehn Jahren ausführen.}}%
+\end{enumerate}}%
+%
+\item<9-> Das ändert die Qualität unseres Kodes extrem stark.%
+\item<10-> Bisher war der \python-Interpreter im Grunde ein Taschenrechner für uns.%
+\item<11-> Jetzt werden unsere Programme zu Werkzeugen, die wir hunderte Male verwenden oder Ziegel in riesigen Architekturen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Programme und Kommentare}%
+\begin{itemize}%
+\item Unsere Programme können nun permanente, wiederverwendete Werkzeuge werden, komplexe Maschinen, die wichtige Aufgaben erfüllen.%
+\item<2-> In genau dem Moment wird es notwendig, dass wir unseren Kode klar dokumentieren.%
+\item<4-> Wir werden niemals nur Kode schreiben -- wir schreiben immer auch Kommentare, die beschreiben, was unser Kode tut.%
+\item<4-> Wir üben das von Anfang an. Wir \alert{müssen} das konsequent durchziehen.%
+\end{itemize}%
+\uncover<5->{%
+\bestPractice{comments}{%
+Kommentare helfen uns, zu beschreiben was der Kode in Programmen tut und sind ein wichtiger Teil der Dokumentation unsere Kodes. %
+Kommentare beginnen mit dem Zeichen~\pythonilIdx{\#}. %
+Der \python-Interpreter ignoriert allen Text nach diesem Zeichen bis zum Ende der Zeile. %
+Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen nach einem \python-Kommando einfügen und dann einen Kommentar beginnen~\cite{PEP8}.%
+}%
+\begin{itemize}%
+\item<6-> In diesem Kurs werden wir immer grundlegende neue Elemente der Programmiersprache und wichtige Best Practices zusammen lernen.%
+\end{itemize}%
+}%
+\end{frame}%
+%
+\section{Variablen Zuweisen}%
+%
+\begin{frame}[t]%
+\frametitle{Variablen Zuweisen}%
+%
+\gitLoadAndExecPython{variables:assignment}{}{variables}{assignment.py}{}%
+%
+\begin{itemize}%
+\only<-1,34->{%
+\item Schauen wir uns also ein Beispiel an.%
+}%
+%
+\only<-4,34->{%
+\item<2-> Hier ist ein Programm, das wir in der Datei \pythonil{assignment.py} gespeichert haben.%
+}%
+\only<-4>{%
+\item<3-> Dieses Programm macht nichts sinnvolles.%
+\item<4-> Aber es zeigt einige Dinge, die wir mit Variablen machen können.%
+}%
+%
+\only<-6>{%
+\item<5-> Es fängt damit an, den \pythonilIdx{int}-Wert~\pythonil{1} einer Variablen mit dem Namen \pythonil{int_var} zuzuweisen.%
+\item<6-> Wir hätten auch irgendeinen anderen Namen für die Variable nehmen können, \DEzB~\pythonil{my_value}, \pythonil{cow}, \pythonil{race_car}, so lange er keine Sonderzeichen wie Leerzeichen oder Zeilenumbrüche beinhaltet.%
+}%
+%
+\only<-9>{%
+\item<7-> Aber wir haben eben \pythonil{int_var} genommen.%
+\item<8-> Das \pythonilIdx{=} weist den Wert~\pythonil{1} der Variablen \pythonil{int_value} zu.%
+\item<9-> Der Wert~\pythonil{1} steht danach irgendwo im Speicher und \pythonil{int_var} ist ein Name, der auf diese Speicherstelle zeigt.%
+}%
+%
+\only<-13>{%
+\item<10-> Jetzt können wir \pythonil{int_var} wie jeden anderen beliebigen Wert verwenden.
+\item<12-> Wir können \pythonil{2 + int_var} berechnen und das Ergebnis der \pythonilIdx{print}-Funktion übergeben.%
+\item<13-> Diese druckt dann den Text \textil{3} in den \glsFull{stdout} unseres Programms.%
+}%
+%
+\only<-15>{%
+\item<14-> Wir können \pythonil{int_var} auch in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
+\item<15-> \pythonil{f\"int_var has value \{int_var\}.\"} wird dann zu \pythonil{\"int_var has value 1.\"} \glslink{strinterpolation}{interpoliert}.%
+}%
+%
+\only<-18>{%
+\item<16-> Variablen werden \inQuotes{Variablen} genannt und nicht \inQuotes{Konstanten}, weil wir ihnen auch neue Werte zuweisen können.%
+\item<17-> Wir können \pythonil{int_var} also updaten und ihm einen neuen Wert zuweisen.%
+}%
+%
+\only<-20>{%
+\item<18-> Wir können also \pythonil{int_var = (3 * int_var ) + 1} machen.%
+\item<19-> In dieser Berechnung wird der alte Wert von \pythonil{int_var} benutzt.%
+}%
+%
+\only<-21>{%
+\item<20-> Wie berechnen also \pythonil{(3 * 1) + 1}, was~\pythonil{4} ergibt.%
+\item<21-> Auch dieser Wert steht dann irgendwo im Speicher, und \pythonil{int_var} zeigt darauf.%
+}%
+%
+\only<-24>{%
+\item<22-> Der alte Wert \pythonil{1} wird nicht mehr referenziert.
+\item<23-> Der \python-Interpreter kann den entsprechenden Speicher freigeben und für etwas anderes benutzen.
+\item<24-> Wenn wir jetzt nochmal \pythonil{print(f\"int_var is now \{int_var\}.\")}, wird stattdessen \textil{int_var is now 4.} auf dem \pgls{stdout} ausgegeben.%
+}%
+%
+\only<-27>{%
+\item<25-> Natürlich können wir mehrere Variablen haben!%
+\item<26-> Das Kommando \pythonil{float_var = 3.5} erstellt eine Variable namens \pythonil{float_var}.%
+\item<27-> Es allokiert den entsprechenden Speicher, schreibt den Fließkommawert \pythonil{3.5} hinein, und lässe \pythonil{float_var} datauf zeigen.%
+}%
+%
+\only<-29>{%
+\item<28-> Wir können auch diese Variable in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
+\item<29-> \pythonil{print(f\"float_var has value \{float_var\}.\")} wird zu \pythonil{\"float_var has value 3.5.\"} \glslink{strinterpolation}{interpoliert}.%
+}%
+%
+\only<-31>{%
+\item<30-> In einem letzten Schritt erstellen wir eine dritte Variable mit dem Namen \pythonil{new_var}, um das Ergebnis der Berechnung \pythonil{new_var = float_var * int_var} zu speichern.%
+\item<31-> Das ist das Ergebnis von \pythonil{3.5 * 4}, also der \pythonilIdx{float}-Wert~\pythonil{14.0}.
+}%
+%
+\only<-33>{%
+\item<32-> Zu guter Letzt drucken wir noch \pythonil{print(f\"new_var = \{new_var\}.\" )}, was als \textil{new_var = 14.0.} auf \pgls{stdout} erscheint.%
+\item<33-> Erinnern Sie sich noch an eine Möglichkeit, diese Ausgabe noch leichter zu bekommen?%
+}%
+%
+\item<34-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
+\item<35-> Das passt.%
+\end{itemize}%
+%
+\listingPython{2-8,10-20,22-26,28-30,32-33}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
+\listingOutput{34-}{variables:assignment}{,style=text_style}{0.05}{0.45}{0.9}{0.7}%
+%
+\locateGraphic{9,21,27,31}{width=0.2\paperwidth}{graphics/assignment1}{0.04}{0.38}%
+\locateGraphic{21,27,31}{width=0.2\paperwidth}{graphics/assignment2}{0.28}{0.38}%
+\locateGraphic{27,31}{width=0.2\paperwidth}{graphics/assignment3}{0.52}{0.38}%
+\locateGraphic{31}{width=0.2\paperwidth}{graphics/assignment4}{0.76}{0.38}%
+%
+\end{frame}%
+%
+\section{Kode und Stil}%
+%
+\begin{frame}%
+\frametitle{Variablennamen}%
+\begin{itemize}%
+\item Wir sind mit dem Beispiel noch nicht ganz fertig.%
+\item<2-> Ist Ihnen aufgefallen, wie wir die Variablen benannt haben?%
+\item<3-> In Kleinbuchstaben. Wir haben keine Großbuchstaben verwendet.%
+\item<4-> Das ist der De-facto-Standard in \python\only<-4>{.}\uncover<5->{:}%
+\end{itemize}%
+%
+\uncover<5->{%
+\bestPractice{variableNames}{%
+Variablennamen sollen in Kleinbuchstaben geschrieben werden. Wörter werden durch Unterstriche getrennt\cite{PEP8}.%
+}%
+\uncover<6->{%
+\begin{itemize}%
+\item Das ist wieder so ein komischer Stilhinweis, wie das mit den Kommentaren und den doppelten Anführungszeichen für mehrzeilige Strings\dots%
+\end{itemize}%
+}}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Kode und Stil}%
+\begin{itemize}%
+\item Das ist wieder so ein komischer Stilhinweis, wie das mit den Kommentaren und den doppelten Anführungszeichen für mehrzeilige Strings\dots%
+\item<2-> Warum denken wir über sowas nach, wo wir doch gerade Programmieren lernen?%
+\item<3-> Warum ist das wichtig?\uncover<4->{ Warum ist das wichtig, dass wir das \alert{jetzt} gleich lernen?}%
+\item<4-> Weil das befolgen von \emph{Best Practices} nichts ist, dass man nachträglich später machen kann.%
+\item<5-> Sie werden \alert{niemals} die Zeit haben, den Stil Ihres alten Kodes zu verbessern.%
+\item<6-> Das ist auch nichts, dass man einfach so anfangen kann zu machen.%
+\item<7-> Wenn Sie gelernt haben, eine Sache auf eine bestimmte Art zu machen, dann ist es immer schwer, auf eine andere Art umzuschalten.%
+\item<8-> Wenn ein Koch-Azubi nicht beigebracht bekommt, sich vor dem Essenmachen die Hände zu waschen, dann wird er es später auch nicht von sich aus konsisten machen, auch dann nicht, wenn es ihm einmal explizit gesagt wird.%
+\item<9-> Das befolgen von Stilrichtlinien und Best Practices ist eine Angewohnheit.%
+\item<10-> Und die lernen wir hier gleich mit.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{PEP8}%
+\begin{itemize}%
+\item Für viele Programmiersprachen gibt es umfangreiche und klare Stilrichtlinien.%
+\item<2-> Weil wir meistens kollaborativ an größeren Projekten arbeiten, ist es wichtig, Kode in einem konsisten Stil zu schreiben.%
+\item<3-> Alle Mitarbeiter sollen allen Quellkode leicht lesen und verstehen können.
+\item<4-> Wenn jeder Kode in einem anderen Stil schreibt, vielleicht andere Einrückungen und Namenskonventionen verwendet, dann wird das viel schwerer und verwirrender.%
+\item<5-> Daher sagen uns Stilrichtlinen, wie wir Dinge benennen und unseren Kode formatieren sollen.%
+\end{itemize}%
+%
+\uncover<6->{%
+\bestPractice{PEP8}{%
+Die wichtigsten Stilrichtlinien für die Programmiersprache \python\ ist PEP8:~\citetitle{PEP8}~\cite{PEP8}, die wir unter \citeurl{PEP8} finden können. %
+\python-Kode der PEP8 verletzt ist falscher \python-Kode.%
+}}%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Fertig.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
