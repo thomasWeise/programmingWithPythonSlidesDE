@@ -7,6 +7,19 @@
 \RequirePackage{\sharedDir/styles/styles}%
 \toggleToGerman%
 %
+\definecolor{liuhui-r-color}{HTML}{CC6666}%
+\def\liuhuir{\ensuremath{{\color{liuhui-r-color}r}}}%
+\definecolor{liuhui-s6-color}{HTML}{CC0000}%
+\def\liuhuiss{\ensuremath{{\color{liuhui-s6-color}s_6}}}%
+\definecolor{liuhui-s12-color}{HTML}{0000CC}%
+\def\liuhuist{\ensuremath{{\color{liuhui-s12-color}s_{12}}}}%
+\definecolor{liuhui-y-color}{HTML}{80A000}%
+\def\liuhuiy{\ensuremath{{\color{liuhui-y-color}y}}}%
+\definecolor{liuhui-x-color}{HTML}{00A0A0}%
+\def\liuhuix{\ensuremath{{\color{liuhui-x-color}x}}}%
+\definecolor{liuhui-s24-color}{HTML}{00A000}%
+\def\liuhuistf{\ensuremath{{\color{liuhui-s24-color}s_{24}}}}%
+%
 \subtitle{13.~Variablen:~Wertzuweisung}%
 %
 \begin{document}%
@@ -89,11 +102,11 @@ Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen 
 \gitLoadAndExecPython{variables:assignment}{}{variables}{assignment.py}{}%
 %
 \begin{itemize}%
-\only<-1,34->{%
+\only<-1,34-40>{%
 \item Schauen wir uns also ein Beispiel an.%
 }%
 %
-\only<-4,34->{%
+\only<-4,34-40>{%
 \item<2-> Hier ist ein Programm, das wir in der Datei \pythonil{assignment.py} gespeichert haben.%
 }%
 \only<-4>{%
@@ -165,17 +178,54 @@ Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen 
 \item<33-> Erinnern Sie sich noch an eine Möglichkeit, diese Ausgabe noch leichter zu bekommen?%
 }%
 %
+\only<-35>{%
 \item<34-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
 \item<35-> Das passt.%
+}%
+%
+\only<-37>{%
+\item<36-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
+}%
+\only<-38>{%
+\item<37-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
+}%
+\only<-39>{%
+\item<38-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \textil{assignment.py}.%
+}%
+\only<-40>{%
+\item<39-> Dort können wir diese dann durch \bashil{python3 assignment.py} ausführen.%
+\item<40-> Die Ausgabe ist natürlich die selbe.%
+}%
+%
+\only<-41>{%
+\item<41-> Alternativ können wir die Programmdatei auch in \pycharm\ der \glslink{ide}{IDE} öffnen.%
+}%
+%
+\only<-42>{%
+\item<42-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `assignment'}.%
+}%
+%
+\only<-43>{%
+\item<43-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
+}%
+%
+\only<-44>{%
+\item<44-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
+}%
 \end{itemize}%
 %
 \listingPython{2-8,10-20,22-26,28-30,32-33}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
-\listingOutput{34-}{variables:assignment}{,style=text_style}{0.05}{0.45}{0.9}{0.7}%
+\listingOutput{34-35}{variables:assignment}{,style=text_style}{0.05}{0.45}{0.9}{0.7}%
 %
 \locateGraphic{9,21,27,31}{width=0.2\paperwidth}{graphics/assignment1}{0.04}{0.38}%
 \locateGraphic{21,27,31}{width=0.2\paperwidth}{graphics/assignment2}{0.28}{0.38}%
 \locateGraphic{27,31}{width=0.2\paperwidth}{graphics/assignment3}{0.52}{0.38}%
 \locateGraphic{31}{width=0.2\paperwidth}{graphics/assignment4}{0.76}{0.38}%
+%
+\locateGraphic{36-40}{width=0.9\paperwidth}{graphics/assignmentTerminal}{0.05}{0.55}%
+\locateGraphicTB{41}{width=0.7\paperwidth}{graphics/assignmentPyCharm1}{0.15}{0.285}%
+\locateGraphicTB{42-43}{width=0.7\paperwidth}{graphics/assignmentPyCharm2}{0.15}{0.285}%
+\locateGraphicTB{44}{width=0.7\paperwidth}{graphics/assignmentPyCharm3}{0.15}{0.285}%
 %
 \end{frame}%
 %
@@ -234,13 +284,307 @@ Die wichtigsten Stilrichtlinien für die Programmiersprache \python\ ist PEP8:~\
 }}%
 \end{frame}%
 %
+\section{LIU Hui's Methode, $\pi$~zu Approximieren}%
+%
+\begin{frame}%
+\frametitle{Die Irrationale Kreiszahl~$\pi$}%
+\begin{itemize}%
+\item Probieren wir jetzt ein ernsthafteres Beispiel.%
+\item<2-> Ich bin nicht besonders gut in Mathe, aber ich mag Mathe trotzdem sehr. Machen wir also ein Mathe-Beispiel.%
+\item<3-> Die Kreiszahl~\numberPi\ ist das Verhältnis vom Umfang des Kreises zu seinem Durchmesser.%
+\item<4-> Wir haben bereits in Einheit~8 über den Datentyp \pythonil{float} gesagt, das \numberPi\ transzendent ist, eine unendliche, sich nicht wiederholende Sequenz von Ziffern.%
+\item<5-> Wir können \numberPi\ bis zu einer gewissen Präzision berechnen, \DEzB~als die \pythonil{float}-Konstante \pythonilIdx{pi} mit dem Wert \pythonil{3.141592653589793}.%
+\item<6-> Aber wir können \numberPi\ niemals vollständig hinschreiben.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{LIU Hui's Methode, $\pi$~zu Approximieren}%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Wenn ich sage \emph{\inQuotes{Wir können \numberPi\ bis zu einer gewissen Präzision berechnen.}} dann stellt sich natürlich die Frange~\emph{\inQuotes{Wie?}}.%
+}%
+%
+\only<-5>{%
+\item<2-> Eine besonders geniale Antwort ist uns von dem chinesischen Mathematiker LIU Hui~(刘徽) irgendwann im dritten Jahrhundert~\glsFull{CE}\cite{OR2003LH,Y2024COACMMLHFHTIOMACE} in seinen Kommentaren zu dem berühmten chinesischen Mathematikbuch \emph{Jiu Zhang Suanshu}~(九章算术)\cite{OR2003LH,SCL1999TNCOTMACAC,S1998LHATFGAOCM,D2010AALHOCAS,C2002LFLHADWTDM} gegeben worden.%
+}%
+%
+\only<-6>{%
+\item<3-> Die Idee ist, reguläre $e$\nobreakdashes-Ecke mit steigener Anzahl~$e$ der Ecken in einen Kreis einzuschreiben, so dass die Ecken jeweils auf dem Kreis liegen.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir beginnen mit einem $e=6$\nobreakdashes-Eck.%
+}%
+%
+\only<-9>{%
+\item<5-> Weil es ein reguläres Sechseck ist, können wir es in sechs Dreiecke teilen.%
+}%
+%
+\only<-10>{%
+\item<6-> Es sind gleichschenklige Dreiecke, weil zwei Seite~(mit der Länge~\liuhuir) im Mittelpunkt des Kreises beginnen und auf dem Kreis enden.%
+}%
+\only<-11>{%
+\item<7-> Der Winkel zwischen diesen Seiten beträgt~$60^{\circ}$ weil wir ja den Vollkreis auf sechs Dreiecke aufteilen~($360^{\circ}/6=60^{\circ}$).%
+}%
+%
+\only<-12>{%
+\item<8-> Deshalb sind die Dreiecke sogar gleichseitig und die dritte Seite hat auch Länge~\liuhuir.%
+}%
+%
+\only<-13>{%
+\item<9-> Damit haben also alle $e$~Seiten~\liuhuiss\ des Sechseckes die Länge~\liuhuir.%
+}%
+%
+\only<-15>{%
+\item<10-> Der Umfang des Sechsecks ist also~$U=e*\liuhuiss=6*\liuhuir$.%
+}%
+%
+\only<-16>{%
+\item<11-> Der Durchmesser des Kreises ist~$D=2\liuhuir$.%
+}%
+%
+\only<-17>{%
+\item<12-> Wenn wir den Umfang des Kreises durch den Umfang des Sechsecks annähern, könnten wir \numberPi\ annähern als~$\numberPi\approx\frac{U}{D}$.%
+}%
+%
+\only<-18>{%
+\item<13-> Für $e=6$~Ecken ergibt das $\numberPi_6=\frac{6\liuhuir}{2\liuhuir}=3$.%
+}%
+%
+\only<-19>{%
+\item<14-> Das ist eine eher {\dots} grobe Annäherung von~\numberPi.%
+}%
+%
+\only<-20>{%
+\item<15-> Wir können näher rankommen, wenn wir mehr Ecken nehmen, also größere~$e$.%
+}%
+%
+\only<-21>{%
+\item<16-> Die geniale Idee von LIU Hui~(刘徽) war es, $e$\nobreakdashes-Ecke mit $e=3*2^n$~Ecken zu benutzen.%
+}%
+%
+\only<-21>{%
+\item<17-> Für $n=1$, bekommen wir ein Sechseck mit~$e=6$.%
+}%
+%
+\only<-22>{%
+\item<18-> Für $n=2$ verdoppeln wir die Ecken und bekommen ein $e=12$\nobreakdashes-Eck.%
+}%
+%
+\only<-22>{%
+\item<19-> Aber wie bekommen wir die Länge der Seiten~\liuhuist\ heraus?%
+}%
+%
+\only<-23>{%
+\item<20-> Wir können sie von den Längen~\liuhuiss\ und dem Radius~\liuhuir\ berechnen.%
+}%
+%
+\only<-23>{%
+\item<21-> Wir verwenden die selben 6~Ecken des Sechsecks und fügen nochmal 6~Ecken hinzu.%
+}%
+%
+\only<-24>{%
+\item<22-> Wenn wir diese Ecken mit dem Zentrum des Kreises verbinden, dann zerschneiden die neue Linie die Seiten des Sechsecks genau in zwei gleich große Hälften und tut does in einem~$90^{\circ}$~Winkel.%
+}%
+%
+\only<-26>{%
+\item<23-> Die neue Seitenlänge~\liuhuist\ ist die  Hypotenuse eines rechtwinkligen Dreiecks mit Basis~$\frac{\liuhuiss}{2}$ und Höhe~\liuhuiy.%
+}%
+%
+\only<-28>{%
+\item<24-> Wir wissen, dass~$\liuhuir=\liuhuix+\liuhuiy$.%
+}%
+%
+\only<-28>{%
+\item<25-> Es gibt auch noch ein zweites rechtwinkliges Dreieck, nämlich das mit Basis~\liuhuix, Höhe~$\frac{\liuhuiss}{2}$, und Hypotenuse~\liuhuir.%
+}%
+%
+\only<-29>{%
+\item<26-> Das gibt uns $\liuhuix^2+\left(\frac{\liuhuiss}{2}\right)^2=\liuhuir^2$.%
+}%
+%
+\only<-29>{%
+\item<27-> Nehmen wir von jetzt an der Einfachheit halber~$\liuhuir=1$.%
+}%
+%
+\only<-30>{%
+\item<28-> Wir bekommen also $\liuhuix^2=1-\left(\frac{\liuhuiss}{2}\right)^2=1-\frac{\liuhuiss^2}{4}$ also~$\liuhuix=\sqrt{1-\frac{\liuhuiss^2}{4}}$.%
+}%
+%
+\only<-30>{%
+\item<29-> Da $\liuhuiy=\liuhuir-\liuhuix=1-\liuhuix$ haben wir also~$\liuhuiy=1-\sqrt{1-\frac{\liuhuiss^2}{4}}$.%
+}%
+%
+\only<-31>{%
+\item<30-> Wir können jetzt also zu $\liuhuist^2=\liuhuiy^2+\left(\frac{\liuhuiss}{2}\right)^2$ gehen, woraus nun $\liuhuist^2=\left(1-\sqrt{1-\frac{\liuhuiss^2}{4}}\right)^2+\frac{\liuhuiss^2}{4}$ wird.%
+}%
+%
+\only<-32>{%
+\item<31-> Wir wenden $(a-b)^2=a^2-2ab+b^2$ auf den ersten Term an und bekommen somit~ $\liuhuist^2=1-2\sqrt{1-\frac{\liuhuiss^2}{4}}+\left(1-\frac{\liuhuiss^2}{4}\right)+\frac{\liuhuiss^2}{4}$.%
+}%
+%
+\only<-34>{%
+\item<32-> Damit bekommen wir $\liuhuist^2=2-2\sqrt{1-\frac{\liuhuiss^2}{4}}-\frac{\liuhuiss^2}{4}+\frac{\liuhuiss^2}{4}$, was wir dann weiter zu $\liuhuist^2=2-2\sqrt{1-\frac{\liuhuiss^2}{4}}$ verfeinern.%
+}%
+%
+\only<-35>{%
+\item<33-> Wir ziehen nun die 2 von außerhalb der Wurzel in die Wurzel hinein, in dem wir alles mit~$2^2=4$ multiplizieren und bekommen~$\liuhuist^2=2-\sqrt{4-\liuhuiss^2}$.%
+}%
+%
+\only<-36>{%
+\item<34-> Wir haben also nun die wunderschöne Formel~$\liuhuist=\sqrt{2-\sqrt{4-\liuhuiss^2}}$.%
+}%
+%
+\only<-38>{%
+\item<35-> Als neue Annäherung~$\numberPi_{12}$ habe wir somit $\frac{12*\liuhuist}{2\liuhuir}=6*\liuhuist=6\sqrt{2-\sqrt{4-\liuhuiss^2}}=6\sqrt{2-\sqrt{4-1}}=6\sqrt{2-\sqrt{3}}\approx 3.105828539$.%
+}%
+%
+\only<-39>{%
+\item<36-> Das ist schon ziemlich schön.%
+}%
+%
+\only<-40>{%
+\item<37-> Wir können diesen Schritt auch einfach wiederholen, um zu~\liuhuistf\ zu kommen.%
+}%
+%
+%\only<-40>{%
+\item<38-> Und dann können wir das wieder und wieder wiederholen.%
+%}%
+%
+\item<39-> Wir bekommen folgende Gleichungen.%
+%
+\end{itemize}%
+%
+\uncover<40->{%
+\begin{align}%
+s_{2e} &= \sqrt{2-\sqrt{4-s_e^2}}\uncover<41->{\\%
+\pi_{2e} &= \frac{e}{2} s_{2e}}%
+\end{align}%
+}%
+%
+\locateGraphic{4}{width=0.95\paperwidth}{graphics/liuHuiCircle_01}{0.025}{0.48}%
+\locateGraphic{5-6}{width=0.95\paperwidth}{graphics/liuHuiCircle_02}{0.025}{0.48}%
+\locateGraphic{7-17}{width=0.95\paperwidth}{graphics/liuHuiCircle_03}{0.025}{0.48}%
+\locateGraphic{18}{width=0.95\paperwidth}{graphics/liuHuiCircle_04}{0.025}{0.48}%
+\locateGraphic{19-21}{width=0.95\paperwidth}{graphics/liuHuiCircle_05}{0.025}{0.48}%
+\locateGraphic{22}{width=0.95\paperwidth}{graphics/liuHuiCircle_06}{0.025}{0.48}%
+\locateGraphic{23-24}{width=0.95\paperwidth}{graphics/liuHuiCircle_07}{0.025}{0.48}%
+\locateGraphic{25-33}{width=0.95\paperwidth}{graphics/liuHuiCircle_08}{0.025}{0.48}%
+\locateGraphic{34-36}{width=0.95\paperwidth}{graphics/liuHuiCircle_09}{0.025}{0.48}%
+\locateGraphic{37}{width=0.95\paperwidth}{graphics/liuHuiCircle_10}{0.025}{0.48}%
+\locateGraphic{38-}{width=0.95\paperwidth}{graphics/liuHuiCircle_11}{0.025}{0.48}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{LIU Hui's Methode in Python}%
+%
+\gitLoadAndExecPython{variables:pi_liu_hui}{}{variables}{pi_liu_hui.py}{}%
+%
+\only<-4,6->{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Jetzt wo wir schon etwas Programmieren gelernt haben, brauchen wir LIU Hui's Methode nicht in den Taschenrechner einzutippen.%
+\item<2-> Wir werden auch \python\ nicht als Taschenrechner verwenden.%
+\item<3-> Stattdessen können wir alle notwendigen Berechnungen in eine Programmdatei eintippen.%
+\item<4-> We nennen diese \textil{pi_liu_hui.py}.%
+}%
+%
+\only<-8>{%
+\item<5-> Wir beginnen damit, die anfängliche Anahl der Ecken auf \pythonil{e = 6} und die anfängliche Seitenlänge auf \pythonil{s = 1} zu setzen, denn wir wählen ja~$\liuhuir=1$.%
+}%
+%
+\only<-9>{%
+\item<6-> In jedem Annäherungsschritt setzen wir dann \pythonil{e *= 2}, was das selbe ist wie \pythonil{e = e * 2}, um die Anzahl der Ecken zu verdoppeln.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir berechnen dann \pythonil{s = sqrt(2 - sqrt(4 - (s ** 2)))}.
+}%
+%
+\only<-10>{%
+\item<8-> Dafür müssen wir natürlich die \pythonIdx{sqrt}-Funktion aus dem Modul \pythonil{math} importieren.%
+}%
+%
+\only<-11>{%
+\item<9-> Wir geben dann den geschätzten Wert von \numberPi\ als \pythonil{e * s / 2} aus.%
+%
+\item<10-> Beachten Sie, wie elegant wir die \pgls{unicode}-Zeichen~$\pi$ und~$\approx$ durch die \glslink{escapeSequence}{Escape-Sequenzen}~\pythonil{\\u03c0} und \pythonil{\\u2248} darstellen.%
+%
+\item<11-> So oder so, die Annäherungsschritte sind immer gleich, daher können wir den Kode einfach ein paar Mal kopieren.%
+}%
+%
+%
+\only<-17>{%
+\item<13-> Das ist der Text, die das Programm auf den \gls{stdout} ausgibt.%
+\item<14-> Für 192 Ecken bekommen wir die Annäherung~\pythonil{3.1414524722853443}.%
+\item<15-> Die Konstante~\pythonilIdx{pi} aus dem Modul \pythonilIdx{math} hat den Wert \pythonil{3.141592653589793}.%
+\item<16-> Die ersten vier Ziffern sind also schon korrekt und die Abweichung beträgt nur~0.0045\%!%
+}
+\only<-18>{%
+\item<17-> Wenn nur der gute alte LIU Hui~(刘徽) das sehen könnte.%
+}%
+%
+\only<-20>{%
+\item<18-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
+}%
+\only<-21>{%
+\item<19-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
+}%
+\only<-22>{%
+\item<20-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \textil{pi_liu_hui.py}.%
+}%
+\only<-22>{%
+\item<21-> Dort können wir diese dann durch \bashil{python3 pi_liu_hui.py} ausführen.%
+\item<22-> Die Ausgabe ist natürlich die selbe.%
+}%
+%
+\only<-23>{%
+\item<23-> Alternativ können wir die Programmdatei auch in \pycharm\ der \glslink{ide}{IDE} öffnen.%
+}%
+%
+\only<-24>{%
+\item<24-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `pi\_liu\_hui'}.%
+}%
+%
+\only<-25>{%
+\item<25-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
+}%
+%
+\only<-26>{%
+\item<26-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
+}%
+%
+\end{itemize}%
+}%
+%
+\listingPython{5,12}{variables:pi_liu_hui}{0.15}{0.085}{0.9}{0.9}%
+\listingPython{6-11}{variables:pi_liu_hui}{0.025}{0.45}{0.95}{1.3}%
+\listingOutput{13-16}{variables:pi_liu_hui}{,style=text_style}{0.05}{0.6}{0.9}{0.7}%
+%
+\locateGraphic{17-22}{width=0.82\paperwidth}{graphics/liuHuiPiTerminal}{0.09}{0.51}%
+\locateGraphicTB{23}{width=0.54\paperwidth}{graphics/liuHuiPiPyCharm1}{0.22}{0.25}%
+\locateGraphicTB{24-25}{width=0.54\paperwidth}{graphics/liuHuiPiPyCharm2}{0.22}{0.25}%
+\locateGraphicTB{26}{width=0.54\paperwidth}{graphics/liuHuiPiPyCharm3}{0.22}{0.25}%
+\end{frame}%
 %
 \section{Zusammenfassung}%
 %
 \begin{frame}%
 \frametitle{Zusammenfassung}%
 \begin{itemize}%
-\item Fertig.%
+\item Wir haben nun gelernt, wie wir Werte in Variablen speichern können.%
+\item<2-> Wir haben auch gelernt, dass wir diese Variablen dann ganz einfach anstelle der Werte verwenden können.%
+\item<3-> Wir haben auch gelernt, dass wir Variablen mehrmals Werte zuweisen können.%
+\item<4-> Wir können also nun zum ersten Mal mehrzeilige Programme erstellen, in denen die Ergebnisse von einem Rechenschritt in den nächsten übernommen werden.%
+\item<5-> Das ist ein großer Sprung, denn nun kann unser Kode bereits wesentlich komplexer werden.%
+\item<6-> Das führt dazu, dass wir uns um Dinge wie Kode-Qualität Sorgen machen müssen.%
+\item<7-> Wir wollen lesbaren Kode schreiben und halten uns daher an Stilvorgaben.%
+\item<8-> Wir kommentieren unseren Kode, so dass wir~(und andere) später noch verstehen können, was wir uns beim Programmieren gedacht haben.%
+\item<9-> Und damit können wir nun auch bereits sinnvolle und coole Berechnungen anstellen!%
 \end{itemize}%
 \end{frame}%
 %
