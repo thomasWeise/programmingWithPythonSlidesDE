@@ -102,11 +102,11 @@ Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen 
 \gitLoadAndExecPython{variables:assignment}{}{variables}{assignment.py}{}%
 %
 \begin{itemize}%
-\only<-1,34-40>{%
+\only<-1,34-39>{%
 \item Schauen wir uns also ein Beispiel an.%
 }%
 %
-\only<-4,34-40>{%
+\only<-4,34-39>{%
 \item<2-> Hier ist ein Programm, das wir in der Datei \pythonil{assignment.py} gespeichert haben.%
 }%
 \only<-4>{%
@@ -174,48 +174,47 @@ Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen 
 }%
 %
 \only<-33>{%
-\item<32-> Zu guter Letzt drucken wir noch \pythonil{print(f\"new_var = \{new_var\}.\" )}, was als \textil{new_var = 14.0.} auf \pgls{stdout} erscheint.%
-\item<33-> Erinnern Sie sich noch an eine Möglichkeit, diese Ausgabe noch leichter zu bekommen?%
+\item<32-> Zu guter Letzt drucken wir noch \pythonil{print(f\"\{new_var = \}.\" )}, was als \textil{new_var = 14.0.} auf \pgls{stdout} erscheint.%
 }%
 %
-\only<-35>{%
-\item<34-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
-\item<35-> Das passt.%
+\only<-34>{%
+\item<33-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
+\item<34-> Das passt.%
 }%
 %
+\only<-36>{%
+\item<35-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
+}%
 \only<-37>{%
-\item<36-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
+\item<36-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
 }%
 \only<-38>{%
-\item<37-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
+\item<37-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \textil{assignment.py}.%
 }%
 \only<-39>{%
-\item<38-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \textil{assignment.py}.%
+\item<38-> Dort können wir diese dann durch \bashil{python3 assignment.py} ausführen.%
+\item<39-> Die Ausgabe ist natürlich die selbe.%
 }%
+%
 \only<-40>{%
-\item<39-> Dort können wir diese dann durch \bashil{python3 assignment.py} ausführen.%
-\item<40-> Die Ausgabe ist natürlich die selbe.%
+\item<40-> Alternativ können wir die Programmdatei auch in \pycharm\ dem \glsFull{ide} öffnen.%
 }%
 %
 \only<-41>{%
-\item<41-> Alternativ können wir die Programmdatei auch in \pycharm\ dem \glsFull{ide} öffnen.%
+\item<41-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `assignment'}.%
 }%
 %
 \only<-42>{%
-\item<42-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `assignment'}.%
+\item<42-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
 }%
 %
-\only<-43>{%
-\item<43-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
-}%
-%
-\only<-44>{%
-\item<44-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
-}%
+%\only<-43>{%
+\item<43-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
+%}%
 \end{itemize}%
 %
-\listingPython{2-8,10-20,22-26,28-30,32-33}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
-\listingOutput{34-35}{variables:assignment}{,style=text_style}{0.05}{0.45}{0.9}{0.7}%
+\listingPython{2-8,10-20,22-26,28-30,32}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
+\listingOutput{33-34}{variables:assignment}{,style=text_style}{0.05}{0.45}{0.9}{0.7}%
 %
 \locateGraphic{9,21,27,31}{width=0.2\paperwidth}{graphics/assignment1}{0.04}{0.38}%
 \locateGraphic{21,27,31}{width=0.2\paperwidth}{graphics/assignment2}{0.28}{0.38}%
@@ -300,11 +299,25 @@ Die wichtigsten Stilrichtlinien für die Programmiersprache \python\ ist PEP8:~\
 %
 \begin{frame}[t]%
 \frametitle{LIU Hui's Methode, $\pi$~zu Approximieren}%
+%
+\only<-3>{%
+\parbox{0.53\paperwidth}{%
 \begin{itemize}%
 %
-\only<-4>{%
 \item Wenn ich sage \emph{\inQuotes{Wir können \numberPi\ bis zu einer gewissen Präzision berechnen.}} dann stellt sich natürlich die Frange~\emph{\inQuotes{Wie?}}.%
+%
+\item<2-> Eine besonders geniale Antwort ist uns von dem chinesischen Mathematiker LIU Hui~(刘徽) irgendwann im dritten Jahrhundert~\glsFull{CE}\cite{OR2003LH,Y2024COACMMLHFHTIOMACE} in seinen Kommentaren zu dem berühmten chinesischen Mathematikbuch \emph{Jiu Zhang Suanshu}~(九章算术)\cite{OR2003LH,SCL1999TNCOTMACAC,S1998LHATFGAOCM,D2010AALHOCAS,C2002LFLHADWTDM} gegeben worden.%
+%
+\only<-6>{%
+\item<3-> Die Idee ist, reguläre $e$\nobreakdashes-Ecke mit steigener Anzahl~$e$ der Ecken in einen Kreis einzuschreiben, so dass die Ecken jeweils auf dem Kreis liegen.%
 }%
+%
+\end{itemize}%
+}}%
+%
+%
+\only<4->{%
+\begin{itemize}%
 %
 \only<-5>{%
 \item<2-> Eine besonders geniale Antwort ist uns von dem chinesischen Mathematiker LIU Hui~(刘徽) irgendwann im dritten Jahrhundert~\glsFull{CE}\cite{OR2003LH,Y2024COACMMLHFHTIOMACE} in seinen Kommentaren zu dem berühmten chinesischen Mathematikbuch \emph{Jiu Zhang Suanshu}~(九章算术)\cite{OR2003LH,SCL1999TNCOTMACAC,S1998LHATFGAOCM,D2010AALHOCAS,C2002LFLHADWTDM} gegeben worden.%
@@ -455,7 +468,7 @@ Die wichtigsten Stilrichtlinien für die Programmiersprache \python\ ist PEP8:~\
 %
 \item<39-> Wir bekommen folgende Gleichungen.%
 %
-\end{itemize}%
+\end{itemize}}%
 %
 \uncover<40->{%
 \begin{align}%
@@ -463,6 +476,12 @@ s_{2e} &= \sqrt{2-\sqrt{4-s_e^2}}\uncover<41->{\\%
 \pi_{2e} &= \frac{e}{2} s_{2e}}%
 \end{align}%
 }%
+%
+\locateGraphic[%
+\parbox{0.8\paperwidth}{%
+Moderne Darstellung von LIU Hui~(刘徽) aus~\bracketCite{Y2024COACMMLHFHTIOMACE}. %
+Nicht unter der Creative Commons Lizenz, Copyright~\textcopyright\ liegt be CAST / dem offiziellen WeChat-Account von VOC.%
+}]{-3}{width=0.4\paperwidth}{graphics/liu_hui}{0.58}{0.02}%
 %
 \locateGraphic{4}{width=0.95\paperwidth}{graphics/liuHuiCircle_01}{0.025}{0.48}%
 \locateGraphic{5-6}{width=0.95\paperwidth}{graphics/liuHuiCircle_02}{0.025}{0.48}%
@@ -571,6 +590,99 @@ s_{2e} &= \sqrt{2-\sqrt{4-s_e^2}}\uncover<41->{\\%
 \locateGraphicTB{26}{width=0.54\paperwidth}{graphics/liuHuiPiPyCharm3}{0.22}{0.25}%
 \end{frame}%
 %
+\section{Mehrfachzuweisungen und Wertetausch}%
+%
+\begin{frame}[t]%
+\frametitle{Mehrfachzuweisungen und Wertetausch}%
+%
+\gitLoadAndExecPython{variables:multi_and_swap}{}{variables}{multi_and_swap.py}{}%
+%
+\begin{itemize}%
+%
+\only<-3>{%
+\item In \python\ können wir auch mehrer Werte zu mehreren Variablen zuweisen~(aber natürlich jeweils einen Wert pro Variable).%
+}%
+%
+\only<-4>{%
+\item<2-> In diesem Fall trennen wir die Variablennamen und die Werte jeweils mit Kommas.%
+}%
+%
+\only<-5>{%
+\item<3-> Die Zeile \pythonil{a, b = 5, 10} is äquivalent zu den beiden Zeilen~\pythonil{a = 5} und~\pythonil{b = 10}.%
+}%
+%
+\only<-6>{%
+\item<4-> Sie weist den Wert~\pythonil{5} der Variablen~\pythonil{a} zu und den Wert~\pythonil{10} der Variablen~\pythonil{b}.%
+}%
+%
+\only<-7>{%
+\item<5-> Danach gilt \pythonil{a == 5} and \pythonil{b == 10}.%
+}%
+%
+\only<-8>{%
+\item<6-> \pythonil{print(f\" \{a = \}, \{b = \}\")} druckt deshalb \textit{a = 5, b = 10} aus.%
+}%
+%
+\only<-9>{%
+\item<7-> Diese Methode kann auch verwendet werden, umd die Werte von Variablen zu \alert{tauschen}.%
+}%
+%
+\only<-10>{%
+\item<8-> \pythonil{a, b = b, a} bedeutet im Grunde \inQuotes{der \emph{neue} Wert von~\pythonil{a} wird der \emph{jetzige} Wert von~\pythonil{b} und der \emph{neue} Wert von~\pythonil{b} wird der \emph{jetzige} Wert von~\pythonil{a}.}%
+}%
+%
+\only<-11>{%
+\item<9-> Die Zeile ist daher im Grunde äquivalent zu \pythonil{t = a}, \pythonil{a = b}, und \pythonil{b = t}.%
+}%
+%
+\only<-12>{%
+\item<10-> Ohne diese Doppel-Zuweisung müssten wir den Wert von~\pythonil{a} in einer temporären Variable~\pythonil{t} speichern, dann \pythonil{a} mit \pythonil{b} überschreiben, und dann den alten Wert von~\pythonil{a}, der jetzt in \pythonil{t} wäre, in~\pythonil{b} speichern.%
+}%
+%
+\only<-13>{%
+\item<11-> \pythonil{a, b = b, a} schafft das in einem Schritt.%
+}%
+%
+\only<-14>{%
+\item<12-> Und wir brauchen keine temporäre Variable.%
+}%
+%
+\only<-15>{%
+\item<13-> \pythonil{print(f\" \{a = \}, \{b = \}\")} druckt nun \textit{a = 10, b = 5}.%
+}%
+%
+\only<15->{%
+\only<-17>{%
+\item<15-> Das selbe Konzept der Mehrfachzuweisung funktioniert auch mit mehreren Variablen.%
+}%
+%
+\only<-18>{%
+\item<16-> \pythonil{z, y, x = 1, 2, 3} speichert \pythonil{1}~in~\pythonil{z}, \pythonil{2}~in~\pythonil{y}, und \pythonil{3}~in~\pythonil{x}.%
+}%
+%
+\only<-19>{%
+\item<17-> \pythonil{print(f\"\{x = \}, \{y = \}, \{z = \}\")} druckt darum \textil{x = 3, y = 2, z = 1}.%
+}%
+%
+\only<-20>{%
+\item<18-> Wir können auch mehrere Werte austauschen.%
+}%
+%
+\item<19-> \pythonil{x, y, z = z, y, x} speichert den aktuellen Wert von~\pythonil{z} in~\pythonil{x}, den aktuellen Wert von~\pythonil{y} in \pythonil{y}, und den aktuellen Wert von~\pythonil{x} in~\pythonil{z}.%
+%
+\item<20-> \pythonil{print(f\"\{x = \}, \{y = \}, \{z = \}\")} ergibt nun also \textil{x = 1, y = 2, z = 3}.
+}%
+\end{itemize}%
+%
+\listingPython{1-13,15-}{variables:multi_and_swap}{0.05}{0.4}{0.9}{0.9}%
+\listingOutput{2-13,15-}{variables:multi_and_swap}{,style=text_style}{0.5}{0.55}{0.9}{0.9}%
+%
+\uncover<14>{%
+\bestPractice{swap}{Das Austauschen von Variablenwerten wird am Besten mit Hilfe von Mehrfachwerzuweisungen gemacht, \DEzB~\pythonil{a, b = b, a}\pythonIdx{=!swap}\pythonIdx{swap}.}%
+}%
+%
+\end{frame}%
+%
 \section{Zusammenfassung}%
 %
 \begin{frame}%
@@ -585,6 +697,7 @@ s_{2e} &= \sqrt{2-\sqrt{4-s_e^2}}\uncover<41->{\\%
 \item<7-> Wir wollen lesbaren Kode schreiben und halten uns daher an Stilvorgaben.%
 \item<8-> Wir kommentieren unseren Kode, so dass wir~(und andere) später noch verstehen können, was wir uns beim Programmieren gedacht haben.%
 \item<9-> Und damit können wir nun auch bereits sinnvolle und coole Berechnungen anstellen!%
+\item<10-> Mit Mehrfachzuweisungen können wir mehrere Variablen gleichzeitig belegen und auch Variablenwerte austauschen.%
 \end{itemize}%
 \end{frame}%
 %
