@@ -1,0 +1,183 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{20.~Mengen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+\only<-10>{%
+\item Listen und Tuples sind klassische Sequenz-basierte Datenstrukturen.%
+}%
+%
+\item<2-> Eine weitere klassische Datenstruktur ist die Menge, auf English~\emph{set}.%
+%
+\item<3-> Listen und Tupels können ein bestimmtes Element beliebig oft beinhalten.%
+%
+\item<4-> Mengen implementieren dagegen das mathematische Konzept von Mengen.%
+%
+\item<5-> Sie können ein Element höchstens einmal beihalten.%
+\only<7->{%
+\item<7-> Man sollte auch nur unveränderliche Objekte in Mengen speichern, denn wenn man veränderliche Objekte in Mengen speichern würde, dann könnte man nicht mehr garantieren, dass ein Element höchstens einmal vorkommt.%
+%
+\item<8-> Mengen selbst sind aber veränderlich.%
+\only<10->{%
+\item<10-> Mengen sind ungeordnete Kollektionen\cite{PSF:P3D:TPSL:STSF}.%
+%
+\item<11-> Deshalb können wir Mengen auch nicht indizieren~(anders als Listen oder Tupels).%
+%
+\item<12-> Wahrscheinlich fragen Sie sich nun:~\emph{Wofür brauche ich eigentlich Mengen?}%
+}}%
+\end{itemize}%
+%
+\only<6>{%
+\bestPractice{setsImmutable}{%
+Speichern Sie nur unveränderliche Objekte in Mengen.%
+}}%
+\only<9>{\bestPractice{setsUnordered}{%
+Mengen sind ungeordnet. %
+Machen Sie niemals irgendwelche Annahmen darüber, in welche Reihenfolge Ojekte in Mengen gespeichert werden.%
+}}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Wofür wir Mengen brauchen.}%
+\begin{itemize}%
+\item \emph{Wofür brauche ich eigentlich Mengen?}%
+\only<-3>{%
+\item<2-> Elemente in eine Kollektion einfügen oder löschen und gucken, ob ein Element in einer Kollektion ist {\dots} das können wir auch mit Listen machen.%
+\item<3-> Und bei Listen können wir über Indizes auf einzelne Elemente zugreifen, bei Mengen nicht.%
+}%
+%
+\item<4-> Mengen sind schnell.%
+%
+\item<5-> Mengen sind in \python\ auf dem Konzept von Hash-Tabellen implementiert und haben daher die Performanz dieser Datenstrukturen\cite{K1998SAS,CLRS2009ITA,SKS2019DSC}.%
+%
+\item<6-> Wenn wir prüfen wollen, ob ein Element~\pythonil{x} in einer Menge ist, dann können wir das im Durchschnitt in \bigOb{1} machen, also in etwa in konstanter Zeit, gleichgültig wie viele Elemente in der Menge sind\cite{H2025PM:PBOTTCODDSIPP33,PSF:TPW:TC,N2022CCSFPO}.%
+%
+\item<7-> Bei einer Liste mit $n$~Elementen dauert das \bigOb{n} im Durchschnitt, also eine Zeit linear in der Länge der Liste.
+%
+\item<8-> Wenn wir nur wenige Elemente haben oder eine Reihenfolge der Elemente brauchen, dann nehmen wir Listen.%
+%
+\item<9-> Wenn wir mehr Elemente haben und effizient prüfen wollen, ob ein Element beinhaltet ist, oder wenn wir effizient Mengenoperationen ausführen wollen, dann nehmen wir Mengen.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Erstellen, Type Hints, Einfache Operationen}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Mengen-\glslink{literal}{Literale} werden mit geschweiften Klammern definiert.%
+}\only<-6>{%
+\item<2-> Als \glslink{typeHint}{Type-Hint} wird \pythonil{set[T]} verwendet, wobei~\pythonil{T} der Datentyp für die Elemente der Menge ist~(und \pythonil{set} der Datentyp für Mengen).%
+}\only<-7,9->{%
+\item<3-> Mit \pythonil{s.add(e)} können wir das Element~\pythonil{e} in die Menge~\pythonil{s} einfügen.%
+%
+\item<4-> Mit \pythonil{s.update(c)} fügen wir alle Elemente der Kollektion~\pythonil{c} in die Menge~\pythonil{s} ein.}%
+%
+\item<5-> Mit \pythonil{set(c)} erstellen wir eine Menge mit den Elementen der Kollektion~\pythonil{c}.%
+%
+\item<6-> \pythonil{s.remove(e)} entfernt das Element~\pythonil{e} aus der Menge~\pythonil{s}.%
+%
+\item<7-> Randnotiz: Die Listen-Funktion \pythonil{sorted(c)} erstellt eine sortierte Liste aus den Elementen der Kollektion~\pythonil{c}.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{sets:sets_1}{}{collections}{sets_1.py}{}%
+%
+\listingPython{-7}{sets:sets_1}{0.45}{0.0825}{0.54}{0.92}%
+\listingPython{10-}{sets:sets_1}{0.45}{0.02}{0.54}{0.92}%
+\listingOutput{10}{sets:sets_1}{}{0.27}{0.6}{0.67}{0.92}%
+\listingPythonAndOutput{9}{sets:sets_1}{}{0.45}{0.0825}{0.57}{0.92}%
+%
+\uncover<8>{%%
+\bestPractice{strSort}{%
+Vorsicht beim Vergleichen von Strings: %
+Standardmäßig kommen Großbuchstaben vor Kleinbuchstaben, also \pythonil{\"A\" < \"a\"}. %
+Wenn Sie Groß- und Kleinbuchstaben gleich behandeln wollen, dann müssen Sie sowas wie \pythonil{sorted(my_text, key=str.casefold)} machen.%
+}}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Mengen Operationen}%
+%
+\only<-2>{%
+\begin{itemize}%
+\item Schauen wir uns grundlegende Mengenoperationen an.%
+\end{itemize}%
+}
+%
+\uncover<3->{%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-7>{%
+\item \pythonil{in} und \pythonil{not in} funktionieren genau wie bei Listen und Tupeln~(nur schneller).%
+}%
+%
+\only<-9>{%
+\item<4-> \pythonil{s1.union(s2)} erstellt eine neue Menge mit allen Elementen aus \pythonil{s1} und \pythonil{s2}.%
+}%
+%
+\item<5-> \pythonil{s1.intersection(s2)} erstellt eine neue Menge mit allen Elementen die \emph{sowohl} in \pythonil{s1} \emph{als auch} in \pythonil{s2} sind.%
+%
+\item<6-> \pythonil{s1.difference(s2)} erstellt eine neue Menge mit allen Elementen die in \pythonil{s1} \emph{aber nicht} in \pythonil{s2} sind.%
+
+\item<7-> \pythonil{s1.symmetric_difference(s2)} erstellt eine neue Menge mit allen Elementen die \emph{entweder nur} in \pythonil{s1} \emph{oder nur} in \pythonil{s2} sind.%
+%
+\item<8-> \pythonil{len(s)} gibt uns die Anzahl der Elemente in Menge~\pythonil{s}.%
+%
+\item<10-> Sind Ihnen die coolen \glslink{unicode}{Unicode}-\glslink{escapeSequence}{Escapes} aufgefallen?%
+%
+\end{itemize}%
+}}}%
+%
+\gitLoadAndExecPython{sets:sets_2}{}{collections}{sets_2.py}{}%
+%
+\listingPython{3-8}{sets:sets_2}{0.45}{0.0825}{0.54}{0.92}%
+\listingPythonAndOutput{9}{sets:sets_2}{}{0.45}{0.02}{0.6}{0.97}%
+%
+\locateGraphic{2}{width=0.8\paperwidth}{graphics/setOperations}{0.1}{0.2}%
+%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Mengen implementieren viele Operationen sehr effizient.%
+\item<2-> Sie sind schnell darin, zu prüfen ob ein Element in der Kollektion ist.%
+\item<3-> Dadurch werden auch Operationen schneller, die solche Look-Ups machen müssen, \DEzB~Mengenoperationen.%
+\item<4-> Dafür sind Mengen aber auch ungeordnet und können jedes Element höchstens einmal beinhalten.%
+\item<5-> Während viele Operationen wie \DEzB~das Hinzufügen von Elementen zwar in \bigOb{1} sind, sind sie auf Grund der technischen Realisierung manchmal doch etwas langsamer als vergleichbare Operationen von Listen.%
+\item<6-> Das Suchen bestimmter Elemente ist bei Mengen aber schneller (außer die Menge/Liste ist sehr klein\dots).%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

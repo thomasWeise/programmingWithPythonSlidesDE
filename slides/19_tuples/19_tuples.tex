@@ -1,0 +1,225 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{19.~Tuples}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+\item Tuples sind Listen sehr ähnlich, mit drei wichtigen Unterschieden\only<-1>{.}\uncover<2->{:%
+%
+\begin{enumerate}%
+%
+\item Tuples sind unveränderlich.\uncover<3->{%
+Sie können keine Elemente zu einem Tuple hinzufügen, löschen, oder ändern.%
+}%
+%
+\item<4-> Listen sind dafür gedacht, Objekte des selben Typs zu beinhalten.\uncover<5->{ %
+Der \glslink{typeHint}{Type-Hint}~\pythonil{list[int]} definiert eine Liste von \pythonils{int}.\uncover<6->{ %
+(Der \python-Interpreter erzwingt das aber nicht.)\uncover<7->{ %
+Tuples sind von Anfang auch dazu gedacht, Objekte verschiedenen Typs zu beinhalten.\uncover<8->{ %
+Weil sie unveränderlich sind, ist immer klar, welchen Typ das Objekt an einem bestimmten Index hat.%
+}}}}%
+%
+\item<9-> Tuple-\glslink{literal}{Literale} werden mit runden Klammern anstelle von eckigen Klammern definiert, also mit~\pythonil{(...)}.%
+\end{enumerate}}%
+%
+\item<11-> Und das lernen wir jetzt.%
+\end{itemize}%
+\uncover<10->{%
+\bestPractice{listOrTuple}{%
+Wenn Sie eine indizierbare Sequenz von Objekten brauchen, benutzen Sie \pythonil{list} nur wenn Sie die Sequenz auch verändern wollen. %
+Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein \pythonil{tuple}.}%
+}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Erstellen, Type Hints, Indizieren}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-4>{%
+\item Tuple-\glslink{literal}{Literale} werden mit runden Klammern deklariert.%
+}%
+%
+\only<-5>{%
+\item<2-> Der \glslink{typeHint}{Type-Hint} \pythonil{tuple[A, B]} deklariert ein Tuple aus zwei Elementen, wobei das erste Element vom Typ~\pythonil{A} und das zweite vom Typ~\pythonil{B} ist\cite{PEP585}.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir können so Tuples mit beliebig vielen typisierten Elementen deklarieren.%
+}%
+%
+%\only<-7>{%
+\item<4-> \pythonil{len(t)} liefert die Anzahl der Elemente im Tuple~\pythonil{t}.%
+%}%
+%
+\item<5-> Der \glslink{typeHint}{Type-Hint} \pythonil{tuple[A, ...]} deklariert ein Tuple dessen Elemente alle vom Typ~\pythonil{A} sind, das aber ohne feste Längenangabe deklariert wird.%
+%
+\item<6-> Tuples können genau wie Listen und Strings indiziert und gesliced werden.%
+%
+\item<7-> Auch der \pythonil{in}- und der \pythonil{not in}-Operator funktionieren.%
+%
+\item<8-> Die Funktion \pythonil{t.index(v)} liefert den Index des Elements~\pythonil{v} im Tuple~\pythonil{t}.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{tuples:tuples_1}{}{collections}{tuples_1.py}{}%
+%
+\listingPythonAndOutput{}{tuples:tuples_1}{}{0.44}{0.0825}{0.6}{0.92}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Tuples mit Elementen verschiedener Typen}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir können auch Tuples mit Elementen verschiedener Typen erstellen.%
+}%
+%
+\only<-6>{%
+\item<2-> \pythonil{tuple[str, int, float]} ist ein Tuple wo das erste Element ein String, das zweite eine Ganzzahl und das dritte eine Fließkommazahl ist.%
+}%
+%
+\only<-7>{%
+\item<3-> Tuples (und Listen) unterstützen alle sechs Vergleichsoperationen \pythonilIdx{<}, \pythonilIdx{<=}, \pythonilIdx{==}, \pythonilIdx{>=}, \pythonilIdx{>}, und~\pythonil{!=}.%
+}%
+%
+\only<-8>{%
+\item<4-> Natürlich können wir Tuples auch in Listen oder Tuples reintun.%
+}%
+%
+\only<-9>{%
+\item<5-> Der \glslink{typeHint}{Type-Hint} \pythonil{list[tuple[str, int, float]]} definiert eine Liste, die Tuples es oben genannten Typs beinhalted.%
+}%
+%
+\only<-10>{%
+\item<6-> Diese arbeiten dann lexikographisch elementweise.%
+}%
+%
+\only<-13>{%
+\item<7-> Angenommen, wir vergleichen wir zwei Tuples~\pythonil{x} und~\pythonil{y}.\uncover<8->{ %
+Wenn das erste Element von~\pythonil{x} kleiner als das erste Element von~\pythonil{y} ist, dann gilt~\pythonil{x < y}.\uncover<9->{ %
+Wenn das erste Element von~\pythonil{x} größer als das erste Element von~\pythonil{y} ist, dann gilt~\pythonil{x > y}.\uncover<10->{ %
+Wenn das erste Element von~\pythonil{x} gleich dem erste Element von~\pythonil{y} ist, dann geht der Vergleich mit den zweiten Elementen weiter, wenn beide Tuples mindestens 2~Elemente haben~(andernfalls ist das kürzere Tuple kleiner).\uncover<11->{ %
+Und so weiter.}}}}%
+}%
+%
+\item<12-> Deshalb können wir Listen von Tuples sortieren.%
+%
+\item<13-> Genau wie Listen können wir Tuples auf mehrere Variablen auspacken.%
+%
+\item<14-> In Fällen, wo es keine Verwechslung geben kann, können wir Tuples sogar ohne die runden Klammern definieren.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{tuples:tuples_2}{}{collections}{tuples_2.py}{}%
+%
+\listingPythonAndOutput{}{tuples:tuples_2}{}{0.45}{0.0825}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Unveränderlichkeit}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-4,9->{%
+\item Prüfen wir nun, ob Tuples wirklich unveränderlich sind.%
+}%
+%
+\item<2-> Wir können \DEzB\ ein veränderliches Objekt (die Liste) in ein Tuple tun.%
+%
+\only<-11>{%
+\item<3-> Diese Liste~\pythonil{[2]} könne wir natürlich später verändern.%
+}%
+%
+\item<4-> Das Tuple beinhaltet dann immer noch genau das selbe Listenobjekt, nur dass sich eben der Inhalt dieses Objekts geändert hat.%
+%
+\only<9->{%
+\item<9-> Was aber nicht geht, ist ein anderes Objekt in ein Tuple reinzuschreiben.%
+%
+\item<10-> Dann crashed das Programm.%
+}%
+\end{itemize}%
+}}\only<11->{%
+\begin{itemize}%
+%
+\item Was sagt \mypy\ dazu?\uncover<12->{ Es findet den Fehler.}%
+%
+\item<13-> Und was sagt \ruff\ dazu?\uncover<14->{ Es findet ihn nicht, denn es sucht nicht nach Typ-Fehlern.}%
+%
+\item<15-> Es ist also immer sinnvoll, unseren Kode mit mehreren Werkzeugen zu prüfen.%
+%
+\end{itemize}%
+}%
+%
+\gitLoadAndExecPythonAndErrors{tuples:tuples_3}{}{collections}{tuples_3.py}{}%
+\gitExec{exec:tuples:tuples_3:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh collections tuples_3.py}%
+\gitExec{exec:tuples:tuples_3:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh collections tuples_3.py}%
+%
+\listingPythonAndOutput{-4,9-11}{tuples:tuples_3}{}{0.45}{0.0825}{0.54}{0.92}%
+\listingOutput{12-}{tuples:tuples_3:mypy}{,style=tool_style}{0.44}{0.1}{0.55}{0.42}%
+\listingOutput{14-}{tuples:tuples_3:ruff}{,style=tool_style}{0.44}{0.27}{0.55}{0.42}%
+%
+\only<-8>{\uncover<5->{%
+\bestPractice{noModifiableObjectInATuple}{%
+Packen Sie immer nur unveränderliche Ojekte in Tuples.\uncover<6->{ %
+Veränderliche Objekte in Tuples können immer noch verändert werden, wodurch die Tuples dann keine Konstanten mehr sind.\uncover<7->{ %
+Programmierer nehmen aber an, dass Tuples Konstanten sind.\uncover<8->{ %
+Wenn man diese Annahme verletzt, dann kann das zu sehr eigenartigen Fehlern führen.%
+}}}}%
+}}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Tuples und Listen sind beides Kontainer für beliebige Anzahlen von Objekten.%
+%
+\item<2-> Beide können mit Ganzzahlen indiziert werden.%
+%
+\item<3-> Beide unterstützen slicing.%
+%
+\item<4-> Tuples sind unveränderlich, wohingegen Listen verändert werden können.%
+%
+\item<5-> Tuple-Literale werden mit runden Klammern (manchmal auch ganz ohne Klammern) deklariert, Listen-Literale mit eckigen Klammern.%
+%
+\item<6-> Listen sind dafür gedacht, beliebig viele Elemente eines Datentyps zu beinhalten.%
+%
+\item<7-> Tuples können Elemente verschiedener Datentypen beinhalten.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

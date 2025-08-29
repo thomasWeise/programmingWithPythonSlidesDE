@@ -7,7 +7,7 @@
 \RequirePackage{\sharedDir/styles/styles}%
 \toggleToGerman%
 %
-\subtitle{15.~Variablentypen und Type Hints}%
+\subtitle{15.~Variablen:~Typen und Type Hints}%
 %
 \begin{document}%
 %
@@ -674,7 +674,7 @@ Die Idee, dass man ja Kode später annotieren kann, ist falsch.}%
 \end{frame}%
 %
 \begin{frame}%
-\frametitle{Type Hints und Sicherheit}%
+\frametitle{Type Hints und Sicherheit~(Security)}%
 \begin{itemize}%
 \item Statische Type-Checker können auch einen positiven Einfluss auf Sicherheitsaspekte haben, wie wir in unserem \citetitle{databases}-Buch erläutern~\cite{databases}.%
 %
@@ -682,7 +682,7 @@ Die Idee, dass man ja Kode später annotieren kann, ist falsch.}%
  %
 \item<3-> Solche Angriffe auf \glslink{db}{Datenbanken} können verhindert werden, wenn \sql-Anfragen niemals mit Hilfe von String-Operationen oder \glslink{fstring}{f-Strings} erstellt werden, sondern immer nur String-Literable sind.%
 %
-\item<4-> \python\ bietet den Datentyp~\pythonilIdx{LiteralString} für String-Literale an\cite{PEP675}.%
+\item<4-> \python\ bietet den Datentyp~\pythonilIdx{LiteralString} für String-\glslink{literal}{Literale} an\cite{PEP675}.%
 %
 \item<5-> Implementierungen der \python\ \db\ \glsFull{API} wie \psycopg\cite{VDGE2022PPDAFP:ST} können also so annotiert werden, dass sie \sql-Anfragen nur annehmen, wenn sie von diesem Datentyp sind.%
 %

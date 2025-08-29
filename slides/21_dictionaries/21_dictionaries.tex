@@ -1,0 +1,172 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{21.~Dictionaries bzw. Hash Maps}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+\item Dictionaries sind Kontainer, die Schlüssel-Wert-Paare~(key-value pairs) speichern.%
+%
+\item<2-> Auf die Werte in einem Dictionary kann über die Schlüssel in eckigen Klammern zugegrifen werden.%
+%
+\item<3-> Die Schlüssel sind immer eindeutig und pro Dictionary einmalig, müssen aber unveränderlich sein.%
+%
+\item<5-> Wie Mengen basieren Dictionaries auf Hash-Tabellen\cite{K1998SAS,CLRS2009ITA,SKS2019DSC}.
+%
+\item<6-> Dictionaries können verändert werden. Wir können Einträge hinzufügen und löschen.%
+\end{itemize}%
+%
+\uncover<4->{%
+\bestPractice{dictKeys}{Die Schlüssel eines Dictionary müssen immer unveränderlich sein.}%
+}%
+%
+\end{frame}%
+%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Erstellen, Type Hints, Einfache Operationen}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Dictionary-\glslink{literal}{Literale} werden als \pythonil{Schlüssel: Wert}-Paare, die durch Kommas getrennt sind, in geschweiften Klammern definiert.%
+}%
+%
+\only<-6>{%
+\item<2-> Der \glslink{typeHint}{Type-Hint} \pythonil{dict[K, V]} definiert, dass ein Dictionary Schlüssel vom Typ~\pythonil{K} und Werte vom Typ~\pythonil{V} hat.%
+}%
+%
+\only<-7>{%
+\item<3-> \pythonil{len(d)} liefert die Anzahl der Elemente im Dictionary~\pythonil{d}.%
+}%
+%
+\only<-8>{%
+\item<4-> \pythonil{d[k]} liefert den Wert, der unter Schlüssel~\pythonil{k} in Dictionary~\pythonil{d} gespeichert ist.%
+}%
+%
+\only<-9>{%
+\item<5-> \pythonil{d.keys()} liefert eine Kollektion mit den \emph{Schlüseln} vom Dictionary~\pythonil{d}.%
+}%
+%
+\only<-10>{%
+\item<6-> Durch die Funktion~\pythonil{list(...)} können wir eine Liste mit den Elementen dieser Kollektion erstellen.%
+}%
+%
+\only<-10>{%
+\item<7-> \pythonil{d.values()} liefert eine Kollektion mit den \emph{Werten} vom Dictionary~\pythonil{d}.%
+}%
+%
+\only<-11>{%
+\item<8-> \pythonil{d.items()} liefert eine Kollektion mit den Tupeln~\emph{(Schlüssel, Wert)} für alle Einträge im Dictionary~\pythonil{d}.%
+}%
+%
+\item<9-> Wir können dem Schlüssel~\pythonil{k} den Wert~\pythonil{w} im Dictionary~\pythonil{d} über \pythonil{d[k] = w} zuweisen.%
+%
+\item<10-> \pythonil{del d[k]} löscht das Schlüssel-Wert-Paar mit Schlüssel~\pythonil{k} aus Dictionary~\pythonil{d}.%
+%
+\item<11-> \pythonil{d.pop(k)} löscht das Schlüssel-Wert-Paar mit Schlüssel~\pythonil{k} aus Dictionary~\pythonil{d}, liefert aber den Wert zurück, der vorher unter~\pythonil{k} gespeichert war.%
+%
+\item<12-> \pythonil{d1.update(d2)} fügt alle Schlüssel-Wert-Paare in dem Dictionary~\pythonil{d2} dem Dictionary~\pythonil{d1} hinzu.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{dicts:dicts_1}{}{collections}{dicts_1.py}{}%
+%
+\listingPython{-12}{dicts:dicts_1}{0.45}{0.0825}{0.54}{0.92}%
+%\listingPython{10-}{dicts:dicts_1}{0.45}{0.02}{0.54}{0.92}%
+%\listingOutput{10}{dicts:dicts_1}{}{0.27}{0.6}{0.67}{0.92}%
+\listingPythonAndOutput{13}{dicts:dicts_1}{}{0.45}{0.0825}{0.57}{0.92}%
+%
+%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\only<-8>{%
+\item Mit Dictionaries kennen wir nun auch der letzte der vier wichtigen Datenstrukturen von \python.%
+}%
+%
+\item<2-> Listen sind veränderliche Sequenzen von Instanzen eines beliebigen Datentyps.%
+%
+\item<3-> Tuples sind unveränderliche Sequenzen von Instanzen beliebiger Datentypen~(welche selbst unveränderlich seien sollten).%
+%
+\item<4-> Mengen beinhalten Instanzen eines unveränderlichen Datentyps. Mengen sind selbst veränderlich und ohne Elementreihenfolge.%
+%
+\item<5-> Dictionaries sind Zuordnungen von Instanzen eines unveränderlichen Schlüsseldatentyps zu Instanzen eines (möglicherweise veränderlichen) Wertedatentyps. Dictionaries sind veränderlich.%
+%
+\item<6-> In Listen und Tupels kann ein Objekt beliebig oft vorkommen.%
+%
+\item<7-> Jedes Element einer Menge und jeder Schlüssel eines Dictionaries kann immer nur einmal vorkommen.%
+%
+\item<8-> Tupels und Listen sind besonders geeignet, wenn wir Elemente in einer bestimmten Reihenfolge speichern und auslesen wollen. Wenn wir die Sequenz verändern wollen, dann nehmen wir Listen, sonst Tuples.%
+%
+\item<9-> Mengen (und Dictionaries) sind dann besonders nützlich, wenn wir schnell nachschlagen wollen, ob ein bestimmtes Element irgendwo in der Kollektion (als Schlüssel) vorkommt.%
+\end{itemize}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Überblick}%
+\centering%
+%
+\resizebox{0.9\paperwidth}{!}{\begin{tabular}{rcccc}%
+\hline%
+&\pythonil{list[A]}&\pythonil{tuple[B, C, ...]}&\pythonil{set[D]}&\pythonil{dict[E, F]}\\%
+\hline%
+%
+\glslink{literal}{Literal}&\pythonil{[a1, a2, ...]}&\pythonil{(b, c, ...)}&\pythonil{\{d1, d2, ...\}}&\pythonil{\{e1: f1, e2: f2, ...\}}\\%
+%
+leeres \glslink{literal}{Literal}&\pythonil{[]}&\pythonil{()}&\redNo~/~\pythonil{set()}&\pythonil{\{\}}\\%
+%
+andere Kollektion kopieren~\pythonil{x}&\pythonil{list(x)}&\pythonil{tuple(x)}&\pythonil{set(x)}&\pythonil{dict(x)}~(\pythonil{x} is \pythonil{dict})\\%
+%
+Geordnet&\greenYes&\greenYes&\redNo&\greenYes~(insertion sequence)\\%
+%
+Kollektion veränderlich&\greenYes&\redNo&\greenYes&\greenYes\\%
+%
+veränderliche Werte&\greenYes&\redNo&\redNo&\pythonil{E}:~\redNo; \pythonil{F}:~\greenYes\\%
+%
+Alle Elemente selber Datentyp&\greenYes&\redNo&\greenYes&\greenYes\\%
+%
+Indizieren über~\pythonil{[i]}&\greenYes~(\pythonil{i} is \pythonil{int})&\greenYes~(\pythonil{i} is \pythonil{int})&\redNo&\greenYes~(\pythonil{i} is \pythonil{E})\\%
+%
+Element mehrfach&\greenYes&\greenYes&\redNo&\pythonil{E}:~\redNo; \pythonil{F}:~\greenYes\\%
+%
+Element hinzufügen&\bigOb{1}&\redNo&\bigOb{1}&\bigOb{1}\\%
+%
+\pythonil{in}/\pythonil{not in}&\bigOb{n}&\bigOb{n}&\bigOb{1}&\bigOb{1}\\%
+%
+Element löschen&\bigOb{n}&\redNo&\bigOb{1}&\bigOb{1}\\%
+%
+Overhead&sehr klein&sehr klein&ja&ja\\%
+\hline%
+\end{tabular}}%
+%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

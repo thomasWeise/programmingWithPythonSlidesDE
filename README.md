@@ -34,9 +34,14 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 11. [Der Datentyp `str`](https://thomasweise.github.io/programmingWithPythonSlidesDE/11_str.pdf)
 12. [`None`](https://thomasweise.github.io/programmingWithPythonSlidesDE/12_none.pdf)
 13. [Variablen: Wertzuweisung](https://thomasweise.github.io/programmingWithPythonSlidesDE/13_variablen_wertzuweisung.pdf)
-14. [Fehler im Kode mit Exceptions und IDE finden](https://thomasweise.github.io/programmingWithPythonSlidesDE/14_fehler_im_kode_mit_exceptions_und_ide_finden.pdf)
-15. [Variablentypen und Type Hints](https://thomasweise.github.io/programmingWithPythonSlidesDE/15_variablentypen_und_type_hints.pdf)
-
+14. [Zwischenspiel: Fehler im Kode mit Exceptions und IDE finden](https://thomasweise.github.io/programmingWithPythonSlidesDE/14_fehler_im_kode_mit_exceptions_und_ide_finden.pdf)
+15. [Variablen: Typen und Type Hints](https://thomasweise.github.io/programmingWithPythonSlidesDE/15_variablen_typen_und_type_hints.pdf)
+16. [Gleichheit und Identität](https://thomasweise.github.io/programmingWithPythonSlidesDE/16_gleichheit_und_identität.pdf)
+17. [Listen](https://thomasweise.github.io/programmingWithPythonSlidesDE/17_listen.pdf)
+18. [Zwischenspiel: Der Linter Ruff](https://thomasweise.github.io/programmingWithPythonSlidesDE/18_ruff.pdf)
+19. [Tuples](https://thomasweise.github.io/programmingWithPythonSlidesDE/19_tuples.pdf)
+20. [Mengen](https://thomasweise.github.io/programmingWithPythonSlidesDE/20_mengen.pdf)
+21. [Dictionaries oder Hash Maps](https://thomasweise.github.io/programmingWithPythonSlidesDE/21_dictionaries.pdf)
 
 ### 2.3. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
@@ -87,7 +92,12 @@ Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0
     - [Kassel Herkules (kasselHERC.jpg)](https://pixabay.com/photos/hercules-statue-stairs-kassel-park-4174005) [webandi](https://pixabay.com/users/webandi-1460261) [Pixabay Content License](https://pixabay.com/service/license-summary)
     - [Kassel Mountain Park (kasselMP.jpg)](https://pixabay.com/photos/kassel-world-heritage-1092096) [Barni1](https://pixabay.com/users/barni1-773830) [Pixabay Content License](https://pixabay.com/service/license-summary)
     - [Kassel Schloss Wilhelmshöhe (kasselWH.jpg)](https://pixabay.com/photos/wilhelmsh%C3%B6he-castle-kassel-1201140) [Pixabay Content License](https://pixabay.com/service/license-summary)
-+ die Illustration von LIU Hui (刘徽) in der Datei "slides/13_variablen_wertzuweisung/graphics/liu_hui.jpg" stammt aus Wenqi Ying (应雯棋), editor. Commemoration of Ancient Chinese Mathematical Master Liu Hui for his Timeless Influence on Mathematics and Civilizational Exchange. [Issue 48 of CAST Newsletter](https://english.cast.org.cn/cms_files/filemanager/1941250207/attach/202412/8f23655a82364d19ad7874eb37b23035.pdf). China, Beijing (中国北京市): 中国科学技术协会 (China Association for Science and Technology, CAST), 2024. Eine Erlaubnis wurde erteilt, sie in diesem Material zu beinhalten, aber das Copyright beleibt bei CAST.
+    - Logo der Universität Kassel (logoUniKassel.pdf), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel unter den [Logo Benutzungsbedingungen](https://www.uni-kassel.de/hochschulverwaltung/themen/toolbox-fuer-oeffentlichkeitsarbeit/corporate-design-und-medienvorlagen/standardlogos.html)
+    - Universität Kassel, Wilhelmshöher Allee (kasselUniWA.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
+    - Universität Kassel, Mensavorplatz (kasselUniMVP.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
+    - Universität Kassel, Glaskasten (kasselUniGK.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
+    - Universität Kassel, Campus Center (kasselUniCC.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
++ die Illustration von LIU Hui (刘徽) in der Datei "slides/13_variablen_wertzuweisung/graphics/liu_hui.jpg" stammt aus Wenqi Ying (应雯棋), editor. Commemoration of Ancient Chinese Mathematical Master Liu Hui for his Timeless Influence on Mathematics and Civilizational Exchange. [Issue 48 of CAST Newsletter](https://english.cast.org.cn/cms_files/filemanager/1941250207/attach/202412/8f23655a82364d19ad7874eb37b23035.pdf). China, Beijing (中国北京市): 中国科学技术协会 (China Association for Science and Technology, CAST), 2024. Eine Erlaubnis wurde erteilt, sie in diesem Material zu beinhalten, aber das Copyright bleibt bei CAST.
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.

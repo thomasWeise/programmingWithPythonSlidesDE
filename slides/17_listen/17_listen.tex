@@ -1,0 +1,150 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{17.~Listen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Wir haben bereits einfache Datentypen wie Ganzzahlen und Boolesche Werte gelernt.%
+%
+\item<2-> Wir haben auch gelernt, wie wir eine Variable verwenden können, um eine Instanz eines solchen Datentyps zu speichern.%
+%
+\item<3-> In vielen Fällen wollen wir aber nicht nur ein einziges Objekt speichern.%
+%
+\item<4-> Oftmals wollen wir Kollektionen von Objekten speichern und bearbeiten\cite{PSF:P3D:TPSL:BIT,PSF:P3D:TPLR:DM,PSF:P3D:TPSL:CAABCFC}.%
+%
+\item<5-> \python\ bietet uns vier Arten von Kollektionen:~Listen, Tupel, Mengen, und Dictionaries.%
+%
+\item<6-> Wir fangen mit Listen an.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Listen}%
+\begin{itemize}%
+\item Listen sind \emph{veränderbare} Sequenzen von Objekten.%
+\item<2-> Wir können eine Listenvariable~\pythonil{my_list} bestehend aus den drei Strings~\pythonil{\"ax\"}, \pythonil{\"by\"}, und~\pythonil{\"cz\"} erstellen, in dem wir schreiben~\pythonil{my_list = [\"ax\", \"by\", \"cz\"]}.%
+\item<3-> Auf die Elemente der Liste können wir genauso zugreifen wie auf die einzelnen Zeichen einer Zeichenkette, in dem wir sie mit eckigen Klammern indizieren\cite{PSF:P3D:TPLR:S}:~\pythonil{my_list[0]} gibt uns das erste Element der Liste zurück, nämlich~\pythonil{\"ax\"}.
+\item<4-> Listen sind also veränderliche Sequenzen von Objekten, aber anstelle von nur Zeichen (wie Strings) können sie beliebige Objekte beinhalten.%
+\item<5-> Los geht's.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Type Hints, Listen erstellen, Elemente anhängen, verbinden, und indizieren}%
+%
+\parbox{0.334\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-5>{%
+\item Listenvariablen werden mit dem \glslink{typeHint}{Type Hint} \pythonil{list[elementTyp]} annotiert, wobei \pythonil{elementType} der Datentyp für die Elemente ist\cite{PEP585}.%
+}\only<-7>{%
+\item<2-> Listen können als \glslink{literal}{Literale} mit eckigen Klammern definiert werden.%
+}%
+\item<3-> \pythonil{len(lst)} liefert die Länge = Anzahl der Elemente in der Liste~\pythonil{lst}.%
+%
+\item<4-> \pythonil{lst.append(x)} hängt Element~\pythonil{x} an die Liste~\pythonil{lst} an.%
+%
+\item<5-> \pythonil{[]} ist eine leere Liste.%
+\item<6-> \pythonil{l1.extend(l2)} hängt alle Elemente des Contains~\pythonil{l2} an die Liste~\pythonil{l1} an.%
+\item<7-> Indizieren erfolgt genau wie bei Strings.%
+\item<8-> \pythonil{del lst[i]} löscht das Element an Index~\pythonil{i} aus der Liste~\pythonil{lst}.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{lists:lists_1}{}{collections}{lists_1.py}{}%
+%
+\listingPython{-8}{lists:lists_1}{0.395}{0.17}{0.59}{0.92}%
+\listingPythonAndOutput{9}{lists:lists_1}{}{0.46}{0.0825}{0.91}{0.92}%
+\listingOutput{10-}{lists:lists_1}{,style=text_style}{0.395}{0.2}{0.58}{0.8}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Suchen, einfügen, löschen, sortieren, kopieren und vergleichen}%
+%
+\parbox{0.334\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-5>{%
+\item \pythonil{a in lst} ist \pythonil{True}, wenn Element~\pythonil{a} in Liste~\pythonil{lst} auftaucht.%
+}\only<-6>{%
+\item<2-> \pythonil{a not in lst} ist \pythonil{True}, wenn Element~\pythonil{a} \emph{nicht} in Liste~\pythonil{lst} auftaucht.%
+}\only<-7>{%
+\item<3-> \pythonil{lst.insert(i, e)} fügt Element~\pythonil{e} an Index~\pythonil{i} in Liste~\pythonil{lst} ein.%
+}%
+\item<4-> \pythonil{lst.remove{e}} löscht Element~\pythonil{e} aus der Liste~\pythonil{lst}.%
+\item<5-> \pythonil{lst.sort()} sortiert die Liste~\pythonil{lst}.%
+\item<6-> \pythonil{lst.reverse()} kehrt die Reihenfolge der Elemente in Liste~\pythonil{lst} um.%
+\item<7-> \pythonil{list(cont)} erstelle eine neue Liste mit dem Inhalt des Kontainers~\pythonil{cont}.%
+\item<8-> \pythonil{==}, \pythonil{!=}, \pythonil{is} und \pythonil{is not} funktionieren auch mit Listen.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{lists:lists_2}{}{collections}{lists_2.py}{}%
+%
+\listingPython{-8}{lists:lists_2}{0.395}{0.12}{0.59}{0.92}%
+\listingPythonAndOutput{9}{lists:lists_2}{}{0.46}{0.0825}{0.91}{0.92}%
+\listingOutput{10-}{lists:lists_2}{,style=text_style}{0.395}{0.2}{0.58}{0.8}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Konkatenation, Addition, Multiplikation, Slices, und auspacken}%
+%
+\parbox{0.334\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-3>{%
+\item Die Addition \pythonil{lst1 + lst2} von zwei Listen \pythonil{lst1} und \pythonil{lst2} erzeugt eine neue Liste mit den Elementen von \pythonil{lst1} gefolgt von den Elementen von \pythonil{lst2}.%
+}\only<-4>{%
+\item<2-> Die Multiplikation \pythonil{lst * i} der Liste \pythonil{lst} mit dem \pythonil{int}~\pythonil{i} erzeugt eine neue Liste, in der die Elemente von \pythonil{lst} \pythonil{i}-Mal hintereinander vorkommen.%
+}%
+%
+\item<3-> Listen können genauso ge-sliced werden wie Strings\cite{PSF:P3D:TPLR:S}.%
+%
+\item<4-> Listen-Slices sind immer neue Listen. Sie können unabhängig von der Originalliste verändert werden.%
+%
+\item<5-> Listen können durch Mehrfachzuweisungen \inQuotes{ausgepackt} werden, wobei die Anzahl der Variablen auf der linken Seite genau der Länge der Liste auf der rechten Seite entsprechen muss. \pythonil{a, b = lst} packt die Elemente einer Liste \pythonil{lst} der Länge~2 in die Variablen \pythonil{a} und \pythonil{b} aus.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{lists:lists_3}{}{collections}{lists_3.py}{}%
+%
+\listingPython{-5}{lists:lists_3}{0.395}{0.12}{0.59}{0.92}%
+\listingPythonAndOutput{6}{lists:lists_3}{}{0.46}{0.0825}{0.91}{0.92}%
+\listingOutput{7-}{lists:lists_3}{,style=text_style}{0.395}{0.2}{0.8}{0.8}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Mit Listen haben wir nun den ersten Kontainerdatentyp kennengelernt.%
+\item<2-> Listen sind Sequenzen von Objekten.%
+\item<3-> Listen können beliebige und beliebig viele Objekte beinhalten.%
+\item<4-> Listenvariablen sollten mit \glslink{typeHint}{Type Hints} annotiert werden.%
+\item<5-> Listen können genau wie Zeichenketten~(Strings) indiziert werden.%
+\item<6-> Listen sind ein wichtiges Werkzeug, um dynamisch veränderliche Kollektionen von Objekten zu verarbeiten.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

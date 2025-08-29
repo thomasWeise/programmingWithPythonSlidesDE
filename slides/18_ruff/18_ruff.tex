@@ -1,0 +1,249 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{18.~Zwischenspiel:~Der Linter Ruff}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\gitLoadAndExecPython{lists:lists_error}{}{collections}{lists_error.py}{}%
+%
+\begin{itemize}%
+%
+\item Vor Kurzem haben wir gelernt, dass statische Kodeanalyse helfen kann, Fehler im Kode zu finden.%
+%
+\item<2-> Jetzt haben wir begonnen, mit komplexeren Datenstrukturen zu arbeiten.%
+%
+\item<3-> Daher gibt es nun auch neue Arten von Problemen und Fehlern, die auftauchen können.%
+%
+\item<4-> Schauen wir uns das Programm \textil{lists_error.py} an.%
+%
+\item<5-> Es kann problemlos ausgeführt werden.%
+%
+\item<6-> Und trotzdem ist es fehlerhaft. Können Sie einen Fehler finden?%
+%
+\end{itemize}%
+%
+\listingPythonAndOutput{}{lists:lists_error}{}{0.05}{0.6}{0.9}{0.59}%
+\end{frame}%
+%
+\section{Mypy}%
+%
+\begin{frame}[b]%
+\frametitle{Prüfung mit Mypy}%
+\gitExec{exec:lists:lists_error:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh collections lists_error.py}%
+%
+\begin{itemize}%
+\item Das Erste, was wir immer machen, ist unseren Kode mit \mypy\cite{LLHSVRZSJYYMC2024MOSTFP} prüfen.%
+\item<2-> Klar: Wir definieren \pythonil{my_list} als Liste von Strings und speichern dann \pythonils{int} drin.%
+\item<3-> Das ist offensichtlich falsch und muss korrigiert werden.%
+\item<4-> \mypy\ sucht \emph{nur} nach Datentyp-bezogenen Fehlern.%
+\item<5-> Aber haben wir \emph{nur} Datentyp-bezogene Fehler gemacht?%
+\item<6-> Gibt es Werkzeuge, die auch andere Arten von Fehlern finden können?%
+\item<7-> \alert{Ja}:~\glslink{linter}{Linters} sind Werkzeuge zum analysieren von Kode mit dem Ziel Bugs, Probleme, Schwachstellen, und inkonsistenten Stil zu finden\cite{J1978LACPC,RJYKK2022CULTDVM}.
+\end{itemize}%
+%
+\listingOutput{2-}{lists:lists_error:mypy}{,style=tool_style}{0.05}{0.1}{0.9}{0.6}%
+\end{frame}%
+%
+\section{Ruff}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Ruff Installieren}%
+%
+\begin{itemize}%
+%
+\only<-2>{%
+\item \ruff\ ist ein sehr schneller \python\ \glslink{linter}{Linter} der Kode nach vielen verschiedenen Arten von Problem durchsuchen kann, angefangen von Formatierungsfehlern über fehlende Dokumentation und Performanz-Probleme bis hin zu potentiellen Programmierfehlern\cite{M2022RAEFPLACFWIR}.%
+%
+}%
+\item<2-> Um dieses Programm zu installieren, öffnen Sie ein \glslink{terminal}{Terminal}, in dem Sie unter \ubuntu\ \ubuntuTerminal\ drücken und unter \microsoftWindows\ mit \windowsTerminal.%
+%
+\item<3-> Sie würden dann \bashil{pip install ruff}\pythonIdx{pip} eintippen und \keys{\enter}~drücken.%
+%
+\item<4-> Normalerweise machen Sie dass unter einem \glslink{virtualEnvironment}{virtuellen Environment}, was wir später diskutieren.%
+%
+\item<5-> So oder so, \ruff\ wird installiert.%
+\end{itemize}%
+%
+\locateGraphic{2-}{width=0.65\paperwidth}{graphics/pipInstallRuff}{0.175}{0.544}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Ruff Anwenden}%
+%
+\gitExec{exec:lists:lists_error:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh collections lists_error.py}%
+%
+\begin{itemize}%
+\only<-2>{%
+\item Wenden wir \ruff\ auf das Programm \textil{lists_error.py} an.%
+}%
+%
+\only<-3>{%
+\item<2-> Das geht mit dem Kommando \bashil{ruff check myfile.py}, wobei \textil{myfile.py} die zu prüfende Datei ist~(man kann auch ein Verzeichnis angeben).%
+}%
+%
+\only<-4>{%
+\item<3-> \ruff\ hat viele zusätzliche Parameter\cite{PSF:TPPIP:R,M2022RAEFPLACFWIR}.%
+}%
+%
+\only<-4>{%
+\item<4-> Wollen wir zum Beispiel unseren Kode für \python\ Version~3.12 analysieren, dann geben wir \textil{--target-version py312} an.%
+}%
+%
+\only<-5>{%
+\item<5-> Mit dem optionalen Parameter \textil{--select=...} können wir zusätzliche Regelsätze angeben, die \ruff\ zum überprüfen des Programms anwenden soll, siehe \citeurl{M2022RAEFPLACFWIR} unter \emph{Rules}.%
+}%
+%
+\only<-7>{%
+\item<6-> Manchmal wollen wir bestimmte Regeln ausschalten, was mit \textil{--ignore=...} geht.%
+}%
+%
+\only<-8>{%
+\item<7-> Das ganze Kommando steht da {\dots} vielleicht wollen Sie sich ein Shell-Skript machen, damit Sie das nicht immer abtippen müssen.%
+}%
+%
+\item<8-> \ruff\ prüft aktuell keine Datentyp-bezogenen Fehler.%
+%
+\item<9-> Aber es findet zwei andere Probleme.%
+%
+\end{itemize}%
+%
+\listingOutput{2-}{lists:lists_error:ruff}{,style=tool_style}{0.15}{0.3}{0.7}{0.9}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Fehlende Dokumentation}%
+\begin{itemize}%
+\item Der erste Fehler ist, dass die Datei nicht mit einer Zeichenkette anfängt, die den Sinn und Zweck der Datei erklärt.%
+%
+\item<2-> Solche so genannten \glslink{docstring}{Docstrings} machen es für andere Programmierer leichter zu verstehen, was welche Datei eines Projekts macht.%
+%
+\end{itemize}%
+\listingOutput{-1}{lists:lists_error:ruff}{,style=tool_style}{0.15}{0.3}{0.7}{0.9}%
+%
+\uncover<3->{%
+\bestPractice{module:docstrings}{
+Jede \python-Datei muss mit einem String anfangen, der ihren Zweck erklärt\cite{PEP257}.\uncover<4->{ %
+Das kann eine einzele Zeile sein, wie eine Überschrift, oder auch ein längerer Text.\uncover<5->{ %
+Im zweiten Fall muss die erste Zeile eine Überschrift gefolgt von einer Leerzeile sein, auf die dann der restliche Text folgt.\uncover<6->{ %
+So oder so, in \glslink{docstring}{Docstring} muss mit~\pythonil{\"\"\"...\"\"\"} begrenzt sein\cite{PEP257,PEP8}.}}}%
+}}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Performanzproblem}%
+\begin{itemize}%
+\item Der zweite Fehler ist ein Performanz-Problem.%
+%
+\item<2-> \pythonil{list([1, 2, 3])} zu schreiben ist eine sinnlose Verschwendung von Speicher und Zeit.%
+%
+\item<3-> Es erstellt zuerst ein Listen-\glslink{literal}{Literal} via \pythonil{[1, 2, 3]}.%
+%
+\item<4-> Dann macht es sofort eine Kopie dieser Liste mit der \pythonil{list(...)}-Funktion.%
+%
+\item<5-> Wir könnten also das \pythonil{list(...)} weglassen.%
+%
+\end{itemize}%
+\listingOutput{-1}{lists:lists_error:ruff}{,style=tool_style}{0.15}{0.3}{0.7}{0.9}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Probleme Gelöst}%
+\gitLoadAndExecPython{lists:lists_fixed}{}{collections}{lists_fixed.py}{}%
+\gitExec{exec:lists:lists_fixed:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh collections lists_fixed.py}%
+\gitExec{exec:lists:lists_fixed:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh collections lists_fixed.py}%
+%
+\begin{itemize}%
+\item Lösen wir also alle drei entdeckten Probleme und erstellen ein Programm \textil{lists_fixed.py}.%
+\item<3-> \mypy\ läuft nun problemlos durch.%
+\item<4-> \ruff\ auch.%
+\end{itemize}%
+%
+\listingPythonAndOutput{2}{lists:lists_fixed}{}{0.127}{0.19}{0.9}{0.81}%
+\listingOutput{3}{lists:lists_fixed:mypy}{,style=tool_style}{0.075}{0.45}{0.85}{0.9}%
+\listingOutput{4}{lists:lists_fixed:ruff}{,style=tool_style}{0.075}{0.45}{0.85}{0.9}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Was wir daraus lernen}%
+\begin{itemize}%
+\only<-10>{%
+\item OK, das war ein Programm aus \emph{zwei} Zeilen.%
+}%
+%
+\item<2-> Fragen Sie sich selbst mal\only<-2>{\dots}\uncover<3->{%
+\begin{itemize}%
+%
+\item Haben Sie den Fehler mit dem \glslink{typeHint}{Type Hint} gesehen, als Sie das Programm zum ersten Mal gelesen haben?\uncover<4->{ Naja, vielleicht\dots}%
+%
+\item<5-> Aber ist Ihnen auch aufgefallen, dass wir eine Liste erstellt und dann sofort sinnlos kopiert haben, anstatt sie direkt zu verwenden?%
+\only<-10>{%%
+\item<6-> Das mit dem \glslink{docstring}{Docstring} sei Ihnen geschenkt, da haben wir ja noch nicht drüber geredet.%
+}%
+%
+\end{itemize}}%
+%
+\item<7-> Jetzt stellen Sie sich mal vor, dass wären nicht~2, sondern 1000~Zeilen gewesen.%
+%
+\item<8-> Und bedenken Sie, dass das Programm trotz aller Fehler ja problemlos ausgeführt werden konnte {\dots} die Fehler wären halt irgendwann später mal zu Problemen geworden\dots%
+%
+\only<-10>{%%
+\item<9-> Wäre es nicht toll, wenn der Kollege das 1000-Zeilen-Programm gründlich dokumentiert, type-hinted, und greprüft hätte?%
+%
+\item<10-> Werden Sie so ein Kollege!%
+}%
+\end{itemize}%
+%
+\uncover<11->{%
+\bestPractice{manyCodeAnalysisTools}{%
+Benutzen Sie \alert{immer} und \alert{viele} statische Kode-Analyse Werkzeuge.\uncover<12->{ %
+Sie können helfen, viele verschiedene Arten von Problem oder Verbesserungsmöglichkeiten zu finden.\uncover<13->{ %
+Sie können helfen, Ihren Kode sauber zu halten und erzwingen einen konsistenten Programmierstil.\uncover<14->{ %
+Und benutzen Sie sie nicht nur -- \alert{implementieren} Sie alle gefunden Hinweise!%
+}}}}}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Mit \ruff\ und \mypy\ kennen wir nun zwei Werkzeuge zur statischen Kode-Analyse.%
+%
+\item<2-> \mypy\ sucht nach Datentype-Problemen. Wenn wir einen \pythonil{int} in einer \pythonil{str}-Variable speichern wollen, dann wird \mypy\ meckern.%
+%
+\item<3-> \ruff\ ist ein so genannter \glslink{linter}{Linter} und sucht nach allen möglichen (anderen) Problem. Es findet fehlende Dokumentation, Performanz-Probleme, und verschiedene Programmierfehler.%
+%
+\item<4-> Es gibt noch viel mehr solche Werkzeuge.%
+%
+\item<5-> Je mehr wir benutzen, desto größer unsere Chance, Fehler in unserem Kode zu entdecken.%
+%
+\item<6-> Ein interessanter Aspekt ist, dass wir von den Hinweisen dieser Werkzeuge auch lernen können, bessere Programmierer zu werden.%
+%
+\item<7-> Denn natürlich ist es immer besser, gut zu programmieren und von Anfang an wenige Fehler zu machen.%
+%
+\item<8-> Aber da selbst der beste Programmier Fehler macht, sollte man niemals zu arrogant sein, solche Werkzeuge zu verwenden.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
