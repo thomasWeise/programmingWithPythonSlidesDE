@@ -41,7 +41,8 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 18. [Zwischenspiel: Der Linter Ruff](https://thomasweise.github.io/programmingWithPythonSlidesDE/18_ruff.pdf)
 19. [Tuples](https://thomasweise.github.io/programmingWithPythonSlidesDE/19_tuples.pdf)
 20. [Mengen](https://thomasweise.github.io/programmingWithPythonSlidesDE/20_mengen.pdf)
-21. [Dictionaries oder Hash Maps](https://thomasweise.github.io/programmingWithPythonSlidesDE/21_dictionaries.pdf)
+21. [Dictionaries bzw. Hash Maps](https://thomasweise.github.io/programmingWithPythonSlidesDE/21_dictionaries.pdf)
+22. [Alternativen mit `if`](https://thomasweise.github.io/programmingWithPythonSlidesDE/22_alternativen_mit_if.pdf)
 
 ### 2.3. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.

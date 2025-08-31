@@ -1,0 +1,608 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{22.~Alternativen~mit~if}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+\item Mit den Dingen, die wir bisher gelernt haben, können wir einfache lineare Programme implementieren.%
+\item<2-> Diese Programme führen Befehl nach Befehl aus, genau in der Reihenfolge, in der wie diese aufgeschrieben haben.%
+\item<3-> Wenn wir einen Befehl zweimal ausführen wollen, dann müssen wir ihn zweimal hinschreiben.%
+\item<4-> Unsere Programme können ihr Verhalten nicht basierend auf den Eingabedaten ändern.%
+\item<5-> Sie können nicht Befehl~$\mathcal{A}$ ausführen, wenn eine Variable einen bestimmten Wert hat, und sonst Befehl~$\mathcal{B}$.%
+\item<6-> Sie können weder verzweigen noch Schritte wiederholen.%
+\item<7-> In den folgenden Einheiten werden wir lernen, wie man verzweigt und wiederholt.%
+\item<8-> Wir lernen Befehle, die den Kontrollfluss ändern.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Alternativen}%
+\begin{itemize}%
+\item Alternativen erlauben uns, ein Stück Kode \emph{nur dann} auszuführen, wenn ein bestimmter Boolescher Ausdruck \pythonilIdx{True} ergibt.%
+%
+\item<2-> Somit können unsere Programme Entscheidungen treffen.%
+%
+\item<3-> Sie können einen Befehl in einer Situation~$\mathcal{A}$ ausführen und einen Befehl~$\mathcal{B}$ in einer anderen Situation.%
+%
+\item<4-> Alternativen sind somit die fundamentalsten Kontrollflussstatements.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Einfache Alternative mit \texttt{if}}%
+%
+\begin{frame}[t]%
+\frametitle{Einfache Alternative mit \texttt{if}}%
+%
+\begin{itemize}%
+\only<-3>{%
+\item Eine einfache Alternative ist ein Stück Programkode das eine Menge von Befehlen ausführt wenn eine Kondition zutrifft.%
+\item<2-> Die Kondition ist ein einfacher Boolescher Ausdruck, wie wir ihn bereits in Einheit~10~(\pythonil{bool}) diskutiert haben.%
+\item<3-> Die Syntax dafür ist sehr einfach:%
+}%
+%
+\only<-8>{%
+\item<4-> Die erste Zeile beginnt mit~\pythonilIdx{if} gefolgt von einem Booleschen Ausdruck, gefolgt von einem Doppelpunkt~(\pythonilIdx{:}).%
+}%
+%
+\item<5-> Nur wenn der Boolesche Ausdruck \pythonil{True} ergibt, dann wird der \emph{eingerückte} Block von Kode unter dem \pythonil{if} ausgeführt.%
+%
+\only<7->{%
+\item<7-> \alert{Jede} konditionelle Zeile Kode des \pythonil{if}-Statements ist mit vier Leerzeichen eingerückt.%
+%
+\item<8-> Nach dem eingerückten Block folgt normaler Programmkode.%
+%
+\item<9-> Dieser Kode ist nicht eingerückt und wird ausgeführt, egal was der Boolesche Ausdruck im \pythonil{if} ergeben hat.
+}%
+%
+\end{itemize}%
+%
+\uncover<6>{%
+\bestPractice{indentation}{Blöcke von Kode werden mit vier Leerzeichen eingerückt\cite{PEP8}.}%
+}%
+%
+\gitLoadPython{syntax/if}{}{syntax/if.py}{}%
+\listingPythonSyntax{3-5,7-}{syntax/if}{0.05}{0.5}{0.9}{0.6}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-6>{%
+\item Benutzen wir doch mal ein \pythonil{if} um zu prüfen, ob ein Jahr ein Schaltjahr ist.%
+}%
+%
+\only<-7>{%
+\item<2-> Nach dem Gregorianischen Kalender ist ein Jahr~$y$ ein Schaltjahr wenn $y$~durch~4 geteilt werden kann, aber nicht durch~100; oder wenn es durch~400~geteilt werden kann\cite{EOEBEB:LR}.%
+}%
+%
+\only<-8>{%
+\item<3-> Zuerst speichern wir das Jahr, was wir untersuchen wollen, in einer Variable~\pythonil{year}.%
+}%
+\only<-4>{%
+\item<4-> Aus der 7.~Einheit erinnern Sie sich vielleicht noch an den Modulo-Operator~\pythonilIdx{\%}.%
+}%
+%
+\only<-9>{%%
+\item<5-> Wenn wir den Modulo-Operator auf zwei Werte \pythonil{a} und \pythonil{b} anwenden, liefert er uns den Rest der Division~\pythonil{a // b}\pythonIdx{//}.%
+}%
+%
+\only<-10>{%
+\item<6-> Wenn der Rest~0~ist, dann ist \pythonil{a} durch \pythonil{b} teilbar.%
+}%
+%
+\only<-10>{%
+\item<7-> Zum Beispiel \pythonil{10 \% 5 == 0} aber \pythonil{10 \% 6 == 4} und \pythonil{10 \% 3 == 1}.%
+}%
+%
+\only<-11>{%
+\item<8-> Um zu prüfen, ob \pythonil{year} durch~4 teilbar ist, brauchen wir nur zu prüfen ob~\pythonil{(year \% 4) == 0}.%
+}%
+%
+\only<-12>{%
+\item<9-> \pythonil{year} soll nicht durch~100 teilbar sein, also prüfen wir auch~\pythonil{(year \% 100) != 0}~(ein Rest ungleich~0 bedeutet \inQuotes{nicht teilbar}).%
+}%
+%
+\only<-13>{%
+\item<10-> Wir müssen jetzt beide Bedingungen mit~\pythonilIdx{and} kombinieren und schreiben~\pythonil{((year \% 4) == 0)}\linebreak[2]\pythonil{ and ((year \% 100) != 0)}.%
+}%
+%
+\only<-14>{%
+\item<11-> Das Ergebnis ist nur dann \pythonil{True}, wenn beide Bedingungen \pythonil{True} sind, also wenn das Jahr durch~4 aber nicht durch~100 teilbar ist.%
+}%
+%
+\only<-15>{%
+\item<12-> Wir benutzen Klammern um de Ausdruck einfacher lesbar zu machen.%
+}%
+%
+\only<-16>{%
+\item<13-> Wenn diese kombinierte Bedingung \pythonilIdx{False} ist, dann könnte das Jahr immer noch ein Schaltjahr sein, nämlich wenn es durch~400 teilbar ist.%
+}%
+%
+\only<-17>{%
+\item<14-> Die letzte Bedingung ist also, zu prüfen ob~\pythonil{(year \% 400) == 0}.%
+}%
+%
+\only<-18>{%
+\item<15-> Wir fügen diese Bedingung mit \pythonil{or} zu unserem Ausdruck hinzu, weil es ausreicht, wenn entweder unser erster Teilausdruck \emph{oder} diese Bedigung wahr ist.%
+}%
+%
+\only<-19>{%
+\item<16-> Wir bekommen den Ausdruck \pythonil{(((year \% 4) == 0)}\linebreak[2]\pythonil{ and ((year \% 100) != 0))}\linebreak[2]\pythonil{ or ((year \% 400) == 0)}.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir nutzen wieder Klammern um die Teilausdrücke schon für die Lesbarkeit zu gruppieren.%
+}%
+%
+\only<-22>{%
+\item<18-> Alles, was wir jetzt noch machen müssen, ist ein \pythonil{if} vor den Ausdruck und ein~\pythonil{:} dahinter zu schreiben, und schon haben wir eine Alternative konstruiert.%
+}%
+%
+\only<-23>{%
+\item<19-> Wenn der Ausdruck \pythonil{True} ergibt, dann drucken wir~\pythonil{f\"\{year\} is a leap year.\"}.
+}%
+%
+\only<-24>{%
+\item<20-> Dafür müssen wir das \pythonilIdx{print} Kommando mit vier Leerzeichen einrücken.%
+}%
+%
+\item<21-> Wir kopieren diesen Kode zweimal und prüfen die Jahre~\pythonil{2024} und~\pythonil{1900}.%
+%
+\item<22-> Das zweite \pythonilIdx{if} beginnt mit der selben Einrückung wie das erste \pythonil{if}.%
+%
+\item<23-> Es wir ausgeführt, gleichgültit wie die erste Alternative ausgegangen ist.%
+%
+\item<24-> Am Ende geben wir noch \textil{End of year checking.} auf der Konsole aus.%
+%
+\item<25-> Diese letzte Zeile ist auch nicht eingerückt, wird also auf jeden Fall ausgeführt.%
+%
+\item<26-> Wir sehen, das 2024 ein Schaltjahr war, 1900~aber nicht.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:if}{}{conditionals}{if_example.py}{}%
+\listingPythonAndOutput{}{conditionals:if}{}{0.45}{0.1}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Kombinierte Alternative mit \texttt{if-else}}%
+%
+\begin{frame}[t]%
+\frametitle{Kombinierte Alternative mit \texttt{if-else}}%
+%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Die Möglichkeit, eine Aktion auszuführen, wenn eine Bedingung wahr ist, ist schonmal gut.%
+%
+\item<2-> Oftmals wollen wir aber eine Aktion ausführen, wenn die Bedingung wahr ist und eine andere Aktion, wenn die Bedingung falsch ist.%
+%
+\item<3-> Technisch gesehen können wir das auch jetzt schon.%
+%
+\item<4-> Wir brauchen einfach nur zwei Alternativen mit der selben Bedingung~\pythonil{if} zu definieren, wobei wir bei der zweiten einfach \pythonil{not} vor die Bedigung schreiben.%
+}%
+%
+\only<-9>{%
+\item<5-> Natürlich geht das auch einfacher: mit \pythonil{if...else}.%
+}\only<-10>{%
+\item<7-> Das \pythonil{if...else}-Statement beginnt genau wie ein normales \pythonilIdx{if}-Statement.%
+}\only<-11>{%
+\item<8-> \pythonil{if}, gefolgt von einem Booleschen Ausdruck, gefolgt vom Doppelpunkt~(\pythonilIdx{:}) stellt die Bedingung dar.%
+}\only<-12>{%
+\item<9-> Der folgende Block, wo jedes Statement mit vier Leerzeichen eingerückt ist, wird nur ausgeführt, wenn der Boolesche Ausdruck \pythonil{True} ergibt.%
+}%
+%
+\item<10-> Dann folgt die \pythonil{else:} Zeile.%
+%
+\item<11-> Diese ist \emph{nicht} eingerückt und befindet sich in der selben Ebene wie das~\pythonil{if}.%
+%
+\item<12-> Danach kommt wieder ein ein mit vier Leerzeichen eingerückter Block.%
+%
+\item<13-> Dieser Block wird nur dann ausgeführt, wenn der Boolesche Ausdruck im~\pythonil{if} \pythonil{False} ergibt.%
+%
+\end{itemize}%
+%
+%
+\gitLoadPython{syntax/if_else}{}{syntax/if_else.py}{}%
+\listingPythonSyntax{6-}{syntax/if_else}{0.1}{0.5}{0.8}{0.6}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\item Wir passen unser Schaltjahr-Program an, so dass es auch Text ausgibt, wenn das Jahr kein Schaltjahr ist.%
+%
+\item<2-> Das können wir mit dem neuen \pythonil{else}-Zweig machen.%
+%
+\item<3-> Wir zeigen auch, dass mehrere Statements sowohl im \pythonil{if}-\ als auch im \pythonil{else}-Zweig platziert werden können.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:if_else}{}{conditionals}{if_else_example.py}{}%
+\listingPythonAndOutput{}{conditionals:if_else}{}{0.45}{0.1}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Verschachteln von Alternativen}%
+\begin{itemize}%
+\item Wir können also mehrere Statements in die Blöcke der \pythonil{if}-\ und \pythonil{if...else}-Statements packen.%
+%
+\item<2-> Moment. \uncover<3->{\emph{\inQuotes{\pythonil{if}-\ und \pythonil{if...else}-Statements}} \dots\uncover<4->{ das sind auch Statements?}}%
+%
+\item<5-> Können wir also \pythonil{if}-\ und \pythonil{if...else}-Statements in die Kodeblöcke von \pythonil{if}-\ und \pythonil{if...else}-Statements packen?%
+%
+\item<6-> Können wir Alternativen verschachteln??%
+%
+\item<7-> Ja, können wir.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Probieren wir das mal aus in unserem Programm \textil{if_else_nested.py}.%
+}\only<-6>{%
+\item<2-> Wir haben drei Zahlen in den Variablen~\pythonil{a}, \pythonil{b}, and~\pythonil{c}.%
+}\only<-7>{%
+\item<3-> Wir wollen das Maximum dieser drei Zahlen herausfinden, also die größte Zahl, die entweder in~\pythonil{a}, \pythonil{b}, oder~\pythonil{c} gespeichert ist.%
+}\only<-8>{%
+\item<4-> Wir prüfen erstmal ob \pythonil{a > b}.%
+}\only<-9>{%
+\item<5-> Wenn das \pythonilIdx{True} ergibt, dann kann \pythonil{b} auf keinen Fall die größte Zahl sein. Nur \pythonil{a} oder \pythonil{c} kommen in Frage.%
+}\only<-10>{%
+\item<6-> Im Block des ersten \pythonilIdx{if}-Statements brauchen wir also nur noch zu prüfen, ob~\pythonil{a > c}.%
+}\only<-10>{%
+\item<7-> Beachten Sie, dass das zweite~\pythonilIdx{if}, der dazugehörige Block, das \pythonil{else}, und dessen Block vier Leerzeichen tiefer eingerückt sind, als das äußere~\pythonil{if}.%
+}\only<-12>{%
+\item<8-> Falls \pythonil{a > c} wahr ist, dann drucken wir den \glslink{fstring}{f-String} \pythonil{f\"\{a\} is the greatest number.\"} aus.%
+}\only<-13>{%
+\item<9-> Wenn es dagegen \pythonil{False} ist, dann gilt entweder \pythonil{a < c} oder \pythonil{a == c}.%
+}\only<-14>{%
+\item<10-> So oder so, \pythonil{f\"\{c\} is the greatest number.\"} ist richtig.%
+}\only<-15>{%
+\item<11-> Nun müssen wir wieder zum äußeren~\pythonil{if} zurück und den alternativen Zweig bearbeiten, den \pythonilIdx{else}-Teil.%
+}\only<-16>{%
+\item<12-> Was ist, wenn \pythonil{a > b} nicht \pythonilIdx{True} war?%
+}\only<-17>{%
+\item<13-> Dann gilt entweder \pythonil{b > a} oder \pythonil{b == a}.%
+}\only<-18>{%
+\item<14-> Es reicht dann, \pythonil{b} mit \pythonil{c} zu vergleichen.%
+}\only<-19>{%
+\item<15-> Wir rücken also ein weiteres \pythonilIdx{if} ein, diesmal mit der Bedingung \pythonil{b > c}.%
+}\only<-20>{%
+\item<16-> Wenn diese \pythonilIdx{True} ist, dann ist der größte Wert gleich dem in \pythonil{b} gespeicherten Wert.%
+}\only<-20>{%
+\item<17-> Wir können also \pythonil{f\"\{b\} is the greatest number.\"} drucken.%
+}\only<-21>{%
+\item<18-> Wenn die Bedingung dagegen \pythonilIdx{False} war, dann kommen wir in den \pythonilIdx{else}-Zweig.%
+}%
+\item<19-> Wir wissen, dass \pythonil{b >= a} und das entweder \pythonil{c > b} oder \pythonil{c >= b} gilt.%
+%
+\item<20-> Dafür können wir nun wieder \pythonil{f\"\{c\} is the greatest number.\"} drucken.%
+%
+\item<21-> Anmerkung: \python\ hat die beiden Funktionen \pythonil{min} und \pythonil{max}, die jeweils eine Sequenz von Werten als Parameter bekommen und den kleinsten bzw.\ größten Wert davon zurückliefern.%
+%
+\item<22-> In den letzten beiden Zeilen unseres Programms wenden wir sie auf die Variablen \pythonil{a}, \pythonil{b}, und~\pythonil{c} an.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:if_else_nested}{}{conditionals}{if_else_nested.py}{}%
+\listingPythonAndOutput{}{conditionals:if_else_nested}{}{0.45}{0.1}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Mehrfach Alternative mit \texttt{if-elif-else}}%
+%
+\begin{frame}[t]%
+\frametitle{Mehrfach Alternative mit \texttt{if-elif-else}}%
+%
+\begin{itemize}%
+\only<-6>{%
+\item In manchen Fällen müssen wir Alternativen so verschachteln, dass der \pythonil{else}-Block des ersten~\pythonils{if} ein weiteres \pythonil{if} beinhaltet, und genau nur das~\pythonil{if}.%
+\uncover<2->{%
+\begin{itemize}%
+\item Dessen \pythonil{else}-Block beinhaltet dann vielleicht ein weiteres \pythonil{if} beinhaltet, und genau nur dieses~\pythonil{if}.%
+\uncover<3->{%
+\begin{itemize}%
+\item Dessen \pythonil{else}-Block beinhaltet dann vielleicht ein weiteres \pythonil{if} beinhaltet, und genau nur dieses~\pythonil{if}.%
+\uncover<4->{ %
+Und so weiter.%
+}%
+\end{itemize}%
+}%
+\end{itemize}%
+}%
+%
+\item<5-> Das sieht ziemlich häßlich aus, weil wir ja jede neue Alternative wieder mit vier Leerzeichen einrücken müssen.%
+%
+\item<6-> Es füllt auch die Horizontale unseres Bildschirms schnell aus.%
+}%
+%
+\item<7-> Darum wurde das \pythonilIdx{elif}-Statement entwickelt, das genau ein \pythonil{else}, welches nur ein \pythonil{if} beinhaltet, ersetzt~(oder eher kombiniert).%
+%
+\item<9-> Anstelle dem \pythonil{else} mit dem darin eingerückten \pythonil{if} schreiben wir einfach \pythonil{elif} mit der Bedingung, die das \pythonil{if} gehabt hätte.%
+%
+\item<10-> Wir können optional am Ende noch einen \pythonil{else}-Block haben, der nur dann ausgeführt wird, wenn \emph{keine} der Bedingungen des \pythonil{if} und der \pythonils{elif} wahr war.%
+%
+\end{itemize}%
+%
+\gitLoadPython{syntax/if_elif_else}{}{syntax/if_elif_else.py}{}%
+\listingPythonSyntax{8-}{syntax/if_elif_else}{0.2}{0.49}{0.6}{0.6}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(1)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir benutzen diese Syntax\only<-4>{ in Programm \textil{if_elif_example.py}}, um die Lebensphase einer Person basierend auf ihrem Alter zu berechnen.%
+}\only<-6>{%
+\item<2-> Wir definieren die Ganzzahl-Variable~\pythonil{age} für das Alter und setzen sie auf, sagen, wir~42.%
+}\only<-6>{%
+\item<3-> Wir wollen einen String in die Variable \pythonil{phase} schreiben, der die Lebensphase der Person beschreibt.%
+}\only<-7>{%
+\item<4-> Am Anfang steht nichts in der Variable, also setzen wir \pythonil{phase = None}.%
+}\only<-8>{%
+\item<5-> Wir benutzen den \glslink{typeHint}{Type Hint} \pythonil{str | None} um eine Variable zu spezifizieren, die entweder \pythonil{None} oder eine String beinhalten kann\cite{PEP604}.%
+}\only<-9>{%
+\item<6-> Wir beginning mit der ersten Bedingung und schreiben \pythonil{if age <= 3}.%
+}\only<-10>{%
+\item<7-> Wenn das \pythonilIdx{True} ergibt, dann setzen wir \pythonil{phase = \"infancy\"}, was bedeutet, dass sich die Person in der frühesten Kindheitsphase befindet.%
+}\only<-12>{%
+\item<8-> In diesem Fall ended auch der ganze \pythonil{if...elif..else} block und keine weiteren Bedingungen werden geprüft.%
+}\only<-13>{%
+\item<9-> Andernfalls, also wenn \pythonil{age <= 3} \pythonil{False} ergibt, also wenn \pythonil{age > 3} gilt, wird die nächste Bedingung geprüft.
+}\only<-14>{%
+\item<10-> Anstelle ein \pythonil{else} mit einem weiteren eingerückten \pythonil{if} können wir einfach \pythonil{elif age <= 6} ohne weitere Einrückung schreiben.%
+}\only<-15>{%
+\item<11-> Das \pythonilIdx{elif} funktioniert wie ein \pythonilIdx{else} gefolgt von einem eingrückten~\pythonil{if}.%
+}\only<-16>{%
+\item<12-> In unserem Fall prüft das \pythonil{elif} ob \pythonil{age <= 6} gilt~(nachdem wir an dieser Stelle schon wissen, dass \pythonil{age > 3}).%
+}\only<-17>{%
+\item<13-> Wenn ja, dann nennen wir diese Lebensphase~\pythonil{\"early childhood\"}.%
+}\only<-18>{%
+\item<14-> Wenn das zutrifft, dann ended der ganze \pythonil{if...elif...else}-Block und keine weiteren Bedigungen werden geprüft.%
+}\only<-19>{%
+\item<15-> Wenn nicht, also wenn \pythonil{age <= 6} \pythonilIdx{False} ergibt, dann geht es mit dem nächsten \pythonilIdx{elif} weiter.%
+}\only<-20>{%
+\item<16-> Nur dann wird also \pythonil{elif age <= 8} ausgefürt.%
+}\only<-21>{%
+\item<17-> Wenn diese Bedingung wahr ist, dann befindet sich die Person in der \pythonil{\"middle childhood\"} und sind mit dem \pythonil{if...elif...else} fertig.%
+}%
+\item<18-> Wenn \pythonil{age <= 8} nicht gilt, dann geht es wieder mit dem nächsten \pythonilIdx{elif} weiter.%
+%
+\item<19-> Und so weiter.%
+%
+\item<20-> Wenn selbst \pythonil{age < 80}, die Bedingung des letzten \pythonilIdx{elif}, auch \pythonilIdx{False} ist, dann wird der \pythonilIdx{else}-Block ausgeführt.%
+%
+\item<21-> Dann setzen wir \pythonil{phase = \"late adulthood\"}.%
+%
+\item<22-> Am Ende drucken wir die Lebensphase mit Hilfe von mit einem \glslink{fstring}{f-String} aus.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:if_elif}{}{conditionals}{if_elif_example.py}{}%
+\listingPythonAndOutput{}{conditionals:if_elif}{}{0.45}{0.17}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(2)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\item Schauen wir uns nochmal unser Programm \textil{if_else_nested.py} an.%
+\only<-11>{%
+\item<2-> Sieht eigentlich gut aus.%
+\item<3-> Was sagt eigentlich \ruff\ dazu?%
+\item<5-> Hm. Da hat \ruff\ eigentlich recht.%
+\item<6-> Machen wir das mal.%
+\item<8-> Das sieht wirklich besser aus.%
+}%
+\item<9-> Sehen Sie: Manchmal können wir was von einem \glslink{linter}{Linter} lernen.%
+\item<10-> Diese Werkzeuge können uns schon echt helfen, die Kode-Qualität zu vergessen.%
+\item<11-> Wir sparen eine Zeile Kode.%
+\end{itemize}%
+}}%
+%
+\gitExec{exec:conditionals:if_else_nested:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh conditionals if_else_nested.py}%
+\gitLoadAndExecPython{conditionals:if_elif_nested}{}{conditionals}{if_elif_nested.py}{}%
+%
+\listingPythonAndOutput{-3,7}{conditionals:if_else_nested}{}{0.45}{0.1}{0.54}{0.92}%
+\listingOutput{4-6}{conditionals:if_else_nested:ruff}{style=tool_style}{0.45}{0.2}{0.54}{0.9}%
+\listingPythonAndOutput{8-11}{conditionals:if_elif_nested}{}{0.45}{0.1}{0.54}{0.92}%
+%
+\uncover<12->{%
+\bestPractice{elifOverElseIf}{Bevorzugen Sie \pythonilIdx{elif} über geschachtelte \pythonil{else ... if} Konstrukte\cite{M2022RAEFPLACFWIR}.}%
+}%
+%
+\end{frame}%
+%
+\section{Inline bzw.\ Ternäres \texttt{if-else}}%
+%
+\begin{frame}[t]%
+\frametitle{Use Case}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-5>{%
+\item Ein häufiger Use-Case für \pythonil{if...else} ist die konditionelle Zuweisung von Werten auf Variablen.%
+}%
+%
+\only<-6>{%
+\item<2-> Hier haben wir so ein Beispiel.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir wollen ein Programm schreiben, dass uns mitteilt, ob eine Zahl groß oder klein bzw.\ positiv oder negativ ist.%
+}%
+%
+\only<-8>{%
+\item<4-> Nehmen wir an, dass die Zahl in der Ganzzahl-Variablen \pythonil{number} gespeichert ist.%
+}%
+%
+\only<-9>{%
+\item<5-> Als Beispiel nehmen wir den Wert~\pythonil{100}.%
+}%
+%
+\only<-10>{%
+\item<6-> Im Beispiel nehmen wir auch an, dass eine Zahl \pythonil{number} deren Betrag $|\pythonil{number}|$ weniger als Zehn ist, als klein angesehen wird.%
+}%
+%
+\only<-10>{%
+\item<7-> Den Betrag einer Zahl können wir in \python\ mit der Funktion \pythonilIdx{abs} berechnen.%
+}%
+%
+\only<-11>{%
+\item<8-> Wir können also eine Alternative mit der Bedingung \pythonil{if abs(number) < 10:} bauen.%
+}%
+%
+\only<-12>{%
+\item<9-> Wenn die Bedigung zurtifft, dann speichern wir den String \pythonil{\"small\"} in der Variable \pythonil{size}.%
+}%
+%
+\only<-13>{%
+\item<10-> Trifft die Bedingung nicht zu, dann speichern wir stattdessen \pythonil{\"large\"} in \pythonil{size}.%
+}%
+\only<-14>{%%
+\item<11-> Mit einer ähnlichen Alternative belegen wir die Variable \pythonil{sign}.%
+}%
+\item<12-> Wir speichern \pythonil{\"negative\"} in \pythonil{sign} wenn \pythonil{number < 0} zutrifft, \pythonil{\"positive\"} wenn \pythonil{number > 0}, und andernfalls, also wenn \pythonil{number == 0}, speichern wir \pythonil{\"unsigned\"}.%
+%
+\item<13-> Am Ende drucken wir das Ergebnis wieder unter Verwendung eines \glslink{fstring}{f-Strings}.%
+%
+\item<14-> Fragen wir mal \ruff, was es von unserem Kode hält.%
+%
+\item<16-> Hm. Interessant.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:if_else_could_be_inline}{}{conditionals}{if_else_could_be_inline.py}{}%
+\gitExec{exec:conditionals:if_else_could_be_inline:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh conditionals if_else_could_be_inline.py}%
+%
+\listingPythonAndOutput{2-14}{conditionals:if_else_could_be_inline}{}{0.45}{0.1}{0.54}{0.92}%
+\listingOutput{15-}{conditionals:if_else_could_be_inline:ruff}{style=tool_style}{0.45}{0.14}{0.54}{0.9}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Inline bzw.\ Ternäres \texttt{if-else}}%
+%
+\begin{itemize}%
+%
+\only<-4>{%
+\item In vielen Fällen brauchen wir \pythonil{if...else} bzw.\ \pythonil{if...elif...else} nur dazu, um zu entscheiden, welcher Wert in einer Variable gespeichert werden soll.%
+%
+\item<2-> In Programmiersprachen wie \pgls{C} und \pgls{Java} haben wir einen ternären Operator wie \textil{bedingung ? WertWennJa : WertWennFalsch} für solche Fäll.%
+%
+\item<3-> \python\ bietet uns auch eine kompakte Syntax -- \ruff\ hat uns gerade darauf hingewiesen.%
+}%
+%
+\only<-6>{%
+\item<4-> Das inline / ternäre \pythonil{if...else} Statement sieht wie folgt aus\cite{PEP308}:%
+}%
+%
+\only<-7>{%
+\item<6-> In der ersten Variante wird \pythonil{valueA} der Variable \pythonil{variable} zugewiesen when Bedingung \pythonil{conditionForUsingValueA} \pythonil{True} ergibt.%
+}%
+%
+\only<-8>{%
+\item<7-> Sonst wird \pythonil{valueB} zugwiesen.%
+}%
+%
+\only<-9>{%
+\item<8-> Solche Statements können beliebig geschachtelt werden, wie die zweite Variante zeigt.%
+}%
+%
+\only<-10>{%
+\item<9-> Hier wird wieder \pythonil{valueA} in \pythonil{variable} gespeichert wenn \pythonil{conditionForUsingValueA} wahr ist.%
+}%
+%
+\only<-10>{%
+\item<10-> Andernfalls wird \pythonil{valueB} benutzt, wenn \pythonil{conditionForUsingValueB} wahr ist und wenn nicht dann eben \pythonil{valueC}.%
+}%
+%
+\item<11-> Das ternäre inline \pythonil{if...else} ist sehr nützlich.%
+%
+\end{itemize}%
+%
+\gitLoadPython{syntax/if_else_inline}{}{syntax/if_else_inline.py}{}%
+\listingPythonSyntax{5-10}{syntax/if_else_inline}{0.1}{0.375}{0.8}{0.6}%%
+%
+\uncover<11->{%
+\bestPractice{inlineIfThenElse}{Wenn ein \pythonil{if...else}-Statement nur dazu verwendet wird, zu entscheiden welcher Wert in einer Variable gespeichert wird, dann nehmen Sie stattdessen die ternäre inline Variante, da diese kompakter ist\cite{M2022RAEFPLACFWIR}.}%
+}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\item Schauen wir uns nochmal das vorige Beispiel an.%
+\item<2-> Bauen wir es jetzt mit der ternären inline Variante vom \pythonil{if...else} nach.%
+\item<4-> Wow. Wir brauchen jetzt nur noch 13 anstatt von 22 Zeilen Kode.%
+\item<5-> Wieder ein Beispiel dafür, wie nützlich \glslink{linter}{Linter} seien können.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{conditionals:inline_if_else}{}{conditionals}{inline_if_else.py}{}%
+\listingPythonAndOutput{-2}{conditionals:if_else_could_be_inline}{}{0.45}{0.1}{0.54}{0.92}%
+\listingPythonAndOutput{3-}{conditionals:inline_if_else}{}{0.45}{0.1}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir sind nun in der Lage, Programme zu bauen, die Entscheidungen basierend auf Daten treffen können.%
+%
+\item<2-> Vorher konnten wir nur einfache Berechnungen durchführen und die Ergebnisse einfacher Funktionen berechnen.%
+%
+\item<3-> Nun können unsere Variablen das Ergebnis einer Funktion~${\mathcal{A}}$ empfangen, wenn unsere Eingabedaten die Bedingung~$B$ erfüllen und andernfalls das Ergebnis einer Funktion~${\mathcal{C}}$.%
+%
+\item<4-> Das ist schon ziemlich cool.%
+%
+\item<5-> Wir könnten jetzt schon hard-kodierte Entscheidungsbäume implementieren~\cite{RN2022AIAMA,SSBD2014UMLFTTA} und im Grunde war ja \textil{if_elif_example.py} ein Beispiel genau dafür.%
+%
+\item<6-> Mit Alternativen können wir im Grunde \inQuotes{über Instruktionen springen}.%
+%
+\item<6-> Mit der Ausnahme, dass wir Befehle jetzt auch übergehen können, werden unsere Programm allerdings immer noch in der Reihenfolge abgearbeitet, in der wir sie aufgeschrieben haben.%
+%
+\item<7-> Wir können Instruktionen noch nicht mehrfach ausführen bzw.\ im Kode \inQuotes{zurück springen}.%
+%
+\item<8-> Warten Sie mal auf die nächsten Einheiten\dots%
+\end{itemize}%
+%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
