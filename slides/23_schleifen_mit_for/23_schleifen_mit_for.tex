@@ -1,0 +1,864 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{23.~Schleifen mit \texttt{for}}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+%
+\only<-7>{%
+\item Wenn wir mit Daten arbeiten, dann wollen wir einen Befehl nicht nur auf ein spezifisches Datum anwenden.%
+%
+}\only<-8>{%
+\item<2-> Stattdessen wollen wir den Befehl wiederholt auf viele oder sogar alle Daten anwenden.%
+}%
+%
+\only<-9>{%
+\only<-8>{%
+\item<3-> \emph{Schleifen}~erlauben uns genau das, nämlich eine Aktion mehrfach auszuführen.%
+}%
+%
+\only<-8>{%
+\item<4-> Im Prinzip erlauben uns Alternativen mit \pythonil{if...else} bestimmte Stücke Kode auszulassen.%
+}%
+%
+\item<5-> Mit anderen Worten, sie erlauben dem Kontrollfluss, diese Instruktionen zu überspringen und mit denen, die dann folgen, weiterzumachen.%
+%
+\item<6-> Schleifen sind ein komplementäres Konzept und erlauben uns bestimmte Teile unserers Kodes zu wiederholen.%
+%
+\item<7-> Das ist im Grunde äquivalent dazu, dem Kontrollfluss zu erlauben, zurück an den Anfang des Kodes zu springen, den er gerade ausgeführt hat.%
+}%
+%
+\item<8-> Bevor wir aber richtig loslegen, lassen Sie uns kurz über die Relevanz von dem nachdenken, was jetzt kommt.%
+\end{itemize}%
+%
+\uncover<9->{%
+\begin{definition*}[Structured Programming Theorem]%
+Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion mit nur drei verschiedenen Kontrollflusselementen berechnet werden, nämlich \emph{(1)}~dem sequenziellen Ausführen von Befehlen, \emph{(2)}~dem selektiven Ausführen von Befehlen~(also mit Alternativen), und~\emph{(3)}~dem iterativen~(repetitiven) ausführen von Befehlen~(bis eine bestimmte Bedingung eintrifft)\cite{B1964OAFOTMATRPL,BJ1966FDTMALWOTFR,S2011C1GIICS:TBJTAAITSPWP,H1980OFT}.%
+\end{definition*}%
+%%
+\uncover<10->{%
+\begin{itemize}%
+\only<-12>{%
+\item Wir kennen bereits die ersten beiden Keontrollflusselemente.%
+}%
+\item<11-> Und jetzt lernen Sie das dritte Element, nämlich Schleifen.%
+\item<12-> Danach sind wir im Prinzip in der Lage, \emph{jede} Berechnung durchzuführen, die mit unseren Komputern möglich ist.%
+\item<13-> Alles was dann folgt sind nur Kontepte, die dafür a sind, unser Leben als Programmierer leichter zu machen.%
+\end{itemize}}}%
+\end{frame}%%
+%
+\section{Die \texttt{for}-Schleife}%
+%
+\begin{frame}[t]%
+\frametitle{Die \texttt{for}-Schleife}%
+%
+\begin{itemize}%
+\only<-6>{%
+\item Die Syntax einr \texttt{for}-Schleife ist einfach.%
+}\only<-6>{%
+\item<3-> Das Schlüsselwort~\pythonilIdx{for} wird von der Schleifenvariable gefolgt.%
+}\only<-7>{%
+\item<4-> Danach kommt das Schlüsselwort~\pythonilIdx{in}, die Sequenz über die wir iterieren wollen und dann ein Doppelpunkt~(\pythonilIdx{:}).%
+}\only<-8>{%
+\item<5-> Die Variable wird iterativ jeden Wert in der Sequenz annehmen.%
+}%
+%
+\item<6-> Der Schleifenkörper ist der eingerückte Block nach dem Schleifenkopf.%
+%
+\item<7-> Er wird für jeden Wert ausgeführt, den die Schleifenvariable annimmt und kann auf den Wert über die Schleifenvariable zugreifen.%
+%
+\item<8-> Jede Ausführung des Schleifenkörpers wird Iteration genannt.%
+%
+\item<9-> Nach dem Schleifenkörper folgt eine Leerzeile, nach der es dann mit normalem Kode weitergeht.%
+\end{itemize}%
+%
+\gitLoadPython{syntax/for_loop}{}{syntax/for_loop.py}{}%
+\listingPythonSyntax{2-}{syntax/for_loop}{0.05}{0.5}{0.9}{0.6}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Ranges}%
+\begin{itemize}%
+\item Wir kennen bereits einige Kollektions-Datentypen, die wir als \pythonil{sequence} zum drüber-iterieren nehmen könnten, nämlich~\pythonilsIdx{list}, \pythonilsIdx{tuple}, \pythonilsIdx{set}, und~\pythonilsIdx{dict}.%
+%
+\item<2-> In seiner einfachsten Form wird eine \pythonil{for}-Schleife aber auf eine \pythonilIdx{range} von Ganzzahlen angewandt.%
+%
+\item<3-> Solche \inQuotes{Ranges} sind Squenzen die im Grunde wie Slices funktionieren, die wir schon von Indizieren von Strings, Listen, und Tupeln kennen.%
+%
+\item<4-> \pythonil{range(5)} gibt uns eine Sequenz von Ganzzahlen, die mit~0 anfängt, in Schritten von~1 ansteigt, und \emph{vor}~5 aufhört, also im Grunde~\intRange{0}{4}.%
+%
+\item<5-> \pythonil{range(6, 9)} gibt uns eine Ganzzahlen, die mit~6 anfängt, in Schritten von~1 ansteigt, und \emph{vor}~9 aufhört, also im Grunde~\intRange{6}{8}.%
+%
+\item<6-> \pythonil{range(20, 27, 2)} ist eine Sequenz von Ganzzahlen, die mit 20 anfängt, in Schritten von~2 ansteigt, und \emph{vor}~27 aufhört, also~$(20, 22, 24, 26)$.%
+%
+\item<7-> Ranges, wie Slices, können auch mit negativen Schritten arbeiten: \pythonil{range(40, 30, -3)} beginnt mit~40, steigt in Schritten von~3~\emph{ab}, und hört \emph{vor}~30 auf, ist also~$(40, 37, 34, 31)$.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(1)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\only<-18,21->{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Schauen wir uns mal ein Beispiel an.%
+}%
+\only<-6>{%
+\item<2-> Zuerst wollen wir ein Dictionary bauen, in dem einige Ganzzahlen ihrem jeweiligen Quadrat zugeordnet sind.%
+}%
+\only<-6>{%
+\item<3-> Wir benutzen vier \pythonilIdx{for}-Schleifen, um dieses Dictionary mit Daten zu füllen.%
+}%
+\only<-7>{%
+\item<4-> Wir benutzen jeweils \pythonil{i} als Schleifenvariable.
+}%
+\only<-8>{%
+\item<5-> In der ersten Schleife iteriert \pythonil{i} über \pythonil{range(5)}.%
+}%
+\only<-9>{%
+\item<6-> Bei der ersten Ausführung des Schleifenkörpers hat \pythonil{i} den Wert~\pythonil{0}.%
+}%
+\only<-10>{%
+\item<7-> Der Schleifenkörper \pythonil{squares[i] = i * i} ist also äquivalent zu \pythonil{squares[0] = 0} und weist daher den Wert~\pythonil{0} dem Schlüssel~\pythonil{0} im Dictionary \pythonil{squares} zu.%
+}%
+\only<-11>{%
+\item<8-> In der zweiten Iteration hat \pythonil{i} den Wert~\pythonil{1}.%
+}%
+\only<-12>{%
+\item<9-> Der Schleifenkörper \pythonil{squares[i] = i * i} macht also \pythonil{squares[1] = 1}.%
+}%
+\only<-13>{%
+\item<10-> In der dritten Iteration hat \pythonil{i} den Wert~\pythonil{2} und wir führen \pythonil{squares[2] = 4} aus.%
+}%
+\only<-14>{%
+\item<11-> Danach gilt \pythonil{i = 3} und wir machen \pythonil{squares[3] = 9}.%
+}%
+\only<-14>{%
+\item<12-> Zuletzt erfolgt dann \pythonil{squares[4] = 16} und die erste Schleife ist fertig.%
+}%
+\only<-15>{%
+\item<13-> Mit der zweiten Schleife iterieren wir über \pythonil{range(6, 9)}, also es gilt \pythonil{i = 6}, dann \pythonil{i = 7}, und schließlich \pythonil{i = 8}.%
+}%
+\only<-17>{%
+\item<14-> Es erfolgt also \pythonil{squares[6] = 36}, \pythonil{squares[7] = 49}, und \pythonil{squares[8] = 64}.%
+}%
+\only<-18>{%
+\item<15-> Die dritte Schleife iteriert über \pythonil{range(20, 27, 2)} und ihr Körper führt daher nacheinander \pythonil{squares[20] = 400}, \pythonil{squares[22] = 484}, \pythonil{squares[24] = 576}, und \pythonil{squares[26] = 676} aus.%
+}%
+\only<-18>{%
+\item<16-> In der vierten Schleife, nimmt \pythonil{i} die Werte der Sequenz \pythonil{range(40, 30, -3)} an, die eine negative Schrittweite hat.%
+}%
+\only<-18>{%
+\item<17-> \pythonil{i}~wird daher zuerst~\pythonil{40}, dann \pythonil{37}, dann \pythonil{34}, und schließlich~\pythonil{31}.%
+}%
+\only<-18>{%
+\item<18-> Nun drucken wir das Dictionary aus und bekommen das erwartete Ergebnis.%
+}%
+\only<21->{%
+\only<-26>{%
+\item<21-> Am Ende des Programmes probieren wir das mal aus.%
+}%
+\only<-26>{%
+\item<22-> Wir wollen \pythonil{\"Hello World!\"} dreimal ausgeben.%
+}%
+\only<-27>{%
+\item<23-> Wir könnten die Kodezeile einfach dreimal kopieren.%
+}%
+\only<-27>{%
+\item<24-> Stattdessen packen wir sie in eine Schleife, die über \pythonil{range(3)} iteriert.%
+}%
+\only<-28>{%
+\item<25-> Dabei ist uns der Wert der Schleifenvariable egal.%
+}%
+%
+\only<-29>{%
+\item<26-> Also nennen wir sie einfach~\pythonil{_}.%
+}%
+%
+\only<-29>{%
+\item<27-> Weil wir sie so nennen, ist jedem, der den Kode liest, sofort klar, dass uns der Wert der Schleifenvariablen völlig egal ist.%
+}%
+%
+\item<28-> Wir machen deutlich, dass wir etwas dreimal tun wollen, dass der Index jeder Iteration der Schleife aber keine Rolle spielt.%
+%
+\item<29-> Hätten wir die Variable stattdessen \DEzB~\pythonil{d} genannt, dann würden Leute, die den Kode lesen, oder auch statische Analysetools sich wundern, warum wir \pythonil{d} nirgendwo verwenden.%
+%
+\item<30-> Es ist also immer sinnvoll, unsere Intentionen klar in unserem Kode auszudrücken.%
+%
+\item<31-> Denn \inQuotes{richtiger} Kode ist viel komplizierter und jeder Hinweis, den wir geben, ist nützlich.%
+}%
+\end{itemize}%
+}}}%
+%
+\gitLoadAndExecPython{loops:for_loop_range}{}{loops}{for_loop_range.py}{}%
+\listingPythonAndOutput{2-18,21-}{loops:for_loop_range}{}{0.45}{0.15}{0.54}{0.92}%
+%
+\uncover<19-20>{%
+\bestPractice{underscore}{%
+Wenn der Wert einer Variable oder eines Parameters egan ist, dann sollten wie diese~\pythonil{_}~nennen\cite{PEP635}. %
+\uncover<20->{%
+Diese Information ist nützlich für andere Programmierer sowie für statische Kodeanalyse.}%
+}}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(2)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-6>{%
+\item Benutzen wir nun diese neuen Informationen, um unser Programm zum Annähern von \numberPi\ zu verbessern.%
+}%
+%
+\item<2-> Was wir in diesem Programm wieder und wieder tun, ist\only<-2>{\dots}\uncover<3->{:%
+\begin{itemize}%
+\item Wir verdoppeln die Anzahl~\pythonil{e} der Seiten eines regelmäsigen \pythonil{e}\nobreakdashes-gons mit~\pythonil{e *= 2}.%
+\item<4-> Wir berechnen die Länge~\pythonil{s} der Seiten.%
+\item<5-> Wir geben die neue Annäherung \pythonil{e * s /2} von \numberPi\ aus.%
+\end{itemize}%
+}%
+%
+\item<6-> Wenn wir all das einfach in eine Schleife packen\dots%
+%
+\item<7-> dann verkürzt sich das Programm von über 25 auf 10 Zeilen Kode!%
+%
+\item<8-> Und die Ausgabe ist die gleiche!%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{variables:pi_liu_hui}{}{variables}{pi_liu_hui.py}{}%
+\listingPythonAndOutput{2-5}{variables:pi_liu_hui}{}{0.45}{0.08}{0.54}{0.92}%
+%
+\gitLoadAndExecPython{loops:for_loop_pi_liu_hui}{}{loops}{for_loop_pi_liu_hui.py}{}%
+\listingPythonAndOutput{6-}{loops:for_loop_pi_liu_hui}{}{0.45}{0.2}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{\texttt{continue} und \texttt{break}}%
+%
+\begin{frame}%
+\frametitle{\texttt{continue} und \texttt{break}}%
+\begin{itemize}%
+\item Schleifen haben oft komplizierte Körper, die Alternativen oder andere Schleifen beinhalten können.%
+%
+\item<2-> Es ist nicht ungewöhnlich dass wir manchmal nach ein paar Berechnungen im Körper einer Schleife schon wissen, dass wir mit der nächsten Iteration weitermachen können, anstatt den Rest des Schleifenkörpers auszuführen.%
+%
+\item<3-> Manchmal wissen wir auch nach ein paar Schleifen-Iterationen bereits, dass wir eigentlich aufhören können anstatt die weitere Iterationen durchzuführen.%
+%
+\item<4-> Für den ersten Fall gibt es das Schlüsselwort~\pythonilIdx{continue}, für den zweiten Fall das Schlüsselwort \pythonilIdx{break}.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-5>{%
+\item Schauen wir uns mal ein Beispiel an.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir iterieren mit einer Variable~\pythonil{i} über die 15~Werte von~\pythonil{0} bis~\pythonil{14}, also über \pythonil{range(15)}.%
+}%
+%
+\only<-6>{%
+\item<3-> Im Schleifenkörper erstellen wir erst einen String~\pythonil{s} mit dem aktuellen Wert von~\pythonil{i} mit Hilfe des \glslink{fstring}{f-Strings} \pythonil{f\"i is now \{i\}.\"}.%
+}%
+%
+\only<-8>{%
+\item<4-> Der letzte Befehl in der Schleife, \pythonil{print(s)}, gibt diesen String aus.%
+}%
+%
+\only<-8>{%
+\item<5-> Anstatt das wir \pythonil{i} von~\pythonil{0} bis~\pythonil{14} laufen lassen, wir überlegen uns, dass wir abbrechen wollen, sobald \pythonil{i} größer als~\pythonil{10} wird.%
+}%
+%
+\only<-9>{%
+\item<6-> Normalerweise würden wir dafür die \pythonil{range} ändern, wir wollen hier aber einfach mal der \pythonil{break}-Statement verwenden.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir schreiben es also in eine Alternative hinein, mit Bedingung \pythonil{if i > 10:}.%
+}%
+%
+\only<-11>{%
+\item<8-> Also wenn \pythonil{i > 10}, dann wird \pythonil{break} ausgeführt, was die Schleife dann sofort beendet.%
+}%
+%
+\only<-12>{%
+\item<9-> Die aktuelle Iteration wird dann nicht mehr beendet und der Kode im restlichen Schleifenkörper wird überprungen und die Schleife verlassen.%
+}%
+%
+\only<-14>{%
+\item<10-> Es geht dann nach der Schleife weiter, also mit \pythonil{print(\"All done.\")}.%
+}%
+%
+\only<-15>{%
+\item<11-> Wenn \pythonil{i > 10} aber nicht zutrifft, dann wird das \pythonil{break} nicht ausgeführt aber stattdessen der restliche Kode im Schleifenkörper.%
+}%
+%
+\only<-16>{%
+\item<12-> Für den Fall, dass $\pythonil{i}\in\intRange{5}{8}$, dann wollen wir direkt mit der nächsten Schleifen-Iteration weitermachen.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir wollen keinen Text ausgeben und daher das \pythonilIdx{print} im Schleifenkörper auch nicht aufrufen.%
+}%
+%
+\only<-18>{%
+\item<14-> Das können wir mit dem \pythonil{continue}-Statement erreichen.%
+}%
+%
+\only<-19>{%
+\item<15-> Wenn \pythonil{5 <= i <= 8} zutrifft, dann machen wir \pythonilIdx{continue}.%
+}%
+%
+\only<-20>{%
+\item<16-> Das bedeutet, dass für \pythonil{i == 5} der Kontrollfluss vom \pythonilIdx{continue}-Statement direkt zum Kopf der Schleife zurückkehrt.%
+}%
+%
+\only<-21>{%
+\item<17-> Die Schleife setzt~\pythonil{i = 6} und das selbe passiert wieder.%
+}%
+%
+\only<-22>{%
+\item<18-> Das geht so weiter, bis~\pythonil{i == 9}.%
+}%
+%
+\only<-22>{%
+\item<19-> Die Bedingung \pythonil{5 <= i <= 8} trifft nämlich \alert{nicht} zu für alle~$\pythonil{i}\in\intRange{0}{4}\cup\intRange{9}{15}$.%
+}%
+\item<20-> Das \pythonil{print(s)} kann also nur in diesen Fällen erreicht werden.%
+\item<21-> Natürlich wird die Schleife abbrechen, sobald~\pythonil{i == 11}.%
+%
+\item<22-> Das Programm wird also \pythonil{s} nur für~$\pythonil{i}\in\intRange{0}{4}\cup\{9, 10\}$ ausgeben, bevor letztendlich~\textil{All done.} ausgegeben wird.%
+%
+\item<23-> Mit \pythonilIdx{break} und \pythonilIdx{continue} haben wir nun zwei neue Werkzeuge, mit denen wir entweder die die ganze Schleie abbrechen können oder die aktuelle Iteration beenden~(und mit der nächsten weitermachen können, wenn es eine gibt).%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{loops:for_loop_continue_break}{}{loops}{for_loop_continue_break.py}{}%
+\listingPythonAndOutput{2-}{loops:for_loop_continue_break}{}{0.45}{0.2}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Schleifen verschachteln}%
+%
+\begin{frame}%
+\frametitle{Schleifen verschachteln}%
+\begin{itemize}%
+%
+\item Genau wir Alternativen, können wir Schleifen beliebig verschachteln.%
+%
+\item<2-> Die Körper von Schleifen können andere Schleifen und Alternativen beinhalten.%
+%
+\item<3-> Schleifen können auch in den Verzweigungen von Alternativen beinhaltet sein.%
+%
+\item<4-> Probieren wir das mal aus, in dem wir eine Liste aller Primzahlen kleiner als 200 erstellen!%
+%
+\end{itemize}%
+\uncover<5->{%
+\begin{definition*}[Primezahl]%
+Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also größer als eins, die keine positiven ganzzahligen Teiler anders als~$1$ und~$p$ selbst hat\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF}.%
+\end{definition*}%
+}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Beispiel}%
+\only<-1>{%
+\begin{definition*}[Primezahl]%
+Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also größer als eins, die keine positiven ganzzahligen Teiler anders als~$1$ und~$p$ selbst hat\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF}.%
+\end{definition*}%
+}%
+%
+\uncover<2->{%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-5>{%
+\item In unserem Programm wollen wir alle Primzahlen~$p<200$ in einer Liste \pythonil{primes} speichern.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir wissen, dass \pythonil{2} eine Primzahl ist -- und zwar die einzige gerade Primzahl -- also können wir sie direkt bei der Initialisierung der Liste hineinschreiben.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir setzen also anfangs \pythonil{primes = [2]}.%
+}%
+%
+\only<-8>{%
+\item<5-> Dann brauchen wir uns nachher nur noch um ungerade Zahlen aus dem Intervall \intRange{3}{199} zu kümmern.%
+}%
+%
+\only<-9>{%
+\item<6-> Aus Interesse wollen wir auch die Anhahl der Divisionen in der Variable~\pythonil{n_divisions} mitzählen, die wir machen, bis wir die ganze Liste von Primzahlen zusammenhaben.%
+}%
+%
+\only<-10>{%
+\item<7-> Um alle Primzahlen aus \intRange{2}{199} zu finden, lassen wir die Schleifenvariable  \pythonil{candidate} über \pythonil{range(3, 200, 2)} iterieren.%
+}%
+%
+\only<-11>{%
+\item<8-> Das ist die Sequenz von Ganzzahlen, die mit \pythonil{3} anfängt, mit Schrittweite~2 steigt, und genau vor~\pythonil{200} aufhört.%
+}%
+%
+\only<-12>{%
+\item<9-> Gerade Zahlen~außer~2 sind keine Primzahlen, also sollte das OK sein.%
+}%
+%
+\only<-13>{%
+\item<10-> \pythonil{candidate} wird also iterative~\pythonil{3}, \pythonil{5}, \pythonil{7}, \dots, und irgendwann~\pythonil{195}, \pythonil{197}, und \pythonil{199} werden.%
+}%
+%
+\only<-14>{%
+\item<11-> Für jeden Wert von \pythonil{candidate} fangen wir mit der Annahme an, dass sie eine Primzahl ist und versuchen das Gegenteil zu beweisen.%
+}%
+%
+\only<-15>{%
+\item<12-> Wir setzen \pythonil{is_prime = True} und versuchen, einen ganzzahligen Teiler für \pythonil{candidate} zu finden.%
+}%
+%
+\only<-16>{%
+\item<13-> Wenn uns das gelingt, dann setzen wir \pythonil{is_prime = False}.%
+}%
+%
+\only<-17>{%
+\item<14-> Wenn wir keinen Teiler finden, dann bleibt \pythonil{is_prime} \pythonil{True}.%
+}%
+%
+\only<-18>{%
+\item<15-> Dann würden wir \pythonil{candidate} zur Liste~\pythonil{primes} hinzufügen.%
+}%
+%
+\only<-19>{%
+\item<16-> Das ist der Plan.%
+}%
+%
+\only<-20>{%
+\item<17-> Wir werden diesen Plan mit einer geschachtelten / inneren Schleife implementieren.%
+}%
+%
+\only<-21>{%
+\item<18-> Weil die Schleifenvariable \pythonil{candidate} immer ungerade ist, kommen auch nur ungerade Zahlen als Teiler in Frage.%
+}%
+%
+\only<-22>{%
+\item<19-> Natürlich müssen diese auch größer oder gleich~\pythonil{3} sein.%
+}%
+%
+\only<-23>{%
+\item<20-> Wir müssen auch nur dann prüfen, ob eine Zahl \pythonil{check} ein Teiler von\pythonil{candidate}, wenn sie nicht größer als $\sqrt{\pythonil{candidate}}$ ist.%
+}%
+%
+\only<-24>{%
+\item<21-> Wenn wir nämlich drei Ganzzahlen~$a$, $b$, und~$c$ hätten, so das $a=b*c$, dann gilt~$c=\frac{a}{b}$.%
+}%
+%
+\only<-25>{%
+\item<22-> Wenn nun aber $b>\sqrt{a}$, dann muss $c<\frac{a}{\sqrt{a}}$, was heißt dass~$c<\sqrt{a}$.%
+}%
+%
+\only<-26>{%
+\item<23-> Andersherum, weil $a=\sqrt{a}*\sqrt{a}$ per Definition gilt, wäre es unmöglich, dass $a=b*c$ gilt wenn sowohl $b>\sqrt{a}$ und $c\geq\sqrt{a}$.%
+}%
+%
+\only<-27>{%
+\item<24-> Mit anderen Worten, wenn $b>\sqrt{a}$ ein Teiler von~$a$ ist, dann gibt es einen Teiler~$c$ mit $c<\sqrt{a}<b$.%
+}%
+%
+\only<-28>{%
+\item<25-> Und den würden wir mit \pythonil{check} finden, bevor es~$\sqrt{\pythonil{candidate}}$ erreicht.%
+}%
+%
+\only<-29>{%
+\item<26-> Die meisten Ganzzahlen haben keine ganzzahligen Quadratwurzeln.%
+}%
+%
+\only<-30>{%
+\item<27-> Da ganzzahlige Teiler aber keine Nachkommastellen haben können, reicht es aus, wenn wir $\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$ als Obergrenze nehmen.%
+}%
+%
+\only<-31>{%
+\item<28-> In \python\ kann so eine \inQuotes{abgerundete} Quadratwurzel~$\left\lfloor\sqrt{a}\right\rfloor$ einer Ganzzahl~$a$ mit der Funktion \pythonilIdx{isqrt} aus dem Modul \pythonilIdx{math} berechnet werden.%
+}%
+%
+\only<-32>{%
+\item<29-> Wir importieren diese Funktion daher am Anfang unseres Programms.%
+}%
+%
+\only<-33>{%
+\item<30-> Darum können wir unsere zweite, innere Schleife mit der Schleifenvariablen \pythonil{check} über \pythonil{range(3, isqrt(candidate) + 1, 2)} iterieren lassen.%
+}%
+%
+\only<-34>{%
+\item<31-> Für alle \pythonil{candidate <= 3} wird diese Schleife gar nicht ausgeführt.%
+}%
+%
+\only<-35>{%
+\item<32-> Dann bleibt \pythonil{is_prime} \pythonil{True} und wir hängen \pythonil{candidate} in \pythonil{primes} an.%
+}%
+%
+\only<-36>{%
+\item<33-> Für \pythonil{candidate > 3}, geht \pythonil{check} dann von~\pythonil{3} bis$\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
+}%
+%
+\only<-37>{%
+\item<34-> Im Körper der inneren Schleife müssen wir nun gucken, ob \pythonil{check} ein ganzzahliger Teiler von \pythonil{candidate} ist.%
+}%
+%
+\only<-38>{%
+\item<35-> Das geht, in dem wir den \glslink{modulodiv}{Rest} der Division~$\pythonil{canddiate}/\pythonil{check}$ berechnen.%
+}%
+%
+\only<-39>{%
+\item<36-> Das geht mit der \glslink{modulodiv}{Modulo-Division}~\expandafter\pythonilIdx{\%}, der genau das macht.%
+}%
+%
+\only<-40>{%
+\item<37-> Wenn \pythonil{candidate \% check} gleich~\pythonil{0}, dann können wir \pythonil{candidate} ohne Rest durch \pythonil{check} teilen.%
+}%
+%
+\only<-41>{%
+\item<38-> Dann ist \pythonil{candidate} durch \pythonil{check} teilbar und kann keine Primzahl sein.%
+}%
+%
+\only<-42>{%
+\item<39-> Dann können \pythonil{is_prime = False} setzen.%
+}%
+%
+\only<-43>{%
+\item<40-> Genaugenommen können wir dann auch gleich die innere Schleife mit \pythonilIdx{break} abbrechen.%
+}%
+%
+\only<-44>{%
+\item<41-> Sobald wir wissen, dass \pythonil{candidate} keine Primzahl ist, müssen wir keine weiteren potentiellen Teiler prüfen.%
+}%
+%
+\only<-45>{%
+\item<42-> Beachten Sie, dass wir alle \glslink{modulodiv}{Modulo-Divisonen} zählen, in dem wir \pythonil{n_divisions += 1} am Anfang der inneren Schleife machen.
+}%
+%
+\only<-46>{%
+\item<43-> Nach der inneren Schleife prüfen wir, ob \pythonil{is_prime} noch \pythonil{True} ist.%
+}%
+%
+\only<-47>{%
+\item<44-> Wenn ja, dann hängen wir \pythonil{candidate} an die Liste \pythonil{primes} an, in dem wir die \pythonilIdx{append}-Methode der Liste aufrufen.%
+}%
+%
+\item<45-> Nach dem wir mit der äußeren Schleife fertig sind, drucken wir sowohl die Anzahl~\pythonil{n_divisions} der benötigten Divsionen, die Anzahl \pythonil{len(primes)} der gefundenen Primzahlen, als auch die Liste \pythonil{primes} der Primzahlen selbst aus.%
+%
+\item<46-> Wir erfahren, dass wir mit 252~Divisionen alle 46~Primzahlen im Intervall~\intRange{2}{199} finden konnten.%
+%
+\item<47-> (OK, wir haben ignoriert bzw.\ wissen nicht, ob \pythonil{isqrt} irgendwelche Divisionen durchführt, aber egal.).%
+%
+\end{itemize}%
+}}}%
+%
+\gitLoadAndExecPython{loops:for_loop_nested_primes}{}{loops}{for_loop_nested_primes.py}{}%
+\listingPythonAndOutput{2-}{loops:for_loop_nested_primes}{}{0.45}{0.18}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Iterieren über Sequenzen}%
+%
+\begin{frame}%
+\frametitle{Iterieren über Sequenzen}%
+\begin{itemize}%
+\item Wir haben bei der Einfüührung der \pythonil{for}-Schleife gesagt, dass sie über eine \emph{Sequenz} von Daten iteriert.%
+%
+\item<2-> Wir haben auch gesagt, dass wir schon verschiedene Kontainerdatentypen kennen, die wir als Sequenzen behandeln können.%
+%
+\item<3-> Wir müssten also über~\pythonilsIdx{list}, \pythonilsIdx{tuple}, \pythonilsIdx{set}, und~\pythonilsIdx{dict} iterieren können\dots%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(1)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Schauen wir uns das mal an.%
+}%
+\only<-5>{%
+\item<2-> In unserem Beispielprogramm bauen wir uns eine Liste~\pythonil{txt} mit Strings zusammen, die wir später ausgeben wollen.%
+}%
+\only<-6>{%
+\item<3-> Zuerst iterieren wir über eine Liste~\pythonil{lst} mit den vier Zahlen~\pythonil{[1, 2, 3, 50]}.%
+}%
+\only<-7>{%
+\item<4-> Das geht mit \pythonil{for i in lst}\dots%
+}%
+\only<-8>{%
+\item<5-> \pythonil{i} ist die Schleifenvariable und wird Schritt-für-Schritt alle Werde aus \pythonil{lst} annehmen.%
+}%
+\only<-9>{%
+\item<6-> Im Körper der Schleife rufen wir dann \pythonil{txt.append(f\"\{i = \}\")} auf.
+}%
+\only<-10>{%
+\item<7-> Dieser \glslink{fstring}{f-String} ergibt \pythonil{\"i = 1\"} in der ersten Iteration, \pythonil{\"i = 2\"} in der zweiten, \pythonil{\"i = 3\"} in der dritten, und \pythonil{\"i = 50\"} in der letzten Iteration.%
+}%
+\only<-11>{%
+\item<8-> Diese Strings werden alle via \pythonilIdx{append} an die Liste~\pythonil{txt} angehängt.%
+}%
+\only<-12>{%
+\item<9-> Machen wir nun mit einem Tupel~\pythonil{tp} mit den viel Fließkommazahlen~\pythonil{(7.6, 9.4, 8.1)} weiter.%
+}%
+\only<-13>{%
+\item<10-> Hier funktioniert es ganz genauso.%
+}%
+\only<-14>{%
+\item<11-> \pythonil{for f in tp} lässt die Schleifenvariable~\pythonil{f} nacheinander die Werte \pythonil{7.6}, \pythonil{9.4}, und~\pythonil{8.1} annehmen.%
+}%
+\only<-15>{%
+\item<12-> Wir verwandeln sie wieder via einem \glslink{fstring}{f-String} \pythonil{f\"f=\{f\}\"} in Text um an hängen diesen via \pythonil{append} an die Liste \pythonil{txt} an.%
+}%
+\only<-16>{%
+\item<13-> Als drittes Beispiel erstellen wir eine Menge~\pythonil{st}, aus drei Zeichenketten als~\pythonil{\{\"u\", \"v\", \"w\"\}}.%
+}%
+\only<-17>{%
+\item<14-> Wir können über die Elemente dieser Menge iterieren, in dem wir \pythonil{for s in st} schreiben.%
+}%
+\only<-18>{%
+\item<15-> Die Schleifenvariable~\pythonil{s} nimmt dann die Werte \pythonil{\"w\"}, \pythonil{\"u\"}, und \pythonil{\"v\"} \alert{in beliebiger Reihenfolge} an.%
+}%
+\only<-19>{%
+\item<16-> Erinnern Sie sich: Mengen sind in \python\ ungeordnet.%
+}%
+\only<-20>{%
+\item<17-> Wenn wir das Programm zweimal ausführen, können wir also eventuall verschiedene Reiehenfolgen beobachten.%
+}%
+\only<-21>{%
+\item<18-> So oder so, wir können über die Werte in der Menge \pythonil{st} iterieren.%
+}%
+\only<-22>{%
+\item<19-> Wieder speichern wir diese als schön formatierte Texte in der Liste \pythonil{txt}.%
+}%
+\only<-23>{%
+\item<20-> Diesmal benutzen wir den \glslink{fstring}{f-String} \pythonil{f\"s = \{s!r\}\"}.%
+}%
+\only<-24>{%
+\item<21-> Der \pythonil{!r} Format-Specifier convertiert die Werte von \pythonil{s} zu ihrer \emph{Repräsentation}, was im Grunde Anführungszeichen um die Strings setzt~(und ggf.\ \glslink{escapeSequence}{Escape-Sequenzen} für nicht-druckbare Zeichen benutzt).%
+}%
+\only<-25>{%
+\item<22-> So werden \pythonil{\"s = \'v\'\"}, \pythonil{\"s = \'u\'\"}, und~\pythonil{\"s = \'w\'\"} an \pythonil{txt} in beliebiger Reihenfolge angehängt.%
+}%
+\only<-26>{%
+\item<23-> Als viertes und letztes Beispiel erstellen wir ein Dictionary~\pythonil{dc}\pythonIdx{dict} das Fließkommazahlen zu Booleschen Werten zurodnet.%
+}%
+\only<-27>{%
+\item<24-> Es beinhaltet nur die beiden Einträge~\pythonil{\{1.1: True, 2.5: False\}}.%
+}%
+\only<-28>{%
+\item<25-> Dictionaries sind etwas speziell.%
+}%
+\only<-29>{%
+\item<26-> Sie ordnen Werte zu Schlüsseln zu.%
+}%
+\only<-30>{%
+\item<27-> Wenn wir mit dem ganzen Dictionary~\pythonil{dc} als Kollektion arbeiten, dann können wir auf drei Arten darauf zugreifen.%
+}%
+\only<-31>{%
+\item<28-> Wenn wir direkt über \pythonil{dc} iterieren, dann können wir alle Schlüssel sehen.%
+}%
+\only<-32>{%
+\item<29-> Das ist das selbe, als über \pythonil{dc.keys()}\pythonIdx{dict!keys} zu iterieren.%
+}%
+\only<-33>{%
+\item<30-> Iterieren wir über \pythonil{dc.values()}\pythonIdx{dict!values}, dann sehen wir alle Werte in~\pythonil{dc}.%
+}%
+\only<-34>{%
+\item<31-> Iterieren wir über \pythonil{dc.items()}\pythonIdx{dict!items}, dann sehen wir alle Schlüssel-Wert-Paare als Tupels.%
+}%
+\only<-35>{%
+\item<32-> Wir probieren alle drei Varianten aus.%
+}%
+\only<-36>{%
+\item<33-> Wir iterieren zuerst über die Schlüssel mit \pythonil{for k in dc}, wodurch \pythonil{k} erst den Wert \pythonil{1.1} und dann \pythonil{2.5} annimmt.%
+}%
+\only<-37>{%
+\item<34-> Wir iterieren über die Werte mit \pythonil{for v in dc.values()}, wodurch \pythonil{v} erst \pythonil{True} und dann \pythonil{False} wird.%
+}%
+\only<-38>{%
+\item<35-> Zu guter Letzt iterieren wir über die Schlüssel-Wert-Paare.%
+}%
+\only<-39>{%
+\item<36-> Schauen Sie genau hin!%
+}%
+\only<-40>{%
+\item<37-> Wir \emph{könnten} schreiben \pythonil{for t in dc.items()}, wodurch wir eine Variable~\pythonil{t} die Werte \pythonil{(1.1, True)} und dann \pythonil{2.5: False} annehmen würde.%
+}%
+\only<-41>{%
+\item<38-> Aber wir haben ja vom automatischen \inQuotes{Auspacken} von Tupeln gelernt.%
+}%
+\only<-42>{%
+\item<39-> Stattdessen schreiben wir also  \pythonil{for k, v in dc.items()} hin.%
+}%
+\only<-43>{%
+\item<40-> Das ist eine sowas wie eine Akürzung für \pythonil{for t in dc.items()} gefolgt von \pythonil{k, v = t}.%
+}%
+\only<-44>{%
+\item<41-> Es packt die Tupels der in der Sequenz \pythonil{dc.items} direkt aus.%
+}%
+\only<-45>{%
+\item<42-> Wir bekommen also Paare \pythonil{k=1.1}, \pythonil{v=True} und \pythonil{k=2.5}, \pythonil{v=False}.%
+}%
+\only<-46>{%
+\item<43-> Und wieder hängen wir diese als Text an unsere Liste~\pythonil{txt} an.%
+}%
+\only<-47>{%
+\item<44-> Nach diesen ganzen Schleifen haben wir nun eine Liste~\pythonil{txt} mit 16~Strings.%
+}%
+\only<-48>{%
+\item<45-> Wir wollen diese zu einzigen Zeichenkette zusammenfühgen, wobei wir \pythonil{\", \"} als Separator benutzen wollen.%
+}%
+\only<-49>{%
+\item<46-> Das könnten wir mit einer Schleife machen.%
+}%
+\only<-50>{%
+\item<47-> \python\ bietet aber eine einfachere und schnellere Methode dafür an.%
+}%
+\only<-51>{%
+\item<48-> Die Methode \pythonilIdx{join}\pythonIdx{str!join} der Klasse~\pythonil{str}.%
+}%
+\item<49-> Für jeden String~\pythonil{z}, akzeptiert \pythonil{z.join(seq)} eine Sequenz \pythonil{seq} von Strings.%
+%
+\item<50-> Es hängt alle Strings in \pythonil{seq} hintereinander an, wobei jeweils \pythonil{z} als Separator zwischen zwei Strings eingefügt wird.%
+%
+\item<51-> Daher produziert \pythonil{\", \".join(txt)} als Ergebnis \textil{i = 1, i = 2, i = 3, i = 50, f = 7.6, ...}.%
+%
+\item<52-> Dieser Text wird mit der \pythonilIdx{print} ausgegeben.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{loops:for_loop_sequence}{}{loops}{for_loop_sequence.py}{}%
+\listingPythonAndOutput{2-}{loops:for_loop_sequence}{}{0.45}{0.16}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel~(2)}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+\begin{itemize}%
+\only<-4>{%
+\item Verwenden wir das Konzept der Iteration über Sequenzen nun für etwas Sinnvolles.%
+}%
+\only<-5>{%
+\item<2-> Wir verbessern unser Programm zum Finden von Primzahlen.%
+}%
+\only<-5>{%
+\item<3-> Als wir mit dem Originalprogramm angefangen haben, dann haben wir sofort die Zahl~\pythonil{2} als eine Primzahl in unsere List~\pythonil{primes} gespeichert.%
+}%
+\only<-6>{%
+\item<4-> Wir haben dann alle ungeraden Zahlen weniger als 200 als potentielle Prinzahlen \pythonils{candidate} durchprobiert.%
+}%
+\only<-8>{%
+\item<5-> Für jede potentielle Primzahl \pythonil{candidate}, haben wir alle alle (ungeraden) Zahlen \pythonil{check} aus \pythonil{range(3, isqrt(candidate) + 1, 2)}\pythonIdx{range} als mögliche Divisoren getestet.%
+}%
+\only<-9>{%
+\item<6-> Wenn wir darüber nachdenken, erkennen wir, dass wir eigentlich nur Primzahlen als mögliche Divisoren testen müssen.%
+}%
+\only<-10>{%
+\item<7-> Wir müssen eigentlich niemals prüfen, ob \pythonil{candidate} durch 9 teilbar ist, denn wir prüfen ja schon, ob es durch 3 geteilt werden kann.%
+}%
+\only<-11>{%
+\item<8-> Wir müssen auch niemals prüfen, ob wir es durch 55 teilen können, weil wir ja schon 5 geprüft haben.%
+}%
+\only<-12>{%
+\item<9-> Aber wie bekommen wir eine Sequenz, in der nur Primzahlen sind?%
+}%
+\only<-13>{%
+\item<10-> Hm. Wir bauen die ja gerade selber.%
+}%
+\only<-14>{%
+\item<11-> \pythonil{primes} beinhaltet ja alle Primzahlen, die kleiner als \pythonil{candidate} sind.%
+}%
+\only<-15>{%
+\item<12-> In einem effizienteren Programm ersetzen wir also einfach den Kopf der inneren Schleife mit  \pythonil{for check in primes:}.%
+}%
+\only<-16>{%
+\item<13-> Als kleine Performanzverbesserung schreiben wir diesmal 2 nicht gleich am Anfang des Programms in die Liste.%
+}%
+\only<-17>{%
+\item<14-> Stattdessen fügen wir die 2 am Ende des Programms in die Liste ein.%
+}%
+\only<-18>{%
+\item<15-> Dadurch prüfen wir dann nicht, ob die ungeraden Zahlen \pythonil{candidate} durch 2 teilbar sind.%
+}%
+\only<-19>{%
+\item<16-> Die äußere Schleife wird Schritt-für-Schritt Primzahlen an \pythonil{primes} anhängen.%
+}%
+\only<-20>{%
+\item<17-> Für jeden Wert der Schleifenvariablen \pythonil{candidate}, beinhaltet \pythonil{primes} alle Primzahlen, die kleiner als \pythonil{candidate} sind~(außer 2).%
+}%
+\only<-21>{%
+\item<18-> Natürlich müssen wir nur die Werte von \pythonil{check} prüfen, die kleiner oder gleich \pythonil{isqrt(candidate)} sind.%
+}%
+\only<-22>{%
+\item<19-> Darum speichern wir diesen Wert in einer neuen Variablen~\pythonil{limit}, so dass wir ihn nicht in der inneren Schleife wieder und wieder berechnen müssen.%
+}%
+%
+\item<20-> Mit \pythonilIdx{break} können wir dann die innere Schleife abbrechen, wenn wir dieses \pythonil{limit} erreichen.%
+%
+\item<21-> Nach dem die äußere Schleife fertig ist, fügen wir noch die \pythonil{2} an Index~0 in die Liste ein.%
+%
+\item<22-> Die Liste ist dann genau die selbe, wie beim Originalprogramm.%
+%
+\item<23-> Allerdings brauchen wir nun nur 224 Divisionen anstatt von~252.
+\end{itemize}%
+}}%
+%
+\listingPythonAndOutput{-6}{loops:for_loop_nested_primes}{}{0.45}{0.2}{0.54}{0.92}%
+\gitLoadAndExecPython{loops:for_loop_sequence_primes}{}{loops}{for_loop_sequence_primes.py}{}%
+\listingPythonAndOutput{7-}{loops:for_loop_sequence_primes}{}{0.45}{0.11}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Mit \pythonil{for}-Schleifen sind wir nun wieder ein ganzes Stück näher an \inQuotes{richtiges} Programmieren gekommen.%
+%
+\item<2-> Wir können jetzt richtige Algorithmen implementieren, wie das Berechnen von Primzahlen.%
+%
+\item<3-> Wir können mit \pythonil{for}-Schleifen über Ganzzahl-Sequenzen iterieren oder über die Daten in einer Kollektion.%
+%
+\item<4-> Wir können Schleifen mit \pythonil{break} frühzeitig abbrechen.%
+%
+\item<5-> Wir können auch mit \pythonil{continue} in die nächste Iteration springen.%
+%
+\item<6-> Und wir können Schleifen und Alternativen beliebig ineinander verschachteln.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
