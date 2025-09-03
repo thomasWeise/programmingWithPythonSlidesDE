@@ -1,0 +1,525 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{25.~Schleifen mit \texttt{while}}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Quadratwurzel}%
+\begin{itemize}%
+%
+\only<-8>{%
+\item Alte Lehmtablets beweisen, dass Babylonier $\sqrt{2}$ veilleicht schon vor 4000 Jaren annähern konnten\cite{FR1998SRAIOBMY7IC,S2011NA:NA}.%
+}%
+%
+\item<2-> Der Mathematiker \emph{Hero(n) von Alexandria} hat im ersten Jahrhundert~\glsFull{CE} gelebt. %
+Er hat einen Algorithmus zum Berechnen der Quadratwurzel entwickeltn, den wir heute als Heron's Methode kennen\cite{S2011NA:NA,K2009BMOCTSRJBOFTAOCC}.%
+%
+\item<3-> Angenommen, wir wollen die Quadratwurzel~$\sqrt{a}$ einer Zahl~$a$ finden.%
+%
+\only<-9>{%
+\item<4-> Dann beginnt dieser Algorithmus mit einer anfänglichen, ersten Annäherung~$x_0$.%
+}%
+%
+\only<-10>{%
+\item<5-> Sagen wir,~$x_0=1$.%
+}%
+%
+\item<6-> In jeder Iteration berechnet der Algorithmus eine neue Annäherung~$x_{i+1}$ basierend auf der aktuellen Schätzung~$x_i$\only<7->{ wie folgt}\cite{S2011NA:NA,K2009BMOCTSRJBOFTAOCC}\only<-6>{.}\uncover<7->{:%
+%
+\begin{equation}%
+x_{i+1}=\frac{1}{2}\left(x_i+\frac{a}{x_i}\right)%
+\label{eq:heronGuessUpdate}%
+\end{equation}%
+}%
+%
+\only<-11>{%
+\item<8-> Wir können uns grob vorstellen, wie das funktioniert.%
+}%
+\only<-12>{%
+\item<9-> Ist $x_i$ zu groß, also $x_i>\sqrt{a}$, dann ist~$\frac{a}{x_i}<\sqrt{a}<x_i$.%
+}%
+\only<-13>{%
+\item<10-> Ist $x_i$ zu klein, also $x_i<\sqrt{a}$, dann ist~$\frac{a}{x_i}>\sqrt{a}>x_i$.%
+}%
+\item<11-> Wir verwenden den Mittelwert von $x_i$ und~$\frac{a}{x_i}$ als nächste Annäherung und hofffen, damit näher an $\sqrt{a}$ zu kommen.%
+%
+\item<12-> Wenn $x_i=\sqrt{a}$, dann gilt $\frac{a}{x_i}=\sqrt{a}$ und~$x_{i+1}=x_i$.%
+%
+\item<13-> Tatsächlich zu beweisen, dass das funktoniert und dass der Fehler tatsächlich kleiner wird ist kompliziert\cite{S2011NA:NA}.%
+%
+\item<14-> (Aber das machen wir hier nicht.)
+%
+\end{itemize}%
+%
+\locateGraphicTB[%
+Codex of Saint Gregory Nazianzenos. Greek manuscript of the ninth century~\pgls{CE}. %
+Public Domain. %
+Source:~\bracketCite{GR:TAGWITWFST}.%
+]{2}{width=0.4\paperwidth}{graphics/heronOfAlexandria}{0.3}{0.42}%
+\end{frame}%%
+%
+\section{Die \texttt{while}-Schleife}%
+%
+\begin{frame}[t]%
+\frametitle{Die \texttt{while}-Schleife}%
+%
+\begin{itemize}%
+\only<-7>{%
+\item Wenn wir diesen Heron's Methode implementieren wollen, dann brauchen wir irgendeine Art Schleife.%
+%
+\item<2-> Es ist offensichtlich, dass wir die selbe Sache immer wieder machen wollen.%
+%
+\item<3-> Wir werden die Gleichung $x_{i+1}=\frac{1}{2}\left(x_i+\frac{a}{x_i}\right)$ wieder und wieder ausrechnen.%
+%
+\item<4-> Allerdings wird eine \pythonil{for}-Schleife hier nicht funktionieren.%
+%
+\item<5-> Wir wissen ja nicht, wie viele Schritte wir brauchen, bis~$x_i = x_{i+1}$\dots%
+%
+\item<6-> Klar, wir könnten einfach eine sehr sehr große Zahl für die Anzahl der Iterationen nehmen und die Schleife mit \pythonil{break} abbrechen {\dots} aber das ist einfach zu häßlich.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir brauchen ein \pythonil{while}-Schleife\cite{PSF:P3D:TPT:MCFT}.%
+}%
+%
+\only<-11>{%
+\item<8-> Wie die \pythonil{for}-Schleife besteht eine \pythonil{while}-Schleife aus einem Kopf und einem Körper.%
+}%
+%
+\only<-12>{%
+\item<9-> Der Kopf beginnt mit \pythonil{while} gefolgt von der Schleifenbedingung \pythonil{booleanExpression} und ended mit dem Doppelpunkt~~\pythonil{:}.%
+}%
+%
+\only<-13>{%
+\item<10-> Der Schleifenkörper ist wieder ein mit vier Leerzeichen eingerückter Kodeblock.%
+}%
+%
+\only<-14>{%
+\item<11-> Jedesmal \alert{bevor} der Schleifenkörper ausgeführt wird, wird die Schleifenbedingung \pythonil{booleanExpression} ausgerechnet.%
+}%
+%
+\item<12-> Nur wenn sie \pythonil{True} ergibt, wird der Schleifenkörper ausgeführt.%
+%
+\item<13-> Nur dann kann es weitere Iteratinen geben, vor denen jeweils wieder die Schleifenbedingung ausgerechnet wird.%
+%
+\item<14-> Wenn die Schleifenbedingung nicht wahr ergab, dann wird die Schleife sofort abgebrochen.%
+%
+\item<15-> In anderen Worten, der Schleifenkörper wird so lange aus geführt wie der Ausdruck im Schleifenkopf wahr ist.%
+\end{itemize}%
+%%
+\gitLoadPython{syntax/while_loop}{}{syntax/while_loop.py}{}%
+\listingPythonSyntax{8-}{syntax/while_loop}{0.05}{0.5}{0.9}{0.6}%
+\end{frame}%
+%
+\section{Beispiel}%
+%
+\begin{frame}[t]%
+\frametitle{Implementierung von Heron's Methode}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Implementieren wir nun Heron's Methode, um die Quadratwurzeln von~0.5, 2, und~3 zu berechnen.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir beginning unser Programm mit einer äußeren \pythonil{for}-Schleife, die ein Variable \pythonil{number} über die Fließkommawerte \pythonil{0.5}, \pythonil{2.0}, und~\pythonil{3.0} iterieren lässt.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir wollen den Algorithmus auf jeden dieser Werte anwenden.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir benutzen die beiden Variablen \pythonil{guess} und \pythonil{old_guess}.%
+}%
+%
+\only<-8>{%
+\item<5-> \pythonil{guess} ist unsere aktuelle Annäherung von $\sqrt{\pythonil{number}}$.%
+}%
+%
+\only<-9>{%
+\item<6-> \pythonil{old_guess} ist die vorherige Annäherung, die wir uns merken müssen, damit wir sehen, wann wir fertig sind.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir initialisieren \pythonil{guess} mit \pythonil{1.0} und \pythonil{old_guess} mit einem anderen Wert, sagen wir~\pythonil{0.0}.%
+}%
+%
+\only<-11>{%
+\item<8-> Unsere \pythonilIdx{while}-Schleife soll dan iterieren, so lange \pythonil{guess != old_guess} und in jedem Schritt die Annäherung der Wurzel updaten.%
+}%
+%
+\only<-12>{%
+\item<9-> Die Schleifenbedingung hier ist \alert{sehr} interessant und wichtig.%
+}%
+%
+\only<-13>{%
+\item<10-> Denken wir mal darüber nach.%
+}%
+%
+\only<-14>{%
+\item<11-> Könnten wir die reellen Zahlen \realNumbers\ mit unendlicher Genauigkeit darstellen, dann würde so eine Schleife für Zahlen \pythonil{number} mit irrationalen Wurzen niemals aufhören, denn wir würden dann ja niemanls \pythonil{guess == old_guess} erreichen.%
+}%
+%
+\only<-15>{%
+\item<12-> Für irrationale Wurzen würde unser Algorithmus niemals terminieren.%
+}%
+%
+\only<-16>{%
+\item<13-> Aber wir haben nunmal den Datentyp \pythonil{float} mit begrenzer Präzision.%
+%
+\item<14-> Wir arbeiten also mit begrenzer Präzision und erreichen irgendwann den Punkt, wo wir unsere Annäherungsgenauigkeit nicht mehr erhöhen können.%
+%
+\item<15-> Wir sollten also tatsächlich immer irgendwann \pythonil{guess == old_guess} erreichen.%
+}%
+%
+\only<16-20>{%
+\item<16-> Die Unperfektheit der Fließkommazahlen führt jedoch zu einem unerwarteten Problem.%
+}%
+%
+\only<17->{%
+\only<21-25>{%
+\item<21-> Wenn uns direkte Gleichheits- oder Ungleichheitsvergleiche von \pythonils{float} als Bedingungen bei \pythonils{if} in Probleme bringen können, dann wird es Sie nicht überraschen, dass das in \pythonils{while} nicht anders ist.%
+}%
+%
+\only<25->{%
+\only<25-29>{%
+\item<25-> OK, also benutzen wir \pythonil{guess != old_guess} lieber nicht als Schleifenkriterium.%
+}%
+%
+\only<-30>{%
+\item<27-> Wir importieren Funktion \pythonilIdx{isclose} aus dem Modul \pythonilIdx{math}.%
+}%
+%
+\only<-31>{%
+\item<28-> Wir schreiben \pythonil{not isclose(guess, old_guess)} anstatt von \pythonil{guess != old_guess}.%
+}%
+%
+\only<-32>{%
+\item<29-> Die Funktion \pythonil{isclose} betrachtet \pythonil{guess} und \pythonil{old_guess} als gleich wenn deren relativer Unterschied weniger als ein Teil pro Milliarde beträgt\cite{PEP485}.%
+}%
+%
+\only<-33>{%%
+\item<30-> Unsere Schleife wird also abbrechen, sobald die aktuelle und die vorherige Annäherung annähernd gleich sind.%
+}%
+%
+\only<-34>{%
+\item<31-> Der Körper der Schleife ist dann ganz einfach.%
+}%
+%
+\only<-35>{%
+\item<32-> Erstmal speichern wir die aktuelle Annäherung in der alten via \pythonil{old_guess = guess}.%
+}%
+%
+\only<-36>{%
+%
+\item<33-> Dann updaten wir die Annhäherung nach Heron's Formel, also in dem wir \pythonil{guess} gleich \pythonil{0.5 * (guess + number/guess)} setzen.%
+}%
+%
+\only<-37>{%%
+\item<34-> Fertig. Wir haben Heron's Methode implementiert.%
+}%
+%
+\item<35-> Jetzt drucken wir noch die Ergebnisse der Berechnungen aus.%
+%
+\item<36-> Zum Vergleich drucken wir noch die Ergebnisse der Funktion \pythonilIdx{sqrt} aus dem Modul \pythonilIdx{math} mit dazu.%
+%
+\item<37-> Wie Sie sehen liefert unser Algorithmus jeweils fast das gleiche Ergebnis.%
+%
+\item<38-> Beachten Sie auch, wie wir mir \pgls{unicode} \glslink{escapeSequence}{Escape-Sequenzen} die Sonderzeichen~$\sqrt{\cdot}$ und~$\approx$ als \textil{\\u221A} und \textil{\\u2248} ausdrücken, um sie schön in unser \glslink{terminal}{Terminal} gedruckt zu bekommen.%
+}}%
+\end{itemize}%
+}}%
+%
+\only<17-21>{%
+\bestPractice{noFloatEqual}{%
+Aufgrund der begrenzten Auflösung von Fließkommazahlen wird vom direkten Vergleichen von Ergebnissen von Berechnungen mit Fließkommawerten mit den strengen Operatoren \pythonil{==} und \pythonil{!=} abgeraten\cite{L2020RWECSSKAFPA,PEP485}.\uncover<18->{ %
+Das kann nämlich zu unerwarteten Ergebnissen führen.\uncover<19->{
+Zum Beispiel ergibt \pythonil{(0.1 + 0.2) == 0.3} nämlich \pythonil{False}.\uncover<20->{ %
+Funktionen wir \pythonilIdx{isclose} aus dem Modul \pythonilIdx{math}, die prüfen ob zwei Fließkommawerte basierend auf ihren relativen und absoluten Unterschieden annähernd gleich sind, können dieses Problem (zumindest etwas\cite{G1991WECSSKAFPA}) abschwächen~\cite{PEP485}.}}}%
+}}%
+%
+\only<22-25>{%
+\bestPractice{noFloatEqualAsCondition}{%
+Benutzen Sie keine strengen Gleichheits- oder Ungleichheits-Vergleiche von \pythonils{float} als Abbruchkriterien von Schleifen\cite{L2020RWECSSKAFPA}, denn sie können leicht zu Endlosschleifen führen, die niemals abbrechen.\uncover<23->{ %
+Es kann immer komische Eingabewerte geben, die zu einer endlosen Oszillation zwischen Werten oder dem Auftauchen von  \pythonilIdx{nan} führen können.\uncover<24->{ %
+Das erste Problem kann zumindest wieder teilweise durch annäherungsweises Vergleichen mit Funktionen wie  \pythonilIdx{isclose} abgeschwöächt werden~\cite{PEP485}.}}%
+}}%
+%
+\gitLoadAndExecPython{loops:while_loop_sqrt}{}{loops}{while_loop_sqrt.py}{}%
+\listingPythonAndOutput{2-16,25-}{loops:while_loop_sqrt}{}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\section{\texttt{else} am Ende von Schleifen}%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{else} am Ende von Schleifen}%
+\begin{itemize}%
+\only<-8>{%
+\item Sie haben gelernt, dass wir eine Schleife immer mit \pythonil{break} beenden können.%
+}%
+%
+\only<-9>{%
+\item<2-> Sagen wir, Sie wollen eine Aktion~$\mathcal{A}$ ausführen, wenn eine Schleife normal beendet wurde, also wenn \pythonil{break} nicht benutzt wurde.%
+}%
+%
+\only<-10>{%
+\item<3-> Das können wir auch jetzt schon.%
+%
+\item<4-> Wir können eine Boolesche Variable~\pythonil{ok} deklarieren die wahr ist, wenn die Schleife normal beendet wurde.%
+%
+\item<5-> Wir würden sie mit \pythonil{ok = True} initialisieren.%
+%
+\item<6-> Wenn wir \pythonil{break} aufrufen wollen, dann setzten wir~\pythonil{ok} erstmal auf \pythonil{False} und machen dann \pythonil{break}.%
+%
+\item<7-> Nach der Schleife würden wir die Aktion~$\mathcal{A}$ dann in ein \pythonil{if} packen und einfach~\pythonil{ok} als Bedingung nehmen.%
+%
+\item<8-> Das ist absolut OK {\dots} aber \python\ bietet uns eine viel einfachere Methode an.%
+}%
+%
+\item<9-> Wir können einen \pythonil{else}-Block ans Ende der Schleife schreiben und der wird dann nur ausgeführt, wenn die Schleife normal beendet wurde.%
+%
+\item<10-> Das geht sowohl mit \pythonil{for} als auch mit \pythonil{while}.%
+\end{itemize}%
+%%
+\gitLoadPython{syntax/for_loop_else}{}{syntax/for_loop_else.py}{}%
+\listingPythonSyntax{11}{syntax/for_loop_else}{0.065}{0.4}{0.9}{0.6}%
+\gitLoadPython{syntax/while_loop_else}{}{syntax/while_loop_else.py}{}%
+\listingPythonSyntax{12}{syntax/while_loop_else}{0.065}{0.4}{0.9}{0.6}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Binäre Suche}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Wir benutzen nun dieses Konstrukt, um eine binäre Suche\cite{K1998SAS,H2024POIC:BS,B1999PP} zu implementieren.%
+}%
+%
+\only<-5>{%
+\item<2-> Binäre Suche findet den Index eines Elements in einer \emph{sortierten} Sequence \pythonil{data} von Werten.%
+}%
+%
+\only<-6>{%
+\item<3-> Das Kernkonzept von binärer Suche ist, dass wir immer ein Segment~$S$ der Liste betrachten, in dem wir das gesuchte Element~$E$ vermuten.%
+}%
+%
+\only<-7>{%
+\item<4-> In jedem Schritt wollen wir die Größe des Segments verringern, in dem wir die \emph{Hälfte}, in der $E$ nicht seien kann, ausschlißen.%
+}%
+%
+\only<-8>{%
+\item<5-> Wir tuen das, in dem wir uns das Element~$M$ in der Mitte von~$S$ angucken.%
+}%
+%
+\only<-9>{%
+\item<6-> Die gesamte Sequenz \pythonil{data} und daher auch das Segment~$S$ sind sortiert.
+}%
+%
+\only<-10>{%
+\item<7-> Wenn $M$ größer als $E$ ist, dann kann $E$ nur in der ersten Hälfte von~$S$, nämlich in dem Teil vor~$M$.%
+}%
+%
+\only<-11>{%
+\item<8-> Ist $M$ dagegen kleiner als $E$, dann kann $E$ nur in der zweiten Hälfte von $S$ sein, nämlich in dem Teil nach~$M$.
+}%
+%
+\only<-11>{%
+\item<9-> Andernfalls, also falls $E=M$, dann haben wir~$E$ gefunden.%
+}%
+%
+\only<-12>{%
+\item<10-> Wenn wir $E$ noch nicht gefunden haben aber die ausgewählte Hälfte von~$S$ leer ist (vielleicht hatte $S$ ja nur ein oder zwei Elemente) {\dots} dann ist $E$ nicht in $S$ und darum auch nicht in \pythonil{data}.%
+}%
+%
+\only<-14>{%
+\item<11-> Wenn $n=\pythonil{len(data)}$, dann können wir höchstens $\log_2 n$~Mal unsere Sequenz halbieren. Also ist die Zeitkomplexität von binärer Suche in~\bigOb{\log n}\cite{K1998SAS,H2024POIC:BS,B1999PP}.%
+}%
+%
+\only<-15>{%
+\item<12-> In unserem Beispielprogramm wollen wir die Indizes von ein paar Zeichen in einer alphabetisch sortierten Sequenz \pythonil{data = \"abdfjlmoqsuvwyz\"} von Buchstaben finden.%
+}%
+%
+\only<-16>{%
+\item<13-> Wir könnten dazu natürlich die String-Methode \pythonilIdx{find}\pythonIdx{str!find} zum Suchen der Zeichen verwenden.%
+}%
+%
+\only<-17>{%
+\item<14-> Diese Methode durchsucht Strings aber linear.%
+}%
+%
+\only<-18>{%
+\item<15-> Wir wollen den Umstand, dass die Zeichen alphabetisch sortiert sind, ausnutzen und implementieren daher binäre Suche.%
+}%
+%
+\only<-19>{%
+\item<16-> Wir suchen die Zeichen~\pythonil{\"a\"}, \pythonil{\"c\"}, \pythonil{\"o\"}, \pythonil{\"p\"}, \pythonil{\"w\"}, und~\pythonil{\"z\"}.
+}%
+%
+\only<-20>{%
+\item<17-> Vier davon sind in \pythonil{data}, aber \pythonil{\"c\"} und \pythonil{\"p\"} sind nicht.%
+}%
+%
+\only<-21>{%
+\item<18-> Wir suchen sie trotzdem.%
+}%
+%
+\only<-22>{%
+\item<19-> Wir lassen eine Varriable \pythonil{search} über die Liste \pythonil{[\"a\", \"c\", \"o\", \"p\", \"w\", \"z\"]} in der äußeren Schleife iterieren.%
+}%
+%
+\only<-23>{%
+\item<20-> In der inneren Schleife implementieren wir die binäre Suche.%
+}%
+%
+\only<-24>{%
+\item<21-> Die Suche benutzt zwei Indizes, \pythonil{lower} und \pythonil{upper}.%
+}%
+%
+\only<-25>{%
+\item<22-> \pythonil{lower} ist das \emph{inklusive} untere Ende des Segments~$S$ in dem \pythonil{search} beinhaltet seien könnte.%
+}%
+%
+\only<-26>{%
+\item<23-> Es wird daher mit \pythonil{0} initialisiert.%
+}%
+%
+\only<-27>{%
+\item<24-> \pythonil{upper} ist das \emph{exklusive} obere Ende des Segments~$S$ in dem \pythonil{search} beinhaltet seien könnte.%
+}%
+%
+\only<-28>{%
+\item<25-> Wir initialisieren es mit \pythonil{len(data)}: Da es \emph{exklusiv} ist, ist es 1 größer als der größte gültige Index \pythonil{len(data) - 1}.%
+}%
+%
+\only<-28>{%
+\item<26-> Unser Segment~$S$ ist nicht leer, beinhaltet also mindestens ein Element, so lange wie \pythonil{lower < upper} gilt.%
+}%
+%
+\only<-29>{%
+\item<27-> Das ist also unsere Schleifenbedingung für die innere Schleife.%
+}%
+%
+\only<-30>{%
+\item<28-> In der binäre-Suche-Schleife berechnen wir erstmal den Index \pythonil{mid} des mittleren Elements als \pythonil{mid = (lower + upper) // 2}.%
+}%
+%
+\only<-31>{%
+\item<29-> Warnung: Interessanterweise ist das so nur korrekt in \python~3 mit seinen beliebig großen Ganzzahlen. In Sprachen wir \pgls{C} or \pgls{Java}, wo Ganzzahlen feste Grenzen haben, müssen wir stattdessen \pythonil{mid = lower + (upper - lower) // 2} rechnen\cite{H2024POIC:BS}.%
+}%
+%
+\only<-33>{%
+\item<30-> Egal. Wir bekommen den Wert \pythonil{mid_str} als das eine Zeichen an dem Index~\pythonil{mid} via \pythonil{mid_str = data[mid]}.%
+}%
+%
+\only<-34>{%
+\item<31-> Wir wissen, wenn \pythonil{mid_str < search}, dann kann unser Zeichen \pythonil{search} an keiner Stelle in~\intRange{0}{\pythonil{mid}} liegen.%
+}%
+%
+\only<-35>{%
+\item<32-> In diesem Fall können wir den inklusiven unteren Index \pythonil{lower} auf \pythonil{mid + 1} setzen.%
+}%
+%
+\only<-36>{%
+\item<33-> Andernfalls, wenn \pythonil{mid_str > search}, dann wissen wir, dass \pythonil{search} unmöglich irgendwo an den Indizes in~\intRange{\pythonil{mid}}{\pythonil{len(data) - 1}} liegen kann.%
+}%
+%
+\only<-37>{%
+\item<34-> Wir können also den \emph{exklusiven} oberen Index \pythonil{upper} auf \pythonil{mid} setzen, was alle Elemente ab Index \pythonil{mid} ausschließt.%
+}%
+%
+\only<-38>{%
+\item<35-> Wenn nun weder \pythonil{mid_str < search} noch \pythonil{mid_str > search} gilt, dann muss \pythonil{mid_str == search} gelten.%
+}%
+%
+\only<-39>{%
+\item<36-> Dann haben wir \pythonil{search} gefunden -- es liegt an Index~\pythonil{mid}.%
+}%
+%
+\only<-40>{%
+\item<37-> Wir geben dieses Ergebnis aus (wobei die \pythonil{!r} im \glslink{fstring}{f-String} Anführungszeichen um unsere Strings machen).%
+}%
+%
+\only<-41>{%
+\item<38-> Nach dem Ausgeben dieser Information verlassen wir die \pythonil{while}-Schleife mit \pythonil{break}.
+}%
+%
+\only<-42>{%
+\item<39-> Was pasiert nun, wenn wir \pythonil{search} nicht finden, weil es nicht in \pythonil{data} drin ist?%
+}%
+%
+\only<-43>{%
+\item<40-> Dann werden wir nichts ausgeben und auch nie \pythonilIdx{break} machen.%
+}%
+%
+\only<-44>{%
+\item<41-> In jeder Iterattion wird aber entweder \pythonil{lower} größer oder \pythonil{upper} kleiner.%
+}%
+%
+\only<-45>{%
+\item<42-> Irgendwann muss also \pythonil{lower < upper} \pythonil{False} werden.%
+}%
+%
+\only<-46>{%
+\item<43-> Die Schleife beendet sich also normal, weil ihre Schleifenbedingung \pythonil{False} wird.%
+}%
+%
+\item<44-> Dann und nur dann wird der Körper des \pythonilIdx{else}-Statement am Ende der Schleife ausgeführt.%
+%
+\item<45-> Dann und nur dann geben wir aus, dass wir den String \pythonil{search} nicht finden konnten.
+%
+\item<46-> Unsere binäre Suche funktioniert.%
+%
+\item<47-> Wow. Wir können schon ziemlich coole Sachen implementieren.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{loops:while_loop_search}{}{loops}{while_loop_search.py}{}%
+\listingPythonAndOutput{2-}{loops:while_loop_search}{}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir beherrschen nun zwei Arten von Schleifen, die \pythonil{for}-\ und die \pythonil{while}-Schleife.%
+%
+\item<2-> Wir können mit \pythonil{continue} zur nächsten Iteration springen.%
+%
+\item<3-> Wir können die Schleifen mit \pythonil{break} beenden.%
+%
+\item<4-> Wir können \pythonil{else} am Ende benutzen, um eine Aktion auszuführen, wenn die Schleife normal terminiert hat.%
+%
+\item<5-> Wir können jetzt richtig coole Sachen machen\only<-5>{.}\uncover<6->{:%
+\begin{itemize}%
+\item Wir können LIU Hui~(刘徽) seine Methode zum Annähern von \numberPi\ beliebig oft in einer Schleife ausführen.%
+\item<6-> Wir können Wurzeln mit dem Algorithmus von Heron berechnen.%
+\item<7-> Wir können binäre Suche implementieren.%
+\end{itemize}%
+}%
+\item<8-> Das ist doch schon sehr nett.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

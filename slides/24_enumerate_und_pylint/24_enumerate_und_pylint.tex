@@ -1,0 +1,233 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{24.~enumerate und Zwischenspiel:~Pylint}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+%
+\begin{itemize}%
+\item Nehmen Sie an, das wir eine Liste \pythonil{data} von Ganzzahl-Werten~\pythonil{v} haben.%
+%
+\item<2-> Wenn wir über alle Werte~\pythonil{v} in~\pythonil{data} iterieren wollen, dann geht das mit \pythonil{for v in data}.%
+%
+\item<3-> Aber wenn wir auch den Index~\pythonil{i} der Datenelemente \emph{während} dem iterieren wollen\dots\ {\dots}dann geht das so nicht.%
+%
+\item<4-> In dem Fall haben wir im Grunde zwei Möglichkeiten\only<-4>{.}\uncover<5->{:%
+\begin{enumerate}%
+\item Den Index anstatt der Datenvariable zum iterieren nehmen.%
+\item<6-> Die Datenvariable iterieren lassen, aber den Index mitzählen.%
+\end{enumerate}}%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Index iterieren lassen und Container indizieren}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+%
+\begin{itemize}%
+%
+\only<-5>{%
+\item In dem Fall haben wir im Grunde zwei Möglichkeiten:~\emph{Den Index anstatt der Datenvariable zum iterieren nehmen.}\dots%
+}%
+%
+\only<-6>{%
+\item<2-> Wir können über \pythonil{data} iterieren, in dem wir die Elemente an den Indizes~\pythonil{i} direkt ansprechen.%
+}%
+%
+\item<3-> Wir würden mit~\pythonil{i} über eine \pythonil{range} iterieren, die von~\pythonil{0} bis \pythonil{len(data) - 1} geht.%
+%
+\item<4-> Der Kopf der Schleife wäre dann~\pythonil{for i in range(len(data))}.%
+%
+\item<5-> Und die Datenwerte~\pythonil{v} bekämen wir via~\pythonil{data[i]}.%
+%
+\item<6-> Der Nachteil dieser Methode ist, das sie \emph{nur} für \pythonilsIdx{list} und \pythonilsIdx{tuple} funktioniert.%
+%
+\item<7-> Nur diese beiden Kollektions-Datentypen sind direkt indizierbar.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{loops:for_loop_no_enumerate_1}{}{loops}{for_loop_no_enumerate_1.py}{}%
+\listingPythonAndOutput{2-}{loops:for_loop_no_enumerate_1}{}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Über Kollektion interieren und Index manuell mitführen}%
+%
+\parbox{0.4\paperwidth}{\small{%%
+%
+\begin{itemize}%
+%
+\only<-5>{%
+\item In dem Fall haben wir im Grunde zwei Möglichkeiten:~\dots\ \dots\emph{Die Datenvariable iterieren lassen, aber den Index mitzählen.}\dots%
+}%
+%
+\only<-6>{%
+\item<2-> Nur \pythonilsIdx{list} und \pythonilsIdx{tuple} können direkt indiziert werden.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir können aber über alle drüber iterieren.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir könnten also \inQuotes{normal} über die Kollektion drüber iterieren.%
+}%
+%
+\only<-9>{%
+\item<5-> Dann wissen wir natürlich nicht den Index des aktuellen Elements.%
+}%
+%
+\item<6-> Das macht aber nichts: Wir können einfach selbst eine Zählervariable updaten.%
+%
+\item<7-> Wir benutzen eine zusätzliche Ganzzahlvariable~\pythonil{i} und initialisieren sie mit \pythonil{i: int = 0} vor der Schleif.%
+%
+\item<8-> Wir erhöhen ihren Wert dann mit~\pythonil{i += 1} am Ende des Schleifenkörpers.%
+%
+\item<9-> \pythonil{i += 1} ist das selbe wie \pythonil{i = i + 1}.%
+%
+\item<10-> Diese Methode funktioniert bei allen Kollektionsdatentypen.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{loops:for_loop_no_enumerate_2}{}{loops}{for_loop_no_enumerate_2.py}{}%
+\listingPythonAndOutput{2-}{loops:for_loop_no_enumerate_2}{}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Neues Tool: Pylint}%
+%
+\begin{frame}[t]%
+\frametitle{Pylint}%
+%
+\begin{itemize}%
+%
+\only<-2>{%
+\item \ruff\ ist ein \python\ \glslink{linter}{Linter} der Kode nach Stilinkonsistenzen, möglichen Fehlern, und möglichen Verbesserungen durchsucht\cite{PC2024PL}%
+}%
+\item<2-> Um dieses Programm zu installieren, öffnen Sie ein \glslink{terminal}{Terminal}, in dem Sie unter \ubuntu\ \ubuntuTerminal\ drücken und unter \microsoftWindows\ mit \windowsTerminal.%
+%
+\item<3-> Sie würden dann \bashil{pip install pylint}\pythonIdx{pip} eintippen und \keys{\enter}~drücken.%
+%
+\item<4-> Normalerweise machen Sie dass unter einem \glslink{virtualEnvironment}{virtuellen Environment}, was wir später diskutieren.%
+%
+\item<5-> So oder so, \pylint\ wird installiert.%
+%
+\item<6-> Wenn wir \pylint\ auf eine Datei \textil{fileToScan.py} anwenden wollen, dann tippen wir \bashil{pylint fileToScan.py} in ein \glslink{terminal}{Terminal}~(wobei \textil{fileToScan.py} auch ein Verzeichnis seien).%
+%
+\item<7-> Dabei können wir einige \glslink{linter}{Linter}-Regeln mit dem Parameter \textil{--diasble=...} deakivieren, wie wir es auch bei \ruff\ machen.%
+\end{itemize}%
+%
+\locateGraphic{2-5}{width=0.65\paperwidth}{graphics/pipInstallPylint}{0.175}{0.544}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Was sagen Pylint und Ruff dazu?}%
+%
+\only<-5,12->{%
+\begin{itemize}%
+\item Wir haben zwei verschiedene Ansätze entwickelt, um über die \alert{Daten} in einer Kollektion zu iterieren und \emph{gleichzeitig} den aktuellen \alert{Index} zu kennen.%
+%
+\item<2-> Beide Ideen sind etwas eigenartig.%
+%
+\item<3-> Die erste funktioniert nur bei Listen und Tupeln.%
+%
+\item<4-> Die zweite zwingt uns, eine Index-Variable manuell zu initialisieren und hochzuzählen.%
+%
+\item<5-> Was sagen \pylint\ und \ruff\ zu diesen Ideen?%
+%
+\item<12-> OK. \pylint\ mag die erste Variante nicht, \ruff\ kann die zweite nicht leiden.%
+%
+\item<13-> In beiden Fällen schlagen die \glslink{linter}{Linter} vor, stattdessen eine Funktion \pythonil{enumerate} zu nehmen.%
+%
+\end{itemize}%
+}%
+%
+\listingPython{6-11}{loops:for_loop_no_enumerate_1}{0.05}{0.1}{0.45}{0.5}%
+\listingPython{9-11}{loops:for_loop_no_enumerate_2}{0.53}{0.1}{0.45}{0.5}%
+%
+%
+\gitExec{exec:loops:for_loop_no_enumerate_1:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh loops for_loop_no_enumerate_1.py}%
+\gitExec{exec:loops:for_loop_no_enumerate_2:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh loops for_loop_no_enumerate_2.py}%
+%
+\gitExec{exec:loops:for_loop_no_enumerate_1:pylint}{\programmingWithPythonCodeRepo}{.}{_scripts_/pylint.sh loops for_loop_no_enumerate_1.py}%
+\gitExec{exec:loops:for_loop_no_enumerate_2:pylint}{\programmingWithPythonCodeRepo}{.}{_scripts_/pylint.sh loops for_loop_no_enumerate_2.py}%
+%
+\listingOutput{7-11}{loops:for_loop_no_enumerate_1:pylint}{style=tool_style}{0.05}{0.40}{0.45}{0.6}%
+\listingOutput{10-11}{loops:for_loop_no_enumerate_2:pylint}{style=tool_style}{0.53}{0.40}{0.45}{0.6}%
+%
+\listingOutput{8-11}{loops:for_loop_no_enumerate_1:ruff}{style=tool_style}{0.05}{0.66}{0.45}{0.6}%
+\listingOutput{11}{loops:for_loop_no_enumerate_2:ruff}{style=tool_style}{0.53}{0.59}{0.45}{0.6}%
+%
+\end{frame}%
+%
+\section{\texttt{enumerate}}%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{enumerate} und Beispiel}%
+\begin{itemize}%
+\only<-8>{%
+\item Beide \glslink{linter}{Linter} haben das selbe Problem gefunden, nur bei verschiedenen Programmen.%
+%
+\item<2-> Beide haben vorgeschlagen, eine Funktion \pythonilIdx{enumerate} zu benutzen, um über eine Kollektion zu iterieren und gleichzeitig den Index des aktuellen Elements zu kennen.%
+%
+\item<3-> Was macht \pythonil{enumerate}?%
+}%
+%
+\item<4-> \pythonilIdx{enumerate} akzeptiert eine Kollektion als Parameter und generiert eine Sequenz von Index-Wert Tupeln\cite{PEP279}.%
+%
+\item<5-> Wir wissen ja schon, dass wir solche Tupel beim Iterieren über Sequenzen gleich entpacken können.%
+%
+\only<-8,10->{%
+\item<6-> Darum können wir den Kopf unserer Schleife zu \pythonil{for i, v in enumerate(data)} umbauen.%
+%
+\item<7-> Beachten Sie, dass hier der Index~\pythonil{i} zuerst kommt und der Datenwert~\pythonil{v} an zweiter Stelle.%
+%
+%
+\item<8-> Schauen wir uns das mal an.%
+%
+\item<10-> Das würde mit allen Kollektionen genau gleich funktionieren, egal ob \pythonilIdx{list}, \pythonilIdx{set}, \pythonilIdx{tuple}, oder \pythonilIdx{dict}ionary.%
+}%
+\end{itemize}%
+%
+\gitLoadAndExecPython{loops:for_loop_enumerate}{}{loops}{for_loop_enumerate.py}{}%
+\listingPythonAndOutput{9}{loops:for_loop_no_enumerate_2}{}{0.2}{0.4}{0.6}{0.59}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir haben zwei nützliche Dinge gelernt\only<-1>{.}\uncover<2->{:%
+\begin{enumerate}%
+\item Jetzt kennen wir zwei \glslink{linter}{Linter}-Programme, nämlich \pylint\ und \ruff.%
+%
+\item<3-> Mit \pythonil{enumerate} kennen wir ein Methode, über beliebige Sequenzen iterieren zu können und dabei immer den Index des aktuellen Elements zu kennen.%
+\end{enumerate}%
+}%
+%
+\item<4-> Sehr gut.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

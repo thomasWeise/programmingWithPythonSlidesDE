@@ -39,11 +39,14 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 16. [Gleichheit und Identität](https://thomasweise.github.io/programmingWithPythonSlidesDE/16_gleichheit_und_identität.pdf)
 17. [Listen](https://thomasweise.github.io/programmingWithPythonSlidesDE/17_listen.pdf)
 18. [Zwischenspiel: Der Linter Ruff](https://thomasweise.github.io/programmingWithPythonSlidesDE/18_ruff.pdf)
-19. [Tupels](https://thomasweise.github.io/programmingWithPythonSlidesDE/19_tupels.pdf)
+19. [Tupel](https://thomasweise.github.io/programmingWithPythonSlidesDE/19_tupel.pdf)
 20. [Mengen](https://thomasweise.github.io/programmingWithPythonSlidesDE/20_mengen.pdf)
 21. [Dictionaries bzw. Hash Maps](https://thomasweise.github.io/programmingWithPythonSlidesDE/21_dictionaries.pdf)
 22. [Alternativen mit `if`](https://thomasweise.github.io/programmingWithPythonSlidesDE/22_alternativen_mit_if.pdf)
 23. [Schleifen mit `for`](https://thomasweise.github.io/programmingWithPythonSlidesDE/23_schleifen_mit_for.pdf)
+24. [`enumerate` und Zwischenspiel: Pylint](https://thomasweise.github.io/programmingWithPythonSlidesDE/24_enumerate_und_pylint.pdf)
+25. [Schleifen mit `while`](https://thomasweise.github.io/programmingWithPythonSlidesDE/25_schleifen_mit_while.pdf)
+
 
 ### 2.3. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
@@ -100,6 +103,7 @@ Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0
     - Universität Kassel, Glaskasten (kasselUniGK.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
     - Universität Kassel, Campus Center (kasselUniCC.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
 + die Illustration von LIU Hui (刘徽) in der Datei "slides/13_variablen_wertzuweisung/graphics/liu_hui.jpg" stammt aus Wenqi Ying (应雯棋), editor. Commemoration of Ancient Chinese Mathematical Master Liu Hui for his Timeless Influence on Mathematics and Civilizational Exchange. [Issue 48 of CAST Newsletter](https://english.cast.org.cn/cms_files/filemanager/1941250207/attach/202412/8f23655a82364d19ad7874eb37b23035.pdf). China, Beijing (中国北京市): 中国科学技术协会 (China Association for Science and Technology, CAST), 2024. Eine Erlaubnis wurde erteilt, sie in diesem Material zu beinhalten, aber das Copyright bleibt bei CAST.
++ Die Illustration von Hero(n) of Alexandria in der Datei "slides/25_schleifen_mit_while/graphics/heronOfAlexandria.jpg" stammt aus dem Artikel "[The Ancient Greek Who Invented the World's First Steam Turbine](https://greekreporter.com/2023/12/13/ancient-greek-world-first-steam-turbine)", wo steht *Heron of Alexandria. Codex of Saint Gregory Nazianzenos. Greek manuscript of the ninth century. Public Domain*.
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.

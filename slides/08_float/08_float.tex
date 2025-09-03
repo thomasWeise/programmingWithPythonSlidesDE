@@ -40,7 +40,7 @@
 \item<2-> Wie können wir mit dem Fakt umgehen, dass wir keine beliebigen Nachkommastellen genau darstellen können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
 \item<3-> Wie gehen wir damit um, dass es reelle Zahlen gibt so groß wie~$10^{300}$ und so klein wie~$10^{-300}$?%
 \item<4-> In \python\ gibt es dafür den Datentype~\pythonil{float}.%
-\item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN}.%
+\item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN,G1991WECSSKAFPA}.%
 \item<6-> Das Ziel ist es, dass wir eben genau Zahlen so groß wie~$10^{300}$ und so klein wie~$10^{-300}$ darstellen können\only<-6>{.}\uncover<7->{, aber das wir auch akzeptieren, dass wir~$10^{300}+10^{-300}$ nicht exakt erfassen können.}%
 \end{itemize}%
 \end{frame}%
@@ -123,6 +123,7 @@ Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die klei
 %
 \item<8-> \alert{Zahlen können mit \pythonils{float} nicht beliebig genau gespeichert werden\cite{PSF:P3D:TPT:FPAIAL}.}%
 \item<9-> Ansonsten sind \pythonils{float} aber schon ziemlich cool.%
+\item<10-> Hinweis: Neben \python's \pythonils{float} gibt es viele andere Fließkommaformate mit verschiedenen Auflösungen\cite{IEEE2019ISFFPA,G1991WECSSKAFPA}.
 \end{itemize}%
 \end{frame}%
 %
@@ -985,7 +986,7 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 %
 \only<8-11>{%
 \item<8-> Dann machen wir doch \pythonil{inf - inf}\only<-8>{\dots}\uncover<9->{; \pythonil{inf} verhält sich wie~$+\infty$, aber $\infty - \infty$ ist nicht definiert.}%
-\item<10-> \pythonil{nan} bedeutet \emph{\inQuotes{Not a Number}} also \emph{\inQuotes{Das ist keine Zahl!}}.%
+\item<10-> \pythonil{nan} bedeutet \emph{\inQuotes{Not a Number}} also \emph{\inQuotes{Das ist keine Zahl!}}\cite{G1991WECSSKAFPA}.%
 \item<11-> Kommt irgendwo in einer Rechnung \pythonil{nan} vor, dann ist das Ergebnis immer auch \pythonil{nan}.%
 }%
 %
@@ -994,11 +995,11 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 }%
 %
 \only<14-15>{%
-\item<14-> Wie wäre es dann mit \pythonil{inf / inf}?\uncover<15->{ Das ist nicht definiert und ergibt~\pythonil{nan}.}%
+\item<14-> Wie wäre es dann mit \pythonil{inf / inf}?\uncover<15->{ Das ist nicht definiert und ergibt~\pythonil{nan}\cite{G1991WECSSKAFPA}.}%
 }%
 %
 \only<16-17>{%
-\item<16-> Und was ist mit \pythonil{inf * 0}?\uncover<15->{ Das ist auch nicht definiert und ergibt~\pythonil{nan}.}%
+\item<16-> Und was ist mit \pythonil{inf * 0}?\uncover<15->{ Das ist auch nicht definiert und ergibt~\pythonil{nan}\cite{G1991WECSSKAFPA}.}%
 }%
 %
 \only<18-19>{%

@@ -23,7 +23,7 @@
 \begin{itemize}%
 \item Eine Variable ist im Grunde ein Name, der auf ein Objekt zeigt.%
 \item<2-> Jedes Objekt hat einen Datentyp, \DEzB~\pythonil{int}, \pythonil{bool}, \pythonil{str}, \dots%
-\item<4-> In dem kleinen Programm \textil{variable_types.py} können wir den Datentyp sehen, wenn wir ein Objekt in einer Variablen~\pythonil{var} speichern und dann \pythonil{type(var)} aufrufen.%
+\item<4-> In dem kleinen Programm \programUrl{variables:types} können wir den Datentyp sehen, wenn wir ein Objekt in einer Variablen~\pythonil{var} speichern und dann \pythonil{type(var)} aufrufen.%
 \item<5-> Es ist klar, dass eine Variable, die einen Ganzzahlwert speichert, \pythonilIdx{int} als Datentyp hat.%
 \item<6-> Eine Variable, die eine Fließkommazahl speichert, hat den Datentyp~\pythonilIdx{float}.%
 \item<7-> Und so weiter.%
@@ -336,7 +336,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 \begin{itemize}%
 %
 \only<-4>{%
-\item Jetzt können wir \mypy\ auf das Programm~\textil{variable_types_wrong.py} anwenden.%
+\item Jetzt können wir \mypy\ auf das Programm~\programUrl{variables:types_wrong} anwenden.%
 }%
 %
 \only<-5>{%
@@ -381,7 +381,7 @@ Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei
 \uncover<5->{%
 \begin{itemize}%
 \only<-9>{%
-\item Wenn wir \mypy\ auf das korrekte (jedoch nutzlose) Programm \textil{variable_types.py} anwenden, dann sagt es uns, dass kein Fehler vorliegt.%
+\item Wenn wir \mypy\ auf das korrekte (jedoch nutzlose) Programm \programUrl{variables:types} anwenden, dann sagt es uns, dass kein Fehler vorliegt.%
 }%
 \only<-12>{%
 \item<6-> Wir haben jetzt also ein Werkzeug in der Hand, mit dem wir unseren Quelltext auf Type-bezogene Fehler prüfen können.%
@@ -398,7 +398,7 @@ Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei
 %
 \item<11-> Es kann keine Fehler korrigieren, denn es weiß ja nicht, was der Programmierer eigentlich vor hatte.%
 %
-\item<12-> Aber zu wissen, dass Zeile~4 in \textil{variable_types_wrong.py} wahrscheinlich falsch ist, kann uns schon sehr viel helfen, mögliche Fehler zu finden und \alert{selbst} zu korrigieren.%
+\item<12-> Aber zu wissen, dass Zeile~4 in \programUrl{variables:types_wrong} wahrscheinlich falsch ist, kann uns schon sehr viel helfen, mögliche Fehler zu finden und \alert{selbst} zu korrigieren.%
 %
 \end{itemize}%
 }%
@@ -424,7 +424,7 @@ Bis nichts mehr gefunden wird.}}}}}%
 \gitLoadPython{variables:assignment_wrong}{}{variables/assignment_wrong.py}{}%
 %
 \begin{itemize}%
-\item Wenden wir nun \mypy\ auf das Beispielprogramm \textil{assignment_wrong.py} aus der vorigen Einheit an.%
+\item Wenden wir nun \mypy\ auf das Beispielprogramm \programUrl{variables:assignment_wrong} aus der vorigen Einheit an.%
 \item<2-> Es sagt uns \emph{\inQuotes{Name \inSQuotes{intvar} is not defined.}}%
 \item<3-> Mit dem \glslink{ide}{IDE} und \mypy\ haben wir nun zwei unabhängige Werzeuge die uns bei der Fehlersuche im Kode helfen können.%
 \item<4-> Je mehr solche Werkzeuge wir nutzen, desto wahrscheinlicher ist es, dass wir fehlerfreien Kode produzieren.%
@@ -474,7 +474,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \begin{frame}%
 \frametitle{Nicht Genug}%
 \begin{itemize}%
-\item Wir hatten gesagt, dass es zwei Gründe für den Fehler in \textil{variable_types_wrong.py} geben kann\only<-1>{.}\uncover<2->{:%
+\item Wir hatten gesagt, dass es zwei Gründe für den Fehler in \programUrl{variables:types_wrong} geben kann\only<-1>{.}\uncover<2->{:%
 \begin{enumerate}%
 \item Der Programmierer hat aus Versehen die Operatoren~\pythonilIdx{/}~und~\pythonilIdx{//} verwechselt\only<-2>{.}\uncover<3->{,}%
 \item<3-> Oder er hat einen schlechten Namen für die Variable~\pythonil{int_var} gewählt.%
@@ -539,10 +539,10 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \gitExec{exec:variables:variable_types_wrong_hints_2:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh variables variable_types_wrong_hints_2.py}%
 %
 \begin{itemize}%
-\item Wie gesagt, es gibt zwei mögliche Intentionen, die der Programmierer von \textil{variable_types_wrong.py} hätte gehabt haben können.%
+\item Wie gesagt, es gibt zwei mögliche Intentionen, die der Programmierer von \programUrl{variables:types_wrong} hätte gehabt haben können.%
 %
 \only<-5,10-12>{%
-\item<2-> In \textil{variable_types_wrong_hints_1.py} wollte er tatsächlich, das \pythonil{int_var} eine Ganzzahlvariable ist.%
+\item<2-> In \programUrl{variables:types_wrong_hints_1} wollte er tatsächlich, das \pythonil{int_var} eine Ganzzahlvariable ist.%
 }%
 %
 \only<-5>{%
@@ -554,7 +554,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 }%
 %
 \only<-12>{%
-\item<6-> In \textil{variable_types_wrong_hints_2.py} hatte er vor, entweder Ganzzahlen oder Fließkommazahlen in der Variable zu speichern.%
+\item<6-> In \programUrl{variables:types_wrong_hints_2} hatte er vor, entweder Ganzzahlen oder Fließkommazahlen in der Variable zu speichern.%
 }%
 %
 \only<-9>{%
@@ -618,7 +618,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 %
 \begin{itemize}%
 \only<-6>{%
-\item Annotieren wir nun unser gutes altes Programm \textil{variable_types.py} mit Type Hints.
+\item Annotieren wir nun unser gutes altes Programm \programUrl{variables:types} mit Type Hints.
 %
 \item<2-> Die Variable \pythonil{int_var}, in der wir die Ganzzahl~\pythonil{8} speichern, wird mit \pythonil{: int} annotiert.%
 %
@@ -631,7 +631,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \item<6-> Und die Variable \pythonil{none_var}, in der wir \pythonil{None} speichern, wird mit \pythonil{: None} annotiert.%
 }%
 %
-\item<7-> Wir bekommen das neue Programm \textil{variable_types_hints.py}.%
+\item<7-> Wir bekommen das neue Programm \programUrl{variables:types_hints}.%
 %
 \item<8-> Wir können es \mypy\ prüfen, und das flutscht problemlos durch.%
 %

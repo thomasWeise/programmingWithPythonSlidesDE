@@ -7,7 +7,7 @@
 \RequirePackage{\sharedDir/styles/styles}%
 \toggleToGerman%
 %
-\subtitle{19.~Tupels}%
+\subtitle{19.~Tupel}%
 %
 \begin{document}%
 %
@@ -19,18 +19,18 @@
 \frametitle{Einleitung}%
 %
 \begin{itemize}%
-\item Tupels sind Listen sehr ähnlich, mit drei wichtigen Unterschieden\only<-1>{.}\uncover<2->{:%
+\item Tupel sind Listen sehr ähnlich, mit drei wichtigen Unterschieden\only<-1>{.}\uncover<2->{:%
 %
 \begin{enumerate}%
 %
-\item Tupels sind unveränderlich.\uncover<3->{%
+\item Tupel sind unveränderlich.\uncover<3->{%
 Sie können keine Elemente zu einem Tupel hinzufügen, löschen, oder ändern.%
 }%
 %
 \item<4-> Listen sind dafür gedacht, Objekte des selben Typs zu beinhalten.\uncover<5->{ %
 Der \glslink{typeHint}{Type-Hint}~\pythonil{list[int]} definiert eine Liste von \pythonils{int}.\uncover<6->{ %
 (Der \python-Interpreter erzwingt das aber nicht.)\uncover<7->{ %
-Tupels sind von Anfang auch dazu gedacht, Objekte verschiedenen Typs zu beinhalten.\uncover<8->{ %
+Tupel sind von Anfang auch dazu gedacht, Objekte verschiedenen Typs zu beinhalten.\uncover<8->{ %
 Weil sie unveränderlich sind, ist immer klar, welchen Typ das Objekt an einem bestimmten Index hat.%
 }}}}%
 %
@@ -63,7 +63,7 @@ Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pyt
 }%
 %
 \only<-7>{%
-\item<3-> Wir können so Tupels mit beliebig vielen typisierten Elementen deklarieren.%
+\item<3-> Wir können so Tupel mit beliebig vielen typisierten Elementen deklarieren.%
 }%
 %
 %\only<-7>{%
@@ -72,7 +72,7 @@ Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pyt
 %
 \item<5-> Der \glslink{typeHint}{Type-Hint} \pythonil{tuple[A, ...]} deklariert ein Tupel dessen Elemente alle vom Typ~\pythonil{A} sind, das aber ohne feste Längenangabe deklariert wird.%
 %
-\item<6-> Tupels können genau wie Listen und Strings indiziert und gesliced werden.%
+\item<6-> Tupel können genau wie Listen und Strings indiziert und gesliced werden.%
 %
 \item<7-> Auch der \pythonil{in}- und der \pythonil{not in}-Operator funktionieren.%
 %
@@ -89,13 +89,13 @@ Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pyt
 %
 %
 \begin{frame}[t]%
-\frametitle{Tupels mit Elementen verschiedener Typen}%
+\frametitle{Tupel mit Elementen verschiedener Typen}%
 %
 \parbox{0.4\paperwidth}{\small{%%
 \begin{itemize}%
 %
 \only<-5>{%
-\item Wir können auch Tupels mit Elementen verschiedener Typen erstellen.%
+\item Wir können auch Tupel mit Elementen verschiedener Typen erstellen.%
 }%
 %
 \only<-6>{%
@@ -103,15 +103,15 @@ Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pyt
 }%
 %
 \only<-7>{%
-\item<3-> Tupels (und Listen) unterstützen alle sechs Vergleichsoperationen \pythonilIdx{<}, \pythonilIdx{<=}, \pythonilIdx{==}, \pythonilIdx{>=}, \pythonilIdx{>}, und~\pythonil{!=}.%
+\item<3-> Tupel (und Listen) unterstützen alle sechs Vergleichsoperationen \pythonilIdx{<}, \pythonilIdx{<=}, \pythonilIdx{==}, \pythonilIdx{>=}, \pythonilIdx{>}, und~\pythonil{!=}.%
 }%
 %
 \only<-8>{%
-\item<4-> Natürlich können wir Tupels auch in Listen oder Tupels reintun.%
+\item<4-> Natürlich können wir Tupel auch in Listen oder Tupel reintun.%
 }%
 %
 \only<-9>{%
-\item<5-> Der \glslink{typeHint}{Type-Hint} \pythonil{list[tuple[str, int, float]]} definiert eine Liste, die Tupels es oben genannten Typs beinhalted.%
+\item<5-> Der \glslink{typeHint}{Type-Hint} \pythonil{list[tuple[str, int, float]]} definiert eine Liste, die Tupel es oben genannten Typs beinhalted.%
 }%
 %
 \only<-10>{%
@@ -119,18 +119,18 @@ Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pyt
 }%
 %
 \only<-13>{%
-\item<7-> Angenommen, wir vergleichen wir zwei Tupels~\pythonil{x} und~\pythonil{y}.\uncover<8->{ %
+\item<7-> Angenommen, wir vergleichen wir zwei Tupel~\pythonil{x} und~\pythonil{y}.\uncover<8->{ %
 Wenn das erste Element von~\pythonil{x} kleiner als das erste Element von~\pythonil{y} ist, dann gilt~\pythonil{x < y}.\uncover<9->{ %
 Wenn das erste Element von~\pythonil{x} größer als das erste Element von~\pythonil{y} ist, dann gilt~\pythonil{x > y}.\uncover<10->{ %
-Wenn das erste Element von~\pythonil{x} gleich dem erste Element von~\pythonil{y} ist, dann geht der Vergleich mit den zweiten Elementen weiter, wenn beide Tupels mindestens 2~Elemente haben~(andernfalls ist das kürzere Tupel kleiner).\uncover<11->{ %
+Wenn das erste Element von~\pythonil{x} gleich dem erste Element von~\pythonil{y} ist, dann geht der Vergleich mit den zweiten Elementen weiter, wenn beide Tupel mindestens 2~Elemente haben~(andernfalls ist das kürzere Tupel kleiner).\uncover<11->{ %
 Und so weiter.}}}}%
 }%
 %
-\item<12-> Deshalb können wir Listen von Tupels sortieren.%
+\item<12-> Deshalb können wir Listen von Tupel sortieren.%
 %
-\item<13-> Genau wie Listen können wir Tupels auf mehrere Variablen auspacken.%
+\item<13-> Genau wie Listen können wir Tupel auf mehrere Variablen auspacken.%
 %
-\item<14-> In Fällen, wo es keine Verwechslung geben kann, können wir Tupels sogar ohne die runden Klammern definieren.%
+\item<14-> In Fällen, wo es keine Verwechslung geben kann, können wir Tupel sogar ohne die runden Klammern definieren.%
 %
 \end{itemize}%
 }}%
@@ -149,7 +149,7 @@ Und so weiter.}}}}%
 \begin{itemize}%
 %
 \only<-4,9->{%
-\item Prüfen wir nun, ob Tupels wirklich unveränderlich sind.%
+\item Prüfen wir nun, ob Tupel wirklich unveränderlich sind.%
 }%
 %
 \item<2-> Wir können \DEzB\ ein veränderliches Objekt (die Liste) in ein Tupel tun.%
@@ -188,9 +188,9 @@ Und so weiter.}}}}%
 %
 \only<-8>{\uncover<5->{%
 \bestPractice{noModifiableObjectInATuple}{%
-Packen Sie immer nur unveränderliche Ojekte in Tupels.\uncover<6->{ %
-Veränderliche Objekte in Tupels können immer noch verändert werden, wodurch die Tupels dann keine Konstanten mehr sind.\uncover<7->{ %
-Programmierer nehmen aber an, dass Tupels Konstanten sind.\uncover<8->{ %
+Packen Sie immer nur unveränderliche Ojekte in Tupel.\uncover<6->{ %
+Veränderliche Objekte in Tupel können immer noch verändert werden, wodurch die Tupel dann keine Konstanten mehr sind.\uncover<7->{ %
+Programmierer nehmen aber an, dass Tupel Konstanten sind.\uncover<8->{ %
 Wenn man diese Annahme verletzt, dann kann das zu sehr eigenartigen Fehlern führen.%
 }}}}%
 }}%
@@ -202,19 +202,19 @@ Wenn man diese Annahme verletzt, dann kann das zu sehr eigenartigen Fehlern füh
 \begin{frame}%
 \frametitle{Zusammenfassung}%
 \begin{itemize}%
-\item Tupels und Listen sind beides Kontainer für beliebige Anzahlen von Objekten.%
+\item Tupel und Listen sind beides Kontainer für beliebige Anzahlen von Objekten.%
 %
 \item<2-> Beide können mit Ganzzahlen indiziert werden.%
 %
 \item<3-> Beide unterstützen slicing.%
 %
-\item<4-> Tupels sind unveränderlich, wohingegen Listen verändert werden können.%
+\item<4-> Tupel sind unveränderlich, wohingegen Listen verändert werden können.%
 %
 \item<5-> Tupel-Literale werden mit runden Klammern (manchmal auch ganz ohne Klammern) deklariert, Listen-Literale mit eckigen Klammern.%
 %
 \item<6-> Listen sind dafür gedacht, beliebig viele Elemente eines Datentyps zu beinhalten.%
 %
-\item<7-> Tupels können Elemente verschiedener Datentypen beinhalten.%
+\item<7-> Tupel können Elemente verschiedener Datentypen beinhalten.%
 %
 \end{itemize}%
 \end{frame}%
