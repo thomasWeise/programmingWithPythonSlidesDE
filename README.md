@@ -46,6 +46,8 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 23. [Schleifen mit `for`](https://thomasweise.github.io/programmingWithPythonSlidesDE/23_schleifen_mit_for.pdf)
 24. [`enumerate` und Zwischenspiel: Pylint](https://thomasweise.github.io/programmingWithPythonSlidesDE/24_enumerate_und_pylint.pdf)
 25. [Schleifen mit `while`](https://thomasweise.github.io/programmingWithPythonSlidesDE/25_schleifen_mit_while.pdf)
+26. [Funktionen definieren und aufrufen](https://thomasweise.github.io/programmingWithPythonSlidesDE/26_funktionen_definieren_und_aufrufen.pdf)
+27. [Funktionen in Modulen](https://thomasweise.github.io/programmingWithPythonSlidesDE/27_funktionen_in_modulen.pdf)
 
 
 ### 2.3. Die Slides in Englisch
@@ -104,6 +106,7 @@ Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0
     - Universität Kassel, Campus Center (kasselUniCC.jpg), Copyright [Universität Kassel](http://uni-kassel.de), mit Genehmigung der Pressestelle der Universität Kassel
 + die Illustration von LIU Hui (刘徽) in der Datei "slides/13_variablen_wertzuweisung/graphics/liu_hui.jpg" stammt aus Wenqi Ying (应雯棋), editor. Commemoration of Ancient Chinese Mathematical Master Liu Hui for his Timeless Influence on Mathematics and Civilizational Exchange. [Issue 48 of CAST Newsletter](https://english.cast.org.cn/cms_files/filemanager/1941250207/attach/202412/8f23655a82364d19ad7874eb37b23035.pdf). China, Beijing (中国北京市): 中国科学技术协会 (China Association for Science and Technology, CAST), 2024. Eine Erlaubnis wurde erteilt, sie in diesem Material zu beinhalten, aber das Copyright bleibt bei CAST.
 + Die Illustration von Hero(n) of Alexandria in der Datei "slides/25_schleifen_mit_while/graphics/heronOfAlexandria.jpg" stammt aus dem Artikel "[The Ancient Greek Who Invented the World's First Steam Turbine](https://greekreporter.com/2023/12/13/ancient-greek-world-first-steam-turbine)", wo steht *Heron of Alexandria. Codex of Saint Gregory Nazianzenos. Greek manuscript of the ninth century. Public Domain*.
++ Die Illustration von Euclid von Alexandria in "slides/26_funktionen_definieren_und_aufrufen/graphics/euclidOfAlexandria" wird dem Maler Charles Paul Landon (1760-1826) [zugeschrieben](https://www.antike-griechische.de/Euklid.pdf). Quelle:~[Vikidia](https://fr.vikidia.org/wiki/Cat%C3%A9gorie:Image_Euclide), wo sie *domaine public,* also in der Public Domain angegeben wird.
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.

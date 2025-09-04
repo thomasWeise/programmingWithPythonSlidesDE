@@ -1,0 +1,271 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{27.~Funktionen in Modulen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Es ist Ihnen vielleicht nicht aufgefallen, aber wir haben gerade wieder einen großen Schritt in unseren Programmierfähigkeiten gemacht.%
+%
+\item<2-> Wir sind von einzelnen Programmen, die nur aus einem Block von Kode bestehen, zu modularen Programmen fortgeschritten.%
+%
+\item<3-> Wir können nun Kode wiederverwenden.%
+%
+\item<4-> Als wir unsere Reise begonnen haben, haben wir unsere Befehle einen nach dem anderen in den \python-Interpreter eingetippt und ausgeführt.%
+%
+\item<5-> Dann haben wir den Kode in Dateien geschrieben, wodurch wir dann unsere Programme mehrmals ausführen konnten.%
+%
+\item<6-> Jetzt können wir unseren Kode in Funktionen strukturieren, die wir mit \glslink{docstring}{Docstrings} und \glslink{typeHint}{Type Hints} erklären können.%
+%
+\item<7-> Jetzt können wir schon nützliche und vernünftig große Programme schreiben.%
+%
+\item<8-> Aber bis jetzt sind unsere gesamten Programme noch in einzelnen Datei gespeichert.%
+%
+\item<9-> Das bringt uns an eine gewisse Grenze, für die Komplexität von den Applikationen, die wir bauen können.%
+%
+\item<10-> Nach ein paar Tausend Zeile Kode in einer einzelnen Datei und vielleicht ein paar Duzend Funktionen wird es sehr schwer, irgendeine Übersicht zu behalten.%
+%
+\item<11-> Wir könnten diese Begrenzung leicht aufbrechen, wenn wir Kode in verschiedene Dateien aufteilen könnten.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Module und Pakete}%
+\begin{itemize}%
+%
+\item Wir lernen jetzt also, wie wir Kode auf mehrere Dateien verteilen können.%
+%
+\item<2-> Das beantwortet zwei wichtige Fragen\only<-2>{.}\uncover<3->{%
+\begin{enumerate}%
+\item Wie können wir es vermeiden, unsere Applikationen als einzelne große, unstrukturierte Dateien zu schreiben, die wir unmöglich auf lange Zeit warten können?%
+%
+\item<4-> Wie können wir unsere Applikationen in kleinere Einheiten zerlegen, die wir einzeln Testen, Verbessern, und Warten können und vielleicht sogar in verschiedenen Kontexten verwenden können?%
+\end{enumerate}%
+}%
+%
+\item<5-> Ein großer Teil der Antwort sind \emph{Module} und \emph{Pakete}\cite{PSF:P3D:TPLR:TIS}.%
+%
+\item<6-> Hier, ist ein \emph{Modul} im Grunde eine \python-Datei und ein \emph{Paket} ist ein Verzeichnis, das solche Dateien beinhaltet.%
+%
+\item<7-> Wie in~\bracketCite{PSF:P3D:TPLR:TIS} steht, müssen Module nicht unbedingt Dateien seien und Pakete können auch anders erstellt werden {\dots} wir bleiben hier aber bei den einfachen Definitionen.%
+%
+\item<8-> Wir haben ja auch schon mit Modulen gearbeitet, \DEzB\ dem Modul \pythonilIdx{math}.%
+%
+\end{itemize}%
+\end{frame}%%
+%
+\section{Beispiel}%
+%
+\begin{frame}[t]%
+\frametitle{Unser Eigenes Modul}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir haben ja auch schon mit Modulen gearbeitet, \DEzB\ dem Modul \pythonilIdx{math}.%
+}%
+%
+\only<-6>{%
+\item<2-> Dieses Modul ist im Grunde eine Kollektion mathematischer Funktionen.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir haben ja auch selber schon ein paar mathematische Funktionen implementiert.%
+}%
+%
+\only<-8>{%
+\item<4-> Tuen wir also ein paar davon in ein Modul!%
+}%
+%
+\only<-9>{%
+\item<5-> Wir erstellen die Datei \programUrl{functions:my_math} und tuen zwei Funktionen hinein\only<-6>{.}\uncover<7->{:}}%
+\only<7->{%
+%
+\only<-11>{%
+\item<7-> Die Function \pythonil{factorial} und eine neue Funktion namens \pythonil{sqrt}.%
+}%
+%
+\only<-12>{%
+\item<8-> Die \pythonil{sqrt}-Function basically ist im Grunde unser Kode von Einheit~25 mit unserer Implementierung von Heron's Methode zur Berechnung der Quadratwurzel.%
+}%
+%
+\only<-13>{%
+\item<9-> Nun kommt jedoch \pythonil{number} als Parameter in unsere Funktion hinein.%
+}%
+%
+\only<-14>{%
+\item<10-> Unser neues Modul has the name \textil{my_math}, weil es in der Datei \programUrl{functions:my_math} gespeichert ist.%
+}%
+%
+\only<-15>{%
+\item<11-> Es sieht im Grunde nicht anders aus, als was wir bisher gemacht haben.%
+}%
+%
+\only<-16>{%
+\item<12-> Ein Unterschied ist, dass es \emph{nichts} macht.%
+}%
+%
+\only<-17>{%
+\item<13-> In der Datei erstellen wir zwei Funktionen.%
+}%
+%
+\only<-18>{%
+\item<14-> Wir rufen sie aber nicht auf und führen auch sonst keinen Kode aktiv aus.%
+}%
+%
+\only<-19>{%
+\item<15-> Das ist der Sinn des Moduls.%
+}%
+%
+\only<-20>{%
+\item<16-> Es stellt zwei Funktionen zur Verfügung.%
+}%
+%
+\only<-21>{%
+\item<17-> Diese können wir nun an anderer Stelle verwenden.%
+}%
+%
+\only<-22>{%
+\item<18-> Und Datei \programUrl{functions:use_my_math} ist wo wir sie verwenden.%
+}%
+%
+\only<-23>{%
+\item<19-> In dieser Datei wollen wir unsere beiden Funktionen \pythonil{factorial} und \pythonil{sqrt} vom Modul \pythonil{my_math} benutzen.%
+}%
+%
+\only<-24>{%
+\item<20-> Wir müssen dem \python-Interpreter also sagen, wo es diese finden kann.%
+}%
+%
+\only<-25>{%
+\item<21-> Wir tuen das, in dem wir schreiben \pythonil{from my_math} \pythonil{import factorial, sqrt}.%
+}%
+%
+\only<-26>{%
+\item<22-> Die Bedeutung ist ziemlich klar.%
+}%
+%
+\only<-27>{%
+\item<23-> Es gibt ein Modul \pythonil{my_math} von dem wir die Funktionen \pythonil{factorial} holen wollen \pythonil{sqrt}.%
+}%
+%
+\only<-28>{%
+\item<24-> Der \python-Interpreter kennt viele Module.%
+}%
+%
+\only<-29>{%
+\item<25-> Mehrere Module kommen schon mit der \python-Installation mit, wie \DEzB\ \pythonilIdx{math}.%
+}%
+%
+\only<-30>{%
+\item<26-> Andere werden mit dem Paketmanager \pgls{pip}\cite{PSF:P3D:IPM} installiert.%
+}%
+%
+\only<-31>{%
+\item<27-> Das Modul \pythonil{my_math} wird gefunden, weil wir es in das selbe Verzeichnis tun wie Program \programUrl{functions:use_my_math}.%
+}%
+%
+\only<-31>{%
+\item<28-> Wir hätten die Datei \programUrl{functions:my_math} auch in ein Unterverzeichnis namens \textil{math_pack} tuen können.%
+}%
+%
+\only<-32>{%
+\item<29-> Dann würden wir unsere Funktionen von \textil{math_pack.my_math} importieren, wobei \textil{math_pack} dann \emph{Paket} genannt werden würde.%
+}%
+%
+\only<-33>{%
+\item<30-> Natürlich könnten wir die Verzeichnisse auch tiefer Schachteln.%
+}%
+%
+\only<-34>{%
+\item<31-> Wir könnten Verzeichnis \textil{utils} haben und das Verzeichnis \textil{math_pack} mit unserer Datei \programUrl{functions:my_math} dort hinein tun.%
+}%
+%
+\only<-35>{%
+\item<32-> Dann würden wir unsere Funktionen so importieren: \pythonil{from} \pythonil{utils.math_pack.my_math} \pythonil{import}\dots.%
+}%
+%
+\only<-36>{%
+\item<33-> Die Paket- und Modul-Namen werden beim Importieren mit Punkten~(\pythonilIdx{.}) getrennt.%
+}%
+%
+\only<-37>{%
+\item<34-> So können wir unser Projekt in Module und Pakete für verschiedene Aufgaben strukturieren.%
+}%
+%
+\only<-38>{%
+\item<35-> In \programUrl{functions:use_my_math} können wir nun \pythonil{sqrt} und \pythonil{factorial} genauso verwenden, als ob wir sie dort drin definiert hätten.%
+}%
+%
+\item<36-> Wir drucken erstmal ein paar Ergebnisse von \pythonil{sqrt} und \pythonil{factorial}.%
+%
+\item<37-> Wir kopieren auch etwas Kode von einem alten Beispiel, wo wir LIU Hui~(刘徽) seine Methode zum Annähern von~\numberPi\ verwendet haben.%
+%
+\item<38-> Diesmal nehmen wir unsere eigene Methode zum Berechnen der Quadratwurzel und nicht die Funktion aus dem \pythonil{math}-Modul.%
+%
+\item<39-> Interessanterweise haben die letzten beiden Annäherungsschritte die selben Ergebnisse wie damals.%
+}%
+\end{itemize}%
+}}%
+%
+\only<6>{%
+\bestPractice{packageAndModuleNames}{Die Namen von Paketen und Modulen sollen kurz und in Kleinbuchstaben geschrieben werden. Unterstriche können verwendet werden, um die Lesbarkeit zu verbessern.\cite{PEP8}}%
+}%
+%
+\gitLoadPython{functions:my_math}{}{functions/my_math.py}{}%
+\listingPython{5,7-17}{functions:my_math}{0.45}{0.087}{0.54}{0.92}%
+%
+\gitLoadAndExecPython{functions:use_my_math}{}{functions}{use_my_math.py}{}%
+\listingPythonAndOutput{18-}{functions:use_my_math}{}{0.45}{0.087}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Seit wir \pythonil{while}-Schleifen benutzen können, waren wir in der Lage, im Grunde jede durch einen Computer berechenbare Funktion zu implementieren.%
+%
+\item<2-> Wir waren aber auf der technischen Ebene eingeschränkt.
+%
+\item<3-> Wir könnten zwar, theoretisch, beliebig komplexe Programme implementieren.%
+%
+\item<4-> Ohne Funktionen hätte das aber sicherlich zu sich oftmals wiederholenden Kode geführt.%
+%
+\item<5-> Und ohne Module hätten wir irgendwann eine riesige, nicht wartbare und unleserliche Datei gehabt.%
+%
+\item<6-> Diese Beschränkungen haben wir jetzt durchbrochen.%
+%
+\item<7-> Ab jetzt können wir beliebig große und beliebig komplexe Applikationen mit \python\ programmieren.%
+%
+\item<8-> Wir können verschiedene Funktionen für verschiedene Teilaufgaben implementieren.%
+%
+\item<9-> Wir können Funktionen für ähnliche Themengebiete in verschiedene Module gruppieren.%
+%
+\item<10-> Wir können Module sogar hierarchisch in Pakete gruppieren.%
+%
+\item<11-> Damit können wir wohlstrukturierte und wartbare Software entwickeln.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

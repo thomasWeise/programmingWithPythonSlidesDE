@@ -1,0 +1,633 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{26.~Funktionen definieren und aufrufen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Funktionen sind Blöcke von Kode, die von anderen Orten in Programmen aus aufgerufen werden können.%
+%
+\item<2-> Sie haben bereits mehrere Funktionen kennengelernt, von der \pythonil{print} bis \pythonil{sqrt}.%
+%
+\item<3-> Wir unterscheiden die Definition und den Aufruf einer Funktion.%
+%
+\item<4-> In der Funktionsdefinition spezifizieren wir den Name, die Parameter, den Rückgabewert, und den Körper (also den eigentlichen Kode) der Funktion.%
+%
+\item<5-> Eine Funktion kann dann überall in unserem Kode über ihren Namen aufgerufen werden, wobei dann Werte für die Parameter übergeben und gegebenenfalls der Rückgabewert \DEzB\ in einer Variable gespeichert wird.%
+%
+\item<6-> Jetzt wollen wir unsere eigenen Funktionen definieren\cite{PSF:P3D:TPT:MCFT}.%
+%
+%
+\end{itemize}%
+\end{frame}%%
+%
+\section{Funktionen Definieren}%
+%
+\begin{frame}[t]%
+\frametitle{Funktionen Definieren}%
+\begin{itemize}%
+\only<-6>{%
+\item \only<-2>{Die Definition einer Funktion beginnt mit dem Schlüsselwort \pythonil{def}, gefolgt von dem Funktionsnamen, eventuell Parametern in Klammern, einem Rückgabewert-\glslink{typeHint}{Type-Hint}, dem Doppelpunkt~\pythonil{:}, und dann dem mit vier Leerzeichen eingerückten Funktionskörper.}\only<3->{Wir haben also folgende Syntax:}%
+}%
+\only<4->{
+%
+\only<-7>{%
+\item Funktionsnamen werden mit Kleinbuchstaben geschrieben, Worte mit Unterstrichen getrennt.%
+}%
+%
+\only<-8>{%
+\item<5-> Nach den Funktionsnamen folgen eine öffnende und eine schließende runde Klammer.%
+}%
+%
+\only<-9>{%
+\item<6-> Eine Funktion kann Parameter haben, also Werte, die ihr bei der Ausführung übergeben werden.
+}%
+%
+\only<-10>{%
+\item<7-> Im Falle der Funktion \pythonil{print} war das der String, der ausgegeben werden soll.%
+}%
+%
+\only<-11>{%
+\item<8-> Im Falle der Funtkion \pythonil{sqrt} war das die Zahl, deren Wurzel berechnet werden sollte.%
+}%
+%
+\only<-11>{%
+\item<9-> In der Funktion werden die Parameter wie Variablen verwendet.%
+}%
+%
+\only<-15>{%
+\item<10-> Die Werte dieser Variablen werden allerdings der Funktion bei ihrer Ausführung übergeben.%
+}%
+%
+\only<-16>{%
+\item<11-> Sie stammen also vom Kode, der die Funktion aufruft.%
+}%
+%
+\only<13->{%
+\only<-17>{%
+\item<13-> Die Parameter werden zwischen der öffnenden und der schließenden Klammer im Funktionskopf definiert.%
+}%
+\only<-17>{%
+\item<14-> Jeder Parameter hat einen Namen, unter dem wir dann in der Funtktion auf seinen Wert zugreifen können.%
+}%
+\only<-17>{%
+\item<15-> Die Parameter sind durch Kommas getrennt.%
+}%
+\only<-18>{%
+\item<16-> Wir können keine oder beliebig viele Parameter definieren.%
+}%
+\only<-19>{%
+\item<17-> Genau wie Variablen sollten Parameter mit \glslink{typeHint}{Type Hints} annotiert werden\cite{PEP3107}.%
+}%
+\only<-19>{%
+\item<18-> Wir wollen ja schließlich, dass die Benutzer unserer Funktion genau verstehen, ob sie Ganzzahlen, Strings, oder Fließkommazahlen an unsere Funktion übergeben können oder nicht.
+}%
+\only<-24>{%
+\item<19-> Wenn wir eine Funktion \pythonil{add(value_1, value_2)} definieren, dann ist erstmal gar nicht klar, was für Datentypen für \pythonil{value_1} und \pythonil{value_2} in Frage kommen.%
+}%
+\only<-24>{%
+\item<20-> Definieren wir die Funktion dagegen mit \glslink{typeHint}{Type Hints}, \DEzB\ \pythonil{add(value_1: int, value_2: int)}, dann ist es offensichtlich.%
+}%
+\only<-24>{%
+\item<21-> Funktionen können Ergebnisse zurückliefern.%
+}%
+\only<-26>{%
+\item<22-> Die \pythonil{sqrt}-Funktion, \DEzB\ liefert die Quadratwurzel zurück.%
+}%
+\only<-28>{%
+\item<23-> Die Funktion \pythonil{print} liefert nichts zurück.%
+}%
+\only<-29>{%
+\item<24-> Wenn Funktionen ein Ergebnis zurückliefern, dann sollte der Typ dieses Rückgabewertes mit einem Type Hint spezifiziert werden.%
+}%
+\only<-30>{%
+\item<25-> Nach der schließenden Klammer im Funktionskopf folgt dieser Datentyp dann als \pythonil{ -> result_type}\pythonIdx{->}.%
+}%
+%
+\only<27->{%
+\only<-32>{%
+\item<27-> Der Funktionskopf endet mit einem Doppelpunkt~(\pythonilIdx{:}).%
+}%
+%
+\only<29->{%
+\only<-34>{%
+\item<29-> Nach dem Funktionskopf folgt, eingerückt mit vier Leerzeichen, der Körper der Funktion.%
+}%
+%
+\only<31->{%
+%
+\only<-34>{%
+\item<31-> Der Körper einer Funktion ist ein beliebiger Block von Kode.%
+}%
+\only<-35>{%
+\item<32-> Er kann alles beinhalten, was wir bisher gelernt haben.%
+}%
+\only<-36>{%
+\item<33-> Von \pythonil{if...else} über \pythonil{for}-\ und \pythonil{while}-Schleifen zu Variablenzuweisungen und dem Aufrufen anderer Funktionen -- alles ist OK.%
+}%
+\only<-37>{%
+\item<34-> Wenn eine Funktion aufgerufen wird, dann wird dieser Kodeblock ausgeführt.%
+}%
+\only<-38>{%
+\item<35-> Wenn das Ende des Blocks erreicht wird, dann endet auch die Funktion (ohne einen Wert zurückzugeben).%
+}%
+\only<-39>{%
+\item<36-> Dann geht der Kontrollfluss in dem Block weiter, der die Funktion aufgerufen hat, und zwar genau nach dem Funktionsaufruf.%
+}%
+\only<-40>{%
+\item<37-> Die Funktion kann auch an jedem Punkt mit Hilfe des \pythonil{return}-Statement verlassen werden.%
+}%
+\only<-40>{%
+\item<38-> Soll die Funktion einen Wert \pythonil{result} zurückliefern, dann geht das über \pythonil{return result}.%
+}%
+\only<-41>{%
+\item<39-> Genau wie das \pythonil{break}-Statement für Schleifen können wir das \pythonil{return}-Statement in Funktionen an beliebiger Stelle verwenden.%
+}%
+\only<-42>{%
+\item<40-> Wir können mehrere \pythonil{return}-Statements an verschiedenen Stellen in der Funktion verwenden.%
+}%
+\only<-44>{%
+\item<41-> Die Funktion \pythonil{my_function} can dann in beliebigem Kode aufgerufen werden, in dem wir \pythonil{my_function(value_1, value_2)} schreiben.%
+}%
+\only<-46>{%
+\item<42-> Hier wird \pythonil{value_1} als Wert für \pythonil{param_1} und \pythonil{value_2} als Wert für \pythonil{param_2} angegeben.%
+}%
+\only<-47>{%
+\item<43-> Das folgt also dem selben Schema für Funktionsaufrufe, das wir schon oft angewandt haben.%
+}%
+%
+\only<45->{%
+%
+\only<-48>{%
+\item<45-> Zwischen dem Kopf und dem Körper der Funktion müssen wir immer einen sogenannten \glslink{docstring}{Docstring} platzieren in Form eines mehrzeiligen Strings.%
+}%
+\only<-49>{%
+\item<46-> Dieser String beginnt mit einer Titelzeile, die kurz beschreibt, was die Funktion tut.%
+}%
+\only<-49>{%
+\item<47-> Dann folgt eine Leerzeile.%
+}%
+\only<-51>{%
+\item<48-> Danach können wir Textabschnitte mit einer genaueren Beschreibung der Funktion einfügen.%
+}%
+%
+\only<-52>{%
+\item<49-> Dann folgt eine Liste mit den Beschreibungen der Parameter \pythonil{parameter_name}, wobei für jeden Parameter ein Eintrag der Form \textil{:param parameter_name: Beschreibung} angegeben wird.%
+}%
+%
+\item<50-> Hat die Funktion einen Rückgabewert, dann folgt eine Zeile der Form \textil{:returns: Beschreibung}, die den Rückgabewert erklärt.%
+%
+\only<53->{%
+\item<53-> Damit kennen wir nun das generelle Schema, nach dem wir Funktionen definieren können.%
+%
+}}}}}}}%
+\end{itemize}%
+%
+\gitLoadPython{syntax/function_no_docstring}{}{syntax/function_no_docstring.py}{}%
+\listingPythonSyntax{2-25,27,29,31-43}{syntax/function_no_docstring}{0.05}{0.51}{0.9}{0.6}%
+%
+\gitLoadPython{syntax/function}{}{syntax/function.py}{}%
+\listingPythonSyntax{45-50}{syntax/function}{0.2}{0.56}{0.7}{0.6}%
+\listingPythonSyntax{53-}{syntax/function}{0.2}{0.3365}{0.8}{0.68}%
+%
+\only<3>{%
+\bestPractice{functionNames}{Die Namen von Funktionen werden mit Kleinbuchstaben geschrieben, wobei Worte mit Unterstrichen getrennt werden\cite{PEP8}.}}%
+%
+\only<12>{\vspace*{-0.03\paperheight}%
+\begin{definition*}[Parameter]\pythonIdx{function!parameter}%
+Ein Funktionsparameter ist eine Variable, die in einer Funktion definiert ist, ihren Wert aber vom aufrufenden Kode erhält.%
+\end{definition*}%
+}%
+%
+\only<26>{%
+\begin{definition*}[Signatur]%
+Die Abfolge der Parameter-Datentypen und der Datentyp des Rückgabewertes einer Funktion zusammen werden als die \emph{Signatur} der Funktion bezeichnet.%
+\end{definition*}%
+}%
+%
+\only<28>{%
+\bestPractice{functionTypeHints}{\pythonIdx{function!type hint}%
+Alle Parameter und der Rückgabewert einer Funtkion sollten mit \glslink{typeHint}{Type Hints}\cite{PEP3107} annotiert werden. %
+\emph{Eine Funktion ohne Type Hints ist falsch.}%
+}}%
+%
+\only<30>{%
+\bestPractice{functionBodyIndentation}{Der Körper einer Funktion ist mit vier Leerzeichen eingerückt.}%
+}%
+%
+\only<44>{%
+\begin{definition*}[Argument]%
+Ein \emph{Argument} ist der Wert, der für einen Funktionsparameter beim Funktionsaufruf angegeben wird.%
+\end{definition*}%
+}
+%
+\only<51>{%
+\bestPractice{funcDocstrings}{%
+Jede Funktion sollte mit einem \glslink{docstring}{Docstring} dokumentiert werden. %
+Wenn Sie in einem Team arbeiten oder Ihren Kode mit anderen Teilen wollen, dann erhört ein Docstring die Wahrscheinlichkeit, dass Ihre Funktion richtig aufgerufen wird, ganz enorm. %
+\emph{Eine Funktion ohne Docstring ist falsch.}%
+}%
+}%
+%
+\only<52>{%
+\bestPractice{functionSpace}{%
+Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weiterer Programmtext folgt\cite{PEP8}.%
+}}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Fakultät}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Jetzt kennen wir die generelle Struktur, nach der Funktionen definiert werden können.%
+}%
+%
+\only<-6>{%
+\item<2-> Nach dieser sehr langen Einleitung wollen wir loslegen.%
+}%
+%
+\only<-7>{%
+\item<3-> Lassen Sie uns die Fakultäts-Funktion als, nunja, Funktion implementieren.%
+}%
+%
+\only<-7>{%
+\item<4-> Die Fakultät ist wie folgt definiert\cite{D1991TEHOTFF,CB2022FBDOTFF}:%
+\uncover<4->{
+\begin{equation}%
+\hspace*{-0.05\paperwidth}\scalebox{0.95}{\ensuremath{\displaystyle{\factorial{a}=\left\{\begin{array}{rl}%
+1&\textnormal{~if~}a = 0\\%
+\prod_{i=1}^a i&\textnormal{~otherwise, i.e., if~}a>0%
+\end{array}\right.}}}%
+\label{eq:factorial}%
+\end{equation}%
+%
+wobei $\prod_{i=1}^a i$ für das Produkt $1*2*3*\dots*(a-1)*a$ steht.
+}}%
+%
+\only<-9>{%
+\item<5-> Wir implementieren dese Funktion in \python\ und nennen Sie \pythonil{factorial}.%
+}%
+%
+\only<-10>{%
+\item<6-> Der Header unserer Funktion beginnt daher erstmal mit \pythonil{def factorial(}.%
+}%
+%
+\only<-11>{%
+\item<7-> Die Funktion soll einen einzelnen Paramter~\pythonil{a} erhalten, was wir also in die Klammern schreiben.%
+}%
+%
+\only<-12>{%
+\item<8-> \pythonil{a} wird über einen Type-Hint als Ganzzahl definiert, i.e., wird als \pythonil{a: int} angegeben.%
+}%
+%
+\only<-13>{%
+\item<9-> Das Ergebnis wird auch als Ganzzahl ge-type-hinted, wir fügen also \pythonil{-> int} an.%
+}%
+%
+\only<-14>{%
+\item<10-> Insgesamt haben wir also den Header \pythonil{def factorial(a: int) -> int:}.
+}%
+%
+\only<-15>{%
+\item<11-> Der Körper der Funktion ist einfach.%
+}%
+%
+\only<-16>{%
+\item<12-> Zuerst initialisieren wir die Variable \pythonil{product} mit dem Wert~\pythonil{1}.%
+}%
+%
+\only<-17>{%
+\item<13-> Dann brauchen wir eine Schleife, die über alle positiven Ganzzahlen kleiner/gleich \pythonil{a} iteriert.%
+}%
+%
+\only<-18>{%
+\item<14-> Wir müssen diese Werte an \pythonil{product} heranmultiplizieren.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir können dabei $\pythonil{i}=1$ überspringen, weil es sinnlos wäre.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir definieren also eine \pythonilIdx{for}-Schleife, die \pythonil{i} über \pythonil{range(2, a + 1)}\pythonIdx{range} iteriert.%
+}%
+%
+\only<-21>{%
+\item<17-> Damit startet \pythonil{i} mit~\pythonil{2}.%
+}%
+%
+\only<-22>{%
+\item<18-> Die exklusive Obergrenze \pythonil{a + 1} der \pythonilIdx{range}, so das die Vorschleife läuft, bis \pythonil{i} irgendwann \pythonil{a} erreicht.%
+}%
+%
+\only<-23>{%
+\item<19-> Sehen Sie, dass wir \pythonil{a} hier wie eine ganz normale Variable verwenden?%
+}%
+%
+\only<-24>{%
+\item<20-> In dem Körper der Schleife berechnen wir \pythonil{product *= i}\pythonIdx{*=}, was das selbe ist wie \pythonil{product = product * i}.%
+}%
+%
+\only<-25>{%
+\item<21-> Nach der Schleife steht $\factorial{\pythonil{a}}$ in \pythonil{product}.%
+}%
+%
+\only<-26>{%
+\item<22-> Wir können diesen Wert zurückliefern, in dem wir \pythonil{return product} schreiben.%
+}%
+%
+\only<-26>{%
+\item<23-> Wir können nun die Fakultät von jeder positiven Ganzzahl \pythonil{x} berechnen, in dem wir \pythonil{factorial(x)} aufrufen.%
+}%
+%
+\item<24-> Nach dem Körper der Funktion lassen wir zwei Leerzeilen.%
+%
+\item<25-> Dann berechnen wir die Fakultäten von $1$ bis $9$ in einer \pythonilIdx{for}-Schleife und drucken sie mit Hilfe von einem \glslink{fstring}{f-String} aus.%
+%
+%
+\item<26-> In der Schleife und dem \glslink{fstring}{f-String} benutzen wir \pythonil{factorial} genau wie jede andere Funktion, genau wie \pythonil{sqrt} oder \pythonil{sin}.%%
+%
+\item<27-> Als kleine Seiteninformation sei gesagt, dass es Möglichkeiten gibt, die Fakultät schneller zu berechnen als mit dieser Produktmethode\cite{L2015ANKOFF}.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{functions:def_factorial}{}{functions}{def_factorial.py}{}%
+\listingPythonAndOutput{2-}{functions:def_factorial}{}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Euklidischer Algorithmus für den Größten Gemeinsamen Teiler}%
+%
+\begin{itemize}%
+\only<-6>{%
+\item Funktionen können mehr als einen Parameter haben oder auch gar keinen Parameter haben.%
+%
+\item<2-> Funktionen können ein Ergebnis zurückliefern oder auch nichts\uncover<3->{ (wobei sie dann \pythonil{None} zurückliefern, wie wir in Einheit~12 gelernt haben)}.%
+%
+\item<4-> Funktionen können auch aus anderen Funktionen heraus aufgerufen werden.%
+%
+\item<5-> Probieren wir das mal aus an einem weiteren spannenden Beispiel.%
+%
+\item<6-> Schauen wir uns die Berechnung des größten gemeinsamen Teilers, auf Englisch \emph{greatest common divisor}, kurz~\pythonil{gcd} an.%
+}%
+%
+\only<-16>{%
+\item<7-> Der GCD kann mit dem Euclidischen Algorithmus\cite{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT,B1999FAOTBEA,TKY2016BEOEAOTCEG} von \citeauthor{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT} der 300~\emph{\glsFull{BCE}} gelebt hat berechnet werden.%
+}%
+%
+\only<-17>{%
+\item<8-> Der größte gemeinsame Teiler zweier positiver natürlicher Zahlen~$a\in\naturalNumbersO$ und~$b\in\naturalNumbersO$ ist die größte Zahl~$g\in\naturalNumbersO=\pythonil{gcd}(a,b)$ für die gilt das~$a\bmod g=0$ und~$b \bmod g=0$, wobei~$\bmod$ die \glslink{modulodiv}{Modulo Division} ist, also der Rest einer Division, was wiederum äquivalent zum Operator~\pythonilIdx{\%} von \python\ ist.%
+}%
+%
+\only<-18>{%
+\item<9-> Das bedeutet, dass $g$ sowohl $a$ als auch $b$ ohne Rest teilt.%
+}%
+%
+\only<-19>{%
+\item<10-> Ist $a=b$, dann gilt offensichtlich $\pythonil{gcd}(a,b)=a=b$.%
+}%
+%
+\only<-20>{%
+\item<11-> Andernfalls wissen wir, dass $a=ig$ für irgendein~$i\in\naturalNumbersO$ und das $b=jg$ für irgendein~$j\in\naturalNumbersO$ gilt.%
+}%
+%
+\only<-21>{%
+\item<12-> Ohne Beschränkung der Allgemeinheit nehmen wir an dass~$a>b$.%
+}%
+%
+\only<-22>{%
+\item<13-> Dann gilt das $c=a-b=(i-j)g$.%
+}%
+%
+\only<-23>{%
+\item<14-> Es ist klar das $c\bmod g=(a-b)\bmod g=(i-j)g\bmod g = 0$ gilt.%
+}%
+%
+\only<-24>{%
+\item<15-> Es ist auch klar, dass $a-b<a$.%
+}%
+%
+\only<-25>{%
+\item<16-> Anstelle der Differenz~$c$ von $a$ und $b$ können wir auch den Rest der Division $a/b$ nehmen\only<-16>{.}\uncover<17->{:}%
+}%
+%
+\only<-26>{%
+\item<17->$d=a\bmod b=ig\bmod (jg)=ig-\lfloor i/j\rfloor*jg=g(i-j\lfloor i/j\rfloor)$ ist natürlich immer noch teilbar durch~$g$, also hat~$d\bmod g=0$.%
+}%
+%
+\item<18-> Und natürlich ist auch $a\bmod b<a$.%
+%
+\item<19-> Weil sowohl~$d$ als auch~$c$ kleiner als~$a$ sind, aber immer noch durch $g$ teilbar sind, können wir $a$ mit einem von ihnen ersetzen.%
+%
+\item<20-> Das Tolle an~$d$ ist, dass $d<a$ und $d<b$.%
+%
+\item<21-> Wir könnten also das \inQuotes{alte} $a$ mit $b$ ersetzen und $d$ in der Variable $b$ speichern.%
+%
+\item<22-> Wenn wir das immer wieder wiederholen, dann werden unsere Werte immer kleiner, bleiben aber durch $g$ teilbar.%
+%
+\item<23-> Irgendwann kommen wir bei $b=0$ und $a=g$ an.%
+%
+\item<24-> Wir müssen noch nicht mal anehmen, dass $a>b$.%
+%
+\item<25-> Wenn $b>a$ gilt, dann wäre~$a \bmod b=a$ und wir würden im ersten Rechenschritt~$a$ und~$b$ tauschen.%
+%
+\item<26-> Wären $a=b$, dann ist~$a \bmod b=0$ und wir würden im ersten Rechenschritt aufhören und hätten $a$ als größten gemeinsamen Teiler.%
+%
+\end{itemize}%
+%
+\locateGraphicTB[\parbox{0.7\paperwidth}{\noindent%
+Eine Illustration von Euclid of Alexandria, dem Maler Charles Paul Landon~(1760--1826) \href{https://www.antike-griechische.de/Euklid.pdf}{zugeschrieben}. Quelle:~\href{https://fr.vikidia.org/wiki/Cat\%C3\%A9gorie:Image_Euclide}{Vikidia}, wo es als \emph{domaine public,} steht, also als in der Public Domain.}%
+]{7}{width=0.32\paperwidth}{graphics/euclidOfAlexandria}{0.34}{0.25}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Euklidischer Algorithmus für den Größten Gemeinsamen Teiler}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Implementieren wir das also als Funktion.%
+}%
+%
+\only<-6>{%
+\item<2-> Unsere neue Funktion \pythonil{gcd} hat zwei ganzzahlige Parameters, \pythonil{a} und~\pythonil{b}.%
+}%
+%
+\only<-7>{%
+\item<3-> Sie liefert eine andere Ganzzahl zurück.%
+}%
+%
+\only<-8>{%
+\item<4-> Beachten Sie, dass wir alles mit \glslink{typeHint}{Type Hints} annotiert haben.%
+}%
+%
+\only<-9>{%
+\item<5-> Nach dem Kopf der Funktion folgt ein \glslink{docstring}{Docstring}, in dem die Funktion, die Parameter, und der Rückgabewert ordentlich beschrieben sind.%
+}%
+%
+\only<-10>{%
+\item<6-> Der Körper der Funktion ist überraschend kurz.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir benutzen eine \pythonilIdx{while}-Schleife, die so lange iteriert, wie \pythonil{b > 0}.%
+}%
+%
+\only<-12>{%
+\item<8-> Nach der Schleife geben wir \pythonil{a} als Ergebnis zurück, in dem wir \pythonil{return a} aufrufen.%
+}%
+%
+\only<-13>{%
+\item<9-> Sollte \pythonil{b == 0} sein, dann wird die Schleife gar nicht erst ausgeführt und \pythonil{a} direkt zurückgeliefert, was richtig ist: Es gilt $\pythonil{gcd}(a, 0)=a$ für alle~$a\in\naturalNumbersO$.%
+}%
+%
+\only<-14>{%
+\item<10-> Ist aber \pythonil{b > 0}, dann wird der Körper der Schleife ausgeführt.%
+}%
+%
+\only<-15>{%
+\item<11-> Der Körper ist nur eine einzige Zeile Kode\only<-11>{.}\uncover<12->{: der Mehrfachzuweisung \pythonil{a, b = b, a \% b}.}%
+}%
+%
+\only<-16>{%
+\item<13-> Diese Zeile funktioniert in etwa so:%
+}%
+%
+\only<-17>{%
+\item<14-> Zuerst wird die rechte Seite ausgewertet.%
+}%
+%
+\only<-18>{%
+\item<15-> Es entsteht ein Tupel dessen erster Wert \pythonil{b} und dessen zweiter Wert \pythonil{a \% b} ist.%
+}%
+%
+\only<-19>{%
+\item<16-> Dieses Tupel wird dann ausgepackt, und zwar in die Variablen \pythonil{a} und~\pythonil{b}.%
+}%
+%
+\only<-20>{%
+\item<17-> \pythonil{a} bekommt also den alten Wert von \pythonil{b}.%
+}%
+%
+\only<-21>{%
+\item<18-> \pythonil{b} bekommt den vorher ausgerechneten Wert von \pythonil{a \% b}.%
+}%
+%
+\only<-22>{%
+\item<19-> Mit anderen Worten, \pythonil{b} wird in \pythonil{a} gespeichert und der Rest der Division des alten \pythonil{a} durch das alte \pythonil{b} wird in \pythonil{b} gespeichert.%
+}%
+%
+\only<-23>{%
+\item<20-> Es ist klar, dass \pythonil{b} in jeder Iteration kleiner wird.%
+}%
+%
+\only<-24>{%
+\item<21-> Da es niemals negativ werden kann, wird es irgendwann \pythonil{0}.%
+}%
+%
+\only<-25>{%
+\item<22-> Dann hört die Schleife auf.%
+}%
+%
+\only<-26>{%
+\item<23-> Der größte gemeinsame Teiler geht in der Schleife auch nicht verloren.%
+}%
+%
+\only<-27>{%
+\item<24-> Er ist der Wert, den \pythonil{a} am Ende annimmt.%
+}%
+%
+\only<-28>{%
+\item<25-> Und dieser Wert wird zurückgegeben.%
+}%
+%
+\only<-29>{%
+\item<25-> Mit \pythonil{gcd} haben wir also eine Funktion mit zwei Parametern und einem Rückgabewert implementiert.%
+}%
+%
+\only<-30>{%
+\item<26-> Implementieren wir jetzt eine zweite Funktion, diesmal ohne Rückgabewert.%
+}%
+%
+\only<-31>{%
+\item<27-> Unsere neue Funktion \pythonil{print_gcd} akzeptiert ebenfalls zwei Parameter~\pythonil{a} und~\pythonil{b}, liefert aber diesmal nichts zurück.%
+}%
+%
+\only<-32>{%
+\item<28-> Stattdessen druckt es den \pythonil{gcd} schön mit \pythonilIdx{print} und einem \glslink{fstring}{f-String} aus.%
+}%
+%
+\only<-33>{%
+\item<29-> Beachten Sie, dass wir die Funktion wieder schön mit \glslink{typeHint}{Type Hints} und einem \glslink{docstring}{Docstring} annotieren.%
+}%
+%
+\only<-34>{%
+\item<30-> Das Modul \pythonilIdx{math} hat auch eine Funktion mit dem Namen \pythonilIdx{gcd}.%
+}%
+%
+\only<-35>{%
+\item<31-> Diese berechnet ebenfalls den größten gemeinsamen Teiler.%
+}%
+%
+\only<-36>{%
+\item<32-> Natürlich wollen wir das Ergebnis unserer Funktion mit ihr vergleichen.%
+}%
+%
+\only<-37>{%
+\item<33-> Natürlich können wir nicht zwei Funktionen mit dem gleichen Namen (\pythonil{gcd}) im selben Kontext haben.%
+}%
+%
+\only<-38>{%
+\item<34-> Deshalb importieren wir die Funktion aus dem Modul \pythonilIdx{math} \emph{unter einem anderen Namen}\only<-34>{.}\uncover<35->{:}%
+}%
+%
+\item<35-> \pythonil{from math import} \pythonil{gcd as math_gcd} importiert die Funktion \pythonilIdx{gcd} aus dem Module \pythonilIdx{math} und stellt sie unter dem Namen ~\pythonil{math_gcd} zur Verfügung.%
+%
+\item<36-> Und wir benutzen sie im \glslink{fstring}{f-String} in unserer Funktion \pythonil{print_gcd} unter diesem Namen.%
+%
+\item<37-> Wir bestätigen, dass \pythonil{gcd} und \pythonil{math_gcd} die gleichen Ergebnisse liefern für vier Testfälle am Ende unseres Programms.%
+%
+\item<38-> Nun da wir fertig sind, lassen Sie mich noch erwähnen, dass es eine besonders effiziente binäre Variante des Euklidischen Algorithmus gibt, die scheller als unsere Implementierung ist und bereits in China im ersten Jahrhundert~\glsFull{CE} entwickelt wurde\cite{B1999FAOTBEA}.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{functions:def_gcd}{}{functions}{def_gcd.py}{}%
+\listingPythonAndOutput{2-}{functions:def_gcd}{}{0.45}{0.087}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Wir sind also nun in der Lage, unsere eigenen Funktionen zu implementieren.%
+\item<2-> Wir können diese ordentlich mit \glslink{typeHint}{Type-Hints} und \glslink{docstring}{Docstrings} annotieren.%
+\item<3-> Wir können damit wiederverwendbare Stücke von Kode definieren, die von verschiedenen anderen Stellen im Kode heraus aufgerufen werden können.%
+\item<4-> Wir können sie als Einheiten von Programmkode auch mit anderen Entwicklern teilen, die dann unsere Dokumentation lesen und verstehen können.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
