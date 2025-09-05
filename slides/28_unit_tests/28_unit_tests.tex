@@ -1,0 +1,772 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{28.~Zwischenspiel: Unit Tests}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Kode in Funktionen und Module zu strukturieren hat viele Vorteile.%
+%
+\item<2-> Wir können Kode wiederverwenden und große Applikationen in kleinere Teile zerlegen, was uns hilft zu verstehen, was der Kode macht.%
+%
+\item<3-> Oder besser: \alert{machen soll}.%
+%
+\item<4-> Denn beim Programmieren passieren ja Fehler.%
+%
+\item<5-> Sie passieren oft.%
+%
+\item<6-> Und große Programme haben wahrscheinlicher Fehler und wahrscheinlich auch mehr Fehler als kleine Programme.%
+%
+\item<7-> Wir können jetzt beliebig große Programme entwickeln, die gut strukturiert und wartbar sind.%
+%
+\item<8-> Auf der Architekturebene sind wir da nicht mehr eingeschränkt.%
+%
+\item<9-> Wir wollen aber nicht nur große, wartbare Software entwickeln {\dots} wir wollen auch, dass diese korrekt und verlässlich ist.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{Unit Tests}%
+%
+\begin{frame}[t]%
+\frametitle{Idee: Testen}%
+\begin{itemize}%
+%
+\only<-8>{%
+\item Stellen Sie sich vor, wir hätten nur eine große Applikation aus unstrukturiertem Kode zum Lesen und Schreiben von Dateien, für mathematische Berechnungen, usw.%
+%
+\item<2-> Es wäre dann nicht einfach herauszufinden, ob sich dieses große Programm genau so verhält, wie es soll.%
+}%
+%
+\item<3-> Es gäbe wahrscheinlich viel zu viele Kombinationen von Eingabedaten und Umgebungen die wir ausprobieren müssten.%
+%
+\item<4-> Und selbst wenn wir herausfinden würden, dass sich das Programm in ein paar Situationen falsch verhält\dots%
+%
+\item<5-> {\dots}wie finden wir die Stelle in dem gewaltigen Haufen Kode, die den Fehler auslöst?%
+%
+\item<6-> Das Aufteilen von Kode in Funktionen und das Aufteilen von Funktionen in Module hat einen weiteren Vorteil\only<-6>{.}\uncover<7->{:}%
+%
+\item<7-> Wir haben nun kleinere Einheiten von Kode (die Funktionen) die wir einzeln testen können.%
+%
+\item<8-> Es ist doch viel einfacher, zu prüfen ob unsere Funktionen \pythonil{factorial} und \pythonil{sqrt} stimmen, als ein ganzes Programm zu testen.%
+%
+\end{itemize}%
+%
+\uncover<9->{%
+\begin{definition*}[Unit Testing]
+\label{def:unitTesting}%
+\glslink{unitTest}{\emph{Unit Testing}} ist eine Software-Test-Technik, bei der einzelne Komponent oder Funktionen einer Applikation in Isolation getestet werden\cite{P2021PUTAAOAEUTIP,R2006ASOUTP,TLG2006UTCU,O1991UTVIT,B2004JPG,O2003UTTETO}.%
+\end{definition*}}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Hierarchische Unit Tests}%
+\begin{itemize}%
+\only<-9>{%
+\item Diese Idee funktioniert hierarchisch.%
+}%
+%
+\only<-10>{%
+\item<2-> Wir implementieren und testen erstmal die kleinsten Funktionen~$\mathcal{A}$.%
+%
+\item<3-> Wir folgen der Idee \inQuotes{code a little, test a little}\cite{BG2000TIPLWT}, so das wir immer unseren Kode verstehen und verifizieren.%
+}%
+%
+\item<4-> Dann implementieren und testen wir die Functionen~$\mathcal{B}$, die die Funktionen~$\mathcal{A}$ benutzen.%
+%
+\item<5-> Dann implementieren und testen wir die Funktionen~$\mathcal{C}$, die die Funktionen~$\mathcal{B}$ und vielleicht auch die Funktionen~$\mathcal{A}$ benutzen.%
+%
+\item<6-> Wir arbeiten uns hoch, vom Implementieren und Testen der kleinsten und primitivsten Stücken von Kode auf der niedrigsten Ebene unserers Systems bis hin zu den abstraktesten Funktionen auf der höchsten Ebene.%
+%
+\item<7-> Erst wenn die Tests auf einer niedrigen Ebene alle durchlaufen gehen wir zur nächsten Ebene.%
+%
+\item<8-> Wenn dann ein Test dort schief läuft, dann wissen wir, wo wir zuerst nach dem Fehler suchen müssen.%
+%
+\item<9-> Natürlich kann es sein, dass die Tests auf der niedrigeren Ebene unzureichend oder sogar falsch waren\dots%
+%
+\item<10-> Aber wir kennen zumindest den wahrscheinlisten Ort für den Fehler.%
+%
+\item<11-> Das kann die Fehlersuche unglaublich beschleunigen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Vertrauen durch Tests}%
+\begin{itemize}%
+\item Testen kann auch unser Vertrauen in unsere Arbeit und unseren Kode erhöhen.%
+%
+\item<2-> Wir haben \inQuotes{diesen Kode} nicht einfach nur hingeschrieben.%
+%
+\item<3-> Wir haben ihn getestet.%
+%
+\item<4-> Und wir haben den Kode getestet, der diesen Kode verwendet.%
+%
+\item<5-> Und alle Tests laufen fehlerlos durch.%
+%
+\item<6-> Klar kann es noch unentdeckte Fehler geben.%
+%
+\item<7-> Aber wir haben zumindest die wahrscheinlichsten Use Cases abgedeckt und sie haben funktioniert.%
+%
+\item<8-> Das ist hier kein pfuschig dahingeklatschtes Zeugs\dots\ {\dots}das ist das Ergebnis von vernünftiger Ingenieursarbeit.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Technischer Ansatz}%
+\begin{itemize}%
+\only<-9>{%
+\item Aber wie funktioniert das auf einer technischen Ebene?%
+}\only<-10>{%
+\item<2-> Ein \glslink{unitTest}{Unit Test} ist im Grunde ein separates Programm.%
+}\only<-11>{%
+\item<3-> Das Programm lädt die Funktion, de es testen soll.%
+}\only<-12>{%
+\item<4-> Es ruft die Funktion auf und vergleicht ihr Verhalten mit dem erwarteten Verhalten in einem spezifizierten Szenario.%
+}\only<-13>{%
+\item<5-> Wenn beide übereinstimmen, dann war der Test erfolgreich.%
+}\only<-14>{%
+\item<6-> Ist das beobachtete Verhalten ungleich dem erwarteten Verhalten, dann schlägt der Test fehl.%
+}\only<-15>{%
+\item<7-> Hier kann das \inQuotes{Szenario} ein Satz Parameterwerte (Argumente) für eine Funktion sein und das \inQuotes{Verhalten} kann dann den Rückgabewerten entsprechen.%
+}%
+\item<8-> Wir wissen, welche Ergebnisse wir für die Parameterwerte erwarten und können dann die zurückgelieferten Werte damit vergleichen.%
+\item<9-> Wir können beliebig viele sollche Szenarios, also Test Cases, für eine Funktion entwickeln.%
+\item<10-> Die Tests sind dann normalerweise nicht Teil des Produkts, des Programms, was wir den Benutzern geben.%
+\item<11-> Sie haben keine echte Funktion außer dem Testen und vielleicht dem expliziten Dokumentieren von erwartetem Verhalten.
+\item<12-> Genaugenommen haben wir sowas sogar \alert{fast} schon gemacht.%
+\item<13-> Erinnern Sie sich, dass wir die Ergebnisse unserer eigenen \pythonil{sqrt}-Function mit denen der \pythonilIdx{sqrt}-Funktion aus dem Modul \pythonil{math} verglichen haben?%
+\item<14-> Wir haben die Werte nebeneinander ausgegeben.%
+\item<15-> Wir hätten sie auch programmatisch vergleichen können.%
+\item<16-> Wir hätten \inQuotes{Erfolg} melden können, wenn \pythonilIdx{isclose} für sie wahr ist und \inQuotes{Test Fehler!} andernfalls\dots%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Unit Tests nochmal}%
+\begin{itemize}%
+\only<-7>{%
+\item Das Ziel von \glslink{unitTest}{Unit Tests} ist es, sicherzustellen, das die Software wie erwartet funktioniert.%
+}%
+\item<2-> Weil Tests gleichzeitig oder sogar vor den Funktionen entwickelt werden, die sie testen, können wir früh potentielle Fehler im Entwicklungsprozess finden.%
+\item<3-> Der konsequente Einsatz von Unit Tests führt zu modularem, sauberen Programmieren und erzwingt geradezu, komplexe Programme in einzelne, testbare Komponenten zu zerlegen.%
+%
+\item<4-> Unit Tests sind besonders nützlich, wenn eine Applikation über eine lange Zeit entwickelt, gewartet, und weiterentwickelt wird.%
+%
+\item<5-> Es ist wichtig, alle Unit Tests aufzuheben und nochmal durchlaufen zu lassen, wann immer wir unser Programm verändern.%
+%
+\item<6-> So können wir feststellen, ob eine Änderung an einem älteren Stück Kode einen Test fehlschlagen lässt.%
+%
+\item<7-> Samit können wir wiederum feststellen, ob eine Änderung an einem Modul unerwartete Konsequenzen in anderem Kode hat und vielleicht das Verhalten unseres Programm auf unerwünschte Art ändert.%
+%
+\item<8-> Besonders mit steigender Automatisierung durch \glsFull{continuousIntegration} sind Unit Tests in der Softwareentwicklung immer wichtiger geworden\cite{W2000WISTAWIISH,TLG2006UTCU,R2006ASOUTP} und ein integraler Bestandteil der Softwareentwicklung mit \python geworden\cite{P2021PUTAAOAEUTIP,O2022PTWP,DG2020TIP}.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Unit Testing with pytest}%
+%
+\begin{frame}[t]%
+\begin{itemize}%
+\only<-3>{%
+\item Nun wollen wir unseren Kode testen.%
+}%
+%
+\only<-4,9->{%
+\item<2-> Wir werden dafür \pytest\ verwenden, ein \python\ Framework für Unit Tests\cite{KPDT2024PD}.%
+}%
+%
+\only<-5>{%
+\item<3-> Wir installieren es, in dem wir ein \glslink{terminal}{Terminal} öffnen, in dem wir unter \ubuntu\ \linux\ \ubuntuTerminal\ drücken, oder unter \microsoftWindows\ via \windowsTerminal.%
+}%
+%
+\only<-6,9->{%
+\item<4-> Dann geben wir \bashil{pip install pytest pytest-timeout} ein und drücken~\keys{\enter}.%
+}%
+%
+\only<-7>{%
+\item<5-> Normalerwise würden wir das in einmem \glslink{virtualEnvironment}{virtuellen Environment} machen, aber dazu kommen wir irgendwann später.%
+}%
+%
+\item<6-> Wichtig ist, dass wir diesmal \emph{zwei} \python\ Pakete installieren\only<-6>{.}\uncover<7->{%
+\begin{enumerate}%
+\item Das Paket \textil{pytest} bietet uns die grundlegende Test-Funktionalität.%
+\item<8-> Das Paket \textil{pytest-timeout} erlaubt es uns, die Laufzeit von Tests zu begrenzen, was später wichtig werden wird.%
+\end{enumerate}}%
+%
+\end{itemize}%
+%
+\locateGraphic{3-8}{width=0.55\paperwidth}{graphics/pipInstallPytest}{0.225}{0.365}%
+%
+\uncover<9->{%
+\usefulTool{pytest}{%
+\pytest\ ist ein \python\ Framework zum Schreiben und Ausführen von \glslink{unitTest}{Unit Tests}\cite{KPDT2024PD}.\uncover<10->{ %
+Es kann via \bashil{pip install pytest pytest-timeout} installiert werden.\uncover<11->{ %
+Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s)} ausführen, wobei \textil{toInS} mit einem vernünftigen Timeout in Sekunden und \textil{file(s)} mit den Dateien mit den Testcases ersetzt werden.%
+}}%
+}}%
+%
+\end{frame}%
+%
+\section{Beispiel}%
+%
+\begin{frame}[t]%
+\frametitle{Testen wir unser Eigenes Modul}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item In der vorigen Einheit haben wir unser eigenes Modul \programUrl{functions:my_math} erstellt.%
+}%
+\only<-6>{%
+\item<2-> Das wollen wir jetzt testen.%
+}%
+\only<-7>{%
+\item<3-> Wir erstellen also eine neue Datei mit den Tests und nennen diese \DEzB\ \programUrl{functions:test_my_math}.%
+}%
+\only<-8>{%
+\item<4-> Der Test-Kode ist wieder in Form von Funktionen definiert.%
+}%
+\only<-9>{%
+\item<5-> Der Name jeder Test-Funktion muss mit \textil{test_} anfangen.%
+}%
+\only<-10>{%
+\item<6-> In unserem Modul \textil{my_math} hatten wir zwei Funktionen, \pythonil{factorial} und \pythonil{sqrt}.%
+}%
+\only<-11>{%
+\item<7-> Oben in unserem Test-Modul \textil{test_my_math} importieren wir diese.%
+}%
+\only<-12>{%
+\item<8-> Wir erstellen zwei Test-Funktionen und nennen diese \pythonil{test_factorial} und \pythonil{test_sqrt}.%
+}%
+\only<-13>{%
+\item<9-> Diese Funktionen haben weder Parameter noch Rückgabewerte.%
+}%
+\only<-14>{%
+\item<10-> Tests werden oft als sogenannte \emph{assertions} definitiert.%
+}%
+\only<-16>{%
+\item<12-> Eine Assertion beginnt dem Schlüsselwort \pythonilIdx{assert}, welchem ein beliebiger Boolescher Ausdruck folgt.%
+}%
+\only<-17>{%
+\item<13-> Wenn der Ausdruck \pythonil{True} ergibt, passiert gar nichts.%
+}%
+\only<-18>{%
+\item<14-> Ist er jedoch \pythonil{False}, dann wird ein \pythonilIdx{AssertionError} ausgelöst.%
+}%
+\only<-19>{%
+\item<15-> (Wir lernen später über mehr über solche sogenannten \pythonils{Exception}{\dots})%
+}%
+\only<-20>{%
+\item<16-> So oder so, dieser Fehler lässt den Test sofort fehlschlagen und beendet ihn auch.%
+}%
+\only<-21>{%
+\item<17-> Wenn eine Test-Funktion durchläuft, ohne irgendeine \pythonilIdx{Exception} auszulösen, dann war der Test erfolgreich.%
+}%
+\only<-22>{%
+\item<18-> Wenn er irgendwo eine \pythonilIdx{Exception} auslöst, dann ist der Test fehlgeschlagen.%
+}%
+\only<-23>{%
+\item<19-> Wir fangen mit der Funktion \pythonil{test_factorial} zum Testen von \pythonil{factorial} an.%
+}%
+\only<-24>{%
+\item<20-> Wir wissen, dass $\factorial{0}=1$ gilt und daher muss \pythonil{factorial(0) == 1} gelten.%
+}%
+\only<-25>{%
+\item<21-> Wir schreiben also erstmal \pythonil{assert factorial(0) == 1} hin.%
+}%
+\only<-26>{%
+\item<22-> Der Boolesche Ausdruck hier ist \pythonil{factorial(0) == 1} und der ist nur wahr, wenn \pythonil{factorial(0)} wirklich \pythonil{1} ergibt.%
+}%
+\only<-27>{%
+\item<23-> Wir berechnen noch ein paar andere Fakultäten von Hand.%
+}%
+\only<-28>{%
+\item<24-> Damit können wir dann ähnliche Test Cases fpr ~\factorial{1}, \factorial{2}, und~\factorial{3} definieren.%
+}%
+\only<-29>{%
+\item<25-> Natürlich können wir keine vollständige Liste aller möglicher Eingabewerte abarbeiten.%
+}%
+\only<-30>{%
+\item<26-> Das sind aber die vier kleinsten Werte, für die die Fakultät definiert ist.%
+}%
+\only<-31>{%
+\item<27-> Also testen wir sie.%
+}%
+\only<-31>{%
+\item<27-> Dann testen wir auch noch einen Wert irgendwo in der Mitte, sagen wir \factorial{12}.%
+}%
+\only<-32>{%
+\item<29-> Und wir müssen einen großen Wert testen, sagen wir~\factorial{30}.%
+}%
+\only<-32>{%
+\item<30-> Es ist \emph{sehr} \alert{\emph{sehr}} wichtig, dass wir \alert{nicht} unsere eigene \pythonil{factorial} Funktion benutzen, um die erwarteten Ausgabewerte zu berechnen {\dots} sonst wären die Tests ja sinnlos.%
+}%
+\only<-33>{%
+\item<31-> Hier haben wir ein anderes Werzeug benutzt, nämlich einen \href{https://www.numberempire.com}{Online-Rechner} mit beliebiger Genauigkeit.%
+}%
+\only<-34>{%
+\item<32-> Das Ergebnis von \factorial{30} ist mehr als~$265*10^{30}$, was über den Wertebereich eines 64~bit Integers hinausgeht~(und uns darum wieder beweist, dass Ganzzahlen in \python~3 eine unbegrenze Größe haben können).%
+}%
+\only<-37>{%
+\item<33-> Mit diesem Test Cast können wir also prüfen, ob unsere \pythonil{factorial}-Funktion auch für große Zahlen funktioniert.%
+}%
+\only<-38>{%
+\item<34-> Wenn unsere \pythonil{factorial}-Function alle diese Tests besteht, dann können wir relativ sicher sein, dass sie korrekt implementiert wurde.%
+}%
+\only<-39>{%
+\item<35-> Sie könnte natürlich immer noch falsch sein.%
+}%
+\only<-40>{%
+\item<36-> Vielleicht liefert sie ja ein falsches Ergebnis für \factorial{4}.%
+}%
+\only<-41>{%
+\item<37-> Es erscheint zumindest unwahrscheinlich, dass~\factorial{3} und~\factorial{12} \inQuotes{funktionieren,} aber nicht~\factorial{4}.%
+}%
+\only<-41>{%
+\item<38-> Für die \pythonil{sqrt}-Function erstellen wir eine ähnliche Testfunktion und nennen sie \pythonil{test_sqrt}.%
+}%
+\only<-42>{%
+\item<39-> Vernünftige Test Cases sind \pythonil{sqrt(0.0) == 0.0}, \pythonil{sqrt(1.0) == 1.0}, und \pythonil{sqrt(4.0) == 2.0}.%
+}%
+\only<-43>{%
+\item<40-> Wir würden auch erwarten dass \pythonil{sqrt(x) * sqrt(x) == x} für verscheidene \pythonil{x}.%
+}%
+\only<-43>{%
+\item<41-> Wir müssen aber die begrenzte Präzision von Fließkommazahlen beachten.%
+}%
+\only<-44>{%
+\item<42-> Selbst wenn wir so nahe wie nur möglich an~$\sqrt{\pythonil{x}}$ für eine~\pythonil{x} herankommen, so haben wir trotzdem nur eine Auflösung von 15 bis 16 Ziffern.%
+}%
+\only<-45>{%
+\item<43-> Wir müssen also etwas Lust lassen, wenn wir berechnen \pythonil{s3 = sqrt(3.0)} und hoffen, dass \pythonil{s3 * s3 == 3.0}.%
+}%
+\only<-46>{%
+\item<44-> Wir machen dass, in dem wir schreiben \pythonil{abs(s3 * s3 - 3.0) <= 5e-16}, also annehmen, dass der Unterschied zwischen \pythonil{3.0} und \pythonil{s3 * s3} nicht größer ist als~$5*10^{-16}$.%
+}%
+\only<-48>{%
+\item<45-> Auf der anderen Seite sollte die Quadratwurzel von \pythonil{1e10 * 1e10} genau darstellbar sein, nämlich als~\pythonil{1e10}.%
+}%
+\only<-50>{%
+\item<46-> Der Datentyp \pythonilIdx{float} bietet uns auch die besonderen Werte \pythonil{inf} und \pythonil{nan} an, wie wir aus dem Modul \pythonilIdx{math} importieren.%
+}%
+\only<-51>{%
+\item<47-> \pythonilIdx{inf} steht für \inQuotes{zu große für den Datentyp \pythonil{float}} und wird oft als $+\infty$ interpretiert.%
+}%
+\only<-52>{%
+\item<48-> \pythonilIdx{nan} steht im Grunde für \inQuotes{undefiniert} und ist das Ergebnis von Operationen wie \DEzB\ \pythonil{inf - inf}.%
+}%
+\only<-53>{%
+\item<49-> Unsere \pythonil{sqrt}-Function sollte beide Werte verstehen und vernünftige Ergebnisse zurückliefern.%
+}%
+\only<-54>{%
+\item<50-> \pythonil{sqrt(inf)} sollte wieder \pythonilIdx{inf} zurückliefern.%
+}%
+\only<-55>{%
+\item<51-> \pythonil{sqrt(nan)} sollte wieder \pythonil{nan} liefern.%
+}%
+\only<-56>{%
+\item<52-> Wie können letzteres natürlich nicht mit\pythonil{sqrt(nan) == nan}, weil \pythonilIdx{==} immer \pythonil{False} liefert, sobald ein \pythonilIdx{nan} involviert ist.%
+}%
+\only<-57>{%
+\item<53-> Wir müssen also die Funktion \pythonilIdx{isnan} aus dem \pythonilIdx{math}-Module verwenden, um auf \pythonil{nan} zu testen.%
+}%
+\only<-58>{%
+\item<54-> Damit haben wir die vernünftigsten Eingaben sowohl für \pythonil{factorial} und \pythonil{sqrt} in unseren Tests berücksichtigt.%
+}%
+\only<-59>{%
+\item<55-> Wir haben angegeben, was für Ausgaben wir für diese Werte erwarten.%
+}%
+\only<-60>{%
+\item<56-> Diese Erwartungen sind nun als Test Cases implementiert.%
+}%
+\only<-61>{%
+\item<57-> Gleichgültig wie \pythonil{factorial} oder \pythonil{sqrt} realisiert wurden, sie sollten diese Test Cases bestehen.%
+}%
+\only<-62>{%
+\item<58-> Oder sie sind falsch.%
+}%
+\only<-62>{%
+\item<59-> Wir führen nun unsere Tests aus, mit dem Kommando \bashil{pytest --timeout=10} \bashil{--no-header --tb=short} \bashil{test_my_math.py}.%
+}%
+\only<-64>{%
+\item<60-> Der erste Teil, \bashil{pytest}, ruft \pytest\ auf.%
+}%
+\only<-65>{%
+\item<61-> Das \bashil{--timeout=10} definiert ein Timeout von zehn Sekunden.%
+}%
+\only<-66>{%
+\item<62-> Wenn ein Test länger als zehn Sekunden braucht, dann wird er abgebrochen und gilt als fehlgeschlagen.%
+}%
+\only<-67>{%
+\item<63-> \bashil{--no-header} und \bashil{--tb=short} sind nur da, um \pytest\ zu sagen, dass es kürzeren und kompakten Output produzieren soll.%
+}%
+\only<-68>{%
+\item<64-> Sonst passt der Output nicht auf eine Slide\dots%
+}%
+\only<-69>{%
+\item<65-> Sie brauchen diese Parameter normalerweise nicht.%
+}%
+%
+\item<66-> Zu guter Letzt geben wir mit \bashil{test_my_math.py} die Datei mit den Tests an, die ausgeführt werden soll.%
+%
+\item<67-> Vom Output unserer Testcases sehen wir, dass \pythonil{test_factorial} ohne Probleme durchgelaufen ist.%
+%
+\item<68-> \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Function passiert ist.%
+%
+\item<69-> Das passierte, als wir versucht haben, \pythonil{sqrt(0.0)} zu berechnen.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{functions:my_math}{}{functions/my_math.py}{}%
+\gitLoadPython{functions:test_my_math}{}{functions/test_my_math.py}{}%
+\gitLoadPython{syntax/assert}{}{syntax/assert.py}{}%
+%
+\gitExec{exec:functions:test_my_math:pytest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest.sh functions test_my_math.py}%
+%
+\listingPython{1-2,6}{functions:my_math}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{3-5,7-66}{functions:test_my_math}{0.45}{0.087}{0.54}{0.92}%
+\listingPythonSyntax{11-66}{syntax/assert}{0.45}{0.825}{0.54}{0.92}%
+\listingOutput{67-}{functions:test_my_math:pytest}{style=tool_style}{0.45}{0.087}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Lösen wir die Division durch 0}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Function passiert ist.%
+}%
+%
+\only<-6>{%
+\item<2-> Das passierte, als wir versucht haben, \pythonil{sqrt(0.0)} zu berechnen.%
+}%
+%
+\only<-7>{%
+\item<3-> Was ist da schiefgelaufen?%
+}%
+%
+\only<-8>{%
+\item<4-> Gucken wir uns unseren Kode an und öffnen wir unser Modul \pythonil{my_math}.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir sehen, dass unsere erste Annäherund für die Quadratwurzel gleich~\pythonil{1} ist.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir setzen ihn als \pythonil{guess: float = 1.0}.%
+}%
+%
+\only<-11>{%
+\item<7-> In jedem Schritt rechnen wir dann \pythonil{guess =} \pythonil{0.5 * (guess + number / guess)}.%
+}%
+%
+\only<-12>{%
+\item<8-> Wenn \pythonil{number} nun \pythonil{0.0} ist, dann bedeutet dass effektiv \pythonil{guess = 0.5 * guess}.%
+}%
+%
+\only<-13>{%
+\item<9-> \pythonil{number} bleibt ja unverändert bei \pythonil{0.0}, also wiederholen wir das immer wieder.%
+}%
+%
+\only<-14>{%
+\item<10-> \pythonil{guess} wird also immer wieder halbiert.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir wissen, dass \pythonilsIdx{float} eine begrenzte Auflösung haben.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir wissen auch, dass wenn wir immer kleinere \pythonil{float}-Werte angeben oder berechnen, wir irgendwann bei \pythonil{0.0} herauskommen.%
+}%
+%
+\only<-17>{%
+\item<13-> Dass passiert hier auch.%
+}%
+%
+\only<-18>{%
+\item<14-> \pythonil{guess} wird irgendwann~\pythonil{0.0}.%
+}%
+%
+\only<-19>{%
+\item<15-> In dem Rechenschritt danach machen wir dann~\pythonil{0.0 / 0.0}.%
+}%
+%
+\only<-20>{%
+\item<16-> Ka-Boom! \pythonilIdx{ZeroDivisionError}!%
+}%
+%
+\only<-21>{%
+\item<17-> Um dieses Problem zu lösen, führen wir eine Prüfung auf \pythonil{if number <= 0.0} ein.%
+}%
+%
+\only<-22>{%
+\item<18-> Wenn diese zutrifft, liefern wir einfach \pythonil{0.0} zurück.%
+}%
+%
+\only<-23>{%
+\item<19-> (Wir ignorieren hier erstmal negative Zahlen {\dots} darum kümmern wir uns, wenn wir lernen, wie man \pythonil{Exceptions} selber auslöst.)%
+}%
+%
+\only<-24>{%
+\item<20-> Wir haben also nun eine neue Version \programUrl{functions:my_math_2} unseres Moduls.%
+}%
+%
+\only<-25>{%
+\item<21-> Diese müssen wir wieder mit den selben Test Cases testen.%
+}%
+%
+\only<-26>{%
+\item<22-> Auf der positiven Seite: Der Fehler von vorhin ist weg.%
+}%
+%
+\only<-27>{%
+\item<23-> Jetzt schlägt der Test mit einem Timeout fehl.%
+}%
+%
+\only<-27>{%
+\item<24-> Wir rufen \pytest\ nämlich mit der Option \bashil{--timeout=10}~(für die wir das Package \textil{pytest-timeout} brauchen).%
+}%
+%
+\item<25-> Das begrenzt die maximale Laufzeit unserer Tests auf zehn Sekunden.%
+%
+\item<26-> Das ist ein vernünftiges Limit für unsere Beispiele hier.%
+%
+\item<27-> In praktischen Situationen wollen Sie vielleicht eine größere Zahl nehmen.%
+\only<31->{%
+\item<31-> Die Frage ist nun: Warum bekommen wir hier ein Timeout?%
+}%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{functions:my_math_2}{}{functions/my_math_2.py}{}%
+\gitLoadPython{functions:test_my_math_2}{}{functions/test_my_math_2.py}{}%
+\gitExec{exec:functions:test_my_math_2:pytest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest.sh functions test_my_math_2.py}%
+%
+\listingOutput{-3}{functions:test_my_math:pytest}{style=tool_style}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{4-16}{functions:my_math}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{17-20}{functions:my_math_2}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{21}{functions:test_my_math_2}{0.45}{0.087}{0.54}{0.92}%
+\listingOutput{22-27,31-}{functions:test_my_math_2:pytest}{style=tool_style}{0.45}{0.087}{0.54}{0.92}%
+%
+\uncover<28-30>{%
+\bestPractice{testTimeout}{%
+Setzen Sie \alert{immer} ein Timeout für Ihre \glslink{unitTest}{Unit Tests}.\uncover<29->{ %
+Dieses Timeout kann groß sein, veilleicht eine Stunde, aber es dient als Sicherheitsgarantie gegen endlose Schleifen, Deadlocks, und andere Situationen, die praktisch äquivalent zu einem Test-Fehlschlag sind.\uncover<30->{ %
+Timouts schützen automatische Builds und \glslink{continuousIntegration}{Continuous Integration}-Systeme vor dem \inQuotes{Verstopfen}.}}}%
+}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Lösen wir das Timeout}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem Timeout.%
+}%
+\only<-6>{%
+\item<2-> Wir sehen vom Output von \pytest, dass das Timeout passiert, wenn wir Argument \pythonil{inf} als Wert fpr Parameter \pythonil{number} unserer \pythonil{sqrt}-Funktion übergeben.%
+}%
+\only<-7>{%
+\item<3-> Was könnte hier passiert sein?%
+}%
+\only<-8>{%
+\item<4-> OK, wir setzen am Anfang wieder \pythonil{guess = 1.0}.%
+}%
+\only<-9>{%
+\item<5-> In der ersten Iteration berechnen wir dann \pythonil{guess =} \pythonil{0.5 * (guess + number / guess)}.%
+}%
+\only<-10>{%
+\item<6-> Das ist das selbe wie \pythonil{0.5 * (1 + inf / 1)}.%
+}%
+\only<-11>{%
+\item<7-> Und das liefert dann wiederum \pythonil{guess = 0.5 * inf}.%
+}%
+\only<-12>{%
+\item<8-> Das macht \pythonil{guess} dann auch zu \pythonil{inf}.%
+}%
+\only<-13>{%
+\item<9-> In der zweiten Iteration haben wir wieder \pythonil{guess =} \pythonil{0.5 * (guess + number / guess)}.%
+}%
+\only<-14>{%
+\item<10-> Wir berechnen nun allerdings \pythonil{0.5 * (inf + inf / inf)}.%
+}%
+\only<-15>{%
+\item<11-> Und \pythonil{inf / inf} ergibt \pythonil{nan}\cite{G1991WECSSKAFPA}.%
+}%
+\only<-16>{%
+\item<12-> Das \pythonil{nan} \inQuotes{infiziert} den Rest der Berechnung, so dass am Ende \pythonil{guess = nan}.%
+}%
+\only<-17>{%
+\item<13-> Von jetzt an ergeben alle Berechnungen \pythonil{nan}.%
+}%
+\only<-18>{%
+\item<14-> Nun gilt aber \pythonil{nan != nan} und \pythonil{isclose(nan, nan)} wir niemals \pythonil{True}.%
+}%
+\only<-19>{%
+\item<15-> Unsere Schleife endet also niemals.%
+}%
+\only<-20>{%
+\item<16-> Das Zeitlimit hat uns hier gerettet!%
+}%
+\only<-21>{%
+\item<17-> Unsere \pythonil{sqrt}-Function geht in eine Endlosschleife für \pythonil{number = inf}.%
+}%
+\only<-22>{%
+\item<18-> Und unser Unit Test wäre für immer weitergelaufen.%
+}%
+\only<-23>{%
+\item<19-> Lösen wir das Problem in einer dritten Version unseres Moduls, die wir in Datei \programUrl{functions:my_math_3} speichern.%
+}%
+\only<-24>{%
+\item<20-> Wir fügen einfach eine neue Alternative ein.%
+}%
+\only<-25>{%
+\item<21-> Wir prüfen \pythonil{if not isfinite(number)} und wenn das zutrifft, liefern wir einfach \pythonil{number} direkt als Ergebnis zurück.%
+}%
+\only<-26>{%
+\item<22-> \pythonilIdx{isfinite} ist eine weitere Funktion aus dem \pythonilIdx{math}-Modul.%
+}%
+\only<-27>{%
+\item<23-> Sie nimmt einen Parameter an und liefert \pythonil{True}, wenn der eine finite, also wohldefinierte und endliche Zahl ist.%
+}%
+\only<-28>{%
+\item<24-> \pythonilIdx{isfinite} liefert \pythonil{False}, wenn sein Argument \pythonilIdx{inf}, \pythonilIdx{-inf}, oder~\pythonilIdx{nan} ist.%
+}%
+\only<-29>{%
+\item<25-> Diese Bedingung kann in unserer Funktion nur für \pythonilIdx{inf} oder \pythonilIdx{nan}  \pythonil{True} werden, weil wir ja schon \pythonil{0.0} liefern wenn \pythonil{number <= 0.0}.%
+}%
+\only<-30>{%
+\item<26-> Wir würden also \pythonil{inf} zurückgeben wenn unsere Funktion mit \pythonil{inf} aufgerufen wird.%
+}%
+\only<-31>{%
+\item<27-> Und das ist richtig.%
+}%
+%
+\item<28-> Wir würden \pythonilIdx{nan} zurückliefern, wenn unsere Funktion mit \pythonilIdx{nan} aufgerufen wird.%
+%
+\item<29-> Und das ist auch richtig.
+%
+\item<30-> Testen wir also unser neues Modul nochmal mit den selben Test Cases.
+%
+\item<31-> Und diesmal funktioniert es.%
+%
+\item<32-> Nice.%
+%
+\end{itemize}%
+}}%
+%
+%
+\gitLoadPython{functions:my_math_3}{}{functions/my_math_3.py}{}%
+\gitLoadPython{functions:test_my_math_3}{}{functions/test_my_math_3.py}{}%
+\gitExec{exec:functions:test_my_math_3:pytest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest.sh functions test_my_math_3.py}%
+%
+\listingOutput{-3}{functions:test_my_math_2:pytest}{style=tool_style}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{4-18}{functions:my_math_2}{0.45}{0.087}{0.54}{0.92}%
+
+\listingPython{19-29}{functions:my_math_3}{0.45}{0.087}{0.54}{0.92}%
+\listingPython{30}{functions:test_my_math_3}{0.45}{0.087}{0.54}{0.92}%
+\listingOutput{31-}{functions:test_my_math_3:pytest}{style=tool_style}{0.45}{0.087}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Gezogene Lehren}%
+\bestPractice{functionUnitTest}{%
+Eine Funktion, die nicht mit \glslink{unitTest}{Unit Tests} getestet wurde, ist \alert{falsch}.%
+}%
+\uncover<2->{%
+\bestPractice{goodUnitTestsParam}{%
+Gute \glslink{unitTest}{Unit Tests} für eine Funktion sollten sowohl normale als auch extreme Eingabewerte abdecken.\uncover<3->{ %
+Wir sollten für alle Parameter sowohl die kleinsten als auch die größten möglichen Werte testen, sowie viele Werte aus dem normalerweise erwarteten Bereich.}%
+}%
+\uncover<4->{%
+\bestPractice{unitTestCoverage}{%
+Gute \glslink{unitTest}{Unit Tests} für eine Funktion sollten alle Zweige des Kontrollflusses in der Funktion abdecken.\uncover<5->{ %
+Wenn die Funktion eine Sache in einer Situation und eine andere Sache in einer anderen Situation tut, dann sollten beide Situationen mit Unit Tests abgedeckt sein.}%
+}%
+}}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Wichtigkeit}%
+\only<-3>{%
+\begin{itemize}%
+\item Viele junge Programmer sind sich nicht der Wichtigkeit von \glslink{unitTest}{Unit Tests} bewusst.%
+%
+\item<2-> In der Lage zu seien, Unit Tests zu entwerfen und zu benutzen ist eine wichtige Fähigkeit in der Software Entwicklung.%
+\end{itemize}}%
+%
+\uncover<3->{
+\cquotation{GPBHKP2022SPPAF}{%
+No single factor is likely responsible for \sqlite's popularity.
+Instead, in addition to its fundamentally embeddable design, several characteristics combine to make \sqlite\ useful in a broad range of scenarios.
+In particular, \sqlite\ strives to be:\par\relax[\dots]\par\relax%
+\textbf{Reliable}.
+There are over 600~lines of test code for every line of code in \sqlite\cite{HWACIS:HO2023WKUOS}.
+Tests cover 100\% of branches in the library.
+The test suite is extremely diverse, including fuzz tests, boundary value tests, regression tests, and tests that simulate operating system crashes, power losses, I/O~errors, and out-of-memory errors.
+Due to its reliability, \sqlite\ is often used in mission-critical applications such as flight software\cite{HWACIS:HO2024HSIT}%
+}%
+\uncover<4->{%
+\begin{itemize}%
+\only<-5>{%
+\item \sqlite\ ist die weitverbreitetste \glslink{SQL}{SQL} \glslink{db}{Datenbank} der Welt.%
+}%
+\item<5-> Sie ist auf fast jedem Smartphone, Computer, Web Browser, Fernseher, und Auto installiert\cite{WB2019RHSOOS,GPBHKP2022SPPAF,C20245YOQ}.%
+\item<6-> Seine Entwickler stellen die Verlässlichkeit, gezeigt durch Tests, als eine der vier Gründen davon vor.%
+\end{itemize}%
+}}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Tests sind unglaublich wichtig.%
+%
+\item<2-> Wir haben das hier selbst gesehen.%
+%
+\item<3-> Ich denke, für die meisten von uns sah unsere Implementierung der \pythonil{sqrt}-Funktion eigentlich ganz gut aus.%
+%
+\item<4-> Ja, OK, es war klar, das negative Zahlen ein Problem wären {\dots} aber das heben wir uns auf für wenn wir über \pythonils{Exception} lernen.%
+%
+\item<5-> Ich glaube aber nicht, dass viele von uns die Sache mit \pythonil{0.0} gesehen haben.%
+%
+\item<6-> Und ich bezweifle, dass viele das Problem mit \pythonil{inf} haben kommen sehen.%
+%
+\item<7-> Ich glaube sogar, dass einigen von uns \pythonil{inf} und \pythonil{nan} gar nicht auf dem Radar hatten, bis wir mit dem Nachdenken über mögliche Eingabewerte für unsere Tests angefangen haben.%
+%
+\item<8-> So oder so: Wir können extrem viel von Tests profitieren.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
