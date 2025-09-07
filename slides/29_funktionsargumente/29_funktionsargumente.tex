@@ -1,0 +1,544 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\hyphenation{Wahr-scheinlichkeits-dichte-funktion}%
+%
+\subtitle{29.~Funktionsargumente}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Kommen wir zu einem leichteren Thema\only<-1>{.}\uncover<2->{: Dem Übergeben von Argumenten an Funktionen.}%
+%
+\item<2-> Wir haben schon viele Beispiele dafür gesehen.%
+%
+\item<3-> Unsere \pythonil{gcd}-Funktion \DEzB\ hatte zum Beispiel zwei Parameter \pythonil{a} und \pythonil{b}.%
+%
+\item<4-> Wir können die Funktion aufrufen, in dem wir ihre Werte in Klammern hinter den Funktionsname schreiben.%
+%
+\item<5-> \pythonil{gcd(12, 4)} ruft \pythonil{gcd} auf und weist \pythonil{a} den Wert \pythonil{12} und \pythonil{b} den Wert \pythonil{4} zu.%
+%
+\item<6-> Was können wir sonst noch mit Parametern machen?%
+\end{itemize}%
+\end{frame}%
+%
+\section{Default Values}%
+%
+\begin{frame}%
+\frametitle{Default Values}%
+%
+\begin{itemize}%
+\item Wir können Parameter sogenannte \emph{Default Values}, also \inQuotes{Standardwerte} haben lassen.%
+%
+\item<2-> Wenn ein Parameter einen Default Value hat, dann können wir den Parameter beim Aufrufen der Funktion weglassen.%
+%
+\item<3-> Wir können also einen Wert für den Parameter beim Aufrufen der Funktion angeben oder auch nicht.%
+%
+\item<4-> Im letzteren Fall bekommt der Parameter dann den Default Value.%
+%
+\item<5-> In der Funktion sieht es dann so aus, als ob wir den Default Value als Argument angegeben hätten.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: PDF der Normalverteilung~(1)}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-3>{%
+\item Als einfaches Beispiel implementieren wir die Wahrscheinlichkeitsdichte\linebreak[1]funktion~$f$, in Englisch \glsFull{mathPDF}, der Normalverteilung\cite{AS1972HOMFWFGAMT,EHP2000SD,W2007HBOSDFE}.%
+}%
+%
+\only<-25>{%
+\item<2-> Diese Funktion~$f$ ist definiert als\uncover<2->{:%%
+\begin{equation}%
+f(x, \mu, \sigma) = \frac{1}{\sqrt{2\numberPi\sigma^2}} \numberE^{\frac{-(x-\mu)^2}{2\sigma^2}}%
+\label{eq:normalDistributionPdf}%
+\end{equation}%
+}}%
+%
+\only<-5>{%
+\item<3-> $\mu$ ist der Erwartungswert der Verteilung, $\sigma$~ist die Standardabweichung~(wodurch $\sigma^2$~die Varianz ist).%
+}%
+%
+\only<-6>{%
+\item<4-> $x$~ist sozusagen der Eingabewert der Funtion.%
+}%
+%
+\only<-7>{%
+\item<5-> Es reprärsentiert einen Wert, den eine normalverteilte Zufallsvariable annehmen könnte.%
+}%
+%
+\only<-8>{%
+\item<6-> Diese Funktion zu implementieren ist ziemlich einfach.%
+}%
+%
+\only<-8>{%
+\item<7-> Die \python-Datei \programUrl{functions:normal_pdf} bietet eine Funktion \pythonil{pdf} mit drei Parametern, nämlich~\pythonil{x}, \pythonil{mu}, und~\pythonil{sigma}, die für~$x$, $\mu$, und~$\sigma$ stehen.%
+}%
+%
+\only<-9>{%
+\item<8-> Mit den beiden parametern~$\mu$ und~$\sigma$ von~$f$~(respektive~\pythonil{mu} und~\pythonil{sigma} von~\pythonil{pdf}) können wir die generelle Normalverteilung repräsentieren.%
+}%
+%
+\only<-11>{%
+\item<9-> Die \emph{Standard}normalverteilung hat~$\mu=0$ und~$\sigma=1$, ist also um den Mittelwert~$0$ zentriert und hat eine Standardabweichung und Varianz von~$1$.%
+}%
+%
+\only<-12>{%
+\item<10-> Sehr oft werden wir die Werte der \pgls{mathPDF} für die Standardnormalverteilung berechnen wollen.%
+}%
+%
+\only<-13>{%
+\item<11-> Daher definieren wir den \emph{Default Value} von \pythonil{mu} als~\pythonil{0.0} und den von \pythonil{sigma} als~\pythonil{1.0}.%
+}%
+%
+\only<-14>{%
+\item<12-> Das passiert nur im Kopf der Funktion.%
+}%
+%
+\only<-15>{%
+\item<13-> Wir schreiben also \pythonil{x: float, mu: float = 0.0,} \pythonil{sigma: float = 1.0} anstatt von \pythonil{x: float, mu: float,} \pythonil{sigma: float}.%
+}%
+%
+\only<-16>{%
+\item<14-> Nichts ändert sich aber im Bezug darauf wie die Parameter in der Funktion verwendet werden.%
+}%
+%
+\only<-17>{%
+\item<15-> Wir benutzen sie ganz normal, wie alle anderen Parameter auch.%
+}%
+%
+\only<-18>{%
+\item<16-> Der Körper der Funktion weiß nicht, wo ihre Werte herkommen.%
+}%
+%
+\only<-19>{%
+\item<17-> Um nun die \pgls{mathPDF} der Normalverteilung zu implementieren, müssen wir erst die Funktionen \pythonilIdx{exp} und \pythonilIdx{sqrt} aus dem Modul \pythonilIdx{math} importieren, genau wie die Konstante~\pythonilIdx{pi}.%
+}%
+%
+\only<-20>{%
+\item<18-> \pythonil{exp(x)} berechnet~$\numberE^{\pythonil{x}}$.%
+}%
+%
+\only<-21>{%
+\item<19-> Der Term $2\sigma^2$ taucht zweimal in der Gleichung auf, einmal unter der Quadratwurzel im ersten Bruch und einem im Bruch im Exponenten.%
+}%
+%
+\only<-22>{%
+\item<20-> Deshalb berechnen wir es einmal und speichern es in Variable~\pythonil{s2}.%
+}%
+%
+\only<-24>{%
+\item<21-> Das vereifacht die Gleichung zu $[\numberE^{-(x-\mu)^2 / \pythonil{s2}}]/[\sqrt{\numberPi*\pythonil{s2}}]$.%
+}%
+%
+\only<-26>{%
+\item<22-> Beachten Sie, wie der Potenzoperator~\pythonil{a ** 2}\pythonIdx{**} äquivalent zu~$\pythonil{a}^2$ ist.%
+}%
+%
+\only<-27>{%
+\item<23-> Im Programm \programUrl{functions:use_normal_pdf} importieren wir nun unsere neue Funktion \pythonil{pdf}.}%
+%
+\only<-28>{%
+\item<24-> When wir \pythonil{pdf} aufrufen, dann können wir die Werte für die Parameter mit Default Values weglassen.}%
+%
+\only<-29>{%
+\item<25-> In dem Fall bekommen diese dann ihre Default Values.%
+}%
+%
+\item<26-> Zum Beispiel wenn wir \pythonil{pdf(0.0)} schreiben, dann ist das äquivalent zu \pythonil{pdf(0.0, 0.0, 1.0)}.%
+%
+\item<27-> Wir können auch die Werte von manchen Parametern mit Default Values spezifizieren und andere weglassen.%%
+%
+\item<28-> Zum Beispiel ist \pythonil{pdf(2.0, 3.0)} das selbe wie \pythonil{pdf(2.0, 3.0, 1.0)}.%
+%
+\item<29-> Wir müssen natürlich immer den Wert des ersten Parameters~(\pythonil{x}) spezifizieren, denn der hat keinen Default Value.%
+\end{itemize}%
+}}%
+%
+\locateGraphic{2-5}{width=0.54\paperwidth}{graphics/normalDistPdf}{0.45}{0.2}%
+%
+\gitLoadPython{functions:normal_pdf}{}{functions/normal_pdf.py}{}%
+\gitLoadAndExecPython{functions:use_normal_pdf}{}{functions}{use_normal_pdf.py}{}%
+%
+\listingPython{6-22}{functions:normal_pdf}{0.45}{0.2}{0.54}{0.92}%
+\listingPythonAndOutput{23-}{functions:use_normal_pdf}{}{0.45}{0.1}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Unveränderliche Default Values}%
+\begin{itemize}%
+%
+\only<-7>{%
+\item Default Values müssen nicht unbedingt \glslink{literal}{Literale} sein.%
+}%
+%
+\only<-8>{%
+\item<2-> Sie können das Ergebnis von beliebigen Ausdrücken sein, \DEzB~\pythonil{sqrt(2.0)}.%
+}%
+%
+\only<-9>{%
+\item<3-> Allerdings werden sie genau nur einmal ausgewertet, nämlich wenn die Funktion definiert wird\cite{H2025PM:MDA}.%
+}%
+%
+\only<-10>{%
+\item<4-> Sie werden dann mit dem Header der Funktion gespeichert and benutzt wann nötig.%
+}%
+%
+\only<-11>{%
+\item<5-> Das führt zu einer interessanten Implikation: Was, wenn der Default Value für ein Argument \emph{veränderlich} ist, \DEzB\ eine \pythonil{list} oder \pythonil{set}?%
+}%
+%
+\only<-12>{%
+\item<6-> Nunja {\dots} das sollten sie \alert{niemals}%
+}%
+%
+\only<-13>{%
+\item<7-> Das kann nämlich zu schrecklichen Problemen führen\cite{H2025PM:MDA}.%
+}%
+%
+\only<8->{%
+%
+\only<-14>{%
+\item<8-> Der Default Value für einen Funktionsparameter muss unveränderlich sein.%
+}%
+%
+\only<-15>{%
+\item<9-> Wenn Sie \DEzB\ eine \pythonil{list} verwenden, dann könnte ein Funktionsaufruf diese Liste verändern.%
+}%
+%
+\item<10-> Der nächste Funktionsaufruf würde dann mit der veränderten Liste arbeiten.%
+%
+\item<11-> Es könnte noch schlimmer kommen: Was wenn die Funktion die Liste als Ergebnis zurückliefert?%
+%
+\item<12-> Dann könnte Kode außerhalb der Funktion den Default Value der Funktion verändern!%
+%
+\item<13-> Das Verhalten von solchem Kode könnte dann bliebig schwierig zu verstehen werden.%
+%
+\item<14-> Wenn wir einen Parameter mit einem veränderlichen Typ haben, dann würden wir eher \pythonil{None} als Default Value benutzen.%
+%
+\item<15-> Wir würden dann im Funktionskörper auf \pythonil{None} prüfen und entsprechendes Verhalten implementieren.%
+}%
+\end{itemize}%
+%
+\uncover<7>{%
+\bestPractice{defaultValues}{%
+\pythonIdx{function!parameter!default value}\pythonIdx{function!argument!default}%
+Default Values für Funktionsparameter müssen immer unveränderlich sein\cite{H2025PM:MDA}.}%
+}%
+%
+\end{frame}%
+%
+\section{Arguments über Parametername Einspeisen}%
+%
+\begin{frame}%
+\frametitle{Arguments über Parametername Einspeisen}%
+\begin{itemize}%
+\item Stellen Sie sich vor, wir haben eine Funktion \pythonil{def g(x: int, y: int)}.%
+%
+\item<2-> Normalerweise würden wir sie \DEzB\ so aufrufen \pythonil{g(1, 2)}, wobei dann im Funktionskörper  \pythonil{x == 1} und \pythonil{y == 2} gilt.%
+%
+\item<3-> Wir können aber die Argumente auch genauso definieren, wie wir Variablen zuweisen würden -- in der Form~\pythonil{parameterName=value}.%
+%
+\item<4-> Wir könnten schreiben \pythonil{g(x=1, y=2)} oder, falls wir etwas freches machen wollen, \pythonil{g(y=2, x=1)}.%
+%
+\item<5-> Beide Varianten sind äquivalent zu dem ursprünglichen Funktionsaufruf.%
+%
+\item<6-> Alles, was wir gemacht haben, war explizit die Namen der Parameter anzugeben, als wir ihnen Werte zugewiesen haben.%
+\end{itemize}%
+\end{frame}
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: PDF der Normalverteilung~(2)}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-4>{%
+\item Kehren wir zu unserer Funktion \pythonil{pdf} zurück, die in Datei \programUrl{functions:normal_pdf} definiert und rechts in Program \programUrl{functions:use_normal_pdf} genutzt wird.%
+}%
+%
+\only<-5>{%
+\item<2-> Die Funktion \pythonil{pdf} hat den \pythonil{x} ohne Default Value, gefolgt von Parameter \pythonil{mu} mit Default Value, welcher wiederum von Parameter \pythonil{sigma} gefolgt wird, der ebenfalls einen Default Value hat.%
+}%
+%
+\only<-7>{%
+\item<3-> Was würden wir machen, wenn wir einen Wert für Parametre \pythonil{sigma} angeben, aber \pythonil{mu} bei seinem Default Value belassen wollen?%
+}%
+%
+\only<-8>{%
+\item<4-> Wir können das, in dem wir die Werte über den Parametername spezifizieren.%
+}%
+%
+\only<-9>{%
+\item<5-> \pythonil{pdf(-2.0, sigma=3.0)} übergibt \pythonil{-2.0} für~\pythonil{x} und \pythonil{3.0} für~\pythonil{sigma}.%
+}%
+%
+\only<-10>{%
+\item<6-> Es spezifiziert keinen Wert für~\pythonil{mu}, wodurch dieser Parameter bei seinem Default Value bleibt.%
+}%
+%
+\item<7-> Der Funktionsaufruf ist daher äquivalent zu \pythonil{pdf(-2.0, 0.0, 3.0)}.%
+%
+\item<8-> Dadurch, dass wir Parameterwerte mit dem Schema \pythonil{parameterName=value} übergeben können, können wir die Parameter in beliebiger Reihenfolge übergeben.%
+%
+\item<9-> \pythonil{pdf(mu=8.0, x=0.0, sigma=1.5)} ist ein Beispiel dafür.%
+%
+\item<10-> Machen Sie solchen Unsinn bitte nicht.%
+\end{itemize}%
+}}%
+%
+\listingPythonAndOutput{}{functions:use_normal_pdf}{}{0.45}{0.1}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Argumente als Dictionaries und Sequenzen}%
+%
+\begin{frame}%
+\frametitle{Argumente als Dictionaries und Sequenzen}%
+\begin{itemize}%
+%
+\item Wie wir gelernt haben, haben Parameter ja Namen.%
+%
+\item<2-> Wir können sowas wie \pythonil{pdf(mu=8.0, x=0.0, sigma=1.5)} schreiben, um Argumente zuzuweisen.%
+%
+\item<3-> Wenn wir \pythonil{pdf(-2.0, sigma=3.0)} schreiben, ist das das Selbe, als ob wir \pythonil{pdf(x=-2.0, sigma=3.0)} schreiben.%
+%
+\item<4-> Argumente an eine Funktion zu übergeben heißt also im Grunde, dass wir Schlüsseln (den Parameternamen) Werte zuweisen.%
+%
+\item<5-> Das ist zumindest ein klein Wenig ähnlich zu der Art, wie wir Dictionary \glslink{literal}{Literale} erstellt haben.%
+%
+\item<6-> Tatsächlich erlaubt uns \python, die Argumente von Funktionsaufrufen als Kollektionen zu konstruieren.%
+%
+\item<7-> Klingt komisch, aber schauen wir uns das mal an.%
+%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: PDF der Normalverteilung~(3)}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Tatsächlich erlaubt uns \python, die Argumente von Funktionsaufrufen als Kollektionen zu konstruieren.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir können ein Dictionary wmit den \pythonil{\{"x": -2.0, "sigma": 3.0\}} erstellen.%
+}%
+%
+\only<-7>{%
+\item<3-> Speichern wir dieses Dictionary in der Variable~\pythonil{args_dict}.%
+}%
+%
+\only<-8>{%
+\item<4-> Können wir nun die Schlüssel-Wert-Paare aus \pythonil{args_dict} als Parameter-Argument-Paare on \pythonil{pdf} übergeben?%
+}%
+%
+\only<-9>{%
+\item<5-> Ja, das geht.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir müssen nur \pythonil{pdf(**args_dict)} schreiben.%
+}%
+%
+\only<-11>{%
+\item<7-> Wenn wir das machen, dann wird das Dictionary \pythonil{args_dict} \inQuotes{ausgepackt} und alle seine Werte unter ihren Namen als Argumente für die entsprechenden Parameter übergeben.%
+}%
+%
+\only<-12>{%
+\item<8-> \pythonil{pdf(**args_dict)} ist also das selbe wie \pythonil{pdf(x=-2.0, sigma=3.0)}.%
+}%
+%
+\only<-13>{%
+\item<9-> Hier gibt es zwei Dinge, die zu beachten sind\only<-9>{.}\uncover<10->{:}%
+}%
+%
+\only<-14>{%
+\item<10-> Erstens der Doppel-Stern \pythonil{**}.%
+}%
+%
+\only<-15>{%
+\item<11-> Sterne werden hier auch \inQuotes{Wildcard} oder \inQuotes{Asterisk} genannt.%
+}%
+%
+\only<-16>{%
+\item<12-> Der Doppel-Stern \pythonil{**} wird \alert{vor} das Dictionary geschrieben.%
+}%
+%
+\only<-17>{%
+\item<13-> Er sagt \python, dass das Dictionary ausgepackt und zum Füllen der Argumentliste verwendet werden soll.%
+}%
+%
+\only<-18>{%
+\item<14-> Zweitens gelten Default Values auch hier.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir haben keinen Wert für \pythonil{mu} angegeben.%
+}%
+%
+\only<-20>{%
+\item<16-> Daher wird \pythonil{mu} in dem Funktionsaufruf seinen Default Wert \pythonil{0.0} haben.%
+}%
+%
+\only<-21>{%
+\item<17-> Vielleicht wollen wir die Argumente aber nicht basierend auf den Parameternamen eingeben, sondern basierend auf ihrer Position.%
+}%
+%
+\only<-22>{%
+\item<18-> So haben wir es ja bisher immer gemacht.%
+}%
+%
+\only<-23>{%
+\item<19-> Dann können wir eine Sequenz, \DEzB\ eine \pythonilIdx{list} oder ein \pythonilIdx{tuple} mit den Parameterwerten konstruieren.%
+}%
+%
+\only<-24>{%
+\item<20-> Natürlich speichern \pythonilsIdx{list} und \pythonilsIdx{tuple} keine Schlüssel-Wert-Beziehungen, sondern nur Werte and Positionen.%
+}%
+%
+\only<-25>{%
+\item<21-> Wir könnten ein Tupel  \pythonil{args_tuple} mit den Werten \pythonil{(-2.0, 7.0, 3.0)} konstruieren.%
+}%
+%
+\only<-26>{%
+\item<21-> Dann rufen wir \pythonil{pdf(*args_tuple)} auf.
+}%
+%
+\only<-27>{%
+\item<23-> Das füllt die Werte aus dem Tupel einen nach dem anderen in die Parameter der Funktion ein.%
+}%
+%
+\only<-28>{%
+\item<24-> Es ist im Grunde äquivalent zu \pythonil{pdf(-2.0, 7.0, 3.0)}.%
+}%
+%
+\only<-29>{%
+\item<25-> Dieses Mal schreiben wir nur einen einzigen \inQuotes{Wildcard}~\pythonil{*}\pythonIdx{*!function parameter}\pythonIdx{function!argument!*}\pythonIdx{function!parameter!*} \alert{vor} \pythonil{args_tuple}.%
+}%
+%
+\item<26-> Genauso gut können wir die Parameterwerte durch das \inQuotes{Auspacken} einer Liste einfüllen.%
+%
+\item<27-> Wir erstellen dafür die Liste \pythonil{args_list = [2.0, 3.0]}.%
+%
+\item<28-> Der Aufruf \pythonil{pdf(*args_list)} ist das selbe, als wenn wir \pythonil{pdf(2.0, 3.0)} schreiben würden.%
+%
+\item<29-> Das ist wiederum das selbe wie \pythonil{pdf(2.0, 3.0, 1.0)}.%
+%
+\item<30-> Denn die Default Werte müssen nach wie vor nicht explizit hingeschrieben werden.%
+%
+\end{itemize}%
+}}%
+%
+\listingPythonAndOutput{}{functions:use_normal_pdf}{}{0.45}{0.1}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Wozu das alles?}%
+%
+\begin{itemize}%
+%
+\only<-8>{%
+\item Auf den ersten Blick sieht das alles nicht so nützlich aus.%
+}%
+%
+\only<-8>{%
+\item<2-> Wozu brauchen wir Default Values?%
+}%
+%
+\only<-9>{%
+\item<3-> In manchen Fällen möchte man es den Benutzern ermöglichen, eine Funktion zu \inQuotes{anzupassen}.%
+}%
+%
+\only<-10>{%
+\item<4-> Ein typisches Beispiel ist die \href{https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html}{\pythonilIdx{plot}-Methode} des \pythonilIdx{Axes}-Objektes von der populären \matplotlib\ library.%
+}%
+%
+\only<-11>{%
+\item<5-> Normalerweise braucht man nur Sequenzen von x-\ und y\nobreakdashes-Koordinaten an diese Funktion zu übergeben, und sie wird eine Linie malen, die durch alle spezifizierten Punkte geht.%
+}%
+%
+\only<-12>{%
+\item<6-> Man kann aber noch optional Farben für die Line, Markierungen die an den Punkten gemalt werden sollen, eine Strich-Stil für die Line, ein Label, Farben und Größen für die Markierungen, eine z\nobreakdashes-Reihenfolge, für den Fall, dass mehrere Linien gemalt werden sollen, und so weiter, angeben.%
+}%
+%
+\only<-14>{%
+\item<7-> Durch die Default Values wird der Funktionsaufruf in den meisten Fällen sehr einfach, während komplexe Formatierungen trotzdem möglich sind.%
+}%
+%
+\only<-15>{%
+\item<8-> Aus diesem Beispiel können wir auch den Use Case für das Zusammenbauen von Argumenten mit Hilfe einer Kollektion ableiten.%
+}%
+%
+\only<-16>{%
+\item<9-> Stellen wir uns vor, dass wir eine eigene Funktion zum Malen mit Hilfe von \matplotlib\ entwickeln.%
+}%
+%
+\only<-17>{%
+\item<10-> Sagen wir, unsere Funktion macht so einen \matplotlib\ Plot-Aufruf mit zehn Parametern.%
+}%
+%
+\only<-18>{%
+\item<11-> Aber wir haben einen Sonderfall, in dem wir noch einen zusätzlichen Parameter, sagen wir einen Strich-Stil mit angeben wollen.%
+}%
+%
+\item<12-> Dann könnten wir ein \pythonil{if ... else} in unserem Kode haben, dessen einer Zwei den zehn-Parameter-Aufruf und dessen anderer Zwei den elf-Parameter-Aufruf macht.%
+%
+\item<13-> Dadurch haben wir dann einen sehr komplexen Funktionsaufruf, der im Grunde zweimal fast gleich auftaucht.%
+%
+\item<14-> Stattdessen könnte man ein \pythonil{dict} mit den zehn Parametern konstruieren.%
+%
+\item<15-> Im \pythonil{if} könnten wir dann den elften Parameter hinzufügen, wenn nötig.%
+%
+\item<16-> Dann brauchen wir nur einen Funktionsaufruf, eben mit der Doppel-Wildcard-Methode.
+%
+\item<17-> Der Kode ist viel kürzer.%
+%
+\item<18-> Der Unterschied zwischen beiden Fällen ist viel klarer.%
+%
+\item<19-> Die Chance, Fehler zu machen ist auch viel kleiner.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Mit Default Values und dem Funktionsaufruf vie \pythonil{*} oder \pythonil{**} haben wir zwei weitere Aspekte kennengelernent die uns das Arbeiten mit Funktionen in \python\ erleichtern.%
+%
+\item<2-> Mit den Default Values können wir flexible funktionsbasierte \glslink{API}{APIs} entwickeln, bei denen die Benutzer die Werte für einige Parameter angeben und andere auf vernünftigen Voreinstellungen belassen können.%
+%
+\item<3-> Das Verwenden der \pythonil{*}- oder \pythonil{**}-Methode zum Funktionsaufruf mit Kollektionen von Argumenten erlaubt es uns, einfacheren Kode zu schreiben wenn Funktionen mit vielen Parametern auf mehrfach leicht verschiedene Art aufgerufen werden sollen.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
