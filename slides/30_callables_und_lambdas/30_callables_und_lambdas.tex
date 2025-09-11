@@ -1,0 +1,613 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+%
+\subtitle{30.~Funktionen als Parameter, \mbox{\texttt{Callable}s und \texttt{lambda}s}}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\only<-9>{%
+\item Wir haben gelernt, wie man Funktionen definiert und aufruft.%
+}%
+%
+\only<-10>{%
+\item<2-> Wir haben gelernt, wie Funktionen Ergebnisse zurückliefern können.%
+}%
+%
+\only<-11>{%
+\item<3-> Wir haben gelernt, wie man Funktionen testet.%
+}%
+%
+\only<-12>{%
+\item<4-> Und wir haben gerade eben gelernt, wie man Funktionsaufrufe konstruieren kann, in dem man die Parameterwerte in einer Kollektion speichert und diese dann beim Aufruf in die Parameterliste \inQuotes{entpackt}.%
+}%
+%
+\item<5-> Es gibt noch eine interessante Sache, die wir in \python\ mit Funktionen machen können.%
+%
+\item<6-> In \python\ sind alle Dinge Objekte\cite{H2025PM:EIAO,PSF:P3D:TPLR:DM}.%
+%
+\item<7-> Referenzen auf Objekte können in Variablen gespeichert werden oder als Parameter an Funktionen übergeben werden.%
+%
+\item<8-> Funktionen selber sind auch Objekte\cite{PSF:P3D:TPLR:DM}.%
+%
+\item<9-> Das bedeutet, dass wir Funktionen in Variablen speichern oder sie als Argumente an andere Funktionen übergeben können.%
+%
+\item<10-> Das klingt erstmal komisch.%
+%
+\item<11-> Warum würde man eine Funktion als Parameter an eine andere Funktion übergeben wollen?%
+%
+\item<12-> Auf dem zweiten Blick fallen uns durchaus ein paar Anwendungen ein.%
+%
+\item<13-> Schauen wir uns eine aus der Mathematik an.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispielszenario: Bestimmtes Integral}%
+%
+\begin{frame}%
+\frametitle{Bestimmtes Integral}%
+\begin{itemize}%
+\item In der Schule haben Sie Differential- und Integralrechnung gelernt.%
+%
+\item<2-> Ein \emph{bestimmtes Integral} berechnet die Fläche unter einer Funktion über einem bestimmten Abschnitt der \glslink{xAxis}{x\nobreakdashes-Achse}.%
+%
+\item<3-> Dazu werden \pgls{infinitesimal}-kleine Streifen über diesem Abschnitt verwendet.%
+%
+\item<4-> \Pgls{infinitesimal} bedeutet \emph{\inQuotes{unermesslich klein}} oder \emph{\inQuotes{beliebig nahe an aber größer als~0}}\cite{EOWM2025MWAMTD:I,KS2013LITFTMIATFFBTRAB}.
+%
+\item<5-> Der Hauptsatz der Differential-\ und Integralrechnung sagt aus\cite{W2024MAWWR:SFTOC,A1991C:1:PFATSFTOC}: \emph{Wenn eine Funktion~$f(x)$ über dem Intervall~$[a,b]$ kontinuierlich ist und $F(x)$~die Stammfunktion von~$f(x)$ ist~(also~$F'=f$), dann ist das bestimmte Integral~$\int_a^b f(x)\,dx = F(b)-F(a)$.}%
+%
+\item<6-> Mit anderen Worten, wenn wir die Fläche unter~$f(x)$ über dem Intervall~$[a,b]$ bestimmen wollen, dann würden wir erst die Stammfunktion~$F(x)$ herleiten und dann einfach $F(b)-F(a)$~berechnen.%
+%
+\item<7-> Die Stammfunktion können wir auf einen Stück Papier mit symbolischer Mathematik herleiten.%
+%
+\item<8-> So etwas können wir an diese Stelle nicht wirklich mit \python\ programmieren.%
+%
+\end{itemize}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Annäherung des Bestimmten Integrals}%
+\begin{itemize}%
+\only<-4>{%
+\item Wir können zur Definition des bestimmten Integrals zurückkehren, nämlich der Fläche unter Funktion über dem Intervall~$[a,b]$.%
+%
+\item<3-> Und diese Fläche kann über \pgls{infinitesimal} kleine Streifen über dem Intervall berechnet werden.%
+%
+\item<4-> Nun können wir nicht wirklich \emph{\inQuotes{unermesslich kleine}} Streifen machen {\dots} aber wir könnten zumindest \emph{sehr kleine} Streifen machen, um das richtige Ergebnis zumindest anzunähern.%
+}%
+%
+\only<-6>{%
+\item<5-> Sagen wir, dass wir die Funktion~$f(x)$ als Parameter für unser Programm haben.%
+}%
+%
+\only<-7>{%
+\item<6-> Die Intervallgrenzen $a$ und $b$ wären ebenfalls Parameter.%
+}%
+%
+\only<-8>{%
+\item<7-> Dann könnten wir das Intervall $[a,b]$ in $n$~Steifen einteilen.%
+}%
+%
+\only<-9>{%
+\item<8-> Für jeden Streifen würden wir die Fläche unter~$f(x)$ annähern.%
+}%
+%
+\only<-10>{%
+\item<9-> Dann summieren wir die $n$~Flächen auf und haben eine Annäherung der Gesamtfläche.%
+}%
+%
+\only<-10>{%
+\item<10-> $n$~könnte auch ein Parameter unseres Programms sein.%
+}%
+%
+\item<11-> Je größer $n$, desto schmaler werden die Steifen, desto genauer wird unsere Annäherung~(und desto länger dauert es, sie zu berechnen).%
+%
+\end{itemize}%
+%
+\locateGraphic{1}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_01}{0.15}{0.29}%
+\locateGraphic{2}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_02}{0.15}{0.29}%
+\locateGraphic{5}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_03}{0.15}{0.29}%
+\locateGraphic{6}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_04}{0.15}{0.29}%
+\locateGraphic{7}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_05}{0.15}{0.29}%
+\locateGraphic{8-}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_06}{0.15}{0.29}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Trapez-Methode}%
+\begin{itemize}%
+%
+\only<-2>{%
+\item Aber wie geht das? Und wie können wir die Fläche eines Streifens der Funktion überhaupt annähern?%
+}%
+%
+\only<-3>{%
+\item<2-> Die Trapez-Methode ist eine sehr einfache Implementierung der Idee\cite{S2021ITNM:NIATROTTR,E2013AITNMAA,A1991AITNA}.%
+}%
+%
+\only<-4>{%
+\item<3-> Sie behandelt die Streifen als Trapeze.%
+}%
+%
+\only<-4>{%
+\item<4-> Die Grundlinie der Trapeze ist dabei jeweils ein Stück der \glslink{xAxis}{x-Achse} mit Länge~$h=(b-a)/n$.%
+}%
+%
+\only<-5>{%
+\item<5-> Offensichtlich ist $n*h=b-a$ und darum ergeben $n$~Trapeze von gleicher Grundlinienlänge ergeben das Interval~$[a,b]$ auf der \glslink{xAxis}{x-Achse} unter~$f(x)$.%
+}%
+%
+\only<-7>{%
+\item<6-> Dafür startet das erste Trapez bei $x=a$ und endet an~$x=a+h$.%
+}%
+%
+\only<-10>{%
+\item<7-> Das zweite Trapez startet bei $x=a+h$ und endet bei~$x=a+2h$.%
+}%
+%
+\only<-11>{%
+\item<8-> So geht es immer weiter.%
+}%
+%
+\only<-12>{%
+\item<11-> Das letzte Trapez startet bei $x=a+(n-1)h$ und endet bei $x=a+nh=b$.%
+}%
+%
+\only<-13>{%
+\item<12-> Jedes Trapez hat zwei parallele Seiten, die die Grundlinie jeweils im rechten Winkel treffen.%
+}%
+%
+\only<-14>{%
+\item<13-> Die Länge der Seiten entspricht $f(x)$ an den entsprechenden x\nobreakdashes-Koordinaten.%
+}%
+%
+\only<-19>{%
+\item<14-> Die Fläche des $i$\nobreakdashes-ten Trapez ist deshalb $h[f(a+(i-1)h)+f(a+ih)]/2$.%
+}%
+%
+\only<-19>{%
+\item<19-> Wenn wir alle $n$ Flächen aufaddieren haben wir eine Annäherung für das bestimmte Integral.%
+}%
+%
+\only<-21>{%
+\item<20-> Dabei kommt jeder Wert $f(a+ih)$ zweimal vor, außer für $i=0$ und $i=n$.%
+}%
+%
+\only<-22>{%
+\item<21-> Die Werte werden bei der Flächenberechnung jeweils halbiert.%
+}%
+%
+\item<22-> Anstatt die doppelten Werte zweimal zu berechnen und dann zu halbieren, können wir sie auch nur einmal berechnnen.%
+%
+\end{itemize}%
+%
+\locateGraphic{3}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_07}{0.15}{0.29}%
+\locateGraphic{4-5}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_08}{0.15}{0.29}%
+\locateGraphic{6}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_09}{0.15}{0.29}%
+\locateGraphic{7}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_10}{0.15}{0.29}%
+\locateGraphic{8}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_11}{0.15}{0.29}%
+\locateGraphic{9}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_12}{0.15}{0.29}%
+\locateGraphic{10}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_13}{0.15}{0.29}%
+\locateGraphic{11-13}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_14}{0.15}{0.29}%
+\locateGraphic{14}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_15}{0.15}{0.29}%
+\locateGraphic{15}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_16}{0.15}{0.29}%
+\locateGraphic{16}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_17}{0.15}{0.29}%
+\locateGraphic{17}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_18}{0.15}{0.29}%
+\locateGraphic{18}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_19}{0.15}{0.29}%
+\locateGraphic{19-21}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_20}{0.15}{0.29}%
+\locateGraphic{22}{width=0.7\paperwidth}{graphics/normalDistPdfInteg_21}{0.15}{0.29}%
+%
+\end{frame}%
+%
+\section{Implementierung}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Implementierung}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Jetzt wollen wir diese Methode als Funktion \pythonil{integrate} implementieren.%
+}%
+%
+\only<-6>{%
+\item<2-> Offensichtlich braucht \pythonil{integrate} die Parameter \pythonil{a} und \pythonil{b}, die die Grenzen des Intervalls, über das wir integrieren wollen, festlegen.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir erlauben, dass diese entweder \pythonil{int} oder \pythonils{float} seien können, was wir durch den \glslink{typeHint}{Type Hint} \pythonil{float | int} ausdrücken.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir geben ihnen die Default Values \pythonil{0.0} und \pythonil{1.0}.%
+}%
+%
+\only<-9>{%
+\item<5-> Dann ist da auch der Parameter \pythonil{n}, ein \pythonil{int}, der die Anzahl der Trapeze definiert.%
+}%
+%
+\only<-10>{%
+\item<6-> Ein guter Default Value für \pythonil{n} ist vielleicht \pythonil{100}.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir brauchen aber einen anderen Parameter, nämlich die Funktion \pythonil{f}, die wir ja integrieren wollen.%
+}%
+%
+\only<-12>{%
+\item<8-> Wie können wir diesen Parameter spezifizieren?%
+}%
+%
+\only<-13>{%
+\item<9-> Als \pythonil{f: Callable[[float], float | int]}.%
+}%
+%
+\only<-13>{%
+\item<10-> \pythonilIdx{Callable} ist ein \glslink{typeHint}{Type Hint} für alles was aufgerufen werden kann, wie \DEzB\ Funktionen\cite{PSF:P3D:TPSL:ACO}.%
+}%
+%
+\only<-15>{%
+\item<11-> Wie die \glslink{typeHint}{Type Hints} für Listen und Tupel kann er mit eckigen Klammern parameterisiert werden\cite{PEP612}.%
+}%
+%
+\only<-15>{%
+\item<12-> In dem \pythonil{Callable[...]} geben wir zuest die Liste der Typen der Parameter der Funktion an, wieder in eckigen Klammern.%
+}%
+%
+\only<-16>{%
+\item<13-> Dann kommt ein Komma~\pythonil{,} und dann der Typ des Rückgabewerts.%
+}%
+%
+\only<-17>{%
+\item<14-> Das \pythonil{f: Callable[[float], float | int]} bedeutet also das unsere Funktion \pythonil{integrate} eine andere Funktion~\pythonil{f} als ersten Parameter erwartet.%
+}%
+%
+\only<-18>{%
+\item<15-> \pythonil{f}~muss genau einen Parameter erwarten, und zwar vom Typ~\pythonil{float}.%
+}%
+%
+\only<-19>{%
+\item<16-> Der Typ des Rückgabewerts von~\pythonil{f} ist \pythonil{float | int}, also soll es entweder einen \pythonil{float} oder einen~\pythonil{int} zurückliefern\cite{PEP604}.%
+}%
+%
+\only<-21>{%
+\item<17-> Der Typ \pythonilIdx{Callable} wird aus dem Modul \pythonilIdx{typing} importiert, kann aber auch aus \pythonil{collections.abc.Callable} importiert werden\cite{PSF:P3D:TPSL:ACO}.%
+}%
+%
+\only<-22>{%
+\item<18-> Die Implementierung von \pythonil{integrate} ist recht einfach.%
+}%
+%
+\only<-23>{%
+\item<19-> In der Funktion addieren wir die Trapeze aus der vereinfachten Gleichung ohne Doppelungen zusammen.%
+}%
+%
+\only<-24>{%
+\item<20-> Nur die Werte von \pythonil{f} an den Enden des Intervalls, nämlich bei \pythonil{a} und \pythonil{b}, müssen halbiert werden.%
+}%
+%
+\only<-25>{%
+\item<21-> Wir initialisieren die Summe \pythonil{result} als \pythonil{0.5 * (f (a) + f(b))}.%
+}%
+%
+\only<-26>{%
+\item<22-> Wir berechnen die Basislänge~\pythonil{h} der Trapeze als~\pythonil{(b - a) / n}.%
+}%
+%
+\only<-27>{%
+\item<23-> Dann iterieren wir den Zähler~\pythonil{i} von \pythonil{1} bis \pythonil{n - 1} und addieren \pythonil{f(a + h * i)} zu \pythonil{result} in jedem Schritt.%
+}%
+%
+\only<-28>{%
+\item<24-> Am Ende müssen wir diesen Wert mit der Basislänge~\pythonil{h} der Trapeze multiplizieren, um die näherungsweise Fläche unter der Kurve zu bekommen.%
+}%
+%
+\only<-29>{%
+\item<25-> Wir liefern also \pythonil{result * h} zurück.%
+}%
+%
+\only<-30>{%
+\item<26-> Nun wollen nun endlich ausprobieren, wir unsere Trapez-basierte Integration funktioniert.%
+}%
+%
+\only<-31>{%
+\item<27-> Berechnen wir also erstmal das bestimmte Integral~$\int_0^1 1\,dx$.%
+}%
+%
+\only<-32>{%
+\item<28-> Dafür müssen wir die Funktion~$f(x)=1$ als Parameter~\pythonil{f} an \pythonil{integrate} übergeben.%
+}%
+%
+\only<-33>{%
+\item<29-> Wir könnten dazu folgendes schreiben:%
+}%
+%
+\only<-34>{%
+\item<30-> Hier drückt der Unterstrich~\pythonil{_} aus  das wir den Parameter der Funktion ignorieren werden.%
+}%
+%
+\only<-35>{%
+\item<31-> Wir könnten nun \pythonil{integrate(const_1)} aufrufen.%
+}%
+%
+\only<-36>{%
+\item<32-> Es gibt aber einen besseren, bequemeren Weg, Funktionen zu spezifizieren, die wir nur einmal verwenden wollen.%
+}%
+%
+\only<-37>{%
+\item<33-> Dieser Weg sind die sogenannten \pythonilsIdx{lambda}~\cite{PSF:P3D:TPLR:L}.%
+}%
+%
+\only<-38>{%
+\item<34-> \pythonils{lambda} sind namenlose Funktionen, die inline definiert werden.%
+}%
+%
+\only<-39>{%
+\item<35-> Sie fangen mit dem Schlüsselwort \pythonilIdx{lambda} an.%
+}%
+%
+\only<-40>{%
+\item<36-> Dann kommen die Namen der Parameter, separiert mit Kommas~\pythonil{,}.%
+}%
+%
+\only<-41>{%
+\item<37-> Dann folgt ein Doppelpunkt~\pythonil{:} und danach kommt der Ausdruck, der den Rückgabewert der Inline-Funktion berechnet.%
+}%
+%
+\only<-42>{%
+\item<38-> Der Körper eines \pythonils{lambda} besteht nur aus diesem einzigen Ausdruck.%
+}%
+%
+\only<-43>{%
+\item<39-> \pythonils{lambda} sind im Grunde eine einzelne Zeile Kode, die einen Rückgabewert berechnet.%
+}%
+%
+\only<-44>{%
+\item<40-> Wegen dem \pythonilIdx{:} in der Notation können wir sie auch nicht mit \glslink{typeHint}{Type Hints} annotieren.%
+}%
+%
+\only<-45>{%
+\item<41-> Da \pythonil{lambda}-Ausdrücke aber sehr klein sind und nur einmal verwendet werden, macht das nichts.%
+}%
+%
+\only<-46>{%
+\item<42-> Wir wollen jetzt eine Funktion als \pythonil{lambda} definieren, die die Konstante~\pythonil{1} zurückliefert.%
+}%
+%
+\only<-47>{%
+\item<43-> Diese Funktion muss einen Parameter akzeptieren, anderfalls können wir sie nicht in \pythonil{integrate} eingeben.%
+}%
+%
+\only<-48>{%
+\item<44-> Da uns der Parameter egal ist, schreiben wir einfach folgendes:%
+}%
+%
+\only<-49>{%
+\item<45-> \pythonilsIdx{lambda} sind Funktionen, die wir nur einmal verwenden wollen.%
+}%
+%
+\only<-50>{%
+\item<46-> Das trifft klar auf unsere Funktion zu, die ihren Parameter ignoriert und immer \pythonil{1.0} zurückliefert.%
+}%
+%
+\only<-51>{%
+\item<47-> Wir können diesen Ausdruck also an \pythonil{integrate} als Wert für Parameter \pythonil{f} übergeben.%
+}%
+%
+\only<-52>{%
+\item<48-> Natürlich ist die Fläche unter der konstanten Funktion~$f(x)=1$ über dem Intervall~$[0,1]$ auch~$1$.%
+}%
+%
+\only<-53>{%
+\item<49-> Mit \pythonil{n=7} Trapezen bekommen wir genau dieses Ergebnis.%
+}%
+%
+\only<-53>{%
+\item<50-> Unsere Funktion \pythonil{integrate} hat also den ersten Test bestanden.%
+}%
+%
+\only<-54>{%
+\item<51-> In der Ausgabe unseres Programmes schreiben wir \inlinelistingbox{$\int$\lstinline[style=text_style]$1dx|0,1$} wobei das~\textil{|0,1} die Intervallgrenzen $[0,1]$ beschreibt.%
+}%
+%
+\only<-55>{%
+\item<52-> Wir benutzen den  \pgls{unicode}-\glslink{escapeSequence}{Escape} \pythonil{\"\\u222b\"} um das $\int$-Zeichen in dem \glslink{fstring}{f-String} darzustellen.%
+}%
+%
+\only<-56>{%
+\item<53-> Versuchen wir nun die Fläche unter der Funktion~$g(x)=x^2-2$ über dem Intervall~$[-1,1]$, also~$\int_{-1}^1 x^2-2\,dx$.%
+}%
+%
+\only<-57>{%
+\item<54-> Die Stammfunktion von $g(x)$ ist $G(x)=\frac{1}{3}x^3-2x+c$ und $G(1)-G(-1)=[\frac{1}{3}-2]-[-\frac{1}{3}+2]=\frac{2}{3}-4=-3\frac{1}{3}=-3.\overline{3}$.%
+}%
+%
+\only<-59>{%
+\item<55-> Wir geben die Funktion $g(x)$ als \pythonil{lambda}-Ausdruck in unsere \pythonil{integrate}-Funktion in dem wir schreiben \pythonil{lambda x: x*x - 2}.%
+}%
+%
+\only<-60>{%
+\item<56-> Wir müssen auch den Wert für \pythonil{a} angeben, nämlich~\pythonil{-1}.%
+}%
+%
+\only<-61>{%
+\item<57-> Mit dem Default Value von \pythonil{n=100} Schritten liefert unsere Funktion \pythonil{-3.3332}, was schon sehr nahe an $-3.\overline{3}$ ist.%
+}%
+%
+\only<-62>{%
+\item<58-> Integrieren wir nun die Sinusfunktion über dem Intervall~$[0,\numberPi]$.%
+}%
+%
+\only<-63>{%
+\item<59-> Dazu importieren wir die Funktion \pythonilIdx{sin} aus dem Modul \pythonilIdx{math} und geben sie als Argument~\pythonil{f} an \pythonil{integrate}.%
+}%
+%
+\only<-64>{%
+\item<60-> Wir müssen auch \pythonil{b = pi}\pythonIdx{pi} angeben, wobei wir \pythonil{pi} auch aus \pythonilIdx{math} importieren.%
+}%
+%
+\only<-65>{%
+\item<61-> Dieses mal benutzen wir \pythonil{n = 200} Trapeze.%
+}%
+%
+\only<-66>{%
+\item<62-> Die Stammfunktion von $\sin x$ ist $-\cos x+c$, wordurch das erwartete Ergebnis $[-\cos\pi]-[-\cos 0]=[-(-1)]-[-1]=2$ ist.%
+}%
+%
+\only<-67>{%
+\item<63-> Unsere Funktion liefert uns $1.99996$, was wiederum sehr nahe dran ist.%
+}%
+%
+\only<-68>{%
+\item<64-> Als letztes Beispiel integrieren wir die \glslink{mathPDF}{PDF} der Normalverteilung.%
+}%
+%
+\only<-69>{%
+\item<65-> Wir haben diese ja schon in der letzten Einheit implementiert.%
+}%
+%
+\only<-70>{%
+\item<66-> Diese Funktion hat aber genau genommen drei Parameter, nämlich \pythonil{x}, \pythonil{mu}, und~\pythonil{sigma}.%
+}%
+%
+\only<-71>{%
+\item<67-> Die letzten beiden haben die Default Values \pythonil{mu = 0.0} und \pythonil{sigma = 1.0}.%
+}%
+%
+\only<-72>{%
+\item<68-> Wenn diese Default Values benutzt werden, berechnet \pythonil{pdf} die \glslink{mathPDF}{PDF} die Werte der Standardnormalverteilung.%
+}%
+%
+\only<-72>{%
+\item<69-> Interessanterweise, obwohl die Funktion \pythonil{pdf} drei Parameter hat und der Funktionsparameter \pythonil{f} nur einen erwartet, können wir \pythonil{pdf} trotzdem als \pythonil{f} eingeben.%
+}%
+%
+\only<-73>{%
+\item<70-> Das geht genau deshalb, weil der zweite und dritte Parameter Default Values haben.
+}%
+%
+\only<-74>{%
+\item<71-> Selbst \mypy\ acceptiert das.%
+}%
+%
+\only<-74>{%
+\item<72-> Die Standardnormalverteilung hat Standardabweichung~$\sigma=1$ und Mittelwert~$\mu=0$.%
+}%
+%
+\only<-75>{%
+\item<73-> Wenn wir über das Intervall~$[-1,1]$ integrieren, dann berechnen wir die Wahrscheinlichkeit, dass eine standardnormalverteilte Zufallsvariable~${\mathcal{X}}$ aus dem Intervall~$[\mu-\sigma,\mu+\sigma]$ gezogen wird, also innerhalb einer Standardabweichung vom Mittelwert.%
+}%
+%
+\only<-77>{%
+\item<74-> Wie Sie vielleicht noch aus der Schule wissen, ist diese Wahrscheinlichkeit etwa~68.26\%\cite{AS1972HOMFWFGAMT,EHP2000SD,W2007HBOSDFE}.%
+}%
+%
+\item<75-> Die Wahrscheinlichkeit, die Variable aus~$[-2,2]$ zu ziehen, also nicht mehr als zwei Standardabweichungen vom Mittel, ist etwa~95.44\%\cite{AS1972HOMFWFGAMT,EHP2000SD,W2007HBOSDFE}.%
+%
+\item<76-> Unsere kleine Funktion berechnet das schon ganz gut.%
+%
+\item<77-> Zuletzt sei noch darauf hingewiesen, dass die Trapez-basierte Annäherung bestimmter Integrale nicht unbedingt die beste Methode ist.%
+%
+\item<78-> Andere Methoden, \DEzB\ Simpson's Regel, können oft bessere Ergebnisse liefern\cite{E2013AITNMAA}.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{functions:integral}{}{functions}{integral.py}{}%
+\gitLoadPython{syntax/callable}{}{syntax/callable.py}{}%
+\gitLoadPython{syntax/const_unary_function}{}{syntax/const_unary_function.py}{}%
+\gitLoadPython{syntax/lambda}{}{syntax/lambda.py}{}%
+\gitLoadPython{syntax/lambda_as_arg}{}{syntax/lambda_as_arg.py}{}%
+\gitExec{exec:functions:integral:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh functions integral.py}%
+%
+\listingPython{-28}{functions:integral}{0.45}{0.07}{0.54}{0.76}%
+%
+\listingPythonSyntax{11-28}{syntax/callable}{0.45}{0.85}{0.54}{0.2}%
+%
+\listingPythonSyntax{29-47}{syntax/const_unary_function}{0.45}{0.1}{0.54}{0.76}%%
+\listingPythonSyntax{33-47}{syntax/lambda}{0.45}{0.475}{0.54}{0.76}%%
+\listingPythonSyntax{44-47}{syntax/lambda_as_arg}{0.45}{0.7}{0.54}{0.76}%
+%
+\listingPythonAndOutput{48-70,72-}{functions:integral}{}{0.475}{0.06}{0.54}{0.93}%
+%
+\listingOutput{71}{functions:integral:mypy}{style=tool_style}{0.475}{0.2}{0.54}{0.93}%
+%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Funktionen}%
+\begin{itemize}%
+%
+\item Functions sind der zentrale Baustein für modularen Kode.%
+%
+\item<2-> Sie erlauben es uns, Kode in Einheiten mit klar strukturierten Schnittstellen zu gruppieren.%
+%
+\item<3-> Funktionen können Eingabedaten über Parameter erhalten.%
+%
+\item<4-> Sie können Ergebnisse als Rückgabewert zurückliefern.%
+%
+\item<5-> Sowohl Parameter als auch Rückgabewerte können über \glslink{typeHint}{Type Hints} annotiert werden.%
+%
+\item<6-> Die Beschreibung, was eine Funktion macht und was Parameter und Rückgabewerte bedeuten kommt in den \glslink{docstring}{Docstring}.%
+%%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Funktionen: Vorteile}%
+Funktionen haben viele Vorteile.%
+\uncover<2->{%
+\begin{enumerate}%
+\item Mehrere Programmierer können gemeinsam an einem Projekt arbeiten.\uncover<3->{ %
+Sie können an verschiedenen Funktionen arbeiten und diese in verschiedenen Modulen gruppieren.%
+}%
+%
+\item<4-> Durch \glslink{typeHint}{Type Hints} und \glslink{docstring}{Docstrings} sind Funktionen leicht für andere Programmierer zu verstehen.\uncover<5->{ Werkzeuge wie \mypy\ können prüfen, ob die übergebenen Werte die richtigen Typen haben.}%
+%
+\item<6-> Funktionen erlauben es uns, Kode an verschiedenen Stellen wiederzuverwenden.uncover<7->{ Wenn wir die Fläche unter anderen Funktionen berechnen wollen, können wir unsere \pythonil{integrate}-Funktion immer wiederverwenden.}%
+%
+\item<8-> Wenn wir unseren Kode in Funktionen mit klaren Eingabe- und Ausgabedaten strukturieren, dann können wir diese einzeln mit \glslink{unitTest}{Unit Tests} testen.%
+\end{enumerate}%
+}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Funktionen haben viele Vorteile.%
+%
+\item<2-> Wir haben diese nun ziemlich detailiert kennengelernt.%
+%
+\item<3-> Wir haben Funktionen implementiert und getestet.%
+%
+\item<4-> Sie sind einer der wichtigsten Bausteine des Kontrollflusses.%
+%
+\item<5-> Es gibt aber noch einen weiteren wichtigen Baustein\dots%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

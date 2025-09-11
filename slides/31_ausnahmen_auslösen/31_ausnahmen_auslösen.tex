@@ -1,0 +1,807 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+%
+\subtitle{31.~Ausnahmen auslösen)}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Bisher haben wir uns hauptsächlich darauf konzentriert, korrekten Kode zu schreiben.%
+%
+\item<2-> Wir versuchen Kode ohne Fehler zu schreiben.%
+%
+\item<3-> Wenn wir unsere Programme ausführen, dann gibt es zwei Dinge, die schief gehen können\only<-3>{.}\uncover<4->{:%
+\begin{enumerate}%
+%
+\item Auf der einen Seite können wir nie sicher sein, dass unser Kode wirklich keine Fehler hat.\uncover<5->{ %
+Je größer das Programm, desto wahrscheinlicher, dass es Fehler hat.\uncover<6->{ %
+Mit gründlichem \glslink{unitTest}{Unit Testen} können wir die Wahrscheinlichkeit für Fehler reduzieren, aber wir können sie nie ganz ausschließen.}}%
+%
+\item<7-> Auf der anderen Seite existiert ja unser Programm nicht für sich alleine, losgelöst.\uncover<8->{ %
+Es bekommt Eingabedaten, vielleicht vom Benutzer, vielleicht von anderen Programmen.\uncover<9->{ %
+Vielleicht sind die ja falsch.}}%
+%
+\end{enumerate}}%
+%
+\item<10-> Diese beiden Probleme zusammen sind Situation, die wir nicht erwartet haben.%
+%
+\item<11-> Es sind Ausnahmen (englisch:~Exceptions).
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Einleitende Beispiele}%
+%
+\begin{itemize}%
+\item Wir haben schon viele solche Ausnahmesituationen kennengelernt\only<-1>{.}\uncover<2->{:%
+\begin{itemize}%
+\item Ein auf ein Zeichen an einem Index hinter dem Ende eines Strings zuzugreifen führt zu einem \pythonilIdx{IndexError}.%
+%
+\item<3-> Der Versuch, ein Tupel zu verändern, scheitert mit einem \pythonilIdx{TypeError}.%
+%
+\item<4-> Wenn wir versuchen, \pythonil{(10 ** 400) * 1.0} zu berechnen, so bekommen wir einen \pythonilIdx{OverflowError}, weil $10^{400}$ zu groß für den Datentyp \pythonil{float} ist.
+\end{itemize}%
+}%
+%
+\item<5-> Solche Ausnahmen können durch Programmierfehler ausgelöst werden.%
+%
+\item<6-> Sie könnten aber auch durch falsche Eingabedaten an unser Programm entstehen.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Inkorrekte Eingabedaten}%
+%
+\begin{frame}%
+\frametitle{Inkorrekte Eingabedaten}%
+%
+\begin{itemize}%
+\item Es stellt sich die Frage: Was soll man überhaupt machen, wenn eine Funktion fehlerhafte Eingabedaten bekommt?%
+%
+\item<2-> Dafür gibt es drei grundlegende Taktiken\only<-2>{.}\uncover<3->{%
+%
+\begin{enumerate}%
+%
+\item \alert{Wir ignorieren einfach, dass die Daten falsch sind}, und rechnen normal mit ihnen.\uncover<4->{ %
+Wenn die Eingabedaten von unserem Programm falsch sind, dann produziert es eben auch falsche Ausgabedaten.\uncover<5->{ %
+Diese Taktik nenn man \glsFull{GIGO}\cite{PKBCBR2005GIGOAELAOMBEUP}.\uncover<6->{ %
+Das Konvertieren vom Integer \pythonil{10 ** 400} zu einem \pythonil{float} könnte \DEzB\ einfach~\pythonil{inf} liefern.%
+}}}%
+%
+\item<7-> \alert{Wir versuchen, den Input zu bereinigen.}\uncover<8->{ %
+\DEzB\ unsere \pythonil{factorial}-Funktion von früher erwartet eine Ganzzahl als Input.\uncover<9->{ %
+Wenn jemand \pythonil{2.4} anstelle von \pythonil{2} eingeben würde, könnten wir einfach mit \pythonil{2} rechnen und das entsprechende Ergebnis zurückliefern.\uncover<10->{ %
+Unsere \pythonil{sqrt}-Funktion liefert \DEzB\ \pythonil{0.0} als Ergebnis, wenn jemand eine negative Zahl eingibt.}}}%
+%
+\item<11-> \alert{Wir können die Funktion beschützen, in dem wir eine Ausnahme auslösen.}\cite{MAGTOC2024EHFAP,SF2013ASROSR,GRRX2001ACSOEHMFBDOOS}~(Auf Englisch \emph{raise an \pythonil{Exception}})%
+\end{enumerate}%
+}%
+%
+\item<12-> Letzteres ist, was \python\ oft macht.\uncover<13->{ %
+\DEzB\ \emph{könnte} es einfach ignorieren, wenn jemand ein Tupel verändern will. Stattdessen löst es einen  \pythonilIdx{TypeError} aus.}%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Inkorrekte Eingabedaten: Ausnahme auslösen}%
+\begin{itemize}%
+\item \python\ löst oftmals Ausnahmen, so genannte \pythonils{Exception} aus, wenn eine \python-Funktion mit fehlerhaften Eingabedaten aufgerufen wird, oder wenn verbotene Aktionen durchgeführt werden.%
+%
+\item<2-> Ich bin ebenfalls ein Fan dieses Ansatzes.%
+%
+\item<3-> Und die \python-Dokumentation ist es auch\only<-3>{.}\uncover<4->{:}%
+\end{itemize}%
+%
+\uncover<4->{%
+\cquotation{PEP20}{%
+Errors should never pass silently. %
+Unless explicitly silenced.%
+}%
+}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{GIGO ist schlecht}%
+\begin{itemize}%
+%
+\item Wenn wir nach der Methode \pgls{GIGO} verfahren, dann werden sich Fehler fortpflanzen.%
+%
+\item<2-> Vielleicht werden die Ergebnisse unserer Funktion als Parameter in eine andere Funktion gefüttert, deren Ergebnisse dann wieder in eine andere Funktion eingehen, und so weiter.%
+%
+\item<3-> Ein Fehler könnte dann später irgendwo anders zu einem Crash führen.%
+%
+\item<4-> Wenn Funktionen, die nach der \pgls{GIGO}-Idee programmiert sind mit solchen kombiniert werden, die ihre Eingabedaten bereinigen, dann könnte ein Fehler ganz unbemerkt bleiben.%
+%
+\item<5-> Ein fehlerhaftes Ergebnis kann Teil von Entscheidungen und Designs im echten Leben werden.%
+%
+\item<6-> Und selbst wenn wir das merken, dann wird es extrem schwer, herauszufinden wo denn der Fehler in der langen Kette von Berechnungen und Funktionsaufrufen passiert ist.%
+%
+\item<7-> Vielleicht wurden falsche Ergebnisse in Dateien gespeichert, wodurch andere Programme dann später abstürzen.%
+%
+\item<8-> Und \emph{später} könnte eine Woche später sein.%
+%
+\item<9-> Und \emph{andere Programme} könnten Programme sein, die von jemand anders in einer anderen Abteilung ausgeführt werden.%
+%
+\item<10-> Viel Glück dann, das Stück Kode zu finden, wo der Fehler entstanden ist.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Eingabedaten bereinigen ist schlecht}%
+\begin{itemize}%
+\item Wenn wir Eingabedaten bereinigen, dann kann das Fehler verdecken, die früher passiert sind.%
+%
+\item<2-> Aber es hat noch zwei ganz andere Konsequenzen\only<-2>{.}\uncover<3->{:%
+\begin{enumerate}%
+%
+\item Es ist ja gar nicht klar, ob wir bereinigte Daten überhaupt richtig repariert haben.\only<-11>{\uncover<4->{%
+\begin{itemize}%
+\item<5-> Nehmen wir an, wir haben eine Funktion \pythonil{compute} mit einem Parameter~\pythonil{x}, der eine Ganzzahl seien soll.%
+%
+\item<6-> Jetzt bekommt unsere Funktion den fehlerhaften Wert \pythonil{5.5} für~\pythonil{x}.%
+%
+\item<7-> Sollen wir das zu \pythonil{5} oder \pythonil{6} reparieren?%
+%
+\item<8-> Jede der beiden Möglichkeiten könnte richtig sein.%
+%
+\item<9-> Beide könnten auch falsch sein.%
+%
+\item<10-> Sollen wir vielleicht einfach immer mit \pythonil{int(x)} rechnen?%
+%
+\item<11-> Es ist schwer, eine feste Regel zu definieren, die immer den richtigen Wert nimmt.%
+\end{itemize}%
+}}%
+\item<12-> Eingabedaten bereinigen kann dazu führen, dass andere Programmierer unseren Kode falsch verwenden.\only<-23>{\uncover<13->{%
+\begin{itemize}%
+\only<-22>{%
+\item Bleiben wir bei dem Beispiel der Funktion \pythonil{compute} mit dem Ganzzahl-Parameter \pythonil{x}.%
+}%
+\item<14-> Nehmen wir an, wir haben uns entschieden, einfach immer mit \pythonil{int(x)} zu rechnen.%
+\item<15-> Damit haben konvertieren wir alle endlichen \pythonils{float} zu \pythonils{int} und bereinigen so die Eingabewerte zu unserem gewünschten Datentyp.%
+\item<16-> Wir hielten das für eine gute Idee.%
+\item<17-> Jetzt bemerken wir, dass es plötzlich Leute gibt, die unsere Funktion so aufrufen:~\pythonil{compute(\"12\")}.%
+\item<18-> Natürlich funktioniert \pythonil{int(x)} auch mit~\pythonil{\"12\"} als Input und liefert dann~\pythonil{12}.%
+\item<19-> Jetzt gibt es also plötzlich Leute, die unsere Funktion mit Strings benutzen.%
+\item<20-> Und \emph{wir werden diesen Use-Case jetzt immer weiter unterstützen müssen.}%
+\item<21-> Denn jetzt gibt es Kode in anderen Programmen, der sich darauf verlässt, dass das geht.%
+\item<22-> Wenn wir es uns jetzt anders überlegen und keine Strings mehr erlauben{\dots} {\dots}dann wird dieser Kode abstürzen.%
+\item<23-> Das Bereinigen von Eingabedaten lädt also geradezu zu schlampigem Programmieren ein.%
+\end{itemize}%
+}}%
+\end{enumerate}}%
+%
+\item<24-> Es bleibt uns also nur noch das Auslösen von Ausnahmen als Ansatz.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Ausnahmen auslösen}%
+\begin{itemize}%
+\item Es bleibt uns also nur noch das Auslösen von Ausnahmen als Ansatz.%
+%
+\item<2-> Aber was bedeuted das?%
+%
+\item<3-> Das Auslösen von Ausnamen, in Englisch \emph{raising of \pythonilsIdx{Exception}} bedeutet zwei Dinge\only<-3>{.}\uncover<4->{%
+%
+\begin{enumerate}%
+%
+\item Informationen über den Fehler und Informationen über den aktuellen Ausführungszustand des Programs~(\DEzB\ die aktuelle Kode-Zeile, die Aufruf-Hierarchie) werden einem Objekt gespeichert~(der \pythonilIdx{Exception}).%
+%
+\item<5-> Der Kontrollfluss verlässt sofort den aktuellen Kodeblock sowie alle aufrufenden Kodeblöcke und Funktionen.\uncover<6->{ %
+Er springt in der Aufrufhierarchie so lange nach oben, bis er Kode erreicht, der die ausgelöste Ausnahme behandeln kann.\uncover<7->{ %
+Wenn kein solcher Kode existiert, dann wird der Prozess terminiert und ein \glslink{exitCode}{Exit-Kode} anders als~\textil{0} zurückgeliefert.}}%
+%
+\end{enumerate}}%
+%
+\item<8-> In anderen Worten, eine Ausnahme auszulösen führt zum Verlassen des aktuellen Pfads des Kontrollflusses und zum Signalisieren eines Fehlers der entweder Explizit behandelt werden muss, oder der andernfalls zum Beenden des Programmes führt.%
+%
+\item<9-> Das ist meiner Meinung nach die beste Methode, um mit problematischen Situationen umzugehen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Ausnahmen auslösen ist gut}%
+%
+\begin{itemize}%
+\item Ausnahmen auszulösen ist meiner Meinung nach die beste Methode, um mit problematischen Situationen umzugehen\only<-1>{.}\uncover<2->{ weil:%
+%
+\begin{enumerate}%
+%
+\item \alert{Es zeigt klar und explizit, dass ein Fehler passiert ist}, wo er passiert ist, wann er passiert, und zu einem gewissen Grad, weshalb er passiert ist.\only<-3>{\uncover<3->{ %
+Dadurch wird es viel einfacher, herauszufinden, was den Fehler ausgelöst hat, \DEzB\ war es ein Programmierfehler oder fehlerhafte Daten?}}%
+%
+\item<4-> \alert{Es verhindert, dass \pgls{GIGO} überhaupt passiert.}\only<-6>{\uncover<5->{ %
+In einer fehlerhaften Situation oder wenn fehlerhafte Daten auftauchen, dann kann das Problem sich nicht aus dem aktuellen Kontext heraus fortpflanzen.\uncover<6->{ %
+Eine Ausnahme wird ausgelöft, die den aktuellen Ausführungspfad verlässt und somit den verunreinigten Kontrollfluss beendet.}}}%
+%
+\item<6-> \alert{Programmierer werden gezwungen, explizit mit der fehlerhaften Situation umzugehen.}\only<-10>{\uncover<7->{ %
+Sie können den Fehler nicht einfach \alert{implizit} ignorieren.\uncover<8->{ %
+Natürlich können sie das Ausnahme-Objekt abfangen und wegwerfen.\uncover<9->{ %
+Aber sie müssen es \alert{explizit} und \alert{mit Absicht} machen.\uncover<10->{ %
+Fehler können nicht unbeabsichtigt übersehen werden, denn dann würde die Ausnahme das Programm beenden.}}}}}%
+%
+\item<11-> Man kann vielleicht sagen:~\emph{\inQuotes{Aber wenn wir die Ausnahme nicht explizit behandeln, dann stürzt das Programm doch ab! Das ist doch schlecht?}}\only<-13>{\uncover<12->{ %
+Aber was ist schlimmer?\uncover<13->{ %
+Das ein Fehler das aktuelle Programm unerwartet zum Absturz bringt {\dots} oder dass alle zukünftigen Ausgaben des Programms falsch sind, und zwar \emph{unerkannt} falsch?}}}\uncover<14->{ Aber unentdeckte Fehler wären noch viel schlimmer\dots}%
+%
+\end{enumerate}}%
+\end{itemize}%
+%
+\uncover<14->{%
+%
+\bestPractice{exceptions}{%
+Fehler sollten nicht ignoriert werden und Eingabedaten sollten nicht repariert werden.\uncover<15->{ %
+Stattdessen sollten Eingabedaten von Funktion, wo immer sinnvol, auf Gültigkeit geprüft werden.\uncover<16->{ %
+Fehlerhafte Eingabedaten sollten durch Fehlermeldungen signalisiert werden, die denn Kontrollfluss unterbrechen.\uncover<17->{ %
+\pythonilsIdx{Exception} sollten so früh wie möglich ausgelöst werden und zwar immer, wenn eine unerwartete Situation eintritt.}}}%
+}}%
+%
+\end{frame}%
+%
+\section{Ausnahmen auslösen}%
+%
+\begin{frame}[t]%
+\frametitle{Ausnahmen auslösen}%
+\begin{itemize}%
+\only<-3>{%
+\item Ausnahmen auslösen, auf Englisch/in \python: \emph{\inQuotes{raising exceptions}}, ist sehr einfach.%
+}%
+%
+\only<-4>{%
+\item<2-> \python\ bietet uns viele verschiedene Typen von Exceptions an, die wir aber später diskutieren.%
+%
+\item<3-> Wichtige Beispiele sind \pythonilIdx{ValueError}~(wenn ein Parameter einen inkorrekten Wert hat) und \pythonilIdx{TypeError}~(wenn ein Parameter einen falschen Typ hat).%
+}%
+%
+\item<4-> Wenn Sie einen Fehler eines dieser Typen auslösen wollen, dann brauchen Sie nur \pythonilIdx{raise} gefolgt vom Exception-Typ zu schreiben.%
+%
+\item<5-> Wenn Sie zusätzlich eine Fehlermeldung bereitstellen wollen, dann schreiben Sie diese als String in Klammern nach dem Exception-Typ.%
+\end{itemize}%
+%
+\gitLoadPython{syntax/raise_exception}{}{syntax/raise_exception.py}{}%
+\listingPythonSyntax{-4}{syntax/raise_exception}{0.1}{0.5}{0.8}{0.6}%
+\listingPythonSyntax{5-}{syntax/raise_exception}{0.1}{0.39}{0.8}{0.6}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Ausnahmen in Funktionen auslösen}%
+\begin{itemize}%
+\item Oftmals wollen wir Ausnahmen in Funktionen auslösen.%
+\item<2-> Das geht genauso wie oben, aber wir sollten den Fehlertyp im \glslink{docstring}{Docstring} der Funktion vermerken.%
+\item<3-> Das geht, in dem wir einen Eintrag \textil{:raises ExceptionType: Erklärung} nach der Parameterlist anhängen.%
+\end{itemize}%
+%
+\gitLoadPython{syntax/raise_exception_in_func}{}{syntax/raise_exception_in_func.py}{}%
+\listingPythonSyntax{-3}{syntax/raise_exception_in_func}{0.1}{0.5}{0.8}{0.6}%
+%
+\uncover<4->{
+\bestPractice{exceptionDoc}{%
+\sloppy%
+Jede Funktion die selbst explizit eine Ausnahme auslöse, muss das auch explizit in ihrem \glslink{docstring}{Docstring} anmerken.\uncover<5->{ %
+Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobei \textil{ExceptionType} mit dem Typ der Ausnahme und \textil{why} mit einer kurzen Erklärung ersetzt werden.%
+}}%
+}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (Original)}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Schauen wir uns ein Beispiel an, wie wir eine Ausnahme in unserem Kode auslösen können.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir gehen dafür zurück zu unserer Funktion \pythonil{sqrt} in Datei \programUrl{functions:my_math_3} aus Einheit~28.%
+}%
+%
+\only<-7>{%
+\item<3-> Damals war uns aufgefallen, dass es einige Eingabewerte wie \DEzB~\pythonil{inf}, \pythonil{-inf}, \pythonil{nan}, und~\pythonil{0.0} gibt, die eine besondere Behandlung erfordern.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir hatten auch bemerkt, dass jemand kommen könnte und negative Zahlen als Argument an unsere \pythonil{sqrt}-Funktion übergeben könnte.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir hatten damals nicht die Möglichkeit, gegen so etwas vorzugehen.%
+}%
+%
+\only<-10>{%
+\item<6-> Deshalb haben wir damals einfach \pythonil{0.0} zurückgeliefert.%
+}%
+%
+\only<-11>{%
+\item<7-> Das ist offensichtlich keine gute Idee.%
+}%
+%
+\only<-11>{%
+\item<8-> Es kann ja nur zwei Gründe geben, warum jemand negative Zahlen in \pythonil{sqrt} eingibt.%
+}%
+%
+\only<-12>{%
+\item<9-> Entweder er weiß nicht, was eine Quadratwurzel ist.%
+}%
+%
+\only<-13>{%
+\item<10-> Oder die negative Zahl ist das Ergebnis einer anderen Berechnung und diese andere Berechnung war irgendwie falsch.%
+}%
+%
+\only<-14>{%
+\item<11-> Im ersten Fall sollten wir explizit signalisieren, dass die Quadratwurzel einer negativen Zahl nicht geht~(oder zumindest keine reelle Zahl im Sinne von \pythonil{float} ergibt).%
+}%
+%
+\only<-15>{%
+\item<12-> Im zweiten Fall sollten wir lieber hier die Berechnung abbrechen, bevor sich der Schaden weiter ausbreitet.%
+}%
+%
+\only<-16>{%
+\item<13-> Dadurch kann man dann vielleicht den Fehler in der vorangegangenen Berechnung finden.%
+}%
+%
+\only<-18>{%
+\item<14-> In beiden Fällen ist das auslösen einer Ausnahme besser als \pythonil{0.0} zurückzuliefern.%%
+}%
+%
+\item<15-> Genaugenommen sollte unsere Funktion vielleicht \emph{immer} eine Ausnahme auslösen when ihr Ergebnis keine endliche reelle Zahl wäre.%
+%
+\item<16-> Dann würden wir sicherstellen, dass unser \pythonil{sqrt} entweder eine endliche Zahl zurückliefert, die in späteren Berechnungen verwendet werden kann\dots%
+%
+\item<17-> {\dots}oder, andernfalls, eine Ausnahme auslöst und fehlschlägt.%
+%
+\item<18-> Unsere Funktion würde niemals eine falsche Zahl, \pythonil{inf}, oder \pythonil{nan} liefern.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{functions:my_math_3}{}{functions/my_math_3.py}{}%
+\listingPython{}{functions:my_math_3}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (neu)}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir erstellen also eine neue Implementierung der Funktion \pythonil{sqrt} in der Datei \programUrl{exceptions:sqrt_raise}.%
+}%
+%
+\only<-6>{%
+\item<2-> Nun müssen wir uns entscheiden, welchen Typ Ausnahme wir verwenden wollen.%
+}%
+%
+\only<-7>{%
+\item<3-> \pythonilIdx{ValueError} wäre OK, denn wir signalisieren einen ungültigen Parameterwert.%
+}%
+%
+\only<-8>{%
+\item<4-> \pythonilIdx{ArithmeticError} ist auch OK, denn es schlägt eine Berechnung fehl.%
+}%
+%
+\only<-9>{%
+\item<5-> Beide Typen wären hier völlig richtig.%
+}%
+%
+\only<-9>{%
+\item<6-> Ich wähle \pythonilIdx{ArithmeticError}, weil ich explizit den mathematischen Hintergrund betonen will.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir drücken das neue Verhalten der Funktion im \glslink{docstring}{Docstring} aus, in dem wir einen entsprechenden \textil{:raises:}-Eintrag anfügen.%
+}%
+%
+\only<-11>{%
+\item<8-> In unserem Fall, jede Eingabe~$x$ für die~$\sqrt{x}$ entweder undefiniert oder nicht endlich wäre, führt zu einem Fehler.%
+}%
+%
+\only<-12>{%
+\item<9-> Wir schreiben daher \textil{:raises ArithmeticError: if} \textil{`number` is not} \textil{finite or} \textil{less than 0.0}.%
+}%
+%
+\only<-14>{%
+\item<10-> Jeder andere Programmierer, der unseren Kode verwendet, kann leicht sehen welche \pythonilsIdx{Exception} unser Kode auslösen kann.%
+}%
+%
+\only<-15>{%
+\item<11-> Im eigentlichen Kode prüfen wir nun zuerst ob entweder \pythonil{not isfinite(number)}\pythonIdx{isfinite} oder \pythonil{number < 0.0} zutrifft.%
+}%
+%
+\only<-16>{%
+\item<12-> Die \pythonilIdx{isfinite}-Funktion kommt aus dem Modul \pythonilIdx{math} und liefert \pythonil{True}, wenn ihr Argument eine finite Zahl ist.%
+}%
+%
+\only<-17>{%
+\item<13-> Die Funktion liefert \pythonil{False} für \pythonilIdx{inf}, \pythonilIdx{-inf}, und \pythonilIdx{nan}.%
+}%
+%
+\only<-18>{%
+\item<14-> Der ganze Ausdruck is \pythonil{True}, wenn das Argument unserer Funktion keine finite Zahl größer/gleich~0 ist.%
+}%
+%
+\only<-19>{%
+\item<15-> In diesem Fall wäre das Ergebnis von \pythonil{sqrt} keine finite Zahl.%
+}%
+%
+\only<-20>{%
+\item<16-> In dieser Situation machen wir \pythonil{raise ArithmeticError} mit dem \glslink{fstring}{f-String} \scalebox{0.9}{\pythonil{f\"sqrt(\{number\}) is not permitted.\"}} als Fehlermeldung.%
+}%
+%
+\only<-21>{%
+\item<17-> \pythonilIdx{raise} ist das \python-Schlüsselwort um Ausnahmen auszulösen, also um einen Fehler zu signalisieren.%
+}%
+%
+\only<-22>{%
+\item<18-> \pythonilIdx{ArithmeticError} erstellt dann ein Objekt mit der Information über diesen Fehler.%
+}%
+%
+\only<-23>{%
+\item<19-> Wir können dieser Funktion einen String als Parameter übergeben.%
+}%
+%
+\item<20-> Wir benutzen hier einen \glslink{fstring}{f-String} der den Wert der Zahl mit angibt, mit dem \pythonil{sqrt} aufgerufen wurde.%
+%
+\item<21-> (Man sollte zwar eigentlich keine \glslink{fstring}{f-String} beim Konstruieren von Ausnahmen direkt verwenden, weil das eine weitere Fehlerquelle ist\dots\ {\dots}aber ich mache es hier trotzdem.)%
+%
+\item<22-> Diese Zeile Kode zwingt den Kontrollfluss dazu, unsere Funktion sofort zu verlassen.%
+%
+\item<23-> Das \pythonilIdx{Exception}-Objekt  \inQuotes{steight auf} bis es irgendwann \inQuotes{eingefangen} wird
+~(das lernen wir später).%
+%
+\item<24-> Wird es nicht eingefangen, wird der ganze Prozess abgebrochen.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{exceptions:sqrt_raise}{}{exceptions/sqrt_raise.py}{}%
+\listingPython{}{exceptions:sqrt_raise}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (Aufruf)}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-4>{%
+\item Das Terminieren des Prozesses kann hier im Program \programUrl{exceptions:use_sqrt_raise} beobachtet werden.%
+}%
+%
+\only<-5>{%
+\item<2-> In dem Program wenden wir unsere neue \pythonil{sqrt}-Funktion iterativ auf die Werte in einem Tupel mit Hilfe einer \pythonil{for}-Schleife an.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir schreiben die Ergebnisse der Berechnungen auf den \glsFull{stdout} mit Hilfe von \glslink{fstring}{f-Strings} und \pythonil{print}.%
+}%
+%
+\only<-7>{%
+\item<4-> Beachten Sie, dass wir diesmal den optionalen Parameter \pythonilIdx{flush} von \pythonilIdx{print} verwenden, der sonst den Default Value \pythonil{False} hat.%
+}%
+%
+\only<-8>{%
+\item<5-> Hier setzen wir ihn auf \pythonil{flush=True}, was erzwingt dass alle Ausgaben von \pythonilIdx{print} direkt und sofort auf den \pgls{stdout} geschrieben und nicht irgendwo zwischengespeichert wird.%
+}%
+%
+\only<-9>{%
+\item<6-> Das ist nützlich in diesem speziellen Beispiel um Vermischungen vom \pgls{stdout}-Stream, der die normale Ausgabe des Programms erhält, und dem \glsFull{stderr}, auf dem Fehlermeldungen auftauchen, zu verhindern.%
+}%
+%
+\only<-11>{%
+\item<7-> Beide Streams sind nämlich zusammen in der Ausgabe rechts dargestellt.%
+}%
+%
+\only<-11>{%
+\item<8-> Egal. Die ersten fünf Zahlen sind OK und \pythonil{sqrt} liefert vernünftige Ergebnisse.%
+}%
+%
+\only<-12>{%
+\item<9-> Die drei Zahlen danach, \pythonilIdx{inf}, \pythonilIdx{nan}, und \pythonil{-1.0}, würden aber alle einen Fahler auslösen.%
+}%
+%
+\only<-13>{%
+\item<10-> Für \pythonil{0.0}, \pythonil{1.0}, \pythonil{2.0}, \pythonil{4.0}, und \pythonil{10.0} werden die erwarteten Ergebnisse ausgegeben.%
+}%
+%
+\only<-14>{%
+\item<11-> Wenn die \pythonilIdx{for}-Schleife aber \pythonilIdx{inf} erreicht, dann bricht das Programm ab und der so genannte \pgls{stackTrace}{Stack-Trace} wird ausgegeben.%
+}%
+%
+\only<-15>{%
+\item<12-> Wir hatten diese Informationen schonmal in Einheit~14 erwähnt, als es darum ging, Fehler mit Hilfe der \glslink{ide}{IDE} zu finden.%
+}%
+%
+\only<-17>{%
+\item<13-> Der \pgls{stackTrace}{Stack-Trace} beginnt mit der Zeile~\emph{\inQuotes{Traceback (most recent call last):}}.%
+}%
+%
+\only<-18>{%
+\item<14-> Dann wird der Pfad der Programmdatei \programUrl{exceptions:use_sqrt_raise}, wo der Fehler aufgetreten ist, sowie die entsprechende Zeile ausgegeben.%
+}%
+%
+\only<-19>{%
+\item<15-> (Die Pfade sehen bei Ihnen anders aus.)%
+}%
+%
+\only<-20>{%
+\item<16-> The last part of the path, \textil{exceptions/use_sqrt_raise.py}, stellt unser aufrufendes Programm klar als Fehlerursache dar.%
+}%
+%
+\only<-21>{%
+\item<17-> Die folgende Zeile Text identifiziert die fehlerhafte Instruktion und \inQuotes{unterstreicht} diese sogar.%
+}%
+%
+\only<-22>{%
+\item<18-> Dann sehen wir den Kontext unserer \pythonil{sqrt}-Funktion.%
+}%
+%
+\only<-23>{%
+\item<19-> Der Pfad zu ihrem Modul wird angegeben~(er endet mit \textil{exceptions/sqrt_raise.py}) und es wird angezeigt, dass der Fehler in Zeile~15 auftrat.%
+}%
+%
+\only<-24>{%
+\item<20-> Diese Zeile Kode wird auch angezeigt.%
+}%
+%
+\only<-25>{%
+\item<21-> Es ist genau die Zeile, wo wir \pythonil{raise ArithmeticError} machen.%
+}%
+%
+\only<-25>{%
+\item<22-> Der \glslink{stackTrace}{Stack-Trace} hat uns also genau gezeigt, wo der Fehler auftrat.%
+}%
+%
+\only<-26>{%
+\item<23-> Danach sehen wir die weiteren Informationen des Fehlers, es wir nämlich ausgedruckt dass~\emph{\inQuotes{ArithmeticError: sqrt(inf) is not permitted.}}%
+}%
+%
+\only<-28>{%
+\item<24-> Wir hatten diese Nachricht selber zusammengebaut, als wir die Ausnahme ausgelöst haben.%
+}%
+%
+\only<-29>{%
+\item<25-> Wir machten dass, damit de Benutzer versteht, dass \pythonil{sqrt} mit dem Argument \pythonil{inf} aufgerufen wurde, was wir nicht erlauben.%
+}%
+%
+\only<-30>{%
+\item<26-> Mit dieser Information können wir ziemlich genau die Quelle des Problems finden.%
+}%
+%
+\only<-31>{%
+\item<27-> Programmierer ignorieren diese Meldungen leider oft.%
+}%
+%
+\only<-32>{%
+\item<28-> Oft sehen sie, dass das Programm einen Fehler ausgelöst hat und suchen dann im Kode nach Fehlern.%
+}%
+%
+\only<-33>{%
+\item<29-> Dabei lesen sie den \glslink{stackTrace}{Stack-Trace} oftmals nicht.%
+}%
+%
+\only<-35>{%
+\item<31-> In dem Tupel mit Eingabedaten für \pythonil{sqrt} würden die letzten drei Zahlen \pythonilIdx{inf}, \pythonilIdx{nan}, und \pythonil{-1.0} zu Fehlern führen.%
+}%
+%
+\only<-36>{%
+\item<32-> Der Aufruf von \pythonil{sqrt} mit \pythonil{inf} als Argument wurde durchgeführt -- und ist fehlgeschlagen.%
+}%
+%
+\only<-37>{%
+\item<33-> Danach gibt es keine weitere Ausgabe.%
+}%
+%
+\only<-38>{%
+\item<34-> Der Kontrollfluss hat den Kode verlassen, die \pythonil{for}-Schleife wurde abgebrochen, und das Programm mit \pgls{exitCode}~1 beendet.%
+}%
+%
+\only<-39>{%
+\item<35-> Ein ganzes Program wegen diesem einem Fehler abzubrechen sieht ziemlich harsch aus.%
+}%
+%
+\item<36-> Aber es ist gut.%
+%
+\item<37-> Wenn ein Programmierer unsere \pythonil{sqrt}-Funktion falsch verwendet hat, dann wird er gezwungen, seinen Fehler zu korrigieren.%
+%
+\item<38-> Wenn die Eingabedaten fehlerhaft waren, dann verhindert das Terminieren des Programms, das der Fehler sich fortpflanzt.%
+%
+\item<39-> In beiden Fällen hat uns der \glslink{stackTrace}{Stack-Trace} klar gezeigt, wo der Fehler liegt.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{exceptions:use_sqrt_raise}{}{exceptions}{use_sqrt_raise.py}{}%
+\listingPythonAndOutput{-29,31-}{exceptions:use_sqrt_raise}{style=tool_style}{0.45}{0.15}{0.54}{0.92}%
+%
+\locate{30}{\parbox{0.54\paperwidth}{%
+\bestPractice{exceptionStackTrace}{%
+Der \glslink{stackTrace}{Stack-Trace} und die Fehlerinformation, welche in der \python-Konsole ausgegeben werden, wenn eine Ausnahme nicht verarbeitet wurde, sind \emph{essenziell} um das Problem zu finden. %
+Sie sollten \emph{immer} gelesen und verstanden werden, bevor am Kode weitergearbeitet wird.%
+}%
+}}{0.45}{0.14}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (mit \texttt{TypeError})}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-3>{%
+\item Früher in dieser Einheit haben wir gesagt, dass es eine schlechte Idee ist, zu lässig mit den Datentypen von Parametern umzugehen.%
+}%
+%
+\only<-4>{%
+\item<2-> Wenn wir die Eingabedaten einfach gemütlich in die Datentypen umwandeln, die wir brauchen, dann verlassen sich Benutzer auf dieses Verhalten und wir müssen das in allen zukünftigen Versionen unseres Kodes weiter unterstützen.%
+}%
+%
+\only<-5>{%
+\item<3-> Wir sollten also niemals zulassen, dass unsere Funktionen mit Datentypen aufgerufen werden, für die sie nicht gedacht sind.%
+}%
+%
+\only<-6>{%
+\item<4-> Natürlich, wenn jetzt jemand daher käme und unsere \pythonil{sqrt}-Funktion mit einem String als Argument aufruft, dann wird das mit einem \pythonilIdx{TypeError} fehlschlagen.%
+}%
+%
+\only<-7>{%
+\item<5-> Dieser Fehler würde irgendwo im Kode auftauchen, weil Fließkommaarithmetik nunmal nicht mit Strings funktioniert.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir fragen uns: Können wir selber auch gezielt einen \pythonilIdx{TypeError} auslösen?%
+}%
+%
+\only<-11>{%
+\item<7-> Und wie können wir überhaupt wissen, ob eine Variable einen bestimmten Typ hat?%
+}%
+%
+\only<-12>{%
+\item<8-> Die Antwort zu beiden Fragen findet sich in unserer neuen Variante der \pythonil{sqrt}-Funktion in Datei \programUrl{exceptions:sqrt_raise_2}.%
+}%
+%
+\only<-13>{%
+\item<9-> Hier prüfen wir anfänglich ob \pythonil{isinstance(number, float)}.%
+}%
+%
+\only<-14>{%
+\item<10-> Die Funktion \pythonilIdx{isinstance} verlangt ein Objekt als ersten Parameter und einen Typ als zweiten Parameter.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir wollen das Objekt \pythonil{number} überprüfen.%
+}%
+%
+\only<-16>{%
+\item<12-> Der Typ, auf den wir prüfen wollen, ist \pythonil{float}.%
+}%
+%
+\only<-17>{%
+\item<13-> \pythonil{isinstance(number, float)} liefert \pythonil{True} wenn \pythonil{number} zum Typ \pythonil{float} gehört.%
+}%
+%
+\item<14-> Andernfalls liefert es \pythonil{False}.%
+%
+\item<15-> Wir lösen also einen \pythonilIdx{TypeError} aus, wenn \pythonil{isinstance(number, float)} \emph{nicht} gilt.%
+%
+\item<16-> Dann übergeben wir auch eine vernünftige Fehlermeldung.%
+%
+\item<17-> Natürlich schreiben wir das auch wieder in den \glslink{docstring}{Docstring}.
+\end{itemize}%
+}}%
+%
+\gitLoadPython{exceptions:sqrt_raise_2}{}{exceptions/sqrt_raise_2.py}{}%
+\listingPython{-7}{exceptions:sqrt_raise}{0.45}{0.15}{0.54}{0.92}%
+\listingPython{8-}{exceptions:sqrt_raise_2}{0.45}{0.15}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (mit \texttt{TypeError} aufrufen)}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\item Jetzt schreiben wir ein Programm \programUrl{exceptions:use_sqrt_raise_2}, dass unsere neue Funktion \pythonil{sqrt} verwendet.%
+%
+\item<2-> Anders als beim letzten Mal übergeben wir diesmal einen String \pythonil{\"0.3\"} als \inQuotes{falschen} Parameter.%
+%
+\item<3-> Das führt dann dazu, dass ein \pythonilIdx{TypeError} ausgelöst wird.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{exceptions:use_sqrt_raise_2}{}{exceptions}{use_sqrt_raise_2.py}{}%
+\listingPythonAndOutput{}{exceptions:use_sqrt_raise_2}{style=tool_style}{0.45}{0.15}{0.54}{0.92}%
+%%
+\end{frame}%
+%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Quadratwurzel (mit \texttt{TypeError} und Mypy)}%
+\begin{itemize}%
+\only<-6>{%
+\item Wie ist es überhaupt möglich ist, dass wir \pythonil{sqrt} mit einem String als Argument aufrufen, obwohl wir doch seinen Parameter explizit mit dem \glslink{typeHint}{Type-Hint} \pythonil{float} versehen haben?%
+}%
+%
+\item<2-> Das geht, weil \python\ keine Type-Restriktionen zur Laufzeit erzwingt.%
+%
+\item<3-> Wir können zwar \emph{schreiben}, dass unsere Funktion nur \pythonils{float} als Eingabedaten bekommen soll.%
+%
+\item<4-> Der Benutzer kann das aber einfach ignorieren.%
+%
+\item<5-> Wir lassen ihn nur nicht damit davonkommen\dots%
+%
+\item<6-> \mypy\ hätte übrigens gesehen, dass \programUrl{exceptions:use_sqrt_raise_2} falsch ist.%
+%
+\item<7-> Hätte der Programmierer das Programm damit überprüft, hätte er den Fehler beheben können.%
+\end{itemize}%
+%
+\gitExec{exec:exceptions:use_sqrt_raise_2:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh exceptions use_sqrt_raise_2.py}%
+%
+\listingOutput{6-}{exceptions:use_sqrt_raise_2:mypy}{style=tool_style}{0.05}{0.7}{0.9}{0.6}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Wieder haben wir einen wichtigen Schritt hin zum professionellen Programmieren gemacht.%
+%
+\item<2-> Wir haben nun die Mittel, um unseren Kode gegen einige Benutzerfehler zu schützen.%
+%
+\item<3-> Natürlich können wir nicht verhindern, dass jemand unseren Kode mit Argumenten falschen Typs aufruft.%
+%
+\item<4-> Wir können auch nicht verhindern, dass wir fehlerhafte Parameterwerte als Eingabe bekommen.%
+%
+\item<5-> Wenn wir aber in der Lage sind, bestimmte falsche Werte zu erkennen, dann können wir eine Ausnahme auslösen.%
+%
+\item<6-> Wir können uns weigern, \pgls{GIGO} zu machen.%
+%
+\item<7-> Wir können uns weigern, Ergebnisse, die auf falschen Annahmen beruhen, zurückzuliefern.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zwei Dinge}%
+\begin{itemize}%
+\item Wir müssen aber zwei Dinge bedenken\only<-1>{.}\uncover<2->{:%
+\begin{enumerate}%
+%
+\item Es ist nicht möglich, \alert{alle} fehlerhaften Eingabedaten zu endecken. %
+Wenn der Benutzer \pythonil{sqrt(3.1)} aufrufen wollte, aber aus Versehen \pythonil{sqrt(1.3)} aufruft, dann können wir das unmöglich wissen.%
+%
+\item<3-> Eingabeparameter zu überprüfen kommt mit Performanzkosten. %
+Wenn unsere \pythonil{sqrt}-Funktionen millionenfach in einer Schleife aufgerufen wird um einen Strom von Eingabedaten zu verarbeiten {\dots} wollen wir dann wirklich jedesmal die Datentypen \inQuotes{manuell} prüfen?%
+%
+\end{enumerate}}%
+%
+\item<4-> Es ergibt Sinn, alle Eingabedaten extrem genau zu prüfen, wenn unsere Funktion entweder sowieso lange braucht oder nicht oft aufgerufen wird.%
+%
+\item<5-> Wenn unser Kode schnell sein muss oder sehr sehr oft aufgerufen wird, dann ist es sinnvoll, weniger explizite Überprüfungen durchzuführen.%
+%
+\item<6-> Sicheres Programmieren ist immer ein Trade-off.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

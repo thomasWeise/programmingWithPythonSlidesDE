@@ -1,0 +1,1213 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+%
+\subtitle{32.~Ausnahmen verarbeiten)}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item Wir haben nun gelernt, wie wir Ausnahmen auslösen können.%
+%
+\item<2-> Die Ausnahmen, die wir ausgelöst haben, haben unsere Prozesse dazu gebracht, eine Fehlermeldung auf dem \glsFull{stderr} auszugeben und dann zu terminieren.%
+%
+\item<3-> Natürlich wollen wir nicht dass jede unerwartete Fehlersituation immer sofort unser Programm zum Absturz bringt.%
+%
+\item<4-> Nehmen wir an, dass wir ein Malprogramm entwickelt haben. Ein Benutzer hat ein Bild gemalt und will es speichern, gibt jedoch aus Versehen einen falschen Pfad an.%
+%
+\item<5-> Es wäre dann ärgerlich, wenn unser Programm sofort abstürzen würde.%
+%
+\item<6-> Die Funktion zum Bilder-speichern würde mit einer Ausnahme fehlschlagen.%
+%
+\item<7-> Der aktuelle Zweig es Kontrollflusses, der vielleicht das Bild als \inQuotes{gespeichert} markieren und den Undo-Puffer leeren würde, muss sofort verlassen werden.%
+%
+\item<8-> Auf einer höheren Ebene sollte die Exception dann verarbeitet werden.%
+%
+\item<9-> Dem Benutzer wird ein Dialog mit der Fehlermeldung angezeigt. Dann kann er normal weiterarbeiten.%
+%
+\item<10-> Nun lernen wir, wie man das macht, \alert{wie man Ausnahmen verarbeitet}.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Der \texttt{try...except} Block}%
+%
+\begin{frame}[t]%
+\frametitle{Der \texttt{try...except} Block}
+\begin{itemize}%
+\item Der \pythonilIdx{try}\nobreakdashes-\pythonilIdx{except} Block existiert als primäre Methode, um bestimmte Fehler aufzufangen und zu verarbeiten.%
+%
+\only<-3>{%
+\item<2-> Wir schreiben \pythonil{try:} und danach platzieren wir den Kode, der eine Ausnahme auslösen kann, in einen eingrückten Block.%
+}%
+%
+\only<-3>{%
+\item<3-> Nach dem Block kommen die Handler für spezifische Ausnahmetypen.%
+}%
+%
+\only<-5>{%
+\item<4-> Wenn der \pythonil{try}-Block einen \pythonilIdx{ArithmeticError} auslösen kann (aus einem Grund den wir vernünftig behandeln können!), dann schreiben wir \pythonil{except ArithmeticError as ae:}.%
+}%
+%
+\only<-6>{%
+\item<5-> Der Kode im \pythonilIdx{except}-Block wird \emph{nur} dann ausgeführt, wenn tatsächlich irgendwo im \pythonil{try}-Block ein \pythonilIdx{ArithmeticError} ausgelöst wurde.%
+}%
+%
+\only<-7>{%
+\item<6-> In diesem Fall steht der \pythonilIdx{ArithmeticError} dann als Variable \pythonil{ae} in diesem Block bereit.%
+}%
+%
+\only<-8>{%
+\item<7-> Natürlich kann Kode beliebig viele \pythonilsIdx{Exception} auslösen, weshalb wir auch mehrere \pythonilIdx{except}-Blöcke haben können.%
+}%
+%
+\only<-9>{%
+\item<8-> Wir müssen auch Ausnahmen nicht unbedingt mit \inQuotes{\pythonil{as varName}} in Variablen speichern.%
+}%
+%
+\item<9-> Wenn wir auf die \pythonil{Exception}-Daten nicht zugreifen wollen, können wir das auch weglassen.%
+\end{itemize}%
+\gitLoadPython{syntax/try_except}{}{syntax/try_except.py}{}%
+\listingPythonSyntax{}{syntax/try_except}{0.175}{0.5}{0.65}{0.6}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: String.index}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Probieren wir das mal aus.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir haben bereits gelernt, dass Strings~\pythonil{r} die Methode \pythonil{r.find(s)} anbieten, die einen String~\pythonil{s} im String~\pythonil{r} suchen und den ersten Index, wo \pythonil{s} auftaucht, zurückliefern.%
+}%
+%
+\only<-7>{%
+\item<3-> Wenn \pythonil{s} nicht in \pythonil{r} gefunden wird, dann wird \pythonil{-1} zurückgegeben.%
+}%
+%
+\only<-7>{%
+\item<4-> Die Operation \pythonil{r.index(s)} funktioniert im Grunde genauso, nur dass sie einen \pythonilIdx{ValueError} auslöst, wenn \pythonil{s} nicht in \pythonil{r} gefunden wird.%
+}%
+%
+\only<-9>{%
+\item<5-> Das ist sinnvoll in Fällen, wo wir wissen, dass \pythonil{s} in \pythonil{r} seien muss und wenn nicht, dann ist es ein Fehler.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir können auch das Ergebnis von \pythonil{r.index(s)} direkt als Index in \pythonil{r} verwenden, also sowas wie \pythonil{r[r.index(s)]} machen.%
+}%
+%
+\only<-11>{%
+\item<7-> Mit \pythonil{r.find(s)} können wir das nicht, weil \pythonil{-1} ja auch ein gültiger Index für einen String ist\dots%
+}%
+%
+\only<-12>{%
+\item<8-> Im Beispiel \programUrl{exceptions:try_except_str_index} erforschen wir also diese Funktion.%
+}%
+%
+\only<-13>{%
+\item<9-> Unser String~\pythonil{r} ist \pythonil{\"Hello World!\"}.%
+}%
+%
+\only<-14>{%
+\item<10-> Im \pythonilIdx{try}-Block ist eine \pythonil{for}-Schleife, die eine Variable \pythonil{s} nacheinander drei Werte annehmen lässt.%
+}%
+%
+\only<-15>{%
+\item<11-> In der ersten Iteration gilt \pythonil{s = \"Hello\"} und \pythonil{r.index(s)} ergibt~\pythonil{0}.%
+}%
+%
+\only<-16>{%
+\item<12-> Das wird auch ausgegeben.%
+}%
+%
+\only<-17>{%
+\item<13-> In der zweiten Iteration ist \pythonil{s = \"world\"} was nicht gefunden wird, weil String-Suche case-sensitive ist, also Groß- und Kleinschreibung beachtet.%
+}%
+%
+\only<-18>{%
+\item<14-> \pythonil{r.index(s)} löst also eine Ausnahme aus.%
+}%
+%
+\only<-19>{%
+\item<15-> Der \pythonilIdx{except}-Block nach dem \pythonil{try}-Block wird ausgeführt, wenn irgendwo im \pythonil{try}-Block ein \pythonilIdx{ValueError} ausgelöst wird.%
+}%
+%
+\only<-20>{%
+\item<16-> In diesem Fall wird der \pythonilIdx{ValueError} in der Variable \pythonil{ve} gespeichert.%
+}%
+%
+\only<-20>{%
+\item<17-> In diesem Block drucken wir einfach den Fehler aus.%
+}%
+%
+\only<-21>{%
+\item<18-> Nach dem Block gegen wir \pythonil{\"The program is now finished.\"}.%
+}%
+%
+\only<-21>{%
+\item<19-> Dieser Kode wird nur ausgeführt, wenn keine unbearbeitete Ausnahme den \pythonil{try}-\pythonil{except}-Block verlässt.%
+}%
+%
+\only<-22>{%
+\item<20-> In der Ausgabe sehen wir zuerst das Ergebnis der erfolgreichen Suche, dann die Ausgabe für die fehlgeschlagene Suche, und zuletzt den text \textil{The program is now finished.}.%
+}%
+%
+\only<-24>{%
+\item<21-> Wenn wir den \pythonilIdx{except}-Block nicht geschrieben hätten, dann hätte der Kontrollfluss die Schleife verlassen, einen \glslink{stackTrace}{Stack-Trace} ausgegeben, und das Programm abgebrochen.%
+}%
+%
+\item<22-> Beachten Sie, dass der drite Wert in der Schleife -- \pythonil{\"!\"} -- niemals der Variable \pythonil{s} zugewiesen wird.%
+%
+\item<23-> Der \pythonilIdx{try}-Block wird sofort abgebrochen, wenn die Ausnahme auftritt.%
+%
+\item<24-> Wenn die Ausnahme von einem passenden \pythonilIdx{except}-Block behandelt werden kann, dann wird dieser ausgeführt.%
+%
+\item<25-> Andernfalls wird der Prozess abgebrochen.%
+%
+\item<26-> So oder so, der Kode nach dem fehlgeschlagenen Befehl im \pythonil{try}-Block wird nie erreicht.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{exceptions:try_except_str_index}{}{exceptions}{try_except_str_index.py}{}%
+\listingPythonAndOutput{}{exceptions:try_except_str_index}{}{0.45}{0.2}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Vernünftige Fehler}%
+\begin{itemize}%
+\only<-10>{%
+\item Wir können nun alle möglichen \pythonilsIdx{Exceptions} abfangen.%
+}%
+%
+\only<-11>{%
+\item<2-> Es ist aber wichtig, nur solche Fehler abzufangen und zu behanden, die \emph{vernünftig} sind.%
+}%
+%
+\only<-12>{%
+\item<3-> Nehmen wir an, Ihr Programm soll einen Text in eine Datei schreiben.%
+}%
+%
+\only<-13>{%
+\item<4-> Es ist akzeptabel, ass das mit einem System-bezogenen Fehler schief geht.%
+%
+\item<5-> Vielleicht ist nicht genug Platz auf dem Speicher vorhanden, oder der Benutzer hat ungenügende Zugriffsrechte, oder vielleicht war der Dateiname ungültig.%
+%
+\item<6-> Solche Fehler sollten wir mit einer passenden \pythonilIdx{except}-Klausel abfangen und dann entsprechend verarbeiten.%
+}%
+%
+\item<7-> Tritt dagegen ein \pythonilIdx{ZeroDivisionError} auf, dann bedeutet das, dass etwas völlig anderes sehr schlimm schief gegangen ist.%
+%
+\item<8-> So ein Fehler ist nicht OK in diesem Kontext.%
+%
+\item<9-> Wir sollten nur Fehler abfangen und behandeln, die im Kontext erwartbar sind.%
+%
+\item<10-> Jeder andere Fehler sollte dazu führen, dass unser Program abstürzt.%
+%
+\item<11-> Ein abgestürztes Programm ist der klarste Hinweis, dass etwas Falsch ist, das Aktionen vom Benutzer erforderlich sind.%
+%
+\item<12-> Die Aktion könnte ja auch sein, uns anzurufen und einen Bug zu melden.%
+%
+\item<13-> Dann können wir das Programm verbessern und den Bug fixen.%
+\end{itemize}%
+%
+\uncover<14->{%
+\bestPractice{onlyCatchMeaningfulExceptions}{%
+Es dürfen nur die \pythonilsIdx{Exception} von einem \pythonilIdx{except}-Block abgefangen werden, die auch vernünftig behandelt werden können~\cite{PEP760,PEP8}.\uncover<15->{ %
+Ein \pythonilIdx{except}-Block darf nicht dafür verwendet werden, beliebige \pythonilsIdx{Exception} abzufangen, \gls{GIGO} zu implementieren, oder um Eingabedaten zu reparieren.}%
+}}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Kompliziertes Beispiel}%
+\only<-31>{%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Benutzen wir noch einmal unsere \pythonil{sqrt}-Funktion aus der vorigen Einheit.%
+}%
+%
+\only<-6>{%
+\item<2-> Diese Funktion löst einen \pythonilIdx{ArithmeticError} aus, wenn ihr Argument nicht endlich oder negativ ist.%
+}%
+%
+\only<-7>{%
+\item<3-> Dieses Mal wollen $\sqrt{\frac{1}{0}}$ berechnen, also versuchen, das Ergebnis von \pythonil{sqrt(1 / 0)} in einer Variable \pythonil{sqrt_of_1_div_0} zu speichern.%
+}%
+%
+\only<-8>{%
+\item<4-> Das ist natürlich Unsinn. Aber schauen wir, was passiert.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir deklarieren zuerst die Variable als \pythonil{float}.%
+}%
+%
+\only<-10>{%
+\item<6-> Im \pythonilIdx{try}-\pythonilIdx{except}-Block machen wir die Berechnung und Wertzuweisung \pythonil{sqrt_of_1_div_0 = sqrt(1 / 0)}.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir wissen, dass \pythonil{sqrt} einen \pythonilIdx{ArithmeticError} auslösen könnte definieren wir einen passenden \pythonilIdx{except}-Block.%
+}%
+%
+\only<-12>{%
+\item<8-> Nun sieht \pythonil{1 / 0} auch komisch aus, also fangen wir auch einen möglichen \pythonilIdx{ZeroDivisionError} ab.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir haben zwei unabhängige \pythonilIdx{except}-Klausel.%
+}%
+%
+\only<-14>{%
+\item<10-> Welche wird ausgeführt?%
+}%
+%
+\only<-15>{%
+\item<11-> $\frac{1}{0}$ ist keine endliche Zahl, also würde \pythonil{sqrt} eine Ausnahme auslösen.%
+}%
+%
+\only<-16>{%
+\item<12-> Andererseits kann $\frac{1}{0}$ vielleicht gar nicht berechnet werden und wir bekommen stattdessen einen \pythonilIdx{ZeroDivisionError}?%
+}%
+%
+\only<-17>{%
+\item<13-> Wie wir sehen wird der \pythonilIdx{except}-Block für \pythonilIdx{ZeroDivisionError} ausgeführt.%
+}%
+%
+\only<-18>{%
+\item<14-> Um \pythonil{sqrt(1 / 0)} aufzurufen, muss der Onterpreter zuerst \pythonil{1 / 0} berechnen.%
+}%
+%
+\only<-19>{%
+\item<15-> Diese Berechnung löst einen \pythonilIdx{ZeroDivisionError} aus und \pythonil{sqrt} wird nie aufgerufen.%
+}%
+%
+\only<-20>{%
+\item<16-> Das bringt uns zu der Frage: \emph{\inQuotes{Wenn \pythonil{sqrt} nicht aufgerufen wird, was steht dann in \pythonil{sqrt_of_1_div_0}?}}%
+}%
+%
+\only<-21>{%
+\item<17-> Genau genommen existiert \pythonil{sqrt_of_1_div_0} gar nicht.%
+}%
+%
+\only<-22>{%
+\item<18-> Die Variable \pythonil{sqrt_of_1_div_0} würde erst \inQuotes{entstehen} wenn wir einen Wert darin speichern.%
+}%
+%
+\only<-23>{%
+\item<19-> Was wir nicht tun.%
+}%
+%
+\only<-24>{%
+\item<20-> Um den Wert zuzuweisen, hätten wir das Ergebnis von \pythonil{sqrt(1 / 0)} gebraucht.%
+}%
+%
+\only<-25>{%
+\item<21-> Und weil das niemals zur Verfügung steht, wird die Zuweisung nicht ausgeführt.%
+}%
+%
+\only<-26>{%
+\item<22-> Wenn wir versuchen, auf \pythonil{print(sqrt_of_1_div_0)} nach dem \pythonilIdx{try}-\pythonilIdx{except}-Block zuzugreifen, dann gibt es den \emph{Name} \pythonil{sqrt_of_1_div_0} gar nicht.%
+}%
+%
+\only<-27>{%
+\item<23-> Die Variable \pythonil{sqrt_of_1_div_0} hat niemals einen Wert bekommen und existiert daher nicht.%
+}%
+%
+\only<-28>{%
+\item<24-> Der Zugriff darauf scheitert mit einem \pythonilIdx{NameError}.%
+}%
+%
+\only<-29>{%
+\item<25-> Wir haben die Variable mit einem \glslink{typeHint}{Type-Hint} deklariert.%
+}%
+%
+\only<-30>{%
+\item<26-> Aber der \python-Interpreter ignoriert \glslink{typeHint}{Type-Hints}.%
+}%
+%
+\only<-31>{%
+\item<27-> Deshalb kennt er die Variable nicht, da sie keinen Wert hat.%
+}%
+%
+\item<28-> Das Programm bricht ab, da wir nirgendwo einen \pythonilIdx{NameError} verarbeiten.%
+%
+\item<29-> Es würde keinen Sinn ergeben, solch einen Fehler abzufangen, da er nur durch einen Bug im Kode entstehen kann.%
+%
+\item<30-> Und das war wirklich ein Bug.
+%
+\item<31-> Deshalb wird der \glslink{stackTrace}{Stack-Trace} und die Fehler-Information ausgegeben.%
+%
+\end{itemize}%
+}}}%
+%
+\gitLoadAndExecPythonAndErrors{exceptions:try_multi_except}{}{exceptions}{try_multi_except.py}{}%
+\listingPythonAndOutput{-31}{exceptions:try_multi_except}{style=tool_style}{0.45}{0.2}{0.54}{0.92}%
+%
+\uncover<32->{%
+\bestPractice{noAssignAfterRaise}{%
+Beachten Sie, dass der Kontrollfluss sofort den aktuellen Block verlässt, wenn eine Ausnahme ausgelöst wird.\uncover<33->{ %
+Der Befehl, in dem die Ausnahme ausgelöst wird, wird nicht zuende geführt, sondern sofort abgebrochen.\uncover<34->{ %
+Darum können dann keine Variablenzuweisungen mehr stattfinden und es ist möglich, das Variablen undefiniert bleiben.\uncover<35->{ %
+Beachten Sie dass, wenn Sie auf Variablen zugreifen, die in meinem \pythonil{try}-block zugewiesen werden.}}}%
+}%
+}%
+\end{frame}%
+%
+\section{Verschachtelte Fehlerbehandlung}%
+%
+\begin{frame}[t]%
+\frametitle{Fehler in der Fehlerbehandlung}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Was passiert, wenn eine Ausnahme \alert{in} einem \pythonilIdx{except}-Block ausgelöst wird?%
+}%
+%
+\only<-6>{%
+\item<2-> Wir probieren das in \programUrl{exceptions:try_except_nested_1} aus.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir versuchen einfach, \pythonil{sqrt_of_1_div_0 = sqrt(1 / 0)} zweimal zu berechnen.%
+}%
+%
+\only<-7>{%
+\item<4-> Zuerst im \pythonilIdx{try}-Block und und dann nochmal im \pythonilIdx{except}-Block, der den \pythonilIdx{ZeroDivisionError} behandelt.%
+}%
+%
+\only<-8>{%
+\item<5-> In anderen Worten: In einem \pythonilIdx{except}-Block für \pythonilsIdx{ZeroDivisionError} wird ein weiterer \pythonilIdx{ZeroDivisionError} ausgelöst.%
+}%
+%
+\only<-10>{%
+\item<6-> Der \pythonilIdx{except}-Block wird dadurc sofort abgebrochen und erklärender Text wird auf \glslink{stderr}{stderr} ausgegeben.%
+}%
+%
+\item<7-> Während wir den originalen \pythonilIdx{ZeroDivisionError} behandelt haben, ist ein weiterer Fehler aufgetreten.%
+%
+\item<8-> Die Ausgabe zeigt uns zuerst den \glslink{stackTrace}{Stack-Trace} der Ausnahme, die wir gerade versucht haben zu behandeln.%
+%
+\item<9-> Dann sagt es uns, dass \emph{\inQuotes{During handling of the above exception, another exception occurred:}}.%
+%
+\item<10-> Dann gibt es den \glslink{stackTrace}{Stack-Trace} der neuen Ausnahme aus, die in unserem \pythonilIdx{except}-Block aufgetreten ist.%
+%
+\item<11-> Weil es keinen Kode gab, der diesen Fehler behandeln kann, ist unser Prozess mit \pgls{exitCode}~1 abgebrochen.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{exceptions:try_except_nested_1}{}{exceptions}{try_except_nested_1.py}{}%
+\listingPythonAndOutput{}{exceptions:try_except_nested_1}{style=tool_style}{0.45}{0.08}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Verschachtelte Fehlerbehandlung}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Natürlich ist es möglich, dass Kode, der einen Fehler behandelt, einen anderen Fehler auslöst.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir können daher auch \pythonilIdx{try}-\pythonilIdx{except}-Blöcke verschachteln.%
+}%
+%
+\only<-6>{%
+\item<3-> Program \programUrl{exceptions:try_except_nested_2} zeigt genau das.%
+}%
+%
+\only<-7>{%
+\item<4-> In dem wir den zweiten \pythonil{sqrt}-Aufruf, der bereits in einem \pythonil{except}-Block ist, wiederum in einen neuen \pythonilIdx{try}-\pythonilIdx{except}-Block packen, können wir den zweiten \pythonilIdx{ZeroDivisionError} ebenfalls auffangen und bearbeiten.%
+}%
+%
+\only<-9>{%
+\item<5-> In diesem Beispiel zeigen wir auch zwei Methoden, um mit dem Problem der Variablenzuweisung in \pythonil{try}-\pythonil{except}-Blöcken umzugehen.%
+}%
+%
+\only<-9>{%
+\item<6-> Erstens können wir der Variable einen initialen Wert \alert{vor} allen Berechnungen zuweisen.%
+}%
+%
+\only<-10>{%
+\item<7-> Dieser Wert wird überschrieben, wenn die Berechnung doch erfolgreich abläuft.%
+}%
+%
+\only<-11>{%
+\item<8-> Dadurch ist sichergestellt, dass die Variable garantiert einen Wert hat und existiert, gleichgültig, was später passiert.%
+}%
+%
+\item<9-> Wir nehmen dafür \pythonilIdx{nan} aus dem \pythonil{math}-Module.%
+%
+\item<10-> Die zweite und kompliziertere Methode ist, sicherzustellen, dass alle Zweige des Kontrollflusses, die zu dem Kode führen, wo auf die Variable zugegriffen wird, ihr auch garantiert einen Wert zuweisen.%
+%
+\item<11-> In dem Beispiel würden wir dafür im innersten \pythonil{except}-Block einen Wert zuweisen müssen.%
+%
+\item<12-> Wir könnten dafür wieder \pythonilIdx{nan} nehmen.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{exceptions:try_except_nested_2}{}{exceptions}{try_except_nested_2.py}{}%
+\listingPythonAndOutput{}{exceptions:try_except_nested_2}{}{0.45}{0.08}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Der \texttt{try}-\texttt{except}-\texttt{else}-Block}%
+%
+\begin{frame}[t]%
+\frametitle{Der \texttt{try}-\texttt{except}-\texttt{else}-Block}%
+\begin{itemize}%
+%
+\item Was können wir machen, wenn wir das Ergebnis einer Berechnung in einem \pythonilIdx{try}-Block brauchen, aber nur dann, wenn der \pythonilIdx{try}-Block erfolgreich zuende läuft?%
+%
+\item<2-> Eine mögliche Lösung ist der \pythonilIdx{try}-\pythonilIdx{except}-\pythonilIdx{else}-Block.%
+%
+\item<3-> Der einzige Unterschied zum \pythonilIdx{try}-\pythonilIdx{except}-Block ist, dass ein \pythonilIdx{else}-Block folgt, der nur aufgerufen wird, wenn \alert{keine} Ausnahme aufgetreten ist.%
+%
+\end{itemize}%
+%
+\gitLoadPython{syntax/try_except_else}{}{syntax/try_except_else.py}{}%
+\listingPythonSyntax{}{syntax/try_except_else}{0.175}{0.5}{0.65}{0.6}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Wir schauen uns das am Beispiel von Program \programUrl{exceptions:try_except_else} an.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir benutzen wieder unsere \pythonil{sqrt}-Function, diesmal um $\sqrt{\frac{1}{0}}$ und danach $\sqrt{3}$ zu berechnen, jedesmal in einem eigenen \pythonil{try}-Block.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir hatten ja früher das Problem, dass wir einen \pythonilIdx{NameError} bekommen haben, weil wir auf den Wert einer nicht-existierenden Variable zugreifen wollten.%
+}%
+%
+\only<-8>{%
+\item<4-> Diese Variable wäre im \pythonil{try}-Block erst durch eine Zuweisung entstanden.%
+}%
+%
+\only<-9>{%
+\item<5-> Aber der \pythonilIdx{try}-Block war fehlgeschlagen.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir hatten einen \pythonilIdx{ZeroDivisionError} im \pythonilIdx{except}-Block abgefangen, aber der Variable ist nie ein Wert zugewiesen worden.%
+}%
+%
+\only<-11>{%
+\item<7-> Auf die Variable später zuzugreifen führte zu dem Fehler.%
+}%
+%
+\only<-12>{%
+\item<8-> Dieses Mal packen wir den Kode, der auf die Variable zugreift, in \pythonilIdx{else}-Blöcke.%
+}%
+%
+\item<9-> Das ist also die dritte Variante, auf Variablen zuzugreifen, deren Werte in einem \pythonil{try}-Block zugewiesen werden.%
+%
+\item<10-> Diese \pythonil{else}-Blöcke werden nur ausgeführt, wenn der dazugehörige \pythonilIdx{try}-Block erfolgreich war.%
+%
+\item<11-> Daher ist garantiert, dass die Varialben existieren und dass ihnen Werte zugewiesen wurden.%
+%
+\item<12-> Im Falle von $\sqrt{\frac{1}{0}}$ wird der \pythonilIdx{else}-Block nicht ausgeführt.%
+%
+\item<13-> Im Fall von $\sqrt{3}$ wird der dazugehörige \pythonil{else}-Block mit seinem \pythonil{print} ausgeführt.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{exceptions:try_except_else}{}{exceptions}{try_except_else.py}{}%
+\listingPythonAndOutput{}{exceptions:try_except_else}{}{0.45}{0.15}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Der \texttt{try}-\texttt{finally}-Block}%
+%
+\begin{frame}[t]%
+\frametitle{Abbrechen, aber\dots}%
+\begin{itemize}%
+%
+\only<-9>{%
+\item Wir wissen, dass Fehler in in Prozessen auftauchen können.%
+}%
+%
+\only<-10>{%
+\item<2-> Das können Fehler sein, die wir bereits erwarten und vernünftig behandeln können.%
+}%
+%
+\only<-11>{%
+\item<3-> Diese Fehler verarbeiten wir dann in entsprechenden \pythonilIdx{except}-Blöcken.%
+}%
+%
+\only<-12>{%
+\item<4-> Es können aber auch unerwartete Fehler sein, für die wir keine vernünften \pythonilIdx{except}-Blöcke bereitstellen können.%
+}%
+%
+\only<-13>{%
+\item<5-> In diesem Fall wird das Program abgebrochen und der \glslink{stackTrace}{Stack-Trace} wird ausgegeben.%
+}%
+%
+\only<-14>{%
+\item<6-> Es gibt aber Fälle, wo wir nicht sofort unseren Prozess abbrechen wollen.%
+}%
+%
+\item<7-> Stattdessen wollen wir vielleicht noch ein paar wichtige Aktionen ausführen, selbst wenn ein unerwarteter Fehler auftritt.%
+%
+\item<8-> Ein typisches Beispiel ist, wenn wir etwas in eine Datei schreiben.%
+%
+\item<9-> Sagen wir, wir schreiben eine Tabelle mit Daten Zeile-für-Zeile in eine Datei.%
+%
+\item<10-> Plötzlich passiert ein völlig unerwarteter Fehler, sagen wir etwas eigenartiges wie ein \pythonil{ReferenceError}.%
+%
+\item<11-> Natürlich sollte unser Prozess dann mit einem Fehler beendet werden.%
+%
+\item<12-> Wenn wir aber abbrechen, ohne die Datei vorher zu schließen, dann ist der gesamte Inhalt der Datei könnte verloren gehen.%
+%
+\item<13-> Wenn wir die Datei noch schließen, bevor wir den Prozess abbrechen, dann werden wenigstens die bisher erfolgreich geschriebenen Daten gerettet.%
+%
+\item<14-> In dem wir den Prozess danach abbrechen, zeigen wir trotzdem dem Benutzer klar an, dass ein ernstes Problem aufgetreten ist.%
+%
+\item<15-> Aber wenigstens vernichten wir nicht die korrekten Daten.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Der \texttt{try}-\texttt{finally}-Block}%
+\begin{itemize}%
+\only<-3>{%
+\item Dafür gibt es den \pythonilIdx{try}-\pythonilIdx{finally} Block.%
+}%
+%
+\only<-4>{%
+\item<2-> Wir können einen \pythonilIdx{finally}-Block definieren, der \alert{immer} ausgeführt wird.%
+}%
+%
+\only<-5>{%
+\item<3-> Na gut. \alert{Immer} gilt natürlich nur, so lange der \python-Interprer läuft. Wenn ich den Strom abschalte oder den Interpreter mit dem Task-Manager abschieße, dann kann man nicht garantieren, dass ein \pythonil{finally}-Block ausgeführt wird\dots%
+}%
+%
+\only<-6>{%
+\item<4-> Davon abgesehen.%
+}%
+%
+\item<5-> Wir brauchen einen \pythonilIdx{try}-Block mit dem Kode der einen Fehler auslösen könnte.%
+%
+\item<6-> Dann kommt der \pythonil{finally}-Block, der ausgeführt wird gleichgültig ob im \pythonil{try}-Block ein Fehler aufgetreten ist, oder nicht.%
+%
+\item<7-> Dazwischen können wir optional noch \pythonilIdx{except}-Blöcke zum Verarbeiten bestimmter Fehler und einen \pythonil{else}-Block haben, der nur ausgeführt wird, wenn kein Fehler auftritt.%
+\end{itemize}%
+%
+\gitLoadPython{syntax/try_except_else_finally}{}{syntax/try_except_else_finally.py}{}%
+\listingPythonSyntax{}{syntax/try_except_else_finally}{0.195}{0.45}{0.61}{0.6}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item \programUrl{exceptions:try_except_else_finally} ist ein künstliches Beispiel für diese Struktur.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir erstellen die Funktion \pythonil{divide_and_print}, welche die beiden Parameter~\pythonil{a} und~\pythonil{b} empfängt, die beide entweder Ganz- oder Flißkommazahlen seien können.%
+}%
+%
+\only<-6>{%
+\item<3-> In eneim\pythonilIdx{try}-Block versucht die Funktion \pythonil{a} durch \pythonil{b} zu teilen und das Ergebnis mit Hilfe eines \glslink{fstring}{f-Strings} via \pythonil{print} auszugeben.%
+}%
+%
+\only<-7>{%
+\item<4-> Da wir nicht wissen, welchen Wert \pythonil{b} haben wird, nehmen wir an, dass ein \pythonilIdx{ZeroDivisionError} auftreten könnte.%
+}%
+%
+\only<-8>{%
+\item<5-> Im dazugehörigen \pythonilIdx{except}-Block geben wir dann eine passende Erklärung aus.%
+}%
+%
+\only<-9>{%
+\item<6-> In diesem Fall würde das Divisionsergebnis nicht ausgegeben, da der \pythonilIdx{try}-Block abbricht während der \glslink{fstring}{f-String} \glslink{strinterpolation}{interpoliert} wird.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir wollen auch mögliche \pythonils{TypeError} abfangen.%
+}%
+%
+\only<-11>{%
+\item<8-> Wenn so ein Fehler auftritt, dann weil unsere Funktion mit einem Argument aufgerufen wird, das weder \pythonil{int} noch \pythonil{float} ist und das Division nicht unterstützt.%
+}%
+%
+\only<-12>{%
+\item<9-> Das ist ein typisches Beispiel für Fehler, die wir lieber nicht abfangen sollten.%
+}%
+%
+\only<-14>{%
+\item<10-> So ein Fehler kann nur passieren, wenn ein Programmierer unsere Funktion falsch aufruft.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir fangen den Fehler nur für das Beispiel ab und drucken eine entsprechende Nachricht im \pythonilIdx{except}-Block.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir haben auch einen \pythonilIdx{else}-Block, in dem angezeigt wird, das kein Fehler aufgetreten ist.%
+}%
+%
+\only<-17>{%
+\item<13-> Dieser Kode wird nur ausgeführt, wenn weder ein \pythonilIdx{ZeroDivisionError}, noch ein \pythonilIdx{TypeError}, und auch keine andere Ausnahme aufgetreten ist.%
+}%
+%
+\only<-18>{%
+\item<14-> Zuletzt kommt noch ein \pythonilIdx{finally}-Block.%
+}%
+%
+\only<-19>{%
+\item<15-> Dieser wird immer ausgeführt.%
+}%
+%
+\only<-19>{%
+\item<16-> Selbst wenn ein Fehler \alert{innerhalb} einer der \pythonilIdx{except}-Blöcke auftritt wird dieser Kode ausgeführt.%
+}%
+%
+\only<-19>{%
+\item<17-> Er gibt nur aus, dass der Kode fertig ist.%
+}%
+%
+\only<-20>{%
+\item<18-> Nach den ganzen \pythonilIdx{try}-\pythonilIdx{except}-\pythonilIdx{else}-\pythonilIdx{finally}-Blöcken druckt eine normale Zeile Kode noch eine Nachricht aus.%
+}%
+%
+\only<-21>{%
+\item<19-> Dieser Kode wird nur erreicht, wenn entweder kein Fehler aufgetreten ist oder ein Fehler auftrat, der von einem der \pythonilIdx{except}-Blöcke behandelt wurde~(ohne einen weiteren Fehler auszulösen).%
+}%
+%
+\only<-23>{%
+\item<20-> Für \pythonil{divide_and_print(10, 5)}, werden das Divisionsergebnis im \pythonilIdx{try}-Block und die Nachricht im \pythonilIdx{else}-Block, dem \pythonIdx{finally}-Block, und vom Ende der Funktion ausgedruckt.%
+}%
+%
+\only<-25>{%
+\item<21-> \pythonil{divide_and_print(3, 0)} löst einen \pythonilIdx{ZeroDivisionError} aus.%
+}%
+%
+\only<-25>{%
+\item<22-> Deshalb wird der \pythonil{print}-Befehl im \pythonilIdx{try}-Block nicht ausgeführt, weil ja schon die glslink{fstring}{f-String} interpolation fehlschlägt.%
+}%
+%
+\only<-26>{%
+\item<23-> Der erste \pythonilIdx{except}-Block, der für \pythonils{ZeroDivisionError} zuständig ist, wird ausgeführt und druckt seine Nachricht.%
+}%
+%
+\only<-28>{%
+\item<24-> Der \pythonilIdx{else}-Block wird nicht erreicht, aber der \pythonilIdx{finally}-Block druckt ebenfalls seine Nachricht.%
+}%
+%
+\only<-29>{%
+\item<25-> Weil der Fehler ordentlich behandelt wurde, wird auch der \pythonil{print}-Befehl am Ende der Funktion ausgeführt.%
+}%
+%
+\only<-30>{%
+\item<26-> Der Versuch, \pythonil{divide_and_print(\"3\", 0)} aufzurufen, bedeutet, dass wir absichtlich den \glslink{typeHint}{Type-Hint} in der Funktionsdefinition ignorieren.%
+}%
+%
+\only<-31>{%
+\item<27-> Der \python-Interpreter erlaubt uns das ohne Probleme.%
+}%
+%
+\only<-32>{%
+\item<28-> Die Division \pythonil{a / b} schlägt aber Fehl, weil der tring \pythonil{\"3\"} den Divisionsoperator nicht unterstützt.%
+}%
+%
+\only<-33>{%
+\item<29-> Das führt zu einem \pythonilIdx{TypeError}, welche von unserem zweiten \pythonilIdx{except}-Block eingefangen wird.%
+}%
+%
+\only<-34>{%
+\item<30-> Der \pythonilIdx{else}-Block wird also wieder nicht erreicht.%
+}%
+%
+\only<-35>{%
+\item<31-> Der \pythonilIdx{finally}-Block und auch das \pythonilIdx{print} am Ende der Funktion werden aber ausgeführt.%
+}%
+%
+\only<-36>{%
+\item<32-> Hätten wir \mypy\ auf den Kode angewendet, dann hätte es uns gewarnt\dots%
+}%
+%
+\only<-37>{%
+\item<33-> Zuletzt versuchen wir noch \pythonil{divide_and_print(10 ** 313, 1.0)} aufzurufen, also $\frac{10^{313}}{1}$~zu berechnen.%
+}%
+%
+\only<-38>{%
+\item<34-> Auf den ersten Blick sieht das OK aus.%
+}%
+%
+\only<-39>{%
+\item<35-> Nun haben wir aber gelernt, dass der Datentyp \pythonilIdx{float} einen begrenzten Wertebereich hat.%
+}%
+%
+\only<-40>{%
+\item<36-> Tatsächlich ist der \pythonilIdx{int} $10^{313}$ außerhalb der Reichweite an Werten, die ein \pythonilIdx{float} repräsentieren kann.%
+}%
+%
+\only<-41>{%
+\item<37-> In dem wir die Ganzzahl durch \pythonil{1.0} dividieren, erzwingen wir eine Umwandlung in \pythonilIdx{float}.%
+}%
+%
+\only<-42>{%
+\item<38-> Das führt zu einem \pythonilIdx{OverflowError}.%
+}%
+%
+\only<-43>{%
+\item<39-> Wir haben keinen \pythonilIdx{except}-Block für \pythonilsIdx{OverflowError}.%
+}%
+%
+\only<-44>{%
+\item<40-> Dadurch wird keine Nachricht im \pythonilIdx{try}-Block ausgegeben und auch keiner unserer \pythonilIdx{except}-Blöcke wird erreicht.%
+}%
+%
+\only<-45>{%
+\item<41-> Der \pythonil{else}-Block wird auch nicht ausgeführt.%
+}%
+%
+\only<-45>{%
+\item<42-> Der \pythonilIdx{finally}-Block hingegen schon und seine Nachricht erscheint im Output.%
+}%
+%
+%
+\item<43-> Da wir den \pythonilIdx{OverflowError} aber nicht verarbeitet haben, wird der Kode nach unseren Blöcken am Ende der Funktion nicht erreicht.%
+%
+\item<44-> Stattdessen wird unsere Funktion sofort abgebrochen, nachdem der \pythonilIdx{finally}-Block fertig ist.%
+%
+\item<45-> Da es keinen \pythonilIdx{try}-\pythonilIdx{except}-Block gibt, der den \pythonilsIdx{OverflowError} fangen kann, wird der ganze \python-Interpreter-Prozess beendet.%
+%
+\item<46-> Es erscheint wieder ein \glslink{stackTrace}{Stack-Trace}, der uns zeigt, wo der Fehler aufgetreten ist und was passiert ist.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{exceptions:try_except_else_finally}{}{exceptions}{try_except_else_finally.py}{}%
+\gitExec{exec:exceptions:try_except_else_finally:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh exceptions try_except_else_finally.py}%
+%
+\listingPythonAndOutput{-31,33-}{exceptions:try_except_else_finally}{style=tool_style}{0.53}{0.01}{0.54}{1}%
+\listingOutput{32}{exceptions:try_except_else_finally:mypy}{style=tool_style}{0.53}{0.59}{0.45}{0.6}%
+%
+\end{frame}%
+%
+\section{\texttt{with}-Block und Context Manager}%
+%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitendes Beispiel: Datei-I/O}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Der \pythonilIdx{try}-\pythonilIdx{finally}-Block erlaubt uns, sicherzustellen das bestimmte Aktionen ausgeführt werden, gleichgültig ob Kode fehlschlägt und Ausnahmen auslöst.}%
+%
+\only<-6>{%
+\item<2-> Ein Use Case ist der Umgang mit Ressourcen, die explizit geschlossen oder freigegeben werden müssen.%
+}%
+%
+\only<-7>{%
+\item<3-> Ein typisches Beispiel dafür ist wiederum Datei-\glsFull{inOut}.%
+}%
+%
+\only<-8>{%
+\item<4-> Schauen wir uns genau dieses Beispiel in Programm \programUrl{exceptions:file_try_finally} einmal an.%
+}%
+%
+\only<-9>{%
+\item<5-> In diesem Programm erstellen und öffnen wir eine Textdatei namens \textil{example.txt}.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir scheiben eine Zeile Text in die Datei und dann schließen wir sie.%
+}%
+%
+\only<-11>{%
+\item<7-> Danach öffnen wir sie wieder, lesen den Text ein, und geben ihn wieder aus.%
+}%
+%
+\only<-12>{%
+\item<8-> Zum Schluss löschen wir die Datei wieder, damit sie nicht nutzlos herumliegt.%
+}%
+%
+\only<-13>{%
+\item<9-> Um diese Schritte zu implementieren, importieren wir zuerst die notwendigen Funktionen und Typen.%
+}%
+%
+\only<-14>{%
+\item<10-> Wir importieren den Typ \pythonilIdx{IO} aus dem \pythonilIdx{typing}-Modul.%
+}%
+%
+\only<-15>{%
+\item<11-> \pythonIdx{IO}~ist der Basistyp für alle text-basierten \pgls{inOut}-Ströme und wir benutzen ihn später als \glslink{typeHint}{Type-Hint}.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir werden auch die Funktion \pythonil{remove} aus dem Modul \pythonilIdx{os} brauchen.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir beginnen, in dem wir die Datei \textil{example.txt} zum Schreiben öffnen.%
+}%
+%
+\only<-17>{%
+\item<14-> Dafür benutzen wir die built-in Funktion \pythonilIdx{open}.%
+}%
+%
+\only<-18>{%
+\item<15-> Wir übergeben den Dateiname \textil{\"example.txt\"} als ersten Parameter.%
+}%
+%
+\only<-19>{%
+\item<16-> Der zweite Parameter ist der Modus \pythonil{mode}\pythonIdx{open!mode}, welchen wir auf \pythonil{\"w\"} setzen, was \inQuotes{Öffnen um zu Schreiben} bedeutet.%
+}%
+%
+\only<-20>{%
+\item<17-> Wenn die Datei noch nicht existiert, dann führt \pythonil{\"w\"} dazu, dass sie erstellt wird.%
+}%
+%
+\only<-21>{%
+\item<18-> Existiert sie bereits, wird ihr Inhalt verworfen und wir fangen am Anfang mit dem Schreiben an.%
+}%
+%
+\only<-22>{%
+\item<19-> Der Parameter \pythonil{encoding}\pythonIdx{open!encoding} wird auf \pythonil{\"UTF-8\"} gesetzt, womit festgelegt wird, der unser Text über das \pgls{utf8}-Encoding\cite{RFC3629,ISOIEC106462020ITUCCSU} in Binärdaten übersetzt wird.%
+}%
+%
+\only<-23>{%
+\item<20-> Alle gespeicherten Daten sind letztendlich binär und das ist das häufigste Format im Internet, in dem Text gespeichert wird.
+}%
+%
+\only<-24>{%
+\item<21-> Wenn das öffnen der Textdatei glückt, dann haben wir nun eine Instanz von \pythonil{IO} in der Variablen \pythonil{stream_out}.%
+}%
+%
+\only<-25>{%
+\item<22-> Wir müssen diesen so genannten Text-Stream auf jeden Fall schließen, gleichgültig, was von jetzt an passiert.%
+}%
+%
+\only<-26>{%
+\item<23-> Wir wissen, dass das mit einem \pythonilIdx{try}-\pythonilIdx{finally}-Statement geht.%
+}%
+%
+\only<-27>{%
+\item<24-> Wir packen daher den Aufruf \pythonil{stream_out.close()}\pythonIdx{close}\pythonIdx{IO!close} in den \pythonilIdx{finally}-Block.%
+}%
+%
+\only<-28>{%
+\item<25-> Er wird auf jeden Fall aufgerufen und \pythonil{stream_out} somit definitiv geschlossen.%
+}%
+%
+\only<-29>{%
+\item<26-> In den \pythonilIdx{try}-Block schreiben wir \pythonil{stream_out.write(\"Hello world!\")}.%
+}%
+%
+\only<-30>{%
+\item<27-> Diese Zeile schreibt den String \pythonil{\"Hello world!\"} in die Datei.%
+}%
+%
+\only<-31>{%
+\item<28-> Das könnte natürlich schief gehen.%
+}%
+%
+\only<-32>{%
+\item<29-> Vielleicht ist ja auf unserer Festplatte nicht mehr genug Platz frei, um diesen String zu speichern.%
+}%
+%
+\only<-33>{%
+\item<30-> Aber selbst wenn es schief geht, der \pythonilIdx{finally}-Block wird auf jeden Fall ausgeführt und wird die Datei schließen.%
+}%
+%
+\only<-34>{%
+\item<31-> Nach dem Block ist die Datei also wieder geschlossen.%
+}%
+%
+\only<-35>{%
+\item<32-> Wir könnten sie in einem Text-Editor öffnen und gucken, ob der Text auch wirklich angekommen ist.%
+}%
+%
+\only<-36>{%
+\item<33-> Wir wollen das stattdessen mit Kode machen.%
+}%
+%
+\only<-37>{%
+\item<34-> Dafür öffnen wir die Datei wieder, diesmal zum Lesen.%
+}%
+%
+\only<-38>{%
+\item<35-> Das geht genau wie vorhin, mit der Funktion \pythonil{open}.%
+}%
+%
+\only<-39>{%
+\item<36-> Anstatt nun den Wert \pythonil{mode="\w\"} zu übergeben, würden wir schreiben \pythonil{mode=\"r\"}, was \inQuotes{Öffnen zum Lesen} bedeutet.%
+}%
+%
+\only<-40>{%
+\item<37-> Aber \pythonil{\"r\"} ist bereits der Default Wert für Parameter \pythonil{mode}\pythonIdx{open!mode}, so dass wir es einfach weglassen können.%
+}%
+%
+\only<-41>{%
+\item<38-> Wir machen also \pythonil{stream_in =} \pythonil{open(\"example.txt\",} \pythonil{encoding=\"UTF-8"\)}.%
+}%
+%
+\only<-42>{%
+\item<39-> Nachdem die Datei geöffnet ist, müssen wir natürlich sicherstellen, dass sie wieder geschlossen wird.%
+}%
+%
+\only<-43>{%
+\item<40-> Das machen wir mit einem \pythonilIdx{try}-\pythonilIdx{finally}-Statement, wobei \pythonil{stream_in.close()} wieder in den \pythonil{finally}-Block kommt.%
+}%
+%
+\only<-44>{%
+\item<41-> Die Textzeile, die wir vorhin geschrieben haben, können wir nun im \pythonilIdx{try}-Block wieder lesen.%
+}%
+%
+\item<42-> Das geht via \pythonil{stream_in.readline()}.%
+%
+\item<43-> Wir geben das Ergebnis direkt mit \pythonil{print} wieder aus.%
+%
+\item<44-> Am Ende des Programms löschen wir die Datei \textil{example.txt} mit \pythonil{remove(\"example.txt\")}.%
+%
+\item<45-> Dafür hatten wir ja \pythonilIdx{remove} aus dem Modul \pythonilIdx{os} importiert.
+%
+\item<46-> Das Programm funktioniert genau wie erwartet.%
+%
+\item<47-> Alles ist wunderbar.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{exceptions:file_try_finally}{}{exceptions}{file_try_finally.py}{}%
+\listingPythonAndOutput{}{exceptions:file_try_finally}{}{0.45}{0.2}{0.54}{0.92}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Was sagen Linter dazu?}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\item Wir führen natürlich immer eine statische Kodeanalyse mit \glslink{linter}{Lintern} durch.%
+%
+\item<2-> Das sagt \ruff\ zu unserem Programm.%
+%
+\item<3-> Und das sagt \pylint\ zu unserem Programm.%
+%
+\item<4-> Beide meinen das selbe.%
+%
+\end{itemize}%
+}}%
+%
+\gitExec{exec:exceptions:file_try_finally:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh exceptions file_try_finally.py}%
+\gitExec{exec:exceptions:file_try_finally:pylint}{\programmingWithPythonCodeRepo}{.}{_scripts_/pylint.sh exceptions file_try_finally.py}%
+%
+\listingOutput{2-}{exceptions:file_try_finally:ruff}{style=tool_style}{0.51}{0.2}{0.49}{0.92}%
+\listingOutput{3-}{exceptions:file_try_finally:pylint}{style=tool_style}{0.01}{0.65}{0.49}{0.35}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Der \texttt{with} Block}
+\only<-1>{%
+\cquotation{PSF:P3D:TPLR:WSCM}{%
+A context manager is an object that defines the runtime context to be established when executing a \pythonilIdx{with} statement. %
+The context manager handles the entry into, and the exit from, the desired runtime context for the execution of the block of code. %
+[\dots] %
+Typical uses of context managers include saving and restoring various kinds of global state, locking and unlocking resources, closing opened files, etc.}%
+}%
+%
+\uncover<2->{%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Das \pythonilIdx{with}-Statement hat die folgende Syntax.%
+}%
+%
+\only<-5>{%
+\item<3-> \pythonil{expression} ist ein Ausdruck der ein so genanntes Context-Manager-Objekt\cite{PSF:P3D:TPLR:WSCM,PSF:P3D:TPSL:CUFWSC,PSF:P3D:TPLR:TWS,PEP343} zurückliefert.%
+}%
+%
+\only<-6>{%
+\item<4-> Wir haben noch nicht Klassen behandelt, deshalb fehlt uns noch etwas Hintergrundwissen, um genau zu verstehen, wie ein Context-Manager funktioniert.%
+}%
+%
+\only<-8>{%
+\item<5-> Vereinfacht ausgedrückt ist ein Context-Manager ein Objekt mit zwei speziellen Methoden.%
+}%
+%
+\only<-9>{%
+\item<6-> Die erste wird am Anfang des \pythonilIdx{with}-Blocks aufgerufen und ihr Ergebnis wird in der Variable \pythonil{variable} gespeichert, wenn der \pythonilIdx{with}-Block die Form \pythonil{with expression as variable:} hat.%
+}%
+%
+\item<7-> Die zweite Methode wird nach dem Ende des \pythonilIdx{with}-Blocks aufgerufen.%
+%
+\item<8-> Das passiert immer, gleichgültig ob eine Ausnahme im Block passiert ist oder nicht.%
+%
+\item<9-> Die Syntax ist daher in etwa äquivalent dazu, die erste Methode vor einem \pythonilIdx{try}-Block aufzurufen und die zweite im \pythonilIdx{finally}-Block.%
+%
+\item<10-> Sie ist aber kürzer und sieht schöner aus.%
+%
+\end{itemize}%
+}}}%
+%
+\gitLoadPython{syntax/with}{}{syntax/with.py}{}%
+\listingPythonSyntax{2-}{syntax/with}{0.45}{0.2}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Was sagen Linter dazu?}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Viele von \python's Ressourcen-bezogenen \glslink{API}{APIs} wurden als Context-Managers realisiert.%
+}%
+%
+\only<-6>{%
+\item<2-> Das trifft auch auf die Datei-\pgls{inOut}-\glslink{API}{API} zu, wie uns die \glslink{linter}{Linter} ja mitgeteilt haben.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir schreiben jetzt das Programm unter Benutzung von \pythonilIdx{with}-Blöcken neu als \programUrl{lst:exceptions:file_with}.%
+}%
+%
+\only<-8>{%
+\item<4-> Das Erste, was uns auffällt, ist dass das Programm viel kürzer ist.%
+}%
+%
+\only<-8>{%
+\item<5-> Es sind jetzt 13~Zeilen Kode anstatt von~20.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir müssen die \pythonilIdx{close}-Methoden der Textströme nicht mehr selbst aufrufen.%
+}%
+%
+\only<-10>{%
+\item<6-> Sie werden automatisch am Ende der \pythonilIdx{with}-Blöcke aufgerufen.%
+}%
+%
+\only<-11>{%
+\item<7-> Aber eins nach dem Anderen.%
+}%
+%
+\only<-12>{%
+\item<8-> Wenn wir unser neues Programm lesen, fällt uns auf, dass wir den Typ \pythonilIdx{IO} nicht mehr importieren.%
+}%
+%
+\only<-13>{%
+\item<9-> Der Grund ist, dass die Syntax des \pythonilIdx{with}-Blocks, dessen erste Zeile mit einem Doppelpunkt~\pythonil{:} ended, es uns nicht erlaubt, einen \glslink{typeHint}{Type-Hint} zu spezifizieren.%
+}%
+%
+\only<-14>{%
+\item<10-> Dann brauchen wir den Datentype auch nicht importieren.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir würden uns darauf verlassen, dass \mypy\ den richtigen Typ selber herausbekommt\dots%
+}%
+%
+\only<-16>{%
+\item<12-> Wir müssen aber immer noch \pythonilIdx{remove} zum löschen von Dateien importieren.%
+}%
+%
+\only<-17>{%
+\item<13-> Dann beginnen wir schon unseren ersten \pythonilIdx{with}-Block.%
+}%
+%
+\only<-18>{%
+\item<14-> Sein Sinn ist es, die Datei zu erstellen und den Text hineinzuschreiben.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir verwenden den selben \pythonilIdx{open}-Aufruf wie vorher und speichern sein Ergebnis in einer Variable \pythonil{stream_out}, in dem wir \pythonil{as stream_out} schreiben.%
+}%
+%
+\only<-20>{%
+\item<16-> In den \pythonilIdx{with}-Block tuen wir nun den Kode, der vorher im \pythonil{try}-Block war, also das \pythonil{stream_out.write(...}.%
+}%
+%
+\only<-22>{%
+\item<17-> Wir können uns darauf verlassen, dass der \pythonilIdx{with}-Block den Text-Strom an seinem Ende selber schließt.%
+}%
+%
+\only<-23>{%%
+\item<18-> Deshalb können wir direkt mit dem zweiten \pythonil{with}-Block weitermachen.%
+}%
+%
+\item<19-> Hier wollen wir eine einzelne Zeile Text aus der Datei lesen.%
+%
+\item<20-> Wir spezifizieren denn passenden \pythonilIdx{open}-Aufruf und merken uns das Ergebnis in \pythonil{stream_in}.%
+%
+\item<21-> Der Körper des \pythonil{with}-Statements beinhaltet also das \pythonil{stream_in.readline()}\pythonIdx{readline}.%
+%
+\item<22-> An seinem Ende wird der Text-Strom automatisch geschlossen.%
+%
+\item<23-> Und dann löschen wir die Datei via \pythonilIdx{remove}.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{exceptions:file_with}{}{exceptions}{file_with.py}{}%
+%
+\listingPythonAndOutput{2-}{exceptions:file_with}{}{0.53}{0.2}{0.54}{1}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+%
+\item Jetzt können wir Ausnahmen sowohl auslösen als auch behandeln.%
+%
+\item<2-> Das erlaubt uns, Kode zu schreiben der sicherstellt, dass seine Ein- und Ausgaben korrekt sind.%
+%
+\item<3-> Gleichzeitig können wir voraussehbare Fehler elegant behandeln.%
+%
+\item<4-> Das Wichtige ist, das wir beides \emph{explizit} und \emph{klar} machen.%
+%
+\item<5-> Wir können klar ausdrücken, welche Ausnahmen unser Kode auslöse, \DEzB\ in \glslink{docstring}{Docstrings}.%
+%
+\item<6-> Wir können explizit schreiben, welche Ausnahmen wir behandeln können.%
+%
+\item<7-> Und wir können unseren Kode robust machen, so dass Ressourcen richtig geschlossen und freigegeben werden, selbst dann, wenn unerwartete Fehler auftreten.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
