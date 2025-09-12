@@ -7,6 +7,8 @@
 \RequirePackage{\sharedDir/styles/styles}%
 \toggleToGerman%
 %
+\renewcommand*\DTstylecomment{\relax}%
+\renewcommand*\DTstyle{\small}%
 %
 \subtitle{31.~Ausnahmen auslösen)}%
 %
@@ -308,7 +310,7 @@ Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobe
 }%
 %
 \only<-6>{%
-\item<2-> Wir gehen dafür zurück zu unserer Funktion \pythonil{sqrt} in Datei \programUrl{functions:my_math_3} aus Einheit~28.%
+\item<2-> Wir gehen dafür zurück zu unserer Funktion \pythonil{sqrt} in Datei \programUrl{functions:my_math_3} aus Einheit~\unitSqrtTested.%
 }%
 %
 \only<-7>{%
@@ -522,7 +524,7 @@ Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobe
 }%
 %
 \only<-15>{%
-\item<12-> Wir hatten diese Informationen schonmal in Einheit~14 erwähnt, als es darum ging, Fehler mit Hilfe der \glslink{ide}{IDE} zu finden.%
+\item<12-> Wir hatten diese Informationen schonmal in Einheit~\unitStackTrace\ erwähnt, als es darum ging, Fehler mit Hilfe der \glslink{ide}{IDE} zu finden.%
 }%
 %
 \only<-17>{%
@@ -755,6 +757,128 @@ Sie sollten \emph{immer} gelesen und verstanden werden, bevor am Kode weitergear
 \listingOutput{6-}{exceptions:use_sqrt_raise_2:mypy}{style=tool_style}{0.05}{0.7}{0.9}{0.6}%
 %
 \end{frame}%
+%
+\section{Built-In Exceptions}%
+%
+\begin{frame}%
+\frametitle{Built-In Exceptions}%
+\begin{itemize}%
+\item Eine große Vielzahl von Dingen kann bei der Ausführung eines Programm fehlschlagen.%
+%
+\item<2-> Wir haben schon ein paar mögliche Fehler genannt.%
+%
+\item<3-> Treten Fehler auf, dann werden Ausnahmen -- auf Englisch \inQuotes{Exceptions} -- ausgelöst.%
+%
+\item<4-> Diese brechen den aktuellen Kontrollfluss ab und werden immer weiter nach oben propagiert, bis sie entweder behandelt werden (lernen wir in der nächsten Einheit) oder der Prozess abbricht.%
+%%
+\item<5-> Was für Typen von Ausnahmen stellt uns \python\ eigentlich zur Verfügung?%
+%
+\item<6-> Welche Typen von \pythonils{Exception} sind \inQuotes{built-in}?%
+%
+\item<7-> \python\ bietet eine \emph{Hierarchie} von Ausnahmen.%
+%
+\item<8-> Manche Ausnahmeklassen sind Sonderfälle anderer Ausnahmen.%
+%
+\item<9-> Ein \pythonil{ArithmeticError} markiert einen Rechenfehler.%
+%
+\item<10-> Ein \pythonil{OverflowError} ist ein besonderer Rechenfehler, bei dem das Ergebnis zu große für den Datentyp wird.%
+%
+\item<11-> Schauen wir uns die Typ-Hierarchy von Fehlern mal an\cite{PSF:P3D:TPSL:BIE}.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[fragile]
+\frametitle{Built-In Exceptions~(1)}%
+\centering%
+\resizebox{0.9\paperwidth}{!}{\parbox{1.1\paperwidth}{\centering%
+\dirtree{%
+.1 \pythonilIdx{BaseException}\DTcomment{die Basisklasse aller Ausnahmen}.
+.2 \pythonilIdx{Exception}\DTcomment{Situationen, wo vernüftige Fehlerbehandlung möglich seien sollte}.
+.3 \pythonilIdx{ArithmeticError}\DTcomment{eine Rechenoperation ist fehlgeschlagen}.
+.4 \pythonilIdx{FloatingPointError}\DTcomment{nicht \python\ benutzt, aber \DEzB\ für \pgls{numpy} bei ungültigen Fließkommaoperationen}.
+.4 \pythonilIdx{OverflowError}\DTcomment{das Ergebnis einer Rechenoperation ist zu groß}.
+.4 \pythonilIdx{ZeroDivisionError}\DTcomment{eine Division durch~0}.
+.3 \pythonilIdx{AssertionError}\DTcomment{ein \pythonilIdx{assert}-Statement schlug fehl}.
+.3 \pythonilIdx{BufferError}\DTcomment{eine Puffer-bezogene Operation ist fehlgeschlagen}.
+.3 \pythonilIdx{EOFError}\DTcomment{das Ende von \pgls{stdin} wurde von \pythonilIdx{input} erreicht, ohne Daten zu lesen}.
+.3 \pythonilIdx{AttributeError}\DTcomment{wenn eine Attribut-Referenz oder Zuweisung fehlschlägt}.
+.3 \pythonilIdx{ImportError}\DTcomment{wenn \pythonilIdx{import} fehlschlägt}.
+.4 \pythonilIdx{ModuleNotFoundError}\DTcomment{ein Modul konnte nicht geladen werden}.
+.3 \pythonilIdx{LookupError}\DTcomment{ein Schlüssel oder Index in eine Dictionary oder einer Sequenz war ungültig}.
+.4 \pythonilIdx{IndexError}\DTcomment{ein Sequenz-Index war außerhalb der Reichweite}.
+.4 \pythonilIdx{KeyError}\DTcomment{ein Schlüssel für ein Dictionary war falsch}.
+.3 \pythonilIdx{MemoryError}\DTcomment{nicht mehr genug freier Speicher}.
+.3 \pythonilIdx{NameError}\DTcomment{\DEzB\ Zugriff auf eine nicht-existierende Variable}.
+.4 \pythonilIdx{UnboundLocalError}\DTcomment{Referenz auf eine Methode oder Funktion, die nicht gebunden ist}.
+.3 \pythonilIdx{OSError}\DTcomment{ein Betriebssystem-Funktionsaufruf schlug fehl}.
+}}}%
+\end{frame}
+%
+\begin{frame}[fragile]
+\frametitle{Built-In Exceptions~(2)}%
+\centering%
+\resizebox{0.9\paperwidth}{!}{\parbox{1.1\paperwidth}{\centering%
+\dirtree{%
+.1 \pythonilIdx{BaseException}\DTcomment{die Basisklasse aller Ausnahmen}.
+.2 \pythonilIdx{Exception}\DTcomment{Situationen, wo vernüftige Fehlerbehandlung möglich seien sollte}.
+.3 \pythonilIdx{OSError}\DTcomment{ein Betriebssystem-Funktionsaufruf schlug fehl}.
+.4 \pythonilIdx{BlockingIOError}\DTcomment{eine blockierende Operation wurde auf ein Objekt im nicht-blockierenden Modus angewandt}.
+.4 \pythonilIdx{ChildProcessError}\DTcomment{eine Operation in einem Subprozess schlug fehl}.
+.4 \pythonilIdx{ConnectionError}\DTcomment{ein Verbindungs- oder Pipe-bezogener Fehler}.
+.5 \pythonilIdx{BrokenPipeError}\DTcomment{Schreiben in eine Pipe deren Ende geschlossen it}.
+.5 \pythonilIdx{ConnectionAbortedError}\DTcomment{Verbindungsversuch von anderer Seite abgebrochen}.
+.5 \pythonilIdx{ConnectionRefusedError}\DTcomment{andere Seite verweigert Verbindung}.
+.5 \pythonilIdx{ConnectionResetError}\DTcomment{Verbindung von anderer Seite abgebrochen}.
+.4 \pythonilIdx{FileExistsError}\DTcomment{Versuch, eine Datei zu erstellen, die schon existiert}.
+.4 \pythonilIdx{FileNotFoundError}\DTcomment{Datei nicht gefunden}.
+.4 \pythonilIdx{IsADirectoryError}\DTcomment{Versuch einer Dateioperation auf ein Verzeichnis}.
+.4 \pythonilIdx{NotADirectoryError}\DTcomment{Versuch einer Verzeichnisoperation auf eine Datei}.
+.4 \pythonilIdx{PermissionError}\DTcomment{unzureichende Zugriffsrechte}.
+.4 \pythonilIdx{ProcessLookupError}\DTcomment{Prozess existiert nicht}.
+.4 \pythonilIdx{TimeoutError}\DTcomment{eine Operation wurde wegen Time-out abgebrochen}.
+.3 \pythonilIdx{ReferenceError}\DTcomment{auf ein schwach-referenziertes Objekt wurde nach seiner Freigabe zugegriffen}.
+}}}%
+\end{frame}
+%
+\begin{frame}[fragile]
+\frametitle{Built-In Exceptions~(3)}%
+\centering%
+\resizebox{0.9\paperwidth}{!}{\parbox{1.1\paperwidth}{\centering%
+\dirtree{%
+.1 \pythonilIdx{BaseException}\DTcomment{die Basisklasse aller Ausnahmen}.
+.2 \pythonilIdx{Exception}\DTcomment{Situationen, wo vernüftige Fehlerbehandlung möglich seien sollte}.
+.3 \pythonilIdx{RuntimeError}\DTcomment{ein Fehler der nicht in die anderen Kategorien passen}.
+.4 \pythonilIdx{NotImplementedError}\DTcomment{eine Methode wurde noch nicht implementiert, aber vielleicht später}.
+.4 \pythonilIdx{PythonFinalizationError}\DTcomment{einer Operation wurde beim Herunterfahren des Interpreters blockiert}.
+.4 \pythonilIdx{RecursionError}\DTcomment{die maximale Rekursionstiefe wurde überschritten}.
+.3 \pythonilIdx{StopAsyncIteration}\DTcomment{kein Fehler, sondern das Ende einer asynchronen Iteration}.
+.3 \pythonilIdx{StopIteration}\DTcomment{kein Fehler, sondern das Ende einer Iteration}.
+.3 \pythonilIdx{SyntaxError}\DTcomment{fehlerhafte \python-Datei}.
+.4 \pythonilIdx{IndentationError}\DTcomment{falsch eingrückter Kode}.
+.5 \pythonilIdx{TabError}\DTcomment{inkonsistente Benutzung von Tabs und Leerzeichen}.
+.3 \pythonilIdx{SystemError}\DTcomment{ein interner Fehler des Interpreter}.
+.3 \pythonilIdx{TypeError}\DTcomment{in Parameter hatte einen falschen Type oder war \pythonil{None}}.
+.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Type, aber einen falschen Wert}.
+}}}%
+\end{frame}
+%
+\begin{frame}[fragile]
+\frametitle{Built-In Exceptions~(4)}%
+\centering%
+\resizebox{0.9\paperwidth}{!}{\parbox{1.1\paperwidth}{\centering%
+\dirtree{%
+.1 \pythonilIdx{BaseException}\DTcomment{die Basisklasse aller Ausnahmen}.
+.2 \pythonilIdx{Exception}\DTcomment{Situationen, wo vernüftige Fehlerbehandlung möglich seien sollte}.
+.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Type, aber einen falschen Wert}.
+.4 \pythonilIdx{UnicodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
+.5 \pythonilIdx{UnicodeDecodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
+.5 \pythonilIdx{UnicodeEncodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
+.5 \pythonilIdx{UnicodeTranslateError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
+.2 \pythonilIdx{GeneratorExit}\DTcomment{kein Fehler, sondern ein \pythonilIdx{Generator} oder eine Coroutine sind fertig}.
+.2 \pythonilIdx{KeyboardInterrupt}\DTcomment{der Nutzer drückte \keys{\ctrl+C}}.
+.2 \pythonilIdx{SystemExit}\DTcomment{kein Fehler, wird von \pythonilIdx{exit} ausgelöst}.
+}}}%
+\end{frame}
 %
 \section{Zusammenfassung}%
 %

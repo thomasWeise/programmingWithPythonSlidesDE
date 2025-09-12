@@ -72,7 +72,7 @@
 \item<4-> Die ganzen Zahlen umfassen daher die negativen Ganzzahlen, 0, und die positiven Ganzzahlen -- alle ohne Kommastellen. %
 \item<5-> Viele Programmiersprachen bieten verschiedene Datentypen mit verschiedenen Wertebereichen für Ganzzahlen.\uncover<6->{ In \pgls{Java} ist \pythonil{byte} \DEzB\ ein Ganzzahltyp mit Wertebereich~\intRange{-2^7}{2^7-1} wohingegen \pythonil{long} den Wertebereich~\intRange{-2^{63}}{2^{63}-1} abdeckt.\uncover<7->{ Der \softwareStyle{C17}-Standard für \pgls{C} listed mindestens zehn Ganzzahltypen\cite{ISOIEC98892017PLCWDOS}.}}%
 \item<8-> \python~3 hat nur einen einzigen Datentype für die Ganzzahlen:~\pythonilIdx{int}.%
-\item<9-> Dieser Datentyp hat im Grunde eine unbegrenzte Reichweite.%
+\item<9-> Dieser Datentyp hat im Grunde einen unbegrenzten Wertebereich.%
 \item<10-> Naja, begrenzt durch den Speicher Ihres Computers.%
 \end{itemize}%
 \end{frame}%
@@ -82,71 +82,71 @@
 \begin{itemize}%
 \only<-1>{\item Wir öffnen ein Terminal (Unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal.)}%
 %
-\only<2>{\item Wir schreiben \bashil{python3} und drücken~\keys{\enter}.}%
+\only<2>{\item Wir schreiben \bashil{python3} und drücken~\keys{\return}.}%
 %
 \only<3>{\item Der \python-Interpreter startet.}%
 %
-\only<4>{\item Wir schreiben \pythonil{4 + 3} und drücken~\keys{\enter}.}%
+\only<4>{\item Wir schreiben \pythonil{4 + 3} und drücken~\keys{\return}.}%
 \only<5>{\item Das Ergebnis erscheint.}%
 %
-\only<6>{\item Wir schreiben \pythonil{7 * 5} und drücken~\keys{\enter}.}%
+\only<6>{\item Wir schreiben \pythonil{7 * 5} und drücken~\keys{\return}.}%
 \only<7>{\item Das Ergebnis erscheint.}%
 %
-\only<8>{\item Wir schreiben \pythonil{4 + 3 * 5 } und drücken~\keys{\enter}.}%
+\only<8>{\item Wir schreiben \pythonil{4 + 3 * 5 } und drücken~\keys{\return}.}%
 \only<9>{\item Das Ergebnis erscheint: \python\ beherrscht die Operatorreihenfolge!}%
 %
-\only<10>{\item Wir schreiben \pythonil{(4 + 3) * 5} und drücken~\keys{\enter}.}%
+\only<10>{\item Wir schreiben \pythonil{(4 + 3) * 5} und drücken~\keys{\return}.}%
 \only<11>{\item Das Ergebnis erscheint: \python\ beherrscht Klammerrechnung.}%
 %
-\only<12>{\item Wir schreiben \pythonil{4 - -12} und drücken~\keys{\enter}.}%
+\only<12>{\item Wir schreiben \pythonil{4 - -12} und drücken~\keys{\return}.}%
 \only<13>{\item Das Ergebnis erscheint: \python\ beherrscht negative Zahlen.}%
 %
-\only<14>{\item Wir schreiben \pythonil{((4 + 3) * (4 - -12) - 5) * 3} und drücken~\keys{\enter}.}%
+\only<14>{\item Wir schreiben \pythonil{((4 + 3) * (4 - -12) - 5) * 3} und drücken~\keys{\return}.}%
 \only<15>{\item Das Ergebnis erscheint: \pythonil{= (7 * 16 - 5) * 3 = 107 * 3 = 321}.}%
 %
-\only<16>{\item Wir schreiben die Ganzzahldivision \pythonil{32 // 4} und drücken~\keys{\enter}.}%
+\only<16>{\item Wir schreiben die Ganzzahldivision \pythonil{32 // 4} und drücken~\keys{\return}.}%
 \only<17>{\item Das Ergebnis~\pythonil{8} erscheint.}%
 %
-\only<18>{\item Wir schreiben die Ganzzahldivision \pythonil{33 // 4} und drücken~\keys{\enter}.}%
+\only<18>{\item Wir schreiben die Ganzzahldivision \pythonil{33 // 4} und drücken~\keys{\return}.}%
 \only<19>{\item Das Ergebnis~\pythonil{8} erscheint (der \glslink{modulodiv}{Rest} wäre~1).}%
 %
-\only<20>{\item Wir schreiben die Ganzzahldivision \pythonil{34 // 4} und drücken~\keys{\enter}.}%
+\only<20>{\item Wir schreiben die Ganzzahldivision \pythonil{34 // 4} und drücken~\keys{\return}.}%
 \only<21>{\item Das Ergebnis~\pythonil{8} erscheint (der Rest wäre~2).}%
 %
-\only<22>{\item Wir schreiben die Ganzzahldivision \pythonil{35 // 4} und drücken~\keys{\enter}.}%
+\only<22>{\item Wir schreiben die Ganzzahldivision \pythonil{35 // 4} und drücken~\keys{\return}.}%
 \only<23>{\item Das Ergebnis~\pythonil{8} erscheint (der Rest wäre~3).}%
 %
-\only<24>{\item Wir schreiben die Ganzzahldivision \pythonil{36 // 4} und drücken~\keys{\enter}.}%
+\only<24>{\item Wir schreiben die Ganzzahldivision \pythonil{36 // 4} und drücken~\keys{\return}.}%
 \only<25>{\item Das Ergebnis~\pythonil{9} erscheint (der Rest wäre~0).}%
 %
-\only<26>{\item Wir schreiben die Fließkommadivision \pythonil{32 / 4} und drücken~\keys{\enter}.}%
+\only<26>{\item Wir schreiben die Fließkommadivision \pythonil{32 / 4} und drücken~\keys{\return}.}%
 \only<27>{\item Das Ergebnis~\pythonil{8.0} erscheint (Fließkommazahlen lernen wir später).}%
 %
-\only<28>{\item Wir schreiben die Fließkommadivision \pythonil{33 / 4} und drücken~\keys{\enter}.}%
+\only<28>{\item Wir schreiben die Fließkommadivision \pythonil{33 / 4} und drücken~\keys{\return}.}%
 \only<29>{\item Das Ergebnis~\pythonil{8.25} erscheint (Fließkommazahlen lernen wir später).}%
 %
-\only<30>{\item Wir schreiben die Fließkommadivision \pythonil{34 / 4} und drücken~\keys{\enter}.}%
+\only<30>{\item Wir schreiben die Fließkommadivision \pythonil{34 / 4} und drücken~\keys{\return}.}%
 \only<31>{\item Das Ergebnis~\pythonil{8.5} erscheint (Fließkommazahlen lernen wir später).}%
 %
-\only<32>{\item Wir schreiben die Fließkommadivision \pythonil{35 / 4} und drücken~\keys{\enter}.}%
+\only<32>{\item Wir schreiben die Fließkommadivision \pythonil{35 / 4} und drücken~\keys{\return}.}%
 \only<33>{\item Das Ergebnis~\pythonil{8.75} erscheint (Fließkommazahlen lernen wir später).}%
 %
-\only<34>{\item Wir schreiben die Fließkommadivision \pythonil{36 / 4} und drücken~\keys{\enter}.}%
+\only<34>{\item Wir schreiben die Fließkommadivision \pythonil{36 / 4} und drücken~\keys{\return}.}%
 \only<35>{\item Das Ergebnis~\pythonil{9.0} erscheint (Fließkommazahlen lernen wir später).}%
 %
-\only<36>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{33 \% 4} und drücken~\keys{\enter}.}%
+\only<36>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{33 \% 4} und drücken~\keys{\return}.}%
 \only<37>{\item Das Ergebnis~\pythonil{1} erscheint.}%
 %
-\only<38>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{34 \% 4} und drücken~\keys{\enter}.}%
+\only<38>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{34 \% 4} und drücken~\keys{\return}.}%
 \only<39>{\item Das Ergebnis~\pythonil{2} erscheint.}%
 %
-\only<40>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{35 \% 4} und drücken~\keys{\enter}.}%
+\only<40>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{35 \% 4} und drücken~\keys{\return}.}%
 \only<41>{\item Das Ergebnis~\pythonil{3} erscheint.}%
 %
-\only<42>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{36 \% 4} und drücken~\keys{\enter}.}%
+\only<42>{\item Wir berechnen den Rest der Ganzzahldivision \pythonil{36 \% 4} und drücken~\keys{\return}.}%
 \only<43>{\item Das Ergebnis~\pythonil{0} erscheint.}%
 %
-\only<44>{\item Wir schreiben \pythonil{exit()} um den Interpreter zu verlassen und drücken~\keys{\enter}.}%
+\only<44>{\item Wir schreiben \pythonil{exit()} um den Interpreter zu verlassen und drücken~\keys{\return}.}%
 \only<45>{\item Wir sind zurück im normalen Terminal.}%
 %
 \item<46-> In \python\ gibt es zwei Arten von Divisionen\uncover<47->{%
@@ -349,7 +349,7 @@ Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \p
 \frametitle{Kurzer Auffrischungskurs: Zahlensysteme}%
 \begin{itemize}%
 \only<-1>{%
-\item In der Informatik sind das binäre Zahlensystem~(Basis~2), das oktale Zahlensystem~(Basis~8), und das Hexadecimale Zahlensystem~(Basis~16) weit verbreitet und wichtig.%
+\item In der Informatik sind das binäre Zahlensystem~(Basis~2), das oktale Zahlensystem~(Basis~8), und das Hexadezimale Zahlensystem~(Basis~16) weit verbreitet und wichtig.%
 }%
 \item<2-> Dezimal~(dec), Binär~(bin), Oktal~(oct), und Hexadezimal~(hex)%
 \end{itemize}%

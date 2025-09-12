@@ -1,0 +1,571 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+%
+\subtitle{33.~Zwischenspiel:~Testen auf Ausnahmen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\item In Einheit~\unitUnitTests\ haben wir das Kontept von \glslink{unitTest}{Unit Tests} eingeführt.%
+%
+\item<2-> Wir haben uns angeschaut, wie \pytest\ verwendet werden kann, um unsere Funktionen zu testen.%
+%
+\item<3-> Wir haben auch gesagt, dass wir idealerweise alle Zweige des Kontrollflusses in einer Funktion mit \glslink{unitTest}{Unit Tests} abdecken sollten.%
+%
+\item<4-> Bei der Abdeckung mit Tests werden Ausnahmen und der Kode zur Ausnahmebehandlung allerdings oft übersehen\cite{LRBP2021AEHTPIOSL}.%
+%
+\item<5-> Wenn unsere Funktion eine bestimmte Ausnahme unter bestimmten Bedingungen auslösen soll, dann sollten wir \glslink{unitTest}{Unit Tests} haben, die prüfen, ob die Ausnahme auch tatsächlich ausgelöst wird.%
+%
+\item<6-> Natürlich führt jede Ausnahme, die in einem \glslink{unitTest}{Unit Test} ausgelöst wird, dazu, dass der Unit Test fehlschlägt.%
+%
+\item<7-> Dies scheint unserem Ziel, Ausnahmen \emph{absichtlich} auszulösen, zu widersprechen.%
+%
+\item<8-> Zum Glück bietet uns \pytest\ dafür passende Werkzeuge an.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{\texttt{pytest.raises}}%
+%%
+\begin{frame}[t]%
+\frametitle{\texttt{pytest.raises}}%
+\begin{itemize}%
+\only<-4>{%
+\item Das Modul \pythonilIdx{pytest} bietet uns einen Context-Manager\cite{PSF:P3D:TPSL:CUFWSC} namens \pythonilIdx{raises} an.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir haben ja gerade eben gelernt, wie man Context-Managers mit dem \pythonilIdx{with}-Statement verwendet.%
+}%
+%
+\only<-6>{%
+\item<3-> Wenn wir prüfen wollen, ob eine Funktion wirklich eine Ausnahme vom Typ \pythonil{ExceptionType} für einen bestimmten Input auslöst, dann packen wir den Funktionsaufruf in einen \pythonil{with raises(ExceptionType):}-Block.%
+}%
+%
+\only<-7>{%
+\item<4-> Dieser Block sagt dem \pytest-System, dass der folgende eingerückte Block eine Ausnahme vom Typ \pythonil{ExceptionType} auslösen \alert{muss}.%
+}%
+%
+\only<-8>{%
+\item<5-> Wenn so eine Ausnahme nicht ausgelöst wird, dann schlägt der Test fehl.%
+}%
+%
+\only<-9>{%
+\item<6-> Wenn sie ausgelöst wird, dann ist der Test erfolgreich.%
+}%
+%
+\only<-9>{%
+\item<7-> Wir haben auch gelernt, dass wir eine Fehlermeldung als Parameter beim Auslösen einer Ausnahme angeben können.%
+}%
+%
+\item<8-> Mit \pythonilIdx{raises}\pythonIdx{pytest!raises} können wir die String-Repräsentation der Ausnahme (welche diese Fehlermeldung beinhaltet) mit einer \glsFull{regex} vergleichen.%
+%
+\item<9-> Wir geben die \pgls{regex} dafür als Parameter \pythonil{match} an.%
+%
+\item<10-> Dann schlägt der \glslink{unitTest}{Unit Test} fehl, wenn entweder keine Ausnahme vom Typ \pythonil{ExceptionType} ausgelöst wurde \alert{oder} wenn so eine Ausnahme ausgelöst wurde, ihre String-Repräsentation aber nicht zur \pgls{regex} in \pythonil{match} passt.%
+\end{itemize}%
+%
+\gitLoadPython{syntax/pytest_raises}{}{syntax/pytest_raises.py}{}%
+\listingPythonSyntax{}{syntax/pytest_raises}{0.2}{0.567}{0.6}{0.6}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Regulat Expressions}%
+\begin{itemize}%
+\only<-12>{%
+\item Was sing \glsFullpl{regex}, zu Deutsch:~\inQuotes{regulärer Ausdruck}?%
+}%
+%
+\only<-13>{%
+\item<2-> \Pglspl{regex} sind im Grunde eine kleine Programmiersprache zum spezifizieren von Textmustern, die mit Strings verglichen werden können.%
+}%
+%
+\only<-14>{%
+\item<3-> \Pglspl{regex} werden von ganz vielen Werzeugen und Programmiersprachen unterstützt.%
+}%
+%
+\only<-15>{%
+\item<4-> Wir können sie hier nicht tiefgehend diskutieren, aber zumindest ein paar ganz einfache Beispiele anschauen.%
+}%
+%
+\only<-16>{%
+\item<5-> Im einfachsten Fall ist eine \pgls{regex} ein ganz normaler String, \DEzB~\pythonil{\"hello\"}.%
+}%
+%
+\only<-17>{%
+\item<6-> Wenn dieser String mit einem anderen String in einer Variable~\pythonil{x} verglichen wird, dann passt er nur, wenn \pythonil{x} genau gleich \pythonil{\"hello\"} ist. Dann spricht man von einem \inQuotes{match}.%
+}%
+%
+\only<-18>{%
+\item<7-> Ist \pythonil{x} nicht gleich \pythonil{\"hello\"} , dann passt er nicht.%
+}%
+%
+\only<-19>{%
+\item<8-> Es gibt Spezial-Zeichen, die \pglspl{regex} ziemlich mächtig machen.%
+}%
+%
+\only<-19>{%
+\item<9-> Ein Beispiel ist der Punkt~\textil{.}, der für ein beliebiges Zeichen steht.%
+}%
+%
+\item<10-> Der \pgls{regex} \pythonil{\"h.llo\"} passt daher zu \pythonil{\"hello\"}, \pythonil{\"hallo\"}, und \pythonil{\"hXllo\"}, oder \pythonil{\"h llo\"}.%
+%
+\item<11-> Der Stern~(\textil{*}) spezifiziert, dass das Unter-Muster genau vor ihm nicht, einmal, oder mehrmals auftauchen kann.%
+%
+\item<12-> Im einfachsten Fall ist ein Unter-Muster ein einziges Zeichen.%
+%
+\item<13-> Die \pgls{regex} \pythonil{\"he*llo\"} passt also zu \pythonil{\"hllo\"}, \pythonil{\"hello\"}, \pythonil{\"heello\"}, \pythonil{\"heeello\"}, usw.%
+%
+\item<14-> Die \pgls{regex} \pythonil{\"h.*llo\"} passt zu \pythonil{\"hllo\"}, \pythonil{\"hello\"}, \pythonil{\"hallo\"}, \pythonil{\"heeeXYZeeeello\"}, usw.%
+%
+\item<15-> Es gibt noch sehr viel mehr Muster, die wir mit \pglspl{regex} bauen können.%
+%
+\item<16-> Dazu gibt es noch mehr Spezial-Zeichen.%
+%
+\item<17-> Wir müssen es hier aber erstmal dabei belassen.%
+%
+\item<18-> Sie können mehr informationen finden in~\bracketCite{IEEE1993ISFITPOSIPP2SAU,PSF:P3D:PH:REH,N2018RQSRUAURE,N2019AITRE,PSF:P3D:TPSL:RREO}.%
+%
+\item<19-> So oder so, ich denke, Sie sehen warum \pglspl{regex} eine sinnvolle Idee sind, um zu prüfen, ob Fehlermeldungen einer bestimmten Struktur entsprechen.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Verbesserte \pythonil{sqrt}-Funktion}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item In Einheit~\unitSqrtTested\ hatten wir die Implementierungen unserer \pythonil{sqrt}-Funktionen gestestet.%
+}%
+%
+\only<-6>{%
+\item<2-> Das sah damals so aus.%
+}%
+%
+\only<-6>{%
+\item<3-> Dann hatten wir unsere \pythonil{sqrt}-Funktion in Einheit~\unitSqrtRaise weiterentwickelt.%
+}%
+%
+\item<4-> Diese Funktion wird einen \pythonilIdx{TypeError} mit einer hartkodierten Fehlermeldung auslösen, wenn ihr argument kein \pythonil{float} ist.%
+%
+\item<5-> Sie löst einen \pythonilIdx{ArithmeticError} aus, wenn ihr Argument entweder negativ oder nicht endlich ist, wobei die Fehlermeldung den Wert des Arguments beinhaltet.%
+%
+\item<6-> Natürlich wollen wir sicher gehen, dass das auch passiert.%
+%
+\item<7-> Daher wollen wir also auf diese \pythonilsIdx{ArithmeticError} und \pythonilsIdx{TypeError} hin testen.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{functions:test_my_math_3}{}{functions/test_my_math_3.py}{}%
+\gitLoadPython{exceptions:sqrt_raise_2}{}{exceptions/sqrt_raise_2.py}{}%
+\listingPython{-2}{functions:test_my_math_3}{0.45}{0.2}{0.54}{0.92}%
+\listingPython{3-}{exceptions:sqrt_raise_2}{0.45}{0.2}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Verbesserte \pythonil{sqrt}-Funktion Testen}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item In der ersten Test-Funktion, \pythonil{test_sqrt}, machen wir die \inQuotes{normalen} tests.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir müssen ja trotzdem prüfen, ob \pythonil{sqrt} richtige Ergebnisse für normale Zahlen liefert.%
+}%
+%
+\only<-6>{%
+\item<3-> In der zweiten Funktion, \pythonil{test_sqrt_raises_arithmetic_error}, prüfen wir Argumente, die zwar Fließkommazahlen sind, aber ungültige Werte haben.%
+}%
+%
+\only<-7>{%
+\item<4-> In einr \pythonil{for}-Schleife lassen wir eine Variable \pythonil{number} über die Werte \pythonil{[-1.0, inf, -inf, nan]} iterieren.%
+}%
+%
+\only<-8>{%
+\item<5-> Der erste Wert ist negativ, die anderen sind nicht endlich.%
+}%
+%
+\only<-8>{%
+\item<6-> Die Überprüfung \pythonil{(not isfinite(number))} \pythonil{or (number < 0.0)} in unserer Funktion sollte diese Werte abfangen -- es sei denn, wir haben irgendwie falsch verstanden, wie er funktioniert.%
+}%
+%
+\only<-10>{%
+\item<7-> Alle diese Werte sollten unsere \pythonil{sqrt}-Funktion dazu bringen, einen \pythonilIdx{ArithmeticError} auszulösen.%
+}%
+%
+\only<-11>{%
+\item<8-> Die Fehlermeldung in dieser Ausnahme wird über den folgenden \glslink{fstring}{f-String} gebaut: \scalebox{0.87}{\pythonil{f\"sqrt(\{number\}) is not permitted."}}.%
+}%
+%
+\only<-12>{%
+\item<9-> In der Schleife im Test packen wir den Funktionsaufruf also in einen \pythonilIdx{with}-Block der den \pythonilIdx{raises}-Context-Manager benutzt.%
+}%
+%
+\only<-13>{%
+\item<10-> Wir geben die Ausnahmen-Klasse \pythonilIdx{ArithmeticError} an.%
+}%
+%
+\only<-14>{%
+\item<11-> Als Muster für die String-Repräsentation (also die Fehlermeldung) der Ausnahme nehmen wir \pythonil{\"sqrt.* is not permitted.\"}.%
+}%
+%
+\only<-14>{%
+\item<12-> Dadurch wird verlangt, dass \alert{jeder} \pythonil{sqrt}-Aufruf in der Schleife einen \pythonilIdx{ArithmeticError} auslöst.%
+}%
+%
+\only<-15>{%
+\item<13-> Die Fehlermeldung im Ausnahme-Objekt muss mit \textil{sqrt} anfangen und mit \textil{ is not permitted.} enden.%
+}%
+%
+\only<-16>{%
+\item<14-> Zwischen diesen beiden Strings können beliebig viele beliebige Zeichen auftreten.%
+}%
+%
+\only<-17>{%
+\item<15-> In anderen Worten, \pythonil{\"sqrt.* is not permitted.\"} matched \pythonil{\"sqrt is not permitted.\"}, \pythonil{\"sqrt(1) is not permitted.\"}, \pythonil{\"sqrt(inf) is not permitted.\"}, aber nicht \pythonil{\"sqrt is wrong.\"}.%
+}%
+%
+\only<-20>{%
+\item<16-> Wenn auch nur für einen Wert \pythonil{number} keine solche Ausnahme ausgelöst wird, schlägt der Test fehl.%
+}%
+%
+\only<-21>{%
+\item<17-> In der dritten und letzten Testfunktion, \pythonil{test_sqrt_raises_type_error}, prüfen wir, ob die \pythonilsIdx{TypeError} ordentlich ausgelöst werden.%
+}%
+%
+\only<-22>{%
+\item<18-> Wir gehen dazu genauso vor wie in der vorherigen Testfunktion.%
+}%
+%
+\only<-22>{%
+\item<19-> In einer \pythonil{for}-Schleife lassen wir die Variable \pythonil{number} über die Werte \pythonil{[True, \"x\", None]} iterieren.%
+}%
+%
+\only<-22>{%
+\item<20-> Keiner dieser Werte ist vom Typ \pythonil{float}.%
+}%
+%
+\only<-23>{%
+\item<21-> Die Überprüfung \pythonil{isinstance(number, float)} sollte also verhindern, dass diese Werte in die Berechnung fließen.%
+}%
+%
+\only<-24>{%
+\item<22-> Es sei denn natürlich dass wir irgendwie falsch verstanden haben, wie entering the actual computation, unless we misunderstood how \pythonilIdx{isinstance} funktioniert.%
+}%
+%
+\only<-26>{%
+\item<23-> Wenn unsere \pythonil{sqrt}-Funktion so funktioniert wie wir denken, dann sollte sie jeweils einen \pythonilIdx{TypeError} mit der Fehlernachricht \pythonil{\"number must be float!\"} auslösen.%
+}%
+%
+\only<-27>{%
+\item<24-> Deshalb setzen wir die Funktionsaufrufe in einen \pythonilIdx{with}-Block mit dem Context-Manager \pythonil{raises(TypeError,} \pythonil{match=\"number must be float!\")}.
+}%
+%
+\only<-28>{%
+\item<25-> Wir führen nun \pytest\ aus wie gewöhnlich.%
+}%
+%
+\only<-29>{%
+\item<26-> Wie Sie sehen, sind alle drei Tests erfolgreich.%
+}%
+%
+\item<27-> Das bedeutet, dass unsere \pythonil{sqrt}-Funktion die erwarteten Ergebnisse für normale Eingabedaten zurückliefert.%
+%
+\item<28-> Es bedeutet auch, dass sie einen \pythonilIdx{ArithmeticError} mit einer passenden Nachricht für Fließkommazahlen auslöst, mit denen unsere Funktion nichts anfangen kann.%
+%
+\item<29-> Und es bedeutet, dass sie einen \pythonilIdx{TypeError} mit passender Nachricht auslöst, wenn wir Argumente eingeben, die keine Fließkommazahlen sind.%
+%
+\item<30-> Wir können also zuversichtlich sein, dass unsere Implementierg korrekt ist.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{exceptions:test_sqrt_raise_2}{}{exceptions/test_sqrt_raise_2.py}{}%
+\gitExec{exec:exceptions:test_sqrt_raise_2:pytest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest.sh exceptions test_sqrt_raise_2.py}%
+%
+\listingPython{-24}{exceptions:test_sqrt_raise_2}{0.45}{0.13}{0.54}{0.92}%
+\listingOutput{25-}{exceptions:test_sqrt_raise_2:pytest}{style=tool_style}{0.45}{0.3}{0.54}{0.92}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Alte \pythonil{sqrt}-Funktion Testen}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Jetzt wollen wir noch ein paar weitere Aspekte des \pythonilIdx{raises} Context-Managers aus dem Modul \pythonilIdx{pytest} ausprobieren.%
+}%
+%
+\only<-5>{%
+\item<2-> In der Datei \programUrl{exceptions:test_sqrt} testen wir im Grunde die Originalversion unserer \pythonil{sqrt} die \alert{nicht} selbst Exceptions auslöst.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir kopieren die Funktion der Einfachheit halber direkt in die selbe Datei wie die Tests.%
+}%
+%
+\only<-8>{%
+\item<4-> Der Test \pythonil{test_raises_arithmetic_error_1} übergibt den Wert \pythonil{-1.0} als Argument an die Funktion \pythonil{sqrt}.%
+}%
+%
+\only<-9>{%
+\item<5-> Er erwartet, dass ein \pythonilIdx{ArithmeticError} ausgelöst wird.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir spezifizieren keinen Wert für den Parameter \pythonil{match} von \pythonil{raises}, also wird die Fehlermeldung der Ausnahme nicht ausgewertet.%
+}%
+%
+\only<-11>{%
+\item<7-> Von der Ausgabe sehen wir, dass dieser Test fehlschlägt.%
+}%
+%
+\only<-11>{%
+\item<8-> Der Grund ist, dass unsere alte \pythonil{sqrt}-Implementierung einfach \pythonil{-1} für negative Argumente zurückliefert%
+}%
+%
+\only<-12>{%
+\item<9-> Sie löse niemals selber explizit eine Ausnahme aus.%
+}%
+%
+\only<-13>{%
+\item<10-> Weil der Funktionsaufruf im \pythonil{with raises(ArithmeticError):} in Wirklichkeit also keinen \pythonil{ArithmeticError} auslöst, schlägt dieser Test fehl.%
+}%
+%
+\only<-14>{%
+\item<11-> Im zweiten Test Case, \pythonil{test_raises_overflow_error}, rufen wir dann \pythonil{sqrt(10 ** 320)} auf.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir setzen diesen Kode in einen \pythonilIdx{with}-Block mit Context-Manager  \pythonil{raises(OverflowError,} \pythonil{match=\"int too large.*\")}.%
+}%
+%
+\only<-17>{%
+\item<13-> Das bedeutet, dass wir erwarten, dass der Kode einen \pythonilIdx{OverflowError} auslöst.%
+}%
+%
+\only<-18>{%
+\item<14-> Das Ausnahme-Objekt muss eine Fehlermeldung beinhalten, die mit \textil{int too large} anfängt und danach beliebigen weiteren Text enthalten can.%
+}%
+%
+\only<-19>{%
+\item<15-> Und genau das passiert auch.%
+}%
+%
+\only<-20>{%
+\item<16-> Der Kode in der Funktion führt ja Fließkommaarithmetik durch.%
+}%
+%
+\only<-21>{%
+\item<17-> Wenn wir eine Ganzzahl da hinein geben, dann wird diese irgendwann in einen \pythonil{float} umgewandelt.%
+}%
+%
+\only<-22>{%
+\item<18-> Die Ganzzahl $10^{320}$ ist allerdings zu groß, um in einen \pythonil{float} umgewandelt zu werden.%
+}%
+%
+\only<-23>{%
+\item<19-> Dieser Fehler führt zu einem \pythonilIdx{OverflowError}.%
+}%
+%
+\only<-24>{%
+\item<20-> Die Fehlermeldung in diesem Objekt passt zu dem Textmuster, dass wir angegeben haben.%
+}%
+%
+\only<-25>{%
+\item<21-> Deshalb ist dieser Test erfolgreich.%
+}%
+%
+\only<-26>{%
+\item<22-> Dann, im Test \pythonil{test_raises_arithmetic_error_2}, packen wir den selben Funktionsaufruf in ein \pythonil{with raises(ArithmeticError):}.%
+}%
+%
+\only<-27>{%
+\item<23-> Nun haben wir gerade festgestellt, dass \pythonil{sqrt(10 ** 320)} einen \pythonilIdx{OverflowError} auslöst.%
+}%
+%
+\only<-28>{%
+\item<24-> Trotzdem ist auch dieser Test erfolgreich.%
+}%
+%
+\only<-29>{%
+\item<25-> Der Grund ist, dass ein \pythonilIdx{OverflowError} ja ein Spezialfall von \pythonilIdx{ArithmeticError} ist.%
+}%
+%
+\only<-30>{%
+\item<26-> Wir haben hier auch keine besondere Fehlermeldung verlangt, also kein Argument für \pythonil{match} spezifiziert.%
+}%
+%
+\only<-31>{%
+\item<27-> Darum verlangt der Test nur, das ein \pythonilIdx{ArithmeticError} ausgelöst wird.%
+}%
+%
+\only<-32>{%
+\item<28-> Er sieht dann einen Spezialfall davon und ist zufrieden.%
+}%
+%
+\only<-33>{%
+\item<29-> Der dritte Test ist daher auch erfolgreich.%
+}%
+%
+\only<-34>{%
+\item<30-> Im vierten Test, \pythonil{test_raises_arithmetic_error_3}, benutzen wir wieder \pythonil{sqrt(10 ** 320)}.%
+}%
+%
+\only<-35>{%
+\item<31-> Dieses Mal spezifizieren wir den Context-Manager \scalebox{0.95}{\pythonil{with raises(ArithmeticError,}} \scalebox{0.95}{\pythonil{match=\"sqrt.* is not permitted.\")}}.%
+}%
+%
+\only<-36>{%
+\item<33-> Das ist genau die gleiche Bedingung, mit der wir unsere neue \pythonil{sqrt} Implementierung, die selber Ausnahmen auslöst, in \programUrl{lst:exceptions:test_sqrt_raise_2} getestet hatten.%
+}%
+%
+\only<-37>{%
+\item<34-> Diese neue Implementierung hat genau so einen Fehler ausgelöst \pythonilsIdx{ArithmeticError}.%
+}%
+%
+\only<-38>{%
+\item<35-> Diese hier tut das aber nicht.%
+}%
+%
+\only<-39>{%
+\item<36-> Natürlich wissen wir bereits, dass \pythonil{sqrt(10 ** 320)} einen \pythonilIdx{OverflowError} ausführt.%
+}%
+%
+\item<37-> Wir wissen, dass ein \pythonilsIdx{OverflowError} ein Spezialfall von \pythonilsIdx{ArithmeticError} ist.%
+%
+\item<38-> Allerdings wissen wir auch, dass die Fehlermeldung im Ausnahme-Objekt nicht zu dem \pgls{regex} \pythonil{\"sqrt.* is not permitted.\"} passt.%
+%
+\item<39-> Deshalb schlägt der Test fehl.%
+%
+\item<40-> Die Ausgabe erklärt uns das klar.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{exceptions:test_sqrt}{}{exceptions/test_sqrt.py}{}%
+\gitExec{exec:exceptions:test_sqrt:pytest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest.sh exceptions test_sqrt.py}%
+%
+\listingPython{-6,8-14,16-20,22-27,30-38}{exceptions:test_sqrt}{0.475}{0.03}{0.54}{0.97}%
+\listingOutput{7,15,21,28-29,39-}{exceptions:test_sqrt:pytest}{style=tool_style}{0.475}{0.07}{0.54}{0.92}%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung Unit Tests}%
+\begin{itemize}%
+%
+\only<-10>{%
+\item Mit \pytest\ können wir damit jetzt\only<-1>{\dots}\uncover<2->{:%
+%
+\begin{enumerate}%
+%
+\item Testen ob eine Funktion für ausgewählte korrekte Eingabedaten die richtigen Ausgabedaten berechnet.\uncover<3->{ %
+Wenn ja: gut; wenn nein: Fehlschlag.}
+%
+\item<4-> Testen, ob eine Funktion eine unerwartete Ausnahmen für ausgewählte korrekte Eingabedaten auslöst.\uncover<5->{ %
+Wenn ja: Fehlschlag; wenn nein: gut.}%
+%
+\item<6-> Die erwarteten Ausnahmen für ausgewählte (falsche) Eingaben auslöst.\uncover<7->{ %
+Wenn ja: gut; wenn nein: Fehlschlag.}%
+%
+\end{enumerate}}}%
+%
+\item<8-> Wir können also nun sowohl die erwarteten, korrekten Benutzung unserer Funktion testen, als auch prüfen, ob sie korrekt Ausnahmen bei falscher Benutzung generiert.%
+%
+\item<9-> Wir können zuversichtlich sein, dass unser Kode keinen Schaden anrichtet, weder durch Fehler, die wir beim Programmieren gemacht haben, noch durch falsche Benutzung durch andere Programmierer.%
+%
+\item<10-> Gute \glslink{unitTest}{Unit Tests} gehen Hand-in-Hand mit guter Dokumentation, denn gute \glslink{docstring}{Docstrings} reduzieren die Chance, das jemand unseren Kode überhaupt erst falsch verwendet.%
+%
+\end{itemize}%
+%
+\uncover<11->{%
+\bestPractice{testAll}{%
+Es ist wichtig, sowohl die \alert{richtige} Benutzung unserer Funktionen mit Test Cases zu prüfen als auch die \alert{falsche} Benutzung mit \DEzB\ falschen Argumenten.\uncover<12->{ %
+Bei falscher Benutzung sollte unsere Funktion Ausnahmen auslösen und unsere \glslink{unitTest}{Unit Tests} sollten Prüfen, ob sie das auch wirklich tut.}}%
+}%
+%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung: Ausnahmen auslösen}%
+\begin{itemize}%
+%
+\item Wir haben nun ein weiteres wichtiges Thema gelernt: Wie man mit Fehlern umgeht.%
+%
+\item<2-> Es kann viele Gründe für Fehler geben.%
+%
+\item<3-> Vielleicht wurden falsche Daten an unser Program übergeben.%
+%
+\item<4-> In diesem Fall sollte unser Programm mit einer klaren Fehlermeldung abbrechen.%
+%
+\item<5-> Vielleicht enstanden die Probleme aus einem Programmierfehler heraus.%
+%
+\item<6-> Vielleicht hat jemand unsere Funktion verwendet und aus einem Mißverständnis heraus, falsche Argumente übergenen.%
+%
+\item<7-> Dann sollte unsere Funktion mit einer klaren Fehlermeldung fehlschlagen.%
+%
+\item<8-> Das Abbrechen des Kontrollflusses durch Ausnahmen ist sehr oft eine gute und wichtige Idee.%
+%
+\item<9-> Es zeigt allen Benutzern und Programmierern an, dass etwas schief gegangen ist, das wir aktiv etwas ändern müssen, um den Fehler zu beheben.%
+%
+\item<10-> Ansätze, die Fehler ignorieren führen nur zu schlimmeren Fehlern später.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung: Ausnahmen behandeln}%
+\begin{itemize}%
+\only<-9>{%
+\item Natürlich gibt es auch Situation, wo man Fehler elegant behandeln kann und ein Programmabsturz falsch wäre.%
+}%
+%
+\item<2-> Wenn wir versuchen eine Datei zu löschen, die bereits gelöscht wurde, ist das kein Grund für einen Programmabsturz.%
+%
+\item<3-> Wir sollten den Benutzer informieren, müssen aber nicht unseren ganzen Prozess abschießen.%
+%
+\item<4-> Dafür gibt es \DEzB\ den \pythonilIdx{except}-Blocks, mit dem wir bestimmte ausgewählte Ausnahmen abfangen und verarbeiten können.%
+%
+\item<5-> Der \pythonilIdx{finally}-Block erlaubt es uns, bestimmte Operationen durchzuführen, egal ob es einen Fehler gegeben hat oder nicht.%
+%
+\item<6-> Eine spezielle und auch elegantere Variante davon ist im Grunde der \pythonil{with}-Block, der besonders dafür geeignet ist, Resourcen auch im Fehlerfall zu schließen und freizugeben.
+%
+\item<7-> Durch das Auslösen und Behandeln von Fehlern können wir robusten Kode bauen, der sich gegen falsche Benutzung schützen kann und der such auch im Fehlerfall vernünftig verhält.%
+%
+\item<8-> Natürlich können wir keinen Kode robust nennen, den wir nicht getestet haben.%
+%
+\item<9-> Mit \pytest\ können wir alle Aspekte der Fehlerbehandlung testen.%
+%
+\item<10-> Und damit sind wir am Ende der Behandlung des Fehler-bezogenen Kontrollflusses.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
