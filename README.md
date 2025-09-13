@@ -54,6 +54,7 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 31. [Ausnahmen auslösen](https://thomasweise.github.io/programmingWithPythonSlidesDE/31_ausnahmen_auslösen.pdf)
 32. [Ausnahmen verarbeiten](https://thomasweise.github.io/programmingWithPythonSlidesDE/32_ausnahmen_verarbeiten.pdf)
 33. [Zwischenspiel: Testen auf Ausnahmen](https://thomasweise.github.io/programmingWithPythonSlidesDE/33_testen_auf_ausnahmen.pdf)
+34. [Iteration](https://thomasweise.github.io/programmingWithPythonSlidesDE/34_iteration.pdf)
 
 ### 2.3. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
@@ -82,9 +83,9 @@ Mit der Ausnahme dieser Materialien steht das Kursmaterial hier unter der Attrib
 
 Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0 Lizenz sondern unter dem Copyright ihrer Besitzer stehen beinhaltet, aber ist nicht beschränkt auf:
 
-+ das Python Logo, \DEzB,
-  - text/main/gettingStarted/pythonLogo.pdf
-  - text/main/gettingStarted/pythonLogo.svg
++ das Python Logo, z.B.,
+    - text/main/gettingStarted/pythonLogo.pdf
+    - text/main/gettingStarted/pythonLogo.svg
 + alle Screenshots von Webseiten
 + die Titelseite des Turbo Pascal User's Manual im Ordner "slides/09_dokumentation/graphics"
 + die Fotos im Ordner "slides/01_organisation/graphics":

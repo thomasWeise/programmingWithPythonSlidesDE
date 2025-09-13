@@ -1,0 +1,348 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{34.~Iteration}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Iterieren}%
+\begin{itemize}%
+%
+\item In \python\ ist das iterieren über die Elemente von Sequenzen ein zentrales Konzept.%
+%
+\item<2-> Wir haben bereits gelernt wie wir über Listen, Tupel, Dictionaries, und Mengen in Einheit~\unitEnumerate.%
+%
+\item<3-> Wir können genauso auch über die Zeichen in einer Zeichenkette iterieren.%
+%
+\item<4-> Wir könne nauch über Sequenzen iterieren, deren Elemente \emph{erst dann} konstruiert werden \emph{wenn} sie gebraucht werden.%
+%
+\item<5-> Ein gutes Beispiel dafür ist der Datentyp \pythonil{range}.%
+%
+\item<6-> Wir können über 1\decSep000\decSep000\decSep000\decSep000 \pythonil{int}-Elemente mit \pythonil{range(100_000_000_000_000)} iterieren.%
+%
+\item<7-> Soviele Ganzzahlen passen vielleicht gar nicht in den Speicher\dots%
+%
+\item<8-> Stattdessen werden diese eine nach der Anderen angelegt und Bereitgestellt so wie sie benötigt werden.%
+%
+\item<9-> Aus Sicht des Programmierers können wir über \pythonilsIdx{range} und \pythonilsIdx{list} genau gleich iterieren.%
+%
+\item<10-> Viele Objekte in \python\ unterstützen Iterationen.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Kollektionen aus Iterationen erstellen}%
+\begin{itemize}%
+%
+\item Wir können auch viele Arten von Kollektion von Sequenzen von Elementen erstellen.%
+%
+\item<2-> Die Datentypen  \pythonilIdx{list}, \pythonilIdx{tuple}, \pythonilIdx{set}, und \pythonilIdx{dict} können als Funktionen verwendet werden, die eine Sequenz von Elementen als Parameter akzeptiert und dann eine Instanz des entsprechenden Datentyps erstellt.%
+%
+\item<3-> Wir wissen, dass \pythonil{[1, 2, 2, 3]} ein Listen\glslink{literal}{literal} mit den entsprechenden Elementen ist.%
+%
+\item<4-> Übergeben wir diese Liste an die \pythonilIdx{set}-Function/datatype, schreiben wir also \pythonil{set([1, 2, 2, 3])}, dann bekommen wir die Menge \pythonil{\{1, 2, 3\}}.%
+%
+\item<5-> Viele Kollektions-Datenstrukturen haben Methoden, mit denen wir sie verändern können, in dem wir andere Kollektionen als Argumente eingeben.%
+%
+\item<6-> \DEZB\ das Aufrufen von~\pythonil{l.extend(\{1, 2, 3\})}\pythonIdx{list!extend}\pythonIdx{extend} hängt die Elemente~\pythonil{1}, \pythonil{2}, und \pythonil{3} an eine Liste~\pythonil{l} an.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{Iterator, Iterable, Generator und Comprehension}%
+%
+\begin{frame}%
+\frametitle{Iterationen und Ähnliches}%
+\locate{}{\parbox{0.975\paperwidth}{%
+\begin{itemize}%
+\only<-4>{%
+\item In sehr vielen situationen transformieren, verarbeiten, oder erstellen wir Sequenzen von Daten.%
+}%
+%
+\only<-5>{%
+\item<2-> In \python\ gibt es viele verschiedene Manifestationen vom \emph{Iterieren} über Objekte die \emph{iterierbar} sind.%
+}%
+%
+\only<-7>{%
+\item<3-> Das primitivste Konzept ist der \pythonilIdx{Iterator}\cite{PEP234}.%
+}%
+%
+\only<-7>{%
+\item<4-> Das ist ein Object das eine Iteration über die Elemente einer Sequenz repräsentiert.%
+}%
+%
+\only<-8>{%
+\item<5-> Wenn wir ein \pythonilIdx{Iterator}-Object~\pythonil{u} haben, dann können wir das nächste Element der Sequenz für die es steht via \pythonil{next(u)} erhalten.%
+}%
+%
+\only<-9>{%
+\item<6-> Gibt es kein nächstes Element, dann löst dies eine \pythonil{StopIteration}-Ausnahme aus.%
+}%
+%
+\only<-11>{%
+\item<7-> Solche Iteratoren sind \inQuotes{Einweg-Objekte}, wir können sie nur einmal benutzen.%
+}%
+%
+\only<-12>{%
+\item<8-> Eine \pythonil{for}-Schleife konsumiert die Elemente eines \pythonilIdx{Iterator} bis die \pythonil{StopIteration} ausgelöst wird.%
+}%
+%
+\only<-13>{%
+\item<9-> \pythonilIdx{Generator}-Funktionen und Ausdrücke sind Spezialfälle von \pythonil{Iterator} und erlauben uns mehr Kontrolle bzw.\ eine einfacherere Syntax für das definieren von Elementsequenzen.%
+}%
+%
+\only<-14>{%
+\item<10-> Viele Datenstruktueren wir Kollektionen erlauben es uns, so oft wie wir wollen über ihre Elemente zu iterieren.%
+}%
+%
+\only<-14>{%
+\item<11-> Sie alle sind Instanzen des \pythonilIdx{Iterable}-Iterfaces.%
+}%
+%
+\only<-14>{%
+\item<12-> Wir können \pythonil{iter(coll)} für eine Kollektion \pythonil{coll}, die dieses Interface implementiert, aufrufen, und wir bekommen einen \pythonilIdx{Iterator}.%
+}%
+%
+\item<13-> Wann immer wir über \DEzB~eine Liste iterieren, dann wird erst auf diese Art ein \pythonilIdx{Iterator} erzeugt.%
+%
+\item<14-> Wir können auch Kollektionen wir Listen, Mengen, oder Dictionaries durch so genannte \emph{comprehension} erstellen, wobei wir im Grunde eine \pythonil{for}-Schleife \emph{in} das entsprechende \glslink{literal}{Literal} schreiben.%
+%
+\item<15-> Alles das werden wir uns nach und nach anschauen.%
+%
+\end{itemize}}}{0}{0.575}%
+%
+\locateGraphic{2-}{width=0.8\paperwidth}{graphics/iteration}{0.1}{0.1}%
+\end{frame}%
+%
+\section{Iteratoren}%
+%
+\begin{frame}[t]%
+\frametitle{Iterator}%
+\begin{itemize}%
+%
+\only<-3>{%
+\item Ein Objekt das uns erlaubt auf seine Elemente eins nach dem Anderen, also iterativ, ist eine Instanz von \pythonilIdx{typing.Iterable}.%
+}%
+%
+\only<-4>{%
+\item<2-> Die eigentliche Iteration findet dann mit Hilfe eines \pythonilIdx{typing.Iterator} statt\cite{PEP234}.%
+}%
+%
+\only<-6>{%
+\item<3-> Diese Unterscheidung ist notwendig, weil wir normalerweise erlauben wollen, beliebig oft über den Inhalt von Objekten zu iterieren.%
+}%
+%
+\only<-9>{%
+\item<4-> Wir öffnen ein \glslink{terminal}{Terminal} um uns das anzuschauen~(unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal).%
+}%
+%
+\only<-15>{%
+\item<5-> Wir starten den \python-Interpreter, in dem wir \bashil{python3} schreiben und \keys{\return} drücken.%
+}%
+%
+\only<-6>{%
+\item<6-> Wir sind nun im Interpreter.%
+}%
+%
+\only<-8>{%
+\item<7-> Sagen wir, wir haben eine Liste \pythonil{x = ["a", "b", "c"]}.%
+}%
+%
+\only<-14>{%
+\item<9-> Wir können diese Liste mit \pythonil{for xi in x}-ähnlichen Schleifen beliebig oft iterieren.%
+}%
+%
+\only<-18>{%
+\item<15-> \pythonil{x} ist eine Instanz von \pythonilIdx{list} und jede Liste ist auch eine Instanz von \pythonilIdx{Iterable}\pythonIdx{typing.Iterable}.%
+}%
+%
+\only<-18>{%
+\item<16-> Wir importieren diesen Datentyp.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir prüfen, ob \pythonil{x} wirklich eine Instance von \pythonil{Iterable} ist.%
+}%
+%
+\only<-18>{%
+\item<18-> Das ist es tatsächlich.%
+}%
+%
+\only<-20>{%
+\item<19-> Jedes Mal, wenn wir über \pythonil{x} iterieren, dann wird intern eine Instanz von \pythonilIdx{Iterator} erstellt, in dem \pythonil{iter(x)} aufgerufen wird.%
+}%
+%
+\only<-20>{%
+\item<20-> Natürlich können wir auch selbst \pythonil{u = iter(x)} machen.%
+}%
+%
+\only<-24>{%
+\item<21-> Importieren wir den Datentyp \pythonil{Iterator}.%
+}%
+%
+\only<-24>{%
+\item<23-> Prüfen wir ob \pythonil{u} wirlich eine Instance von \pythonil{Iterator} ist.%
+}%
+%
+\only<-24>{%
+\item<24-> Ist es.%
+}%
+%
+\only<-26>{%
+\item<25-> Genaugenommen ist es ein Spezialfall davon.%
+}%
+%
+\only<-28>{%
+\item<27-> Alles, was so ein Iterator machen muss, ist sich die aktuelle Position in der Liste zu merken.%
+}%
+%
+\only<-28>{%
+\item<28-> Wir können dann immer mit \pythonil{next(u)} das nächste Element abfragen.%
+}%
+%
+\only<-30>{%
+\item<29-> Wir können auch einen weiteren völlig unabhängigen Iterator \pythonil{v} für \pythonil{x} erstellen.%
+}%
+%
+\only<-32>{%
+\item<31-> \pythonil{next(u)} gibt uns das erste Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-32>{%
+\item<32-> Das ist das erste Element aus der Liste, nämlich~\pythonil{\"a\"}.%
+}%
+%
+\only<-34>{%
+\item<33-> Jetzt gibt \pythonil{next(u)} uns das nächste, also zweite Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-34>{%
+\item<34-> Das ist das zweite Element aus der Liste, nämlich~\pythonil{\"b\"}.%
+}%
+%
+\only<-36>{%
+\item<35-> \pythonil{next(v)} gibt uns das erste Element in der Iteration \pythonil{v} über \pythonil{x}.%
+}%
+%
+\only<-36>{%
+\item<36-> Das ist auch das erste Element aus der Liste, nämlich~\pythonil{\"a\"}.%%
+}%
+%
+\only<-38>{%
+\item<37-> Nun gibt \pythonil{next(u)} uns das nächste, also dritte und letzte Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-38>{%
+\item<38-> Das dritte Element aus der Liste ist~\pythonil{\"c\"}.%
+}%
+%
+\only<-40>{%
+\item<39-> Nun sind wir am Ende der Iteration \pythonil{u}. Wenn wir nochmal \pythonil{next(u)} machen\dots%
+}%
+%
+\only<-40>{%
+\item<40-> {\dots}dann wird eine \pythonil{StopIteration} Ausnahme ausgelöst. Das ist kein Fehler, sondern gewollt.%
+}%
+%
+\only<-42>{%
+\item<41-> Wir können \pythonil{next(v)} mit dem unabhängigen Iterator \pythonil{v} über \pythonil{x} machen und bekommen das zweite Element aus dessen Sequenz.%
+}%
+%
+\only<-42>{%
+\item<42-> Das ist das zweite Element aus der Liste, nämlich~\pythonil{\"b\"}.%
+}%
+%
+\only<-44>{%
+\item<43-> Via \pythonil{iter(x)} können wir einen weiteren unabhängigen Iterator~\pythonil{w} über \pythonil{x} erstellen.%
+}%
+%
+\only<-46>{%
+\item<45-> Machen wir \pythonil{next(w)} bekommen wir wieder das erste Element aus der Liste.%
+}%
+%
+\only<-46>{%
+\item<46-> {\dots}nämlich \pythonil{\"a\"}.%
+}%
+%
+\only<-48>{%
+\item<47-> \pythonil{next(v)} liefert uns jetzt das letzte Element aus seiner Sequenz.%
+}%
+%
+\item<48-> {\dots}nämlich \pythonil{\"c\"}.%
+%
+\item<49-> Und wenn wir nochmal \pythonil{next(v)} machen, bekommen wir wieder eine \pythonil{StopIteration}-Ausnahme.%
+%
+\end{itemize}%
+%
+\locateGraphic{4}{width=0.7\paperwidth}{graphics/listIter/listIter01openTerminal}{0.15}{0.525}%
+\locateGraphic{5}{width=0.7\paperwidth}{graphics/listIter/listIter02python3}{0.15}{0.525}%
+\locateGraphic{6}{width=0.7\paperwidth}{graphics/listIter/listIter03python3open}{0.15}{0.525}%
+\locateGraphic{7}{width=0.95\paperwidth}{graphics/listIter/listIter04xEqListLiteral}{0.025}{0.365}%
+\locateGraphic{8}{width=0.95\paperwidth}{graphics/listIter/listIter05xEqListLiteralDone}{0.025}{0.365}%
+\locateGraphic{9}{width=0.95\paperwidth}{graphics/listIter/listIter06forLoopPrint1}{0.025}{0.365}%
+\locateGraphic{10}{width=0.95\paperwidth}{graphics/listIter/listIter07forLoopPrint1enter}{0.025}{0.365}%
+\locateGraphic{11}{width=0.95\paperwidth}{graphics/listIter/listIter08forLoopPrint1done}{0.025}{0.365}%
+\locateGraphic{12}{width=0.95\paperwidth}{graphics/listIter/listIter09forLoopPrint2}{0.025}{0.365}%
+\locateGraphic{13}{width=0.95\paperwidth}{graphics/listIter/listIter10forLoopPrint2enter}{0.025}{0.365}%
+\locateGraphic{14}{width=0.95\paperwidth}{graphics/listIter/listIter11forLoopPrint2done}{0.025}{0.365}%
+\locateGraphic{15}{width=0.95\paperwidth}{graphics/listIter/listIter12importIterable}{0.025}{0.365}%
+\locateGraphic{16}{width=0.95\paperwidth}{graphics/listIter/listIter13importIterableDone}{0.025}{0.365}%
+\locateGraphic{17}{width=0.95\paperwidth}{graphics/listIter/listIter14isinstanceXiterable}{0.025}{0.365}%
+\locateGraphic{18}{width=0.95\paperwidth}{graphics/listIter/listIter15isinstanceXiterableDone}{0.025}{0.365}%
+\locateGraphic{19}{width=0.95\paperwidth}{graphics/listIter/listIter16uEqIterX}{0.025}{0.365}%
+\locateGraphic{20}{width=0.95\paperwidth}{graphics/listIter/listIter17uEqIterXdone}{0.025}{0.365}%
+\locateGraphic{21}{width=0.95\paperwidth}{graphics/listIter/listIter18fromTypingImportIterator}{0.025}{0.365}%
+\locateGraphic{22}{width=0.95\paperwidth}{graphics/listIter/listIter19fromTypingImportIteratorDone}{0.025}{0.365}%
+\locateGraphic{23}{width=0.95\paperwidth}{graphics/listIter/listIter20isinstanceUiterator}{0.025}{0.365}%
+\locateGraphic{24}{width=0.95\paperwidth}{graphics/listIter/listIter21isinstanceUiteratorDone}{0.025}{0.365}%
+\locateGraphic{25}{width=0.95\paperwidth}{graphics/listIter/listIter22typeU}{0.025}{0.365}%
+\locateGraphic{26-28}{width=0.95\paperwidth}{graphics/listIter/listIter23typeUdone}{0.025}{0.365}%
+\locateGraphic{29}{width=0.95\paperwidth}{graphics/listIter/listIter24vEqIterX}{0.025}{0.365}%
+\locateGraphic{30}{width=0.95\paperwidth}{graphics/listIter/listIter25vEqIterXdone}{0.025}{0.365}%
+\locateGraphic{31}{width=0.95\paperwidth}{graphics/listIter/listIter26nextU}{0.025}{0.365}%
+\locateGraphic{32}{width=0.95\paperwidth}{graphics/listIter/listIter27nextUdoneA}{0.025}{0.365}%
+\locateGraphic{33}{width=0.95\paperwidth}{graphics/listIter/listIter28nextU}{0.025}{0.365}%
+\locateGraphic{34}{width=0.95\paperwidth}{graphics/listIter/listIter29nextUdoneB}{0.025}{0.365}%
+\locateGraphic{35}{width=0.95\paperwidth}{graphics/listIter/listIter30nextV}{0.025}{0.365}%
+\locateGraphic{36}{width=0.95\paperwidth}{graphics/listIter/listIter31nextVdoneA}{0.025}{0.365}%
+\locateGraphic{37}{width=0.95\paperwidth}{graphics/listIter/listIter32nextU}{0.025}{0.365}%
+\locateGraphic{38}{width=0.95\paperwidth}{graphics/listIter/listIter33nextUdoneC}{0.025}{0.365}%
+\locateGraphic{39}{width=0.95\paperwidth}{graphics/listIter/listIter34nextU}{0.025}{0.365}%
+\locateGraphic{40}{width=0.95\paperwidth}{graphics/listIter/listIter35nextUdoneStopIteration}{0.025}{0.365}%
+\locateGraphic{41}{width=0.95\paperwidth}{graphics/listIter/listIter36nextV}{0.025}{0.365}%
+\locateGraphic{42}{width=0.95\paperwidth}{graphics/listIter/listIter37nextVdoneB}{0.025}{0.365}%
+\locateGraphic{43}{width=0.95\paperwidth}{graphics/listIter/listIter38wEqIterX}{0.025}{0.365}%
+\locateGraphic{44}{width=0.95\paperwidth}{graphics/listIter/listIter39wEqIterXdone}{0.025}{0.365}%
+\locateGraphic{45}{width=0.95\paperwidth}{graphics/listIter/listIter40nextW}{0.025}{0.365}%
+\locateGraphic{46}{width=0.95\paperwidth}{graphics/listIter/listIter41nextWdoneA}{0.025}{0.365}%
+\locateGraphic{47}{width=0.95\paperwidth}{graphics/listIter/listIter42nextV}{0.025}{0.365}%
+\locateGraphic{48}{width=0.95\paperwidth}{graphics/listIter/listIter43nextVdoneC}{0.025}{0.365}%
+\locateGraphic{49}{width=0.95\paperwidth}{graphics/listIter/listIter44nextVdoneStopIteration}{0.025}{0.365}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Fertig.
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
