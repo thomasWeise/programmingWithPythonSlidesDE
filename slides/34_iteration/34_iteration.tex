@@ -129,7 +129,7 @@
 \section{Iteratoren}%
 %
 \begin{frame}[t]%
-\frametitle{Iterator}%
+\frametitle{Iterator über Listen}%
 \begin{itemize}%
 %
 \only<-3>{%
@@ -161,7 +161,7 @@
 }%
 %
 \only<-14>{%
-\item<9-> Wir können diese Liste mit \pythonil{for xi in x}-ähnlichen Schleifen beliebig oft iterieren.%
+\item<9-> Wir können über diese Liste mit \pythonil{for xi in x}-ähnlichen Schleifen beliebig oft iterieren.%
 }%
 %
 \only<-18>{%
@@ -169,7 +169,7 @@
 }%
 %
 \only<-18>{%
-\item<16-> Wir importieren diesen Datentyp.%
+\item<16-> Wir wollen das nachrüfen und importieren daher diesen Datentyp.%
 }%
 %
 \only<-21>{%
@@ -189,7 +189,7 @@
 }%
 %
 \only<-24>{%
-\item<21-> Importieren wir den Datentyp \pythonil{Iterator}.%
+\item<21-> Importieren wir den Datentyp \pythonil{Iterator}, damit wir schauen können, ob \pythonil{u} wirklich eine Instanz davon ist.%
 }%
 %
 \only<-24>{%
@@ -201,19 +201,20 @@
 }%
 %
 \only<-26>{%
-\item<25-> Genaugenommen ist es ein Spezialfall davon.%
+\item<25-> Genaugenommen ist es ein Spezialfall davon, nämlich ein \pythonil{list_iterator}.%
 }%
 %
 \only<-28>{%
-\item<27-> Alles, was so ein Iterator machen muss, ist sich die aktuelle Position in der Liste zu merken.%
+\item<27-> Alles, was so ein Iterator machen muss, ist sich eine Referenz auf die Liste, zu der er gehört, zu merken, sowie die aktuelle Position in der Liste, also den Index des aktuellen Elements.%
 }%
 %
 \only<-28>{%
-\item<28-> Wir können dann immer mit \pythonil{next(u)} das nächste Element abfragen.%
+\item<28-> Wir können dann immer mit \pythonil{next(u)} das nächste Element abfragen. %
+Dabei wird das Element am aktuellen Index des Iterators zurückgeliefert und der Index dann um eins erhöht.%
 }%
 %
 \only<-30>{%
-\item<29-> Wir können auch einen weiteren völlig unabhängigen Iterator \pythonil{v} für \pythonil{x} erstellen.%
+\item<29-> Wir können auch einen weiteren völlig unabhängigen Iterator \pythonil{v} für \pythonil{x} erstellen, der sich ebenfalls eine Referenz auf \pythonil{x} sowie einen eigenen Index merkt.%
 }%
 %
 \only<-32>{%
@@ -253,7 +254,11 @@
 }%
 %
 \only<-40>{%
-\item<40-> {\dots}dann wird eine \pythonil{StopIteration} Ausnahme ausgelöst. Das ist kein Fehler, sondern gewollt.%
+\item<40-> {\dots}dann wird eine \pythonil{StopIteration} Ausnahme ausgelöst. %
+Das ist kein Fehler, sondern gewollt. %
+Irgendwie muss ja signalisiert werden, dass die Iteration zuende ist. %
+\pythonil{None} zurückzuliefern würde nicht gehen, weil das ja auch in der Liste vorkommen könnte. %
+Also hat man einfach den Mechanismus für Ausnahmen dafür verwendet\dots%
 }%
 %
 \only<-42>{%
@@ -333,12 +338,261 @@
 %
 \end{frame}%
 %
+\begin{frame}[t]%
+\frametitle{Über andere Kollektionen iterieren}%
+\begin{itemize}%
+\only<-3,6->{%
+\item Die Methode um über Kollektionen~\pythonil{col} zu iterieren, in dem wir zuerst einen Iterator~\pythonil{it} mit Hilfe der \pythonilIdx{iter}-Funktion erzeugen via \pythonil{it = iter(col)} und danach dann \pythonilIdx{next} auf diesen Iterator anwenden, also \pythonil{next(it)} aufrufen, funktioniert für Listen genauso wie für Tupel.%
+%
+\item<2-> Es funktioniert auch für Mengen, wobei die Reihenfolge von Elementen in einem \pythonilIdx{set} undefiniert ist.%
+}%
+%
+\item<3-> Jedesmal, wenn wir ein Program mit einer Iteration über ein \pythonil{set} ausführen, könnte es eine andere Reihenfolge verwenden.%
+%
+\item<6-> Interessanterweise können wir auch über Dictionaries genau so iterieren.%
+%
+\item<7-> Allerdings bekommen wir dann nur die Schlüssel geliefert.%
+%
+\item<8-> Wollen wir über die Schlüssel-Wert-Paare aus einem Dictionary~\pythonil{d} iterieren, dann müssen wir über \pythonil{d.items()} iterieren.%
+%
+\item<9-> Wollen wir über die Werte aus einem Dictionary~\pythonil{d} iterieren, dann müssen wir über \pythonil{d.values()} iterieren.%%
+\end{itemize}%
+%
+\gitLoadAndExecPython{iteration:set_iteration}{}{iteration}{set_iteration.py}{}%
+\gitExecPython{iteration:set_iteration_2}{}{iteration}{set_iteration.py}%
+%
+\listingPythonAndOutput{4-5}{iteration:set_iteration}{}{0.15}{0.275}{0.7}{0.7}%
+\listingOutput{5}{iteration:set_iteration_2}{}{0.15}{0.9}{0.7}{0.3}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Iterator über Ranges}%
+\begin{itemize}%
+%
+\only<-3>{%
+\item Wir können genauso auch über \pythonils{range} iterieren.%
+}%
+%
+\only<-4>{%
+\item<2-> \pythonils{range} sind wie Listen Kollektionen, allerdings werden ihre Elemente nicht explizit erstellt und gespeichert.%
+}%
+%
+\only<-6>{%
+\item<3-> Stattdessen werden die Elemente erst erstellt, wenn ein \pythonil{Iterator} über die \pythonil{range} sie zurückliefern muss.%
+}%
+%
+\only<-9>{%
+\item<4-> Wir öffnen ein \glslink{terminal}{Terminal} um uns das anzuschauen~(unter \ubuntu\ \linux\ durch Drücken von \ubuntuTerminal, unter \microsoftWindows\ durch \windowsTerminal).%
+}%
+%
+\only<-15>{%
+\item<5-> Wir starten den \python-Interpreter, in dem wir \bashil{python3} schreiben und \keys{\return} drücken.%
+}%
+%
+\only<-6>{%
+\item<6-> Wir sind nun im Interpreter.%
+}%
+%
+\only<-8>{%
+\item<7-> Sagen wir, wir haben eine range \pythonil{x = range(3)} über die drei Zahlen 0, 1, und~2.%
+}%
+%
+\only<-14>{%
+\item<9-> Wir können über diese Range mit \pythonil{for xi in x}-ähnlichen Schleifen beliebig oft iterieren.%
+}%
+%
+\only<-18>{%
+\item<15-> \pythonil{x} ist eine Instanz von \pythonilIdx{range} und jede Range ist auch eine Instanz von \pythonilIdx{Iterable}\pythonIdx{typing.Iterable}.%
+}%
+%
+\only<-18>{%
+\item<16-> Wir wollen das nachrüfen und importieren daher diesen Datentyp.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir prüfen, ob \pythonil{x} wirklich eine Instance von \pythonil{Iterable} ist.%
+}%
+%
+\only<-18>{%
+\item<18-> Das ist es tatsächlich.%
+}%
+%
+\only<-20>{%
+\item<19-> Jedes Mal, wenn wir über \pythonil{x} iterieren, dann wird intern eine Instanz von \pythonilIdx{Iterator} erstellt, in dem \pythonil{iter(x)} aufgerufen wird.%
+}%
+%
+\only<-20>{%
+\item<20-> Natürlich können wir auch selbst \pythonil{u = iter(x)} machen.%
+}%
+%
+\only<-24>{%
+\item<21-> Importieren wir den Datentyp \pythonil{Iterator}, damit wir schauen können, ob \pythonil{u} wirklich eine Instanz davon ist.%
+}%
+%
+\only<-24>{%
+\item<23-> Prüfen wir ob \pythonil{u} wirlich eine Instance von \pythonil{Iterator} ist.%
+}%
+%
+\only<-24>{%
+\item<24-> Ist es.%
+}%
+%
+\only<-26>{%
+\item<25-> Genaugenommen ist es ein Spezialfall davon, nämlich ein \pythonil{range_iterator}.%
+}%
+%
+\only<-28>{%
+\item<27-> Alles, was so ein Iterator machen muss, ist sich eine Referenz auf die Range, zu der er gehört, zu merken, sowie die aktuelle Position in der Range.%
+}%
+%
+\only<-28>{%
+\item<28-> Wir können dann immer mit \pythonil{next(u)} das nächste Element abfragen. %
+Dabei wird das aktuellen aktuelle Element in der Sequenz zurückgeliefert. %
+Die Position wird entsprechend der Schrittweite weitergerückt.%
+}%
+%
+\only<-30>{%
+\item<29-> Wir können auch einen weiteren völlig unabhängigen Iterator \pythonil{v} für \pythonil{x} erstellen, der sich ebenfalls eine Referenz auf \pythonil{x} sowie eine Position.%
+}%
+%
+\only<-32>{%
+\item<31-> \pythonil{next(u)} gibt uns das erste Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-32>{%
+\item<32-> Das ist das erste Element aus der Range, nämlich~\pythonil{0}.%
+}%
+%
+\only<-34>{%
+\item<33-> Jetzt gibt \pythonil{next(u)} uns das nächste, also zweite Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-34>{%
+\item<34-> Das ist das zweite Element aus der Range, nämlich~\pythonil{1}.%
+}%
+%
+\only<-36>{%
+\item<35-> \pythonil{next(v)} gibt uns das erste Element in der Iteration \pythonil{v} über \pythonil{x}.%
+}%
+%
+\only<-36>{%
+\item<36-> Das ist auch das erste Element aus der Range, nämlich~\pythonil{0}.%%
+}%
+%
+\only<-38>{%
+\item<37-> Nun gibt \pythonil{next(u)} uns das nächste, also dritte und letzte Element in der Iteration \pythonil{u} über \pythonil{x}.%
+}%
+%
+\only<-38>{%
+\item<38-> Das dritte Element aus der Range ist~\pythonil{2}.%
+}%
+%
+\only<-40>{%
+\item<39-> Nun sind wir am Ende der Iteration \pythonil{u}. Wenn wir nochmal \pythonil{next(u)} machen\dots%
+}%
+%
+\only<-40>{%
+\item<40-> {\dots}dann wird eine \pythonil{StopIteration} Ausnahme ausgelöst. %
+Das ist kein Fehler, sondern gewollt. %
+Irgendwie muss ja signalisiert werden, dass die Iteration zuende ist.%
+}%
+%
+\only<-42>{%
+\item<41-> Wir können \pythonil{next(v)} mit dem unabhängigen Iterator \pythonil{v} über \pythonil{x} machen und bekommen das zweite Element aus dessen Sequenz.%
+}%
+%
+\only<-42>{%
+\item<42-> Das ist das zweite Element aus der Range, nämlich~\pythonil{1}.%
+}%
+%
+\only<-44>{%
+\item<43-> Via \pythonil{iter(x)} können wir einen weiteren unabhängigen Iterator~\pythonil{w} über \pythonil{x} erstellen.%
+}%
+%
+\only<-46>{%
+\item<45-> Machen wir \pythonil{next(w)} bekommen wir wieder das erste Element aus der Range.%
+}%
+%
+\only<-46>{%
+\item<46-> {\dots}nämlich \pythonil{0}.%
+}%
+%
+\only<-48>{%
+\item<47-> \pythonil{next(v)} liefert uns jetzt das letzte Element aus seiner Sequenz.%
+}%
+%
+\item<48-> {\dots}nämlich \pythonil{2}.%
+%
+\item<49-> Und wenn wir nochmal \pythonil{next(v)} machen\dots%
+%
+\item<50-> {\dots}bekommen wir wieder eine \pythonil{StopIteration}-Ausnahme.%
+%
+\end{itemize}%
+%
+\locateGraphic{4}{width=0.7\paperwidth}{graphics/listIter/listIter01openTerminal}{0.15}{0.525}%
+\locateGraphic{5}{width=0.7\paperwidth}{graphics/listIter/listIter02python3}{0.15}{0.525}%
+\locateGraphic{6}{width=0.7\paperwidth}{graphics/listIter/listIter03python3open}{0.15}{0.525}%
+\locateGraphic{7}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter04xEqRange}{0.025}{0.365}%
+\locateGraphic{8}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter05xEqRangeDone}{0.025}{0.365}%
+\locateGraphic{9}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter06forLoopPrint1}{0.025}{0.365}%
+\locateGraphic{10}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter07forLoopPrint1enter}{0.025}{0.365}%
+\locateGraphic{11}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter08forLoopPrint1done}{0.025}{0.365}%
+\locateGraphic{12}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter09forLoopPrint2}{0.025}{0.365}%
+\locateGraphic{13}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter10forLoopPrint2enter}{0.025}{0.365}%
+\locateGraphic{14}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter11forLoopPrint2done}{0.025}{0.365}%
+\locateGraphic{15}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter12importIterable}{0.025}{0.365}%
+\locateGraphic{16}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter13importIterableDone}{0.025}{0.365}%
+\locateGraphic{17}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter14isXinstanceOfIterable}{0.025}{0.365}%
+\locateGraphic{18}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter15isXinstanceOfIterableDone}{0.025}{0.365}%
+\locateGraphic{19}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter16uEqIterX}{0.025}{0.365}%
+\locateGraphic{20}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter17uEqIterXdone}{0.025}{0.365}%
+\locateGraphic{21}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter18importIterator}{0.025}{0.365}%
+\locateGraphic{22}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter19importIteratorDone}{0.025}{0.365}%
+\locateGraphic{23}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter20isUinstanceOfIterator}{0.025}{0.365}%
+\locateGraphic{24}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter21isUinstanceOfIteratorDone}{0.025}{0.365}%
+\locateGraphic{25}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter22typeU}{0.025}{0.365}%
+\locateGraphic{26-28}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter23typeUdone}{0.025}{0.365}%
+\locateGraphic{29}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter24vEqIterX}{0.025}{0.365}%
+\locateGraphic{30}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter25vEqIterXdone}{0.025}{0.365}%
+\locateGraphic{31}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter26nextU}{0.025}{0.365}%
+\locateGraphic{32}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter27nextUdone0}{0.025}{0.365}%
+\locateGraphic{33}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter28nextU}{0.025}{0.365}%
+\locateGraphic{34}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter29nextUdone1}{0.025}{0.365}%
+\locateGraphic{35}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter30nextV}{0.025}{0.365}%
+\locateGraphic{36}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter31nextVdone0}{0.025}{0.365}%
+\locateGraphic{37}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter32nextU}{0.025}{0.365}%
+\locateGraphic{38}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter33nextUdone2}{0.025}{0.365}%
+\locateGraphic{39}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter34nextU}{0.025}{0.365}%
+\locateGraphic{40}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter35nextUdoneStopIteration}{0.025}{0.365}%
+\locateGraphic{41}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter36nextV}{0.025}{0.365}%
+\locateGraphic{42}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter37nextVdone1}{0.025}{0.365}%
+\locateGraphic{43}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter38wEqIterX}{0.025}{0.365}%
+\locateGraphic{44}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter39wEqIterXdone}{0.025}{0.365}%
+\locateGraphic{45}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter40nextW}{0.025}{0.365}%
+\locateGraphic{46}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter41nextWdone0}{0.025}{0.365}%
+\locateGraphic{47}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter42nextV}{0.025}{0.365}%
+\locateGraphic{48}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter43nextVdone2}{0.025}{0.365}%
+\locateGraphic{49}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter44nextV}{0.025}{0.365}%
+\locateGraphic{50}{width=0.95\paperwidth}{graphics/rangeIter/rangeIter45nextVdoneStopIteration}{0.025}{0.365}%
+%
+\end{frame}%
+%
 \section{Zusammenfassung}%
 %
 \begin{frame}%
 \frametitle{Zusammenfassung}%
 \begin{itemize}%
-\item Fertig.
+\item Jetzt wissen wir, wie \pythonil{for}-Schleifen in \python\ funktionieren.%
+%
+\item<2-> Sie erzeugen einen Iterator über eine Sequenz und konsumieren dann dessen Elemente eins nach dem Anderen, wobei der Schleifenkörper für jedes Element einmal ausgeführt wird -- so lange, bis eine \pythonil{StopIteration}-Ausnahme empfangen wird.%
+%
+\item<3-> Alle Kollektionen in \python\ die eine sequenzielle Sicht auf ihre Daten ermöglichen, implementieren daher diese \pythonilIdx{Iterable}/\pythonilIdx{Iterator}-\pgls{API}\cite{PEP234}.%
+%
+\item<4-> Dank dieser \pgls{API}-Struktur ist es auch gar nicht notwendig, alle Elemente einer Kollektion im Speicher zu halten, so lange wir sie bei Zugriff erzeugen können.%
+%
+\item<5-> Ein Beispiel dafür sind\pythonilsIdx{range}, die uns \pythonil{int}-Sequenzen mit nahezu beliebig vielen Zahlen anbieten, die während der Iteration eine nach der Anderen erzeugt~(und freigegeben) werden.%
 \end{itemize}%
 \end{frame}%
 %
