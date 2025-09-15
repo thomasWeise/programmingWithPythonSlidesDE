@@ -55,6 +55,8 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 32. [Ausnahmen verarbeiten](https://thomasweise.github.io/programmingWithPythonSlidesDE/32_ausnahmen_verarbeiten.pdf)
 33. [Zwischenspiel: Testen auf Ausnahmen](https://thomasweise.github.io/programmingWithPythonSlidesDE/33_testen_auf_ausnahmen.pdf)
 34. [Iteration](https://thomasweise.github.io/programmingWithPythonSlidesDE/34_iteration.pdf)
+35. [List Comprehension](https://thomasweise.github.io/programmingWithPythonSlidesDE/35_list_comprehension.pdf)
+
 
 ### 2.3. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.

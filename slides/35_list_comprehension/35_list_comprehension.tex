@@ -1,0 +1,497 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{35.~List Comprehension}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Wir können Listen erstellen, in dem wir diese als \glslink{literal}{Literale} hinschreiben.%
+%
+\item<2-> Zum Beispiel erstellt \pythonil{[1, 2, 3, 4, 5]} eine Liste mit den ersten fünf natürlichen Zahlen.%
+%
+\item<3-> Das ist sehr nützlich, kann aber umständlich werden wenn wir entweder viele Elemente haben oder diese irgendwie transformieren wollen.%
+%
+\item<4-> Ein Literal für eine Liste mit den ersten hundert natürlichen Zahlen zu schreiben ist umständlich.%
+%
+\item<5-> So etwas wie \pythonil{[log(1), log(2), log(3), log(4), log(5)]} zu schreiben sieht auch nicht sehr gut aus.%
+%
+\item<6-> Zum Glück bietet \python\ die viel bequemere Syntax für \emph{list comprehension}\cite{PEP202}.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{List Comprehension}%
+%
+\begin{frame}[t]%
+\frametitle{Syntax}%
+%
+\gitLoadPython{syntax/list_comprehension}{}{syntax/list_comprehension.py}{}%
+\listingPythonSyntax{}{syntax/list_comprehension}{0.1}{0.1}{0.8}{0.9}%
+%
+\locate{}{\parbox{0.975\paperwidth}{%
+\begin{itemize}%
+\only<-3>{%
+\item Diese Syntax erzeugt eine neue Liste deren Inhalt das Ergebnis einem Ausdruck \pythonil{expression} auf die Elemente \pythonil{item} einer \pythonil{sequence} sind\cite{PEP202}.%
+}%
+%
+\only<-4>{%
+\item<2-> Sie können sich das wie eine \pythonil{for}-Schleife vorstellen, bei der jede Iteration einen Wert erzeugt, der dann in einer Liste gespeichert wird.%
+}%
+%
+\only<-6>{%
+\item<3-> \DEZB~\pythonil{[i for i in range(10)]} erzeugt eine Liste mit den Ganzzahlen von~\pythonil{0} bis~\pythonil{9}.%
+}%
+%
+\only<-6>{%
+\item<4-> Die List Comprehension \pythonil{[i ** 2 for i in range(10)]} erzeugt dagegen eine Liste mit den Quadraten dieser Zahlen, wobei der Quadrieren hier der Ausdruck \pythonil{expression} ist.%
+}%
+%
+\only<-7>{%
+\item<5-> Wir können optional auch die Elemente auswählen, die wir in der Liste haben wollen, in dem wir eine \pythonilIdx{if}-Klausel anfügen.%
+}%
+%
+\item<6-> \DEZB~\pythonil{[i for i in range(10) if i != 3]} schließt die Zahl \pythonil{3} von unserer List aus.%
+%
+\item<7-> Interessanter Weise kann die Sequenz über die List Comprehension iteriert selbst auch so ein Comprehension-Ausdruck sein.%
+%
+\item<8-> Es ist OK zu schreiben \pythonil{[i * j for i in range(2) for j in range(2)]}, was uns die Liste \pythonil{[0, 0, 0, 1]} liefert, weil~\pythonil{i} und~\pythonil{j} beide jeweils unabhängig von einander nacheinander die Werte~\pythonil{0} und~\pythonil{1} annehmen.%
+\end{itemize}}}{0}{0.575}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Schauen wir uns das mal an.%
+}%
+%
+\only<-5>{%
+\item<2-> Zuerst wollen wir eine Liste mit den Quadraten der Ganzzahlen von~0 bis~10 erstellen.%
+}%
+%
+\only<-7>{%
+\item<3-> Bevor wir über List Comprehension gelernt haben würden wir das ganz einfach mit einer normalen \pythonil{for}-Schleife machen.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir würden anfangen, in dem wir eine leere Liste \pythonil{squares_1} erstellen.%
+}%
+%
+\only<-8>{%
+\item<5-> In der \pythonilIdx{for}-Schleife würden wir eine Variable~\pythonil{i} über \pythonil{range(0, 11)}\pythonIdx{range} iterieren lassen.%
+}%
+%
+\only<-9>{%
+\item<6-> Im Körper der Schleife würden wir dann jeweils \pythonil{i ** 2} an die Liste \pythonil{squares_1} anhängen, in dem wir \pythonil{squares_1.append(i ** 2)} aufrufen.%
+}%
+%
+\only<-10>{%
+\item<7-> Das benötigt drei Zeilen von Kode. Aber es geht.%
+}%
+%
+\only<-11>{%
+\item<8-> Stattdessen können wir aber auch einfach schreiben \pythonil{[j ** 2 for j in range(11)]}, was genau das selbe Ergebnis mit nur einer Zeile Kode erreicht.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir können uns auch aussuchen, welche Elemente einer Sequenz wir in unsere Liste einfügen wollen, in dem wir ein \pythonil{if}-Statement in der List Comprehension verwenden.%
+}%
+%
+\only<-14>{%
+\item<10-> Im Beispiel probieren wir das aus, in dem wir eine Liste der geraden Zahlen aus der Range~0 bis~9 erstellen.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir lassen eine Variable~\pythonil{k} über \pythonil{range(10)}\pythonIdx{range} iterieren.%
+}%
+%
+\only<-16>{%
+\item<12-> \pythonil{k} nimmt also die Werte~\pythonil{0}, \pythonil{1}, \pythonil{2}, \dots, \pythonil{8}, und~\pythonil{9} an.%
+}%
+%
+\only<-17>{%
+\item<13-> Von diesem Werten nehmen wir nur die, für die \pythonil{k \% 2 == 0} zutrifft.%
+}%
+%
+\only<-18>{%
+\item<14-> Wir berechnen also den \glslink{modulodiv}{Rest} der Division von \pythonil{k} und \pythonil{2}.%
+}%
+%
+\only<-18>{%
+\item<15-> Wenn der 0 ist, dann ist \pythonil{k} durch \pythonil{2} teilbar und daher gerade.%
+}%
+%
+\only<-19>{%
+\item<16-> Ja, ja, ich weiß {\dots} wir hätten das auch ohne \pythonil{if} machen können, wenn wir die Range \pythonil{range(0, 10, 2)} genommen hätten {\dots} oder wenn wir gleich \pythonil{list(range(0, 10, 2))} gemacht hätten{\dots} {\dots}es ist ja nur ein Beispiel.%
+}%
+%
+\only<-21>{%
+\item<17-> So oder so, wir bekommen die Liste \pythonil{[0, 2, 4, 6, 8]}.%
+}%
+%
+\only<-22>{%
+\item<18-> Nun spielen wir noch mit verschachtelter Comprehension.%
+}%
+%
+\only<-23>{%
+\item<19-> Sagen wir, dass wir zwei \pythonilsIdx{Iterable} habe und alle möglichen Kombinationen ihres Output produzieren wollen.%
+}%
+%
+\only<-24>{%
+\item<20-> Nebenbei: Strings sind auch \pythonilsIdx{Iterable} {\dots} wir können über ihre Zeichen iterieren.%
+}%
+%
+\only<-25>{%
+\item<21-> Nehmen wir an, wir haben eine erste Sequenz \pythonil{\"abc\"} und die zweite ist~\pythonil{\"xy\"}.%
+}%
+%
+\only<-26>{%
+\item<22-> Wir können wir eine Liste mit allen möglichen Paaren bauen, die jeweils ein Zeichen aus jedem der beiden Strings beinhalten?%
+}%
+%
+\only<-27>{%
+\item<23-> Einfach: in dem wir zwei \pythonil{for}~Statements schreiben!%
+}%
+%
+\only<-28>{%
+\item<24-> Wir schreiben \pythonil{[f\"\{m\}\{n\}\" for m} \pythonil{in \"abc\" for n in \"xy"\]}.%
+}%
+%
+\only<-29>{%
+\item<25-> Die Variable~\pythonil{m} nimmt als Wert alle Zeichen aus dem String \pythonil{\"abc\"} nacheinander an.%
+}%
+%
+\only<-30>{%
+\item<26-> Für jeden Wert, den \pythonil{m} annimmt, iteriert die Variable~\pythonil{n} über \pythonil{\"xy\"} and und wird daher erst~\pythonil{\"x\"} und dann~\pythonil{\"y\"}.%
+}%
+%
+\only<-31>{%
+\item<27-> Der \glslink{fstring}{f-String} \pythonil{f\"\{m\}\{n\}\"} wird für jede Kombination von \pythonil{m} und \pythonil{n} \glslink{strinterpolation}{interpoliert}.%
+}%
+%
+\only<-32>{%
+\item<28-> Als Ergebnis bekommen wir die Liste \pythonil{[\"ax\", \"ay\", \"bx\",} \pythonil{\"by\", \"cx\", \"cy\"]}.%
+}%
+%
+\only<-32>{%
+\item<29-> Natürlich können wir Listen beliebiger Datentypen mit List Comprehension erstellen.%
+}%
+%
+\item<30-> Dies beinhaltet Listen anderer Listen, Listen von Tupeln, Mengen, oder Dictionaries {\dots} was immer wir wollen.%
+%
+\item<31-> Wir wiederholen den selben Ansatz wie oben und speichern die Buchstabenkombinationen diesmal als Tupel.%
+%
+\item<32-> \pythonil{[(o, p) for o} \pythonil{in \"abc\" for p in \"xy\"]} macht genau das.%
+%
+\item<33-> Dieser Ausdruck produziert \pythonil{[(\"a\", \"x\"), (\"a\", \"y\"),} \pythonil{(\"b\", \"x\"), (\"b\", \"y\"),} \pythonil{(\"c\", \"x\"), (\"c\", \"y\")]}.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:simple_list_comprehension}{}{iteration}{simple_list_comprehension.py}{}%
+%
+\listingPythonAndOutput{}{iteration:simple_list_comprehension}{}{0.475}{0.15}{0.514}{0.93}%
+%
+\end{frame}%
+%
+\section{Performanz}%
+%
+\begin{frame}[t]%
+\frametitle{Was sagt Ruff dazu?}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Wenden wir \ruff\ auf unser Beispielprogramm \programUrl{iteration:simple_list_comprehension} an.%
+}%
+%
+\only<-5>{%
+\item<2-> \ruff\ sieht die Konstruktion der Liste über die \pythonilIdx{append}-Function in einer Schleife als \emph{Performanz-Problem} an, was durch die Kennung \textil{PERF} ausgedrückt wird.%
+}%
+\only<-6>{%
+\item<3-> Das ist natürlich nur ein lösbares Problem, wenn wir auch eine andere Möglichkeit haben, die Liste zu erstellen.%
+}%
+%
+\item<4-> Nun, wir kennen eine andere Möglichkeit.%
+%
+\item<5-> Wir können die Liste via List Comprehension erstellen, was aber nicht immer geht.%
+%
+\item<6-> Wenn es geht, was in unserem Beispiel ja der Fall ist, dann sehen wir oft, dass List Comprehension kompakter ist.%
+%
+\item<7-> Kode, der kompakter ist, ist oft lesbarer und daher aus Sicht eines Softwareingenieurs, oftmals zu bevorzugen.%
+%
+\item<8-> Aber warum wäre die ursprüngliche Schleife ein Performanz-Problem, also irgendwie langsam?%
+\end{itemize}%
+}}%
+%
+\gitExec{exec:iteration:simple_list_comprehension:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh iteration simple_list_comprehension.py}%
+%
+\listingOutput{}{iteration:simple_list_comprehension:ruff}{style=tool_style}{0.475}{0.15}{0.514}{0.93}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Prüfen wir das nach}%
+%
+%
+\only<-10>{%
+%
+
+\begin{itemize}%
+%
+\only<-9>{%
+\item OK, prüfen wir das nach.%
+}%
+%
+\only<-10>{%
+\item<2-> Um diese Sache zu untersuchen, könnten wir versuchen, zwei Listem mit dem selben Inhalt zu erstellen.%
+}%
+%
+\item<3-> Eine erstellen wir, in dem wir die \pythonilIdx{append}-Methode in einer Schleife aufrufen, die andere mit List Comprehension.%
+%
+\item<4-> Also im Grunde das, was wir gerade gemacht haben.%
+%
+\item<5-> Die Methode, die schneller ist, hat die bessere Performanz.%
+%
+\item<6-> Nun, die Laufzeit, die etwas braucht, zu messen ist immer ein bischen schwierig.%
+%
+\item<7-> Die Laufzeit eines \python-Programms hängt klar von der CPU ab, auf der es läuft.%
+%
+\item<8-> Sie wird auch vom Betriebssystem, dem zur Verfügung stehenden RAM, der Festplattengeschwindigkeit, und natürlich von anderen Prozessen, die zur selben Zeit auf dem Computer laufen, beeinflusst\cite{WCLTTCMY2014BOAAOSFFTTSP}.%
+%
+\item<9-> Natürlich hängt sie auch von der Version des \python-Iterpreters ab und das Ergebnis der Messung könnte also nach jedem Systemupdate anders sein.%
+%
+\item<10-> Was immer wir messen, wir müssen sehr vorsichtig sein {\dots} aber wir probieren es trotzdem.%
+\end{itemize}%
+%
+}%
+%
+\only<11->{%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-13>{%
+\item<7-> Die Laufzeit eines \python-Programms hängt klar von der CPU ab, auf der es läuft.%
+}%
+%
+\only<-14>{%
+\item<8-> Sie wird auch vom Betriebssystem, dem zur Verfügung stehenden RAM, der Festplattengeschwindigkeit, und natürlich von anderen Prozessen, die zur selben Zeit auf dem Computer laufen, beeinflusst\cite{WCLTTCMY2014BOAAOSFFTTSP}.%
+}%
+%
+\only<-16>{%
+\item<9-> Natürlich hängt sie auch von der Version des \python-Iterpreters ab und das Ergebnis der Messung könnte also nach jedem Systemupdate anders sein.%
+}%
+%
+\only<-17>{%
+\item<10-> Was immer wir messen, wir müssen sehr vorsichtig sein {\dots} aber wir probieren es trotzdem.%
+}%
+%
+\only<-18>{%
+\item<14-> \pythonilIdx{timeit} erlaubt uns also, die Laufzeit eines Statements zu messen.%
+}%
+%
+\only<-18>{%
+\item<15-> Wir wollen messen, wie lange es dauert, eine Liste mit den geraden Zahlen aus~\intRange{0}{1\decSep000\decSep000} zu erstellen.%
+}%
+%
+\only<-19>{%
+\item<16-> Wir implementieren dafür zuerst eine Funktion \pythonil{create_by_append}, die die Liste mit der \pythonilIdx{append}-Methode in einer Schleife erstellt.%
+}%
+%
+\only<-21>{%
+\item<17-> In einer Schleife über \pythonil{range(1_000_001)} fügen wir die geraden Zahlen an die Liste \pythonil{numbers} an.%
+}%
+%
+\only<-21>{%
+\item<18-> Am Ende wird die Liste zurückgeliefert.%
+}%
+%
+\only<-22>{%
+\item<19-> Um die Laufzeit dieser Funktion zu messen, importieren wir zuerst die Funktion \pythonilIdx{repeat}\pythonIdx{timeit!repeat} aus dem Modul~\pythonilIdx{timeit}.%
+}%
+%
+\only<-23>{%
+\item<20-> Wir sagen \pythonilIdx{repeat}, dass es unsere Funktion \pythonil{create_by_append} einmal (\pythonil{number=1}) aufrufen und die gemessen Zeit zurückliefern soll.%
+}%
+%
+\only<-30>{%
+\item<21-> Es wird die Laufzeit dann in Sekunden als \pythonil{float} liefern.%
+}%
+%
+\only<-31>{%
+\item<22-> Allerdings wäre eine einzige Messung nicht sehr verlässlich, sie könnte durch das Scheduling durch das Betriebssystem oder durch Garbage Collection vom \python-Interpreter verunreinigt werden\cite{P2002AI}.%
+}%
+%
+\only<-32>{%
+\item<23-> Deshalb sagen wir der \pythonilIdx{repeat}-Funktion, 90~solcher Messungen durchzuführen (Argument \pythonil{repeat=90}).%
+}%
+%
+\only<-34>{%
+\item<24-> Dadurch bekommen wir alle gemessenen Laufzeiten als \pythonil{list[float]}.%
+}%
+%
+\only<-35>{%
+\item<31-> Also machen wir genau das.%
+}%
+%
+\only<-36>{%
+\item<32-> \pythonilIdx{repeat} gibt uns eine Liste mit gemessenen Laufzeiten.%
+}%
+%
+\only<-37>{%
+\item<33-> Die Funktion \pythonilIdx{min} akzeptiert eine Sequenz von Elementen und gibt uns das kleinste Element daraus zurück.%
+}%
+%
+\only<-38>{%
+\item<34-> Also drucken wir das Ergebnis von \pythonilIdx{min} angewandt auf die von \pythonil{repeat} zurückgelieferte Liste.%
+}%
+%
+\only<-39>{%
+\item<35-> Wir formatieren die Ausgabe als Millisekunden gerundet auf drei Dezimalstellen, damit es etwas lesbarer wird.%
+}%
+%
+\only<-40>{%
+\item<36-> Nun wird das \glsFull{formatPDF}-Dokument dieser Slides automatisch von einer \github~Action\cite{C2024GA} gebaut.%
+}%
+%
+\only<-41>{%
+\item<37-> Diese führt alle Beispielprogramme aus und webt ihren Output in die Slides.%
+}%
+%
+\only<-42>{%
+\item<38-> Dies wird wiederholt, jedesmal wenn ich die Slides update.%
+}%
+%
+\only<-42>{%
+\item<39-> Das bedeutet, dass wenn ich diesen Text schreibe, ich nicht wissen kann, welchen Wert Sie letztendlich sehen werden.%
+}%
+%
+\only<-43>{%
+\item<40-> Auf meiner lokalen Maschine habe ich \textil{runtime/call: 30.1 ms.} bekommen.%
+}%
+%
+\only<-45>{%%
+\item<41-> Egal.%
+}%
+%
+\only<-45>{%
+\item<42-> Um nun zu testen, ob List Comprehension nun wirklich schneller als die iterative Listenkonstruktion via \pythonilIdx{append} ist, schreiben wir Programm \programUrl{iteration:list_of_numbers_comprehension}.%
+}%
+%
+\only<-47>{%
+\item<43-> Dieses Programm macht fast das gleiche wie Programm \programUrl{iteration:list_of_numbers_append} von eben.%
+}%
+%
+\only<-48>{%
+\item<44-> Es definiert eine Funktion \pythonil{create_by_comprehension}, die die selbe Liste wie \pythonil{create_by_append} erstellt.%
+}%
+%
+\only<-49>{%
+\item<45-> Nur das die Funktion List Comprehension verwendet.%
+}%
+%
+\only<-50>{%
+\item<46-> Wir messen die Laufzeit dieser Funktion genauso wie vorhin.%
+}%
+%
+\only<-51>{%
+\item<47-> Natürlich ist das Ergebnis jedesmal anders, wenn ich die Slides update.%
+}%
+%
+\only<-52>{%
+\item<48-> Auf meiner lokalen Machine habe ich \textil{runtime/call: 28.7 ms.} bekommen.%
+}%
+%
+\item<49-> Das bestätigt, das List Comprehension tatsächlich etwas schneller als iterative Konstruktion ist.%
+%
+\item<50-> In älteren \python-Versionen ist der Unterschied größer.%
+%
+\item<51-> Aber er ist auch heute noch da und messbar.%
+%
+\item<52-> Aber selbst wenn es keinen Unterschied gäbe {\dots} List Comprehension ist kürzerer und eleganterer Kode.%
+\end{itemize}%
+}}}%
+%
+\gitLoadAndExecPython{iteration:list_of_numbers_append}{}{iteration}{list_of_numbers_append.py}{}%%
+\gitLoadAndExecPython{iteration:list_of_numbers_comprehension}{}{iteration}{list_of_numbers_comprehension.py}{}%
+%
+\listingPythonAndOutput{15-24,31-41}{iteration:list_of_numbers_append}{}{0.475}{0.15}{0.514}{0.93}%
+\listingPythonAndOutput{42-}{iteration:list_of_numbers_comprehension}{}{0.475}{0.15}{0.514}{0.93}%
+\listingOutput{42-}{iteration:list_of_numbers_append}{}{0.475}{0.8}{0.514}{0.93}%
+%
+\locate{11-14}{%
+\parbox{0.505\paperwidth}{%
+\usefulTool{timeit}{%
+\pythonilIdx{timeit} ist ein Werkzeug um die Laufzeit von kleinen Kodestücken zu messen.\uncover<12->{ %
+Es ist direkt Teil von \python.\uncover<13->{ %
+Dieses Modul vermeidet eine Menge von Fallen, in die man beim Zeit-Messen oftmals hereintappt\cite{PSF:P3D:TPSL:TMETOSCS,P2002AI}.%
+}}}%
+}}{0.475}{0.2}%
+%
+\locate{25}{%
+\parbox{0.505\paperwidth}{\noindent%
+\setlength{\paperwidth}{\linewidth}%
+Die Dokumentation von \pythonilIdx{timeit} sagt\cite{PSF:P3D:TPSL:TMETOSCS}:%
+{\huge{%
+\cquotation{PSF:P3D:TPSL:TMETOSCS}{\huge{%
+\emph{Note:}~it's tempting to calculate mean and standard deviation from the result vector and report these.
+However, this is not very useful.
+In a typical case, the lowest value gives a lower bound for how fast your machine can run the given code snippet;
+higher values in the result vector are typically not caused by variability in \python's speed, but by other processes interfering with your timing accuracy.
+So the \scalebox{2}{\pythonil{min()}}\pythonIdx{min} of the result is probably the only number you should be interested in.
+After that, you should look at the entire vector and apply common sense rather than statistics.%
+}}%
+}}%
+}}{0.475}{0.2}%
+%
+\locate{26-30}{%
+\parbox{0.505\paperwidth}{\small%
+\bestPractice{timeMeasurement}{%
+Wenn wir die Laufzeit von Kode für bestimmte Inputs prüfen, dann ergibt es Sinn, mehrere Messungen zu machen und das \alert{Minimum} der beobachteten Ergebnisse zu nehmen\cite{PSF:P3D:TPSL:TMETOSCS}.\uncover<27->{ %
+Der Grund ist, das viele Faktoren~(CPU-Temperatur, andere Prozesse, \dots) die Laufzeit \alert{negativ} beeinflussen können.\uncover<28->{ %
+Es gibt aber keinen Faktor, der unseren Kode schneller machen kann, als die Hardware zulässt.\uncover<29->{ %
+Also gibt uns das Minimum den akuratesten Eindruck darauf, wie schnell unser Kode auf unserem Computer laufen kann.\uncover<30->{ %
+Beachte, dass Effekte wie Caching immer noch unsere Messwerte verunreinigen können.}}}}%
+}%
+}}{0.475}{0.05}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Mit List Comprehension haben wir eine elegante, compakte, und mächtige Methode zum Erstellen von Listen kennengelernt.%
+%
+\item<2-> Sie generalisiert die Idee von Listen-\glslink{literal}{Literalen} und kombiniert sie mit verschachtelbaren \pythonil{for}-Schleifen.%
+%
+\item<3-> Nicht nur das diese Methode, Listen zu konstruieren, kompakter ist als Elemente in einer Schleife an eine Liste anzufügen, sie ist auch noch schneller.%
+%
+\item<4-> Comprehension lässt sich auch auf ein paar andere Kollektionstypen anwenden\dots%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
