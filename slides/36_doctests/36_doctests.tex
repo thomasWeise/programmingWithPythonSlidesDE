@@ -1,0 +1,299 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{36.~Zwischenspiel: Doctests}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Docstrings und Unit Tests (1)}%
+\begin{itemize}%
+\item Wir haben bereits gelernt, das \glslink{unitTest}{Unit Tests} Teil jedes Softwareentwicklungsprozesses sind und in jede vernünftigt \glsFull{continuousIntegration} gehören.%
+%
+\item<2-> Wenn wir darüber nachdenken, erkennen wir, dass \pglspl{unitTest} auch Teil der Dokumentation von Software sind.%
+%
+\item<3-> Der \glslink{docstring}{Docstring} einer Funktion sagt uns, was die Funktion im Grunde macht, welche Parameter sie braucht, und welche Ausnahmen sie auslösen könnte.%
+%
+\item<4-> Dies wird durch \glslink{unitTest}{Unit Tests} ergänzt, welche uns sehr ähnliche Information in einer viel umfänglicheren Art bereitstellen.%
+%
+\item<5-> Bei \glslink{unitTest}{Unit Tests} können wir sehen, welche Ausgabe wir für bestimmte, ausgewählte Eingabedaten erwarten können.%
+%
+\item<6-> Der \glslink{docstring}{Docstring} einer \pythonil{sqrt}-Funktion sagt uns, dass die Funktion die Quadratwurzel einer Zahl berechnet.%
+%
+\item<7-> Die \glslink{unitTest}{Unit Tests} zeigen uns, das \pythonil{sqrt} genau \pythonil{2.0} für die Eingabe \pythonil{4} zurückliefert und \pythonil{3.0} für \pythonil{9}.%
+%
+\item<8-> Ein \glslink{docstring}{Docstring}  sagt uns vielleicht, dass die Funktion einen \pythonilIdx{ArithmeticError} auslöst, wenn das Argument negativ ist.%
+%
+\item<9-> Die \glslink{unitTest}{Unit Tests} zeigen uns, dass sie einen \pythonilIdx{ArithmeticError} mit Fehlermeldung \emph{\inQuotes{Invalid input -1.}} auslöst, wenn wir \pythonil{-1} hineingeben.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Docstrings und Unit Tests (2)}%
+\begin{itemize}%
+\item Es ist leicht zu sehen, dass sich \glslink{docstring}{Docstrings} und \glslink{unitTest}{Unit Tests} ergänzen.%
+%
+\item<2-> Wäre es nicht toll, wenn wir einige der Informationen aus den \glslink{unitTest}{Unit Tests} in die  \glslink{docstring}{Docstrings} schreiben könnten?
+%
+\item<3-> Zum Beispiel, dass \pythonil{sqrt(16)} als Ergebnis \pythonil{4.0} ergibt, würde gut auf eine einzelne Zeile passen.%
+%
+\item<4-> Es wäre, nun ja, ein schönes Beispiel für jeden, der die Dokumentation unserer Funktion liest.%
+%
+\item<5-> Natürlich würden wir nicht \emph{alle} Unit Tests in den Docstring schreiben, weil wir oft viele verschiedene Testfälle haben, und unsere Dokumentation dann schnell unleserlich würde.%
+%
+\item<6-> Aber eine Handvoll ausgewählter Tests könnten dem Leser schon helfen.%
+%
+\item<7-> Natürlich hält uns nichts davon ab, diese einfach hinzuschreiben.%
+%
+\item<8-> Aber im Idealfall würde \pytest\ dieses Tests auch in den Docstrings finden, sie ausführen und prüfen.%
+%
+\item<9-> Tatsächlich ist so eine perfekte Synthese von Dokumentation und Testsen möglich -- mit den so-genannten \glslink{doctest}{Doctests}\cite{PSF:P3D:TPSL:DTIPE}.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiel}%
+%
+\begin{frame}%
+\frametitle{Flatten Iterables}%
+\begin{itemize}%
+\item Wir probieren das aus {\dots} mit einem letzten Beispiel für List Comprehension.%
+%
+\item<2-> Stellen Sie sich vor, dass sie mehrere Listen haben.%
+%
+\item<3-> Sie wollen eine neue Liste erstellen, in der alle Elemente von jeder der existierenen Listen drin sind.%
+%
+\item<4-> Wir werden eine Funktion \pythonil{flatten} schreiben, die sogar eine noch eine allgemeinere Variante dieser Idee implementiert.%
+%
+\item<5-> Sie soll ein \pythonilIdx{Iterable} von \pythonilsIdx{Iterable} als Parameter akzeptieren.%
+%
+\item<6-> Weil Listen ja auch \pythonilsIdx{Iterable} sind, können wir also eine \pythonilIdx{list} von \pythonilsIdx{lists} als argument hereingeben.%
+%
+\item<7-> Wir können aber auch ein \pythonilIdx{tuple} von \pythonilsIdx{set} angeben, wenn wir wollen.%
+%
+\item<8-> Der Rückgabewert von \pythonil{flatten} soll jedenfalls eine \pythonilIdx{list} mit allen Elementen aus den \inQuotes{inneren} \pythonilsIdx{Iterable} sein.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Implementierung und Doctests}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Implementieren wir das also.%
+}%
+%
+\only<-6>{%
+\item<2-> \pythonil{flatten} erstellt eine Liste von seinem Parameter \pythonil{iterables} über den List Comprehension Ausdruck \pythonil{[value for subiterable} \pythonil{in iterables for value} \pythonil{in subiterable]}.%
+}%
+%
+\only<-7>{%
+\item<3-> Die Variable \pythonil{subiterable} iterateriert über die \pythonil{iterables}, entspricht also jeweils einer der Unterlisten.%
+}%
+%
+\only<-8>{%
+\item<4-> Dann iteriert \pythonil{value} über die Elements des \pythonil{subiterable}.%
+}%
+%
+\only<-9>{%
+\item<5-> Es nimmt also nach und nach jeden Wert in der Unterliste an,%
+}%
+%
+\only<-10>{%
+\item<6-> Da wir eine \pythonilIdx{list} mit all diesen Werten zurückliefern, flachen wir die Liste von Listen.%
+}%
+%
+\only<-21>{%
+\item<7-> Wahrscheinlich ist es verwirrend, dass die innere \pythonilIdx{for}-Schleife eigentlich als \inQuotes{äußere} Schleife ausgeführt wird und umgekehrt.%
+}%
+%
+\only<-22>{%
+\item<8-> Wir haben dieses Verhalten aber schon gesehen, als wir seiner Zeit \pythonil{[f\"\{m\}\{n\}\" for m in \"abc\"} \pythonil{for n in \"xy\"]} berechnet hatten.
+}%
+%
+\only<-23>{%
+\item<9-> Normalerweise würden wir jetzt Kode bereitstellen, der \pythonil{flatten} ausführt und ihre Ausgabe präsntiert.%
+}%
+%
+\only<-24>{%
+\item<10-> Diesmal machen wir etwas anderes.%
+}%
+%
+\only<-25>{%
+\item<11-> Wir zeigen \glslink{doctest}{Doctests} für \pythonil{flatten}.%
+}%
+%
+\only<-25>{%
+\item<21-> \glslink{doctest}{Doctests} zu benutzen hat einen weiteren einzigartigen Vorteil\only<-21>{.}\uncover<22->{:}%
+}%
+%
+\only<-26>{%
+\item<22-> Es erlaubt uns, Beispiele wie unser Kode zu benutzen ist direkt in den \glslink{docstring}{Docstring} einzfügen.%
+}%
+%
+\only<-26>{%
+\item<23-> Und diese Beispiele dienen auch noch gleich als \glslink{unitTest}{Unit Tests}!%
+}%
+%
+\only<-27>{%
+\item<24-> Schauen wir uns die Beispiele mal gleich an.%
+}%
+%
+\only<-28>{%
+\item<25-> Der erste Doctest sagt uns, dass wenn wir \pythonil{flatten([[1, 2, 3], [4, 5, 6]])} aufrufen, wir das Ergebnis \pythonil{[1, 2, 3, 4, 5, 6]} bekommen werden.%
+}%
+%
+\only<-30>{%
+\item<26-> Mit anderen Worten, unsere Funktion wird die Liste aus zwei Listen in eine einzige flache Liste zusammenfügen.%
+}%
+%
+\only<-31>{%
+\item<27-> Die Funktion hat eine einzige flache Liste aus 6 Elementen von der Liste mit zwei Listen zu je 3 Elementen erstellt.%
+}%
+%
+\only<-32>{%
+\item<28-> Als nächstes sehen wir, dass \pythonil{flatten([[1, 2, 3],} \pythonil{[], [4, 5, 6]])} ebenfalls \pythonil{[1, 2, 3, 4, 5, 6]} produzieren soll.%
+}%
+%
+\only<-33>{%
+\item<29-> Die leere Liste, die in zweiter Stelle in der \inQuotes{großen} Liste vorkommt, verschwindet einfach.%
+}%
+%
+\only<-35>{%
+\item<30-> Sie hatte ja auch keine Elemente.%
+}%
+%
+\only<-36>{%
+\item<31-> \pythonil{flatten} reduziert zwei Listen-Ebenen zu einer.%
+}%
+%
+\only<-37>{%
+\item<32-> Wir übergeben eine Liste-von-Listen-von-Listen an \pythonil{flatten} als dritten Test, machen also \pythonil{flatten([[[1], [2], [3]],} \pythonil{[], [[4], [5], [6]]])}.%
+}%
+%
+\only<-38>{%
+\item<33-> Unsere Funktion reduziert eine Listenebene hinweg.%
+}%
+%
+\only<-39>{%
+\item<34-> Wir bekommen eine Liste-von-Listen: \pythonil{[[1], [2], [3],} \pythonil{[4], [5], [6]]}).%
+}%
+%
+\only<-40>{%
+\item<35-> Flatten soll ja mit beliebigen \pythonilsIdx{Iterable} funktionieren.%
+}%
+%
+\only<-41>{%
+\item<36-> Es akzeptiert also auch gemischten Input.%
+}%
+%
+\only<-42>{%
+\item<37-> Der letzte Doctest symbolisiert das.%
+}%
+%
+\only<-43>{%
+\item<38-> \pythonil{flatten(([1, 2, 3],} \pythonil{(4, 5, 6),} \pythonil{\{\"a\": 7, \"b\": 8\}))} ergibt \pythonil{[1, 2, 3, 4, 5, 6, \'a\', \'b\']} als Ergebnis.%
+}%
+%
+\only<-44>{%
+\item<39-> Beachten Sie, dass nur die Schlüssel des Dictionaries auftauchen.%
+}%
+%
+\only<-45>{%
+\item<40-> Wie wir gelernt haben, gibt uns \pythonil{iter}, wenn wir es auf ein \pythonil{dict} anwenden, einen \pythonil{Iterator} nur über die Schlüssel des Dictionaries.%
+}%
+%
+\only<-46>{%
+\item<41-> Die \pythonil{for}-Schleife macht ja genau das implizit.%
+}%
+%
+\only<-46>{%
+\item<42-> Daher tauchen dann auch nur die Schlüssel in unserer flachen Liste auf.%
+}%
+%
+\only<-47>{%
+\item<43-> {\dots}oder \alert{sollen} zumindest auftauchen\dots%
+}%
+%
+\only<-48>{%
+\item<44-> \dots\alert{wenn} unsere Funktion die Doctests auch besteht\dots%
+}%
+%
+\item<45-> Wir führen darum jetzt \pytest\ mit dem zusätzlichen Parameter \bashil{--doctest-modules} aus.%
+%
+\item<46-> Das volle Kommando spezifiziert auch wieder ein Timeout von 10 Sekunden mit \bashil{--timeout=10}.%
+%
+\item<47-> Wir haben auch zwei Argumente (\bashil{--no-header} und \bashil{--tb=short}) um die Ausgaben etwas abzukürzen, damit sie auf den Slides und im Buch gut aussehen.%
+%
+\item<48-> Eigentlich würde \bashil{pytest} \bashil{--doctest-modules fileOrDirToTest} alleine auch schon reichen.%
+%
+\item<49-> Die Ausgabe bescheinigt uns, dass alle Doctests bestanden haben.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{iteration:list_flatten_iterables}{}{iteration/list_flatten_iterables.py}{}%
+\gitExec{exec:iteration:list_flatten_iterables:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh iteration list_flatten_iterables.py}%
+%
+\listingPython{-11,21-44}{iteration:list_flatten_iterables}{0.45}{0.15}{0.54}{0.92}%
+\listingOutput{45-}{iteration:list_flatten_iterables:doctest}{style=tool_style}{0.45}{0.3}{0.54}{0.92}%
+%
+\locate{12-20}{%
+\parbox{0.505\paperwidth}{%
+%
+\usefulTool{doctest}{%
+Ein \glslink{doctest}{Doctest} ist \glslink{unitTest}{Unit Test}, der direkt in den \glslink{docstring}{Docstring} einer Funktion, Klasse, oder eines Moduls geschrieben ist.\only<-16>{\uncover<13->{ %
+Wir fügen dafür ein kleines Schnipsel \python-Kode gefolgt von seinem erwarteten Output ein.}\uncover<14->{ %
+Die erste Zeile des Kodes hat das Präfix~\pythonil{>>>}\pythonIdx{>\strut>\strut>}.}\uncover<15->{ %
+Wenn der Kode mehrere Zeilen braucht, dann haben weitere Zeilen das Präfix \pythonil{...}.}\uncover<16->{ %
+Nach dem Schnipsel, schreiben wir die erwartete Ausganbe.}}\only<17->{\uncover<17->{ %
+Die Doctests können von Modulen wie \pythonilIdx{doctest}\cite{PSF:P3D:TPSL:DTIPE} oder Werkzeugen wie \pytest\cite{KPDT2024PD:HTRD} ausgeführt werden.}\uncover<18->{ %
+Diese extrahieren den Kode, führen ihn aus, und vergleichen die Ausgabe mit der erwarteten Ausgabe.}\uncover<19->{ %
+Wenn sie nicht übereinstimmen, dann schlägt der Test fehl.}\uncover<20->{ %
+Wir nehmen hier immer \pytest.%
+}}}%
+%
+}}{0.475}{0.11}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+%
+\bestPractice{doctest}{%
+Immer wenn möglich sollten \glslink{docstring}{Docstrings} von Funktionen, Klassen, und Modulen \glslink{doctest}{Doctests} beinhalten.\uncover<2->{ %
+Damit stellen wir \glslink{unitTest}{Unit Tests} als Beispiele zur Verfügung, die zeigen, wie unser Kode verwendet werden soll.\uncover<3->{ %
+Weil \glslink{doctest}{Doctests} normalerweise klein sind, sind sie eine schnelle und elegante Methode, um größere \glslink{unitTest}{Unit Tests} in anderen Dateien zu ergänzen.%
+}}}%
+%
+\uncover<4->{%
+\begin{itemize}%
+\item Wir haben hier Doctests über die Kommandozeile ausgeführt.%
+%
+\item<5-> Sie können diese aber auch in \pycharm\ direkt ausführen.%
+%
+\item<6-> Das gucken wir uns ein ander Mal an.%
+%
+\item<7-> Auf jeden Fall sollten wir immer Doctests verwenden.%
+%
+\end{itemize}%
+}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
