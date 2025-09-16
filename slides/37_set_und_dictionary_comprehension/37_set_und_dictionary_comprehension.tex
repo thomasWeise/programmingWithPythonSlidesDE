@@ -1,0 +1,357 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{37.~Set und Dictionary Comprehension}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Comprehension: Nur für Listen?}%
+\begin{itemize}%
+\item Wir haben bereits List Comprehension gelernt.%
+%
+\item<2-> Das ist ein sehr elegantes und mächtiges Werkzeug um, nun ja, Listen zu erstellen.%
+%
+\item<3-> Wäre es nicht eigenartig wenn so ein Werkzeug \emph{nur} für Listen zur Verfügung stünde?%
+%
+\item<4-> Was ist mit den anderen Kollektions-Datentypen?%
+%
+\item<5-> Tatsächlich gibt es das auch für Mengen und Dictionaries.%
+%
+\item<6-> Wir schauen uns jetzt Ersteres an und danach dann Letzteres\dots%
+\end{itemize}%
+\end{frame}%
+%
+\section{Set Comprehension}%
+%
+\begin{frame}[t]%
+\frametitle{Set Comprehension}%
+%
+\gitLoadPython{syntax/set_comprehension}{}{syntax/set_comprehension.py}{}%
+\listingPythonSyntax{}{syntax/set_comprehension}{0.1}{0.1}{0.8}{0.9}%
+%
+\locate{}{\parbox{0.975\paperwidth}{%
+\begin{itemize}%
+%
+\item Mengen können mit Set Comprehension erstellt werden.%
+%
+\item<2-> Set Comprehension funktioniert genau so wie List Comprehension.%
+%
+\item<3-> Die Syntax ist im Grunde gleich und unterscheidet sich nur in der Verwendung von geschweiften Klammern an Stelle von eckigen Klammern.%
+%
+\end{itemize}}}{0}{0.575}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Schauen wir uns ein paar Beispiele als Programm \programUrl{iteration:simple_set_comprehension} an.%
+}%
+%
+\only<-6>{%
+\item<2-> In dem Programm erstellen wir erst eine Menge mit den Ergebnissen der \pythonilIdx{isqrt}-Function aus dem Modul \pythonilIdx{math}.%
+}%
+%
+\only<-7>{%
+\item<3-> Diese Funktion liefert den ganzzahligen Teil der Quadratwurzel, also $\pythonil{isqrt(i)}=\left\lfloor\sqrt{\pythonil{i}}\right\rfloor$.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir wollen eine Menge erstellen mit allen Ergebnissen dieser Funktion für die Werte~\pythonil{i} von~0 bis~99.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir probieren zwei Möglichkeiten, um so eine Menge zu erstellen.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir erstellen zuerst eine leere Menge~\pythonil{roots_1}.%
+}%
+%
+\only<-11>{%
+\item<7-> Dann fügen wir iterativ neue Ergebnisse von \pythonil{isqrt} mit Hilfe von \pythonil{roots_1.add}\pythonIdx{set!add} in einer \pythonil{for}-Schleife an.%
+}%
+%
+\only<-12>{%
+\item<8-> Die Menge enthält danach die Zahlen von 0 bis~9.%
+}%
+%
+\only<-13>{%
+\item<9-> Jeder Wert taucht genau einmal auf, denn so funktionieren Mengen nunmal.%
+}%
+%
+\only<-14>{%
+\item<10-> Wir können die selbe Menge mit Set Comprehension erstellen.%
+}%
+%
+\only<-15>{%
+\item<11-> Die Menge \pythonil{roots_2} wird durch \pythonil{\{isqrt(j) for j} \pythonil{in range(100)\}} erstellt.%
+}%
+%
+\only<-16>{%
+\item<12-> Sie ist genau gleich zu \pythonil{roots_1}.%
+}%
+%
+\only<-17>{%
+\item<13-> Set Comprehension funktioniert genau wie List Comprehension.%
+}%
+%
+\only<-18>{%
+\item<14-> Unsere ersten Beispiele sind auch ziemlich ähnlich.%
+}%
+%
+\only<-19>{%
+\item<15-> Machen wir nun etwas Interessanteres.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir wollen die Menge \pythonil{primes} der Primzahlen\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF} aus~\intRange{2}{99} erstellen.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir hatten schon mal ein Program, das das macht, in Einheit~\unitForLoops.%
+}%
+%
+\only<-22>{%
+\item<18-> Dieses mal wollen wir Set Comprehension verwenden.%
+}%
+%
+\only<-23>{%
+\item<19-> Wir erstellen dafür erstmal eine Menge \pythonil{not_primes} mit Zahlen, die \emph{keine} Primzahlen sind.%
+}%
+%
+\only<-24>{%
+\item<20-> Wir lassen dafür die Variable~\pythonil{k} von~\pythonil{2} bis~\pythonil{99} iterieren.%
+}%
+%
+\only<-24>{%
+\item<21-> Für jede Zahl~\pythonil{k} lassen wir eine zweite Variable~\pythonil{m} von~\pythonil{2} bis \pythonil{isqrt(k)} iterieren.%
+}%
+%
+\only<-25>{%
+\item<22-> Für jede einzelne resultierende \pythonil{k}\nobreakdashes-\pythonil{m} Kombination fügen wir den Wert \pythonil{k} in die Menge ein \alert{wenn} die Bedingung \pythonil{k \% m == 0} zutrifft.%
+}%
+%
+\only<-27>{%
+\item<23-> Jedesmal wenn wir eine Zahl~\pythonil{m} finden, die \pythonil{k} ohne Rest teilt, dann fügen wir \pythonil{k} in die Menge ein.%
+}%
+%
+\only<-27>{%
+\item<24-> Würden wir List Comprehension machen, dann würden wir eine riesige Liste bekommen, in der viele Werte von \pythonil{k} wiederholt auftreten.%
+}%
+%
+\only<-28>{%
+\item<25-> 96, \DEzB, würde fünf Mal auftauchen, weil es durch 2, 3, 4, 6, und~8 teilbar ist, die all weniger als~$9=\left\lfloor\sqrt{96}\right\rfloor$ sind.%
+}%
+%
+\only<-29>{%
+\item<26-> Wir machen allerdings Set Comprehension, also bekommen wir jeden Wert höchstens einmal.%
+}%
+%
+\only<-30>{%
+\item<27-> Diese extrem ineffiziente Methode gibt uns die Menge \pythonil{not_primes}.%
+}%
+%
+\only<-31>{%
+\item<28-> Wenn eine Zahl durch eine andere Zahl geteilt werden kann, die größer als~1 und kleiner als die Zahl selber ist, dann kann die Zahl keine Primzahl sein.%
+}%
+%
+\only<-32>{%
+\item<29-> Mit Hilfe der Zahlen die keine Primzahlen sind, können wir nun Set Comprehension anwenden, um die Zahlen, die Primzahlen sind, zu bekommen.%
+}%
+%
+\only<-33>{%
+\item<30-> \pythonil{\{n for n in range(2, 100)} \pythonil{if n not in not_primes\}}\pythonIdx{not in} lässt eine Variable~\pythonil{n} von~2 bis~99 laufen.%
+}%
+%
+\only<-34>{%
+\item<31-> Es behält dann jeden Wert von \pythonil{n} in der Menge wenn \pythonil{n} nicht schon in der Menge \pythonil{not_primes} ist.%
+}%
+%
+\only<-35>{%
+\item<32-> So bekommen wir die Menge der Primzahlen korrekt, auch wenn unsere Methode insgesamt ineffizient ist.%
+}%
+%
+\only<-35>{%
+\item<33-> Als kleine Auffrischung erinnern wir uns nochmal kurz an die Mengenoperationen aus Einheit~\unitSets\ und daran, dass wir eine Menge auch erstellen können, wenn wir eine Sequenz als Parameter der Funktion~\pythonil{set} angeben.%
+}%
+%
+\item<34-> \pythonil{set(range(2, 100))} erstellt eine Menge mit allen Zahlen aus \intRange{2}{99}.%
+%
+\item<35-> \pythonil{set(range(2, 100)).difference(} \pythonil{not_primes)} liefert dann die Menge aller dieser Elemente die nicht auch in \pythonil{not_primes} vorkommen.%
+%
+\item<36-> So könnte man also das Gleiche erreichen, zumindest wenn man schon die Menge \pythonil{not_primes} gebaut hat.
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:simple_set_comprehension}{}{iteration}{simple_set_comprehension.py}{}%
+\listingPythonAndOutput{}{iteration:simple_set_comprehension}{style=tool_style}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+\section{Dictionary Comprehension}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Dictionary Comprehension}%
+%
+\begin{itemize}%
+\only<-3>{%
+\item Dictionary Comprehension funktioniert wieder fast genauso wie Set- und List Comprehension\cite{PEP274}.%
+}%
+%
+\only<-4>{%
+\item<2-> Anders als diese weist es aber Werten zu Schlüssel zu und braucht daher zwei Ausdrücke pro Eintrag, welche durch~\pythonilIdx{:} getrennt werden.%
+}%
+%
+\item<3-> Das ist auch der Unterschied zwischen Set- und Dictionary Comprehension.%
+%
+\item<4-> Beide benutzen geschwungene Klammern.%
+%
+\item<5-> In der Dictionary Comprehension werden Schlüssel und Werte durch \pythonilIdx{:} getrennt, wobei bei Set Comprehension, nur einzelne Werte angegeben werden.%%
+\end{itemize}%
+%
+\gitLoadPython{syntax/dict_comprehension}{}{syntax/dict_comprehension.py}{}%
+\listingPythonSyntax{}{syntax/dict_comprehension}{0.1}{0.475}{0.8}{0.9}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Mit \programUrl{iteration:simple_dict_comprehension} schauen wir uns ein paar Beispiele für Dictionary Comprehension an.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir fangen wieder damit an, ein Doctionary \inQuotes{manuell} zu erstellen und werden dann sehen, dass Dictionary Comprehension kompakter ist.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir wollen eine Datenstruktur mit den Quadraten der Zahlen von~0 bis~10 erstellen.%
+}%
+%
+\only<-8>{%
+\item<4-> Dieses Mal benutzen wir ein Dictionary, wo wir die Quadrate als Werte den Zahlen als Schlüsseln zuweisen.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir fangen also mit einem leeren Doctionary \pythonil{squares_1} an.%
+}%
+%
+\only<-10>{%
+\item<6-> Dann benutzen wir eine \pythonilIdx{for}-Schleife und iterieren die Variable~\pythonil{i} über \pythonil{range(11)}\pythonIdx{range}.%
+}%
+%
+\only<-11>{%
+\item<7-> Im Schleifenkörper weisen wir dann \pythonil{squares_1[i] = i ** 2} zu, assoziieren also die Zahl~\pythonil{i} mit ihrem Quadrat.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir können diese ganze Methode in eine einzige Dictionary Comprehension zusammenkürzen.%
+}%
+%
+\only<-13>{%
+\item<9-> \pythonil{\{i: i ** 2 for i in range(11)\}} produziert das gleiche Ergebnis.%
+}%
+%
+\only<-13>{%
+\item<10-> Machen wir nun etwas Spannenderes.%
+}%
+%
+\only<-14>{%
+\item<11-> Wir wollen ein Dictionary \pythonil{maxdiv} bauen, dass den größten Divisor~$m<k$ für jede Zahl~$k$ aus~\intRange{2}{20} hält.%
+}%
+%
+\only<-15>{%
+\item<12-> Wir benutzen das selbe, ineffiziente Prinzip, das wir gerade benutzt haben, um die Menge von nicht-Primzahlen zu erstellen.%
+}%
+%
+\only<-16>{%
+\item<13-> Erst lassen wir die Variable~\pythonil{k} über~\pythonil{range(21)} iterieren, lassen also~\pythonil{k} die Werte~\pythonil{0}, \pythonil{1}, \pythonil{2}, \dots, \pythonil{19}, \pythonil{20} annehmen.%
+}%
+%
+\only<-18>{%
+\item<14-> Wir lassen eine zweite Variable~\pythonil{m} über~\pythonil{range(1, k)} iterieren, wodurch~\pythonil{m} die Werte~\pythonil{1}, \pythonil{2}, \dots, \pythonil{k - 1} annimmt.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir speichern die Zuweisung \pythonil{k: m} in dem Dictionary wenn die Bedingung \pythonil{k \% m == 0} zutrifft, also wenn \pythonil{m} die Zahl \pythonil{k} ohne Rest teilen kann.%
+}%
+%
+\only<-20>{%
+\item<16-> Für die meisten \pythonil{k} wird diese Bedingung von mehreren~\pythonil{m} erfüllt.%
+}%
+%
+\only<-21>{%
+\item<17-> In einem Dictionary kann aber jeder Schlüssel höchstens einmal vorkommen.%
+}%
+%
+\only<-22>{%
+\item<18-> In der Dictionary Comprehension bleibt daher nur die \emph{letzte} Zuweisung bestehen.%
+}%
+%
+\only<-23>{%
+\item<19-> Der letzte Wert~\pythonil{m} dass die Bedingung für ein~\pythonil{k} erfüllt wird daher gespeichert.%
+}%
+%
+\only<-24>{%
+\item<20-> Da die Werte von \pythonil{m} in der Iteration streng monoton steigen, ist dies der größte Divisor.%
+}%
+%
+\only<-25>{%
+\item<21-> Natürlich ist diese Methode sehr ineffizient {\dots} aber es ist ein schönes Beispiel.%
+}%
+%
+\item<22-> Anders als in unserem Primzahl-Mengen-Beispiel, wo \pythonil{m} bei \pythonil{2} losging, fangen wir hier mit \pythonil{m} bei \pythonil{1} an.%
+%
+\item<23-> Für jede Primzahl~$k'$ ist der größte Divisor~$m<k'$ dann korrekterweise~$1$.%
+%
+\item<24-> Für~$1$ existiert gar kein solcher divisor -- weshalb $1$ auch nicht als Schlüssel in \pythonil{maxdiv} auftaucht.%
+%
+\item<25-> Wir geben \pythonil{maxdiv} aus und es beinhaltet tatsächlich die größten Divisoren für alle Zahlen~$k\leq20$.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:simple_dict_comprehension}{}{iteration}{simple_dict_comprehension.py}{}%
+\listingPythonAndOutput{}{iteration:simple_dict_comprehension}{style=tool_style}{0.45}{0.15}{0.54}{0.92}%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Nun haben wir das Konzept von List Comprehension also auf Mengen und Dictionaries ausgeweitet.%
+%
+\item<2-> Beide haben eine sehr einfache und elegante Syntax.%
+%
+\item<3-> Sie sind nützliche Konzepte, die uns helfen, besseren Kode zu schreiben.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
