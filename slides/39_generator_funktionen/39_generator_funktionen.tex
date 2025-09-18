@@ -1,0 +1,406 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{39.~Generator-Funktionen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+\only<-4>{%
+\item Das letzte Element aus unserer Übersichtsgrafik, das wir noch nicht diskutiert haben, sind \emph{Generator-Functionen}\cite{PEP255}.%
+}%
+%
+\only<-5>{%
+\item<2-> Aus der Sich eines Benutzers einer Generator-Funktion handelt es sich hierbei im Grunde um ein Funktion, die sich wie ein \pythonilIdx{Iterator} verhält.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir können ganz normal eine Sequenz von Werten aus diesem \pythonilIdx{Iterator} herausholen.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir können mit einer \pythonilIdx{for}-Schleife darüber iterieren.%
+}%
+%
+\only<-7>{%
+\item<5-> Wir können ihn in einer Comprehension verwenden oder an den Konstruktor einer Kollektion übergeben.%
+}%
+%
+\only<-8>{%
+\item<6-> Aus Sicht des Implementierers dagegen sieht eine Generator-Funktion mehr wie eine Funktion aus, die mehrmals Werte zurückgeben kann.%
+}%
+%
+\item<7-> An Stelle des Schlüsselwortes \pythonilIdx{return} verwenden wir dazu das Schlüsselwort \pythonilIdx{yield}.%
+%
+\item<8-> Jedes Element, dass die Sequenz die wir generieren zurückliefert, wird durch \pythonilIdx{yield} produziert.%
+%
+\item<9-> Das fühlt sich an wie eine Funktion, die einen Wert zurückgibt, der dann von Kode \inQuotes{außen} verarbeitet wird \alert{und} dann wird die Funktion \alert{fortgesetzt} und kann weitere Werte zurückliefern.%
+\end{itemize}
+%
+\locateGraphic{1-}{width=0.8\paperwidth}{../\unitIteration_iteration/graphics/iteration}{0.1}{0.51}%
+\end{frame}%
+%
+\section{Beispiele}%
+%
+\begin{frame}[t]%
+\frametitle{Einfaches Beispiel}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Das klingt erstmal sehr verwirrend.%
+}%
+%
+\only<-6>{%
+\item<2-> Schauen wir uns einfaches Beispiel an.%
+}%
+%
+\only<-6>{%
+\item<4-> Wir erstellen eine einfache Generator-Funktion, die die Werte 1, 2, und 3 zurückliefern soll.%
+}%
+%
+\only<-7>{%
+\item<5-> Wir nennen diese Funktion \pythonil{generator_123} und deklarieren sie mit dem Schlüsselwort \pythonilIdx{def}, genau wie jede andere normale Funktion in \python.%
+}%
+%
+\only<-9>{%
+\item<6-> Den Rückgabewert wird mit dem \glslink{typeHint} Type Hint \pythonil{Generator[int, None, None]} annotiert, was bedeutet, dass das hier eine Generator-Funktion ist, die \pythonil{int}-Werte produziert.%
+}%
+%
+\only<-10>{%
+\item<7-> Der Körper der Funktion besteht aus nur drei Befehlen: \pythonil{yield 1}, \pythonil{yield 2}, und \pythonil{yield 3}\pythonIdx{yield}.%
+}%
+%
+\only<-11>{%
+\item<8-> Wir können den von der Funktion gelieferten \pythonilIdx{Generator} \DEzB\ benutzen um eine Liste zu füllen.%
+}%
+%
+\only<-12>{%
+\item<9-> \pythonil{list(generator_123())} erstellt die Liste \pythonil{[1, 2, 3]}.%
+}%
+%
+\only<-13>{%
+\item<10-> Natürlich können wir auch manuell über die Generator-Funktionieren, genauso wie über jeden anderen \pythonilIdx{Iterator}.%
+}%
+%
+\only<-14>{%
+\item<11-> Dafür setzen wir \pythonil{gen = generator_123()}.%
+}%
+%
+\only<-16>{%
+\item<12-> Wenn wir das erste Mal \pythonil{next(gen)}\pythonIdx{next} aufrufen, bekommen wir~\pythonil{1}.%
+}%
+%
+\only<-17>{%
+\item<13-> Wenn wir das zweite Mal \pythonil{next(gen)}\pythonIdx{next} aufrufen, bekommen wir~\pythonil{2}.%
+}%
+%
+\only<-18>{%
+\item<14-> Wenn wir das dritte Mal \pythonil{next(gen)}\pythonIdx{next} aufrufen, bekommen wir~\pythonil{3}.%
+}%
+%
+\only<-19>{%
+\item<15-> Der vierte Aufruf von \pythonil{next(gen)}\pythonIdx{next} erzeugt dann eine \pythonilIdx{StopIteration}-Ausnahme.%
+}%
+%
+\only<-20>{%
+\item<16-> Damit ist das Ende der Sequenz erreicht.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir können Generator-Funktionen also wirklich genau wie normale Iteratoren verwenden.%
+}%
+%
+\only<-22>{%
+\item<18-> Das Interessante ist, dass die Funktion wirklich bei jedem \pythonilIdx{yield} unterbrochen wird.%
+}%
+%
+\item<19-> Der von \pythonil{yield} zurückgelieferte Wert wird dann vom Kode außerhalb der Funktion erhalten, der damit machen kann, was immer er will.%
+%
+\item<20-> Die Funktion wird nach dem \pythonil{yield} fortgesetzt, wenn \pythonil{next} aufgerufen wird.%
+%
+\item<21-> Erreicht der Kontrollfluss das Ende der Funktion, dann endet auch die Sequenz.%
+%
+\item<22-> Das wird sichtbar, wenn wir eine Funktion implementieren, die eine unendliche Sequenz zurückliefert.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{iteration:simple_generator_function}{}{iteration}{simple_generator_function.py}{}%
+%
+\listingPythonAndOutput{2-}{iteration:simple_generator_function}{}{0.45}{0.12}{0.54}{0.89}
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Fibonacci Sequenz}
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Fibonacci war ein mittelalterlicher italienischer Mathematiker, der im 12.\ und 13.\ Jahrhundert \glsFull{CE} gelebt hat\cite{EOEBEB:F}.%
+}%
+%
+\only<-6>{%
+\item<2-> Er hat das Buch \emph{Liber Abaci}\cite{S2022FLAATIMEOLPBOC} geschrieben, mit dem arabische Zahlen in Europa eingeführt wurden.%
+}%
+%
+\only<-6>{%
+\item<3-> Er ist auch für die Fibonacci-Zahlen bekannt, die der Sequenz $F_n=F_{n-1} + F_{n-2}$ folgen, wobei~$F_0=0$ und~$F_1=1$\cite{W2024MAWWR:FN,S2022FLAATIMEOLPBOC}.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir wollen über diese Zahlenfolge iterieren.%
+}%
+%
+\only<-9>{%
+\item<5-> Dafür definieren wir die Funktion \pythonil{fibonacci}, die wir wieder mit \pythonilIdx{Generator} als Rückgabewert annotieren.%
+}%
+%
+\only<-10>{%
+\item<6-> Die Funktion beginnt damit, $\pythonil{i}=F_0=0$ und~$\pythonil{j}=F_1=1$ zu setzen.%
+}%
+%
+\only<-11>{%
+\item<7-> Danach kommt eine \pythonilIdx{while}-Schleife, die niemals aufhört, da ihre Schleifenbedingung einfach auf \pythonil{True}) gesetzt ist.%
+}%
+%
+\only<-12>{%
+\item<8-> In der Schleife folgt dann zuerst ein \pythonil{yield i}.%
+}%
+%
+\only<-13>{%
+\item<9-> Das bedeutet, dass die Ausführung der Funktion unterbrochen wird.%
+}%
+%
+\only<-14>{%
+\item<10-> Der Wert von \pythonil{i} wird dann an den Kode außerhalb der Funktion übergeben, der über die Sequenz iteriert.%
+}%
+%
+\only<-15>{%
+\item<11-> Wenn dieser Kode an \pythonilIdx{next} aufruft, läuft die Funktion weiter.%
+}%
+%
+\only<-16>{%
+\item<12-> Dann weist sie \pythonil{j} and \pythonil{i + j} auf \pythonil{i} und \pythonil{j} zu.%
+}%
+%
+\only<-17>{%
+\item<13-> Damit wird der alte Wert von~\pythonil{j} in~\pythonil{i} gespeichert.%
+}%
+%
+\only<-18>{%
+\item<14-> Gleichzeitig wird die Summe der alten Werte von \pythonil{i} und \pythonil{j} in~\pythonil{j} gespeichert.%
+}%
+%
+\only<-19>{%
+\item<15-> In der nächsten Iteration wird \pythonil{yield i} dann die nächste Fibonacci-Nummer zurückliefern.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir können nun über den \pythonilIdx{Generator}, den \pythonil{fibonacci()} zurückliefert, mit einer normalen \pythonilIdx{for}-Schleife iterieren.%
+}%
+%
+\only<-21>{%
+\item<17-> Das wird dann eine Endlosschleife werden, es sei denn, wir fügen ein zusätzliches Abbruchkriterium ein.%
+}%
+%
+\item<18-> In unserer Schleife drucken wir die Fibonacci-Zahlen~\pythonil{a}, die wir bekommen, immer aus.%
+%
+\item<19-> Wir brechen die Iteration aber mit \pythonilIdx{break} ab, so bald \pythonil{a > 30} eintritt.%
+%
+\item<20-> Es soll erwähnt werden, dass so etwas wie \pythonil{list(fibonacci())} eine ganz schlechte Idee wäre.%
+%
+\item<21-> Es würde versuchen, eine unendlich große Liste zu produzieren, was dann unweigerlich zu einer \pythonilIdx{MemoryError}-Ausnahme führt.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{iteration:fibonacci_generator}{}{iteration}{fibonacci_generator.py}{}%
+%
+\listingPythonAndOutput{5-}{iteration:fibonacci_generator}{}{0.45}{0.12}{0.54}{0.89}%
+%
+\locateGraphic[%
+Sculpture by Bertel Thorvaldsen, 1834/1838. %
+Source:~Thorvaldsens Museum~\href{https://kataloget.thorvaldsensmuseum.dk/A187}{A187}, photographer Jakob Faurvig,\href{https://creativecommons.org/publicdomain/zero/1.0}{CC0}%
+]{-4}{width=0.4\paperwidth}{fibonacci}{0.5}{0.05}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Primzahlen generieren}
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Als letztes Beispiel wollen wir nun den Kode um Primzahlen\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF} aufzuzählen aus Einheit~\unitForLoops\ in eine Generator-Funktion gießen.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir tun das in Programm \programUrl{iteration:prime_generator}.%
+}%
+%
+\only<-7>{%
+\item<3-> Damals hatten wir Primzahlen mit zwei verschachtelten \pythonil{for}-Schleifen produziert.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir hatten die äußere Schleife bis maximal 199 iterieren lassen.%
+}%
+%
+\only<-9>{%
+\item<5-> Jetzt brauchen wir so eine Begrenzung nicht mehr.%
+}%
+%
+\only<-9>{%
+\item<6-> Wir können einfach annehmen, dass wer auch immer unsere Generator-Funktion verwendet, einfach aufhören wird, die Zahlen zu iterieren, wenn sie genug Primzahlen haben.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir nehmen deshalb nun eine \pythonil{while True}-Schleife.%
+}%
+%
+\only<-10>{%
+\item<8-> Wir müssen auch keine Liste mehr zurückliefern, wodurch wir die einzige gerade Primzahl~(2) nicht mehr speichern müssen.%
+}%
+%
+\only<-12>{%
+\item<9-> Stattdessen machen wir einfach \pythonil{yield 2} am Anfang unseres Kodes.%
+}%
+%
+\only<-12>{%
+\item<10-> Der letzte wichtige Unterschied zwischen dem alten und dem neuen Kode ist das, nachdem wir eine Zahl als Primzahl bestätigt haben, wir diese nicht nur an die Liste \pythonilIdx{found} der ungeraden Primzahlen anhängen, sondern sie auch per \pythonilIdx{yield} zurückgeben.%
+}%
+%
+\only<-14>{%
+\item<11-> Davon abgesehen funktioniert unsere Funktion im Grunde genauso wie damals.%
+}%
+%
+\only<-15>{%
+\item<12-> Wir iterieren über die ungeraden Zahlen \pythonil{candidate}, die Primzahlen seien könnten.%
+}%
+%
+\only<-16>{%
+\item<13-> Für jeden \pythonil{candidate} testen wir alle vorher identifizierten Primzahlen~\pythonil{check}~(außer~2, natürlich), ob sie \pythonil{candidate} mit Rest~0 teilen können.%
+}%
+%
+\only<-18>{%
+\item<14-> Bei der ersten solchen Zahl, auf die das zutrifft, wissen wir das \pythonil{candidate} keine Primzahl seien kann.%
+}%
+%
+\only<-19>{%
+\item<15-> Wenn keine Zahl \pythonil{check} existiert, die ein Teiler von \pythonil{candidate} ist, dann ist \pythonil{candidate} eine Primzahl.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir müssen aber nur Zahlen \pythonil{check} prüfen, die kleiner oder gleich \pythonil{isqrt(candidate)} sind, also $\leq\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
+}%
+%
+\only<-21>{%
+\item<17-> Zahlen, die größer als das sind, brauchen nicht geprüft werden.%
+}%
+%
+\only<-22>{%
+\item<18-> Sie würden ja zu einem Quotient kleiner als sie selbst führen -- und den hätten wir ja vorher schon probiert.%
+}%
+%
+\only<-22>{%
+\item<19-> Unsere Funktion wird also eine Primzahl nach der anderen finden via \pythonil{yield} zurückliefern.%
+}%
+%
+\only<-23>{%
+\item<20-> Jedes Mal, wenn wir mit \pythonilIdx{yield} einen Wert zurückliefern, wird die Ausführung unsere Funktion unterbrochen.%
+}%
+%
+\only<-24>{%
+\item<21-> Das passiert zum ersten Mal wenn wir \pythonil{yield 2} aufrufen.%
+}%
+%
+\only<-25>{%
+\item<22-> Danach passiert es bei jeder Iteration der äußeren Schleife, wenn diese eine Primzahl findet.%
+}%
+%
+\only<-25>{%
+\item<23-> Jedes Mal, wenn unsere Funktion auf diese Art unterbrochen wird, wird der entsprechende Wert an den Kode außerhalb der Funktion übergeben, der über unsere Sequenz iteriert.%
+}%
+%
+\only<-27>{%
+\item<24-> Während wir unsere Funktion implementieren, wissen wir gar nicht, was dieser Kode tut~(außer, dass er \pythonil{next} auf unseren Generator anwendet).%
+}%
+%
+\only<-29>{%
+\item<25-> Und wir müssen es auch gar nicht wissen.%
+}%
+%
+\only<-30>{%
+\item<26-> Alles, was uns interessiert, ist das wenn er \pythonilIdx{next} aufruft, dass dann unsere Funktion mit der Instruktion nach dem \pythonilIdx{yield} weitermacht und läuft, bis sie die nächste Primzahl findet and mit \pythonil{yield} zurückgibt.%
+}%
+%
+\only<-31>{%
+\item<27-> Wie demonstrieren mit einem \glslink{doctest}{Doctest}, wie unsere Generator-Funktion funktioniert.%
+}%
+%
+\only<-32>{%
+\item<28-> Der Test beginnt damit, den \pythonilIdx{Generator} als \pythonil{gen = primes()} zu instantiieren.%
+}%
+%
+\item<29-> Das erste \pythonil{next(gen)}\pythonIdx{next} soll dann \pythonil{2} liefern.%
+%
+\item<30-> Das zweite soll \pythonil{3} ergeben, das dritte \pythonil{5}, und der vierte Aufruf ergibt \pythonil{7}.%
+%
+\item<31-> Das fünfte und letztes \pythonil{next(gen)}\pythonIdx{next} im \glslink{doctest}{Doctest} soll dann  \pythonil{11} liefern.%
+%
+\item<32-> Und diese Tests sind auch erfolgreich, die Ausgaben stimmen also.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{iteration:prime_generator}{}{iteration/prime_generator.py}{}%
+\gitExec{exec:iteration:prime_generator:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh iteration prime_generator.py}%
+%
+\listingPython{-31}{iteration:prime_generator}{0.48}{0.01}{0.54}{0.99}%
+\listingOutput{32-}{iteration:prime_generator:doctest}{style=tool_style}{0.45}{0.3}{0.54}{0.92}%
+%
+\end{frame}%
+%
+%%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Aus der Perspektive eines Benutzers verhalten sich Generator-Funktionen wie Generator-Ausdrücke, welche wiederum einfache Iteratoren sind.%
+%
+\item<2-> Verglichen mit Generator-Ausdrücken sind Generator-Funktion viel mächtiger.%
+%
+\item<3-> Wir können beliebig komplexen Kode in so eine Funktion packen.%
+%
+\item<4-> Der Kode kann eine oder mehrere Stellen haben, an der Werte an die Außenwelt übergeben werden.%
+%
+\item<5-> Eine normale Funktion kann ein oder mehrere \pythonil{return}-Statements haben.%
+%
+\item<6-> Die Ausführung einer normalen Funktion ist zuende, wenn das erste \pythonil{return}-Statement ausgeführt wird.%
+%
+\item<7-> Eine Generator-Funktion kann ein oder mehrere \pythonil{yield}-Statements haben.%
+%
+\item<8-> Jedes davon übergibt einen Wert an die Außenwelt.%
+%
+\item<9-> Eine Generator-Funktion wird nach \pythonil{yield} fortgesetzt, und zwar so lange bis entweder ihr Ende erreicht wird, oder der Kode außerhalb aufhört, über ihre Sequenz zu iterieren.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

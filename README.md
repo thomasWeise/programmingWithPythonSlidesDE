@@ -56,9 +56,10 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 33. [Zwischenspiel: Testen auf Ausnahmen](https://thomasweise.github.io/programmingWithPythonSlidesDE/33_testen_auf_ausnahmen.pdf)
 34. [Iteration](https://thomasweise.github.io/programmingWithPythonSlidesDE/34_iteration.pdf)
 35. [List Comprehension](https://thomasweise.github.io/programmingWithPythonSlidesDE/35_list_comprehension.pdf)
-36. [Zwischenspiel: doctests](https://thomasweise.github.io/programmingWithPythonSlidesDE/36_doctests.pdf)
+36. [Zwischenspiel: Doctests](https://thomasweise.github.io/programmingWithPythonSlidesDE/36_doctests.pdf)
 37. [Set und Dictionary Comprehension](https://thomasweise.github.io/programmingWithPythonSlidesDE/37_set_und_dictionary_comprehension.pdf)
 38. [Generator-Ausdrücke](https://thomasweise.github.io/programmingWithPythonSlidesDE/38_generator_ausdrücke.pdf)
+39. [Generator-Funktionen](https://thomasweise.github.io/programmingWithPythonSlidesDE/39_generator_funktionen.pdf)
 
 
 ### 2.3. Die Slides in Englisch
@@ -118,12 +119,11 @@ Die Liste mit Dateien, die nicht unter der CC&nbsp;BY&#8209;NC&#8209;SA&nbsp;4.0
 + die Illustration von LIU Hui (刘徽) in der Datei "slides/13_variablen_wertzuweisung/graphics/liu_hui.jpg" stammt aus Wenqi Ying (应雯棋), editor. Commemoration of Ancient Chinese Mathematical Master Liu Hui for his Timeless Influence on Mathematics and Civilizational Exchange. [Issue 48 of CAST Newsletter](https://english.cast.org.cn/cms_files/filemanager/1941250207/attach/202412/8f23655a82364d19ad7874eb37b23035.pdf). China, Beijing (中国北京市): 中国科学技术协会 (China Association for Science and Technology, CAST), 2024. Eine Erlaubnis wurde erteilt, sie in diesem Material zu beinhalten, aber das Copyright bleibt bei CAST.
 + Die Illustration von Hero(n) of Alexandria in der Datei "slides/25_schleifen_mit_while/graphics/heronOfAlexandria.jpg" stammt aus dem Artikel "[The Ancient Greek Who Invented the World's First Steam Turbine](https://greekreporter.com/2023/12/13/ancient-greek-world-first-steam-turbine)", wo steht *Heron of Alexandria. Codex of Saint Gregory Nazianzenos. Greek manuscript of the ninth century. Public Domain*.
 + Die Illustration von Euclid von Alexandria in "slides/26_funktionen_definieren_und_aufrufen/graphics/euclidOfAlexandria" wird dem Maler Charles Paul Landon (1760-1826) [zugeschrieben](https://www.antike-griechische.de/Euklid.pdf). Quelle:~[Vikidia](https://fr.vikidia.org/wiki/Cat%C3%A9gorie:Image_Euclide), wo sie *domaine public,* also in der Public Domain angegeben wird.
++ Die Illustration von Leonardo Pisano / Fibonnaci in Datei "slides/39_generator_funktionen/fibonacci.jpg" zeigt ene Skulptur von Bertel Thorvaldsen, 1834/1838, und stammt ursprünglich vom Thorvaldsens Museum Ausstellungsstück&nbsp;[A187](https://kataloget.thorvaldsensmuseum.dk/A187), fotografiert von Jakob Faurvig, und steht unter der Creative Commons Zero&nbsp;([CC0](https://creativecommons.org/publicdomain/zero/1.0) Lizenz.
 
 Sie können die neuesten Versionen unter <https://thomasweise.github.io/programmingWithPython> finden.
 Diese Versionen können sich ändern, da wir diesen Kurs aktiv weiterentwickeln.
-Sie können die Dateien frei teilen.
-Sie können auch den Text und Bilder kopieren, solange sie das Buch und die Originalquelle zitieren.
-Dazu können Sie zum Beispiel den folgenden BibTeX-Eintrag verwenden:
+Sie können zum Beispiel den folgenden BibTeX-Eintrag zum Zitieren unseres Materials verwenden:
 
 <pre>@book{programmingWithPython,<br/>&nbsp;author&nbsp;=&nbsp;{Thomas&nbsp;Weise},<br/>&nbsp;title&nbsp;=&nbsp;{Programming&nbsp;with&nbsp;Python},<br/>&nbsp;year&nbsp;=&nbsp;{2024--2025},<br/>&nbsp;publisher&nbsp;=&nbsp;{Institute&nbsp;of&nbsp;Applied&nbsp;Optimization,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/aibd">School&nbsp;of&nbsp;Artificial&nbsp;Intelligence&nbsp;and&nbsp;Big&nbsp;Data</a>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.hfuu.edu.cn/">Hefei&nbsp;University</a>},<br/>&nbsp;address&nbsp;=&nbsp;{Hefei,&nbsp;Anhui,&nbsp;China},<br/>&nbsp;url&nbsp;=&nbsp;{<a href="https://thomasweise.github.io/programmingWithPython">https://thomasweise.github.io/programmingWithPython</a>}<br/>}</pre>
 
