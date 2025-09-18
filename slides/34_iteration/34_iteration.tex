@@ -76,7 +76,7 @@
 }%
 %
 \only<-7>{%
-\item<3-> Das primitivste Konzept ist der \pythonilIdx{Iterator}\cite{PEP234}.%
+\item<3-> Das primitivste Konzept ist der \pythonilIdx{Iterator}\cite{PEP234,PSF:P3D:TPSL:BIT:IT,PSF:P3D:G:I2}.%
 }%
 %
 \only<-7>{%
@@ -91,7 +91,7 @@
 \item<6-> Gibt es kein nächstes Element, dann löst dies eine \pythonil{StopIteration}-Ausnahme aus.%
 }%
 %
-\only<-11>{%
+\only<-10>{%
 \item<7-> Solche Iteratoren sind \inQuotes{Einweg-Objekte}, wir können sie nur einmal benutzen.%
 }%
 %
@@ -108,18 +108,30 @@
 }%
 %
 \only<-14>{%
-\item<11-> Sie alle sind Instanzen des \pythonilIdx{Iterable}-Iterfaces.%
+\item<11-> Sie alle sind Instanzen des \pythonilIdx{Iterable}-Iterfaces~\cite{PSF:P3D:TPSL:BIT:IT,PSF:P3D:G:I1}.%
 }%
 %
 \only<-14>{%
 \item<12-> Wir können \pythonil{iter(coll)} für eine Kollektion \pythonil{coll}, die dieses Interface implementiert, aufrufen, und wir bekommen einen \pythonilIdx{Iterator}.%
 }%
 %
+\only<-15>{%
 \item<13-> Wann immer wir über \DEzB~eine Liste iterieren, dann wird erst auf diese Art ein \pythonilIdx{Iterator} erzeugt.%
+}%
 %
-\item<14-> Wir können auch Kollektionen wir Listen, Mengen, oder Dictionaries durch so genannte \emph{comprehension} erstellen, wobei wir im Grunde eine \pythonil{for}-Schleife \emph{in} das entsprechende \glslink{literal}{Literal} schreiben.%
+\only<-16>{%
+\item<14-> Als Randnotiz sei gesagt, dass wir den Operator \pythonilIdx{iter} nicht nur auf \pythonils{Iterable}, sondern auch auf \pythonilIdx{Iterator} anwenden können.\cite{PSF:P3D:TPSL:BIT:IT,PSF:P3D:G:I2}.%
+}%
 %
-\item<15-> Alles das werden wir uns nach und nach anschauen.%
+\only<-17>{%
+\item<15-> Wenn wir das tun, dann liefert er einfach den \pythonilIdx{Iterator} gleich wieder zurück.%
+}%
+%
+\item<16-> Damit können alle \glslink{API}{APIs}, die einen \pythonilIdx{Iterable} als Parameter erfordern und diesen nur einmal brauchen auch einen \pythonilIdx{Iterator} akzeptieren.%
+%
+\item<17-> Wir können auch Kollektionen wir Listen, Mengen, oder Dictionaries durch so genannte \emph{comprehension} erstellen, wobei wir im Grunde eine \pythonil{for}-Schleife \emph{in} das entsprechende \glslink{literal}{Literal} schreiben.%
+%
+\item<18-> Alles das werden wir uns nach und nach anschauen.%
 %
 \end{itemize}}}{0}{0.575}%
 %
@@ -137,7 +149,7 @@
 }%
 %
 \only<-4>{%
-\item<2-> Die eigentliche Iteration findet dann mit Hilfe eines \pythonilIdx{typing.Iterator} statt\cite{PEP234}.%
+\item<2-> Die eigentliche Iteration findet dann mit Hilfe eines \pythonilIdx{typing.Iterator} statt\cite{PEP234,PSF:P3D:TPSL:BIT:IT,PSF:P3D:G:I2}.%
 }%
 %
 \only<-6>{%
@@ -165,7 +177,7 @@
 }%
 %
 \only<-18>{%
-\item<15-> \pythonil{x} ist eine Instanz von \pythonilIdx{list} und jede Liste ist auch eine Instanz von \pythonilIdx{Iterable}\pythonIdx{typing.Iterable}.%
+\item<15-> \pythonil{x} ist eine Instanz von \pythonilIdx{list} und jede Liste ist auch eine Instanz von \pythonilIdx{Iterable}\pythonIdx{typing.Iterable}\cite{PSF:P3D:G:I1}.%
 }%
 %
 \only<-18>{%

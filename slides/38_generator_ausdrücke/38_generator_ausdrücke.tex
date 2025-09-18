@@ -1,0 +1,825 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{38.~Generator-Ausdrücke}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Von Sequenzen zu Datenstrukturen im Speicher}%
+\begin{itemize}%
+\item List Comprehension gibt uns die Möglichkeit, eine Sequenz von Daten in eine Liste zu gießen.%
+%
+\item<2-> Eine Liste ist eine Datenstruktur die im Prinzip in einem Stück Speicher alle Elemente der Liste speichert.%
+%
+\item<3-> Eine List kann vergrößert werden, in dem wir Elemente hinzufügen, aber sie wird immer als kontinuierliches Stück Speicher gemanaged.%
+%
+\item<4-> Sie kann nicht nur als \inQuotes{Teil} im Speicher existieren {\dots} sie existiert immer als \inQuotes{Ganzes}.%
+%
+\item<5-> Und das ist, was wir normalerweise auch wollen.%
+%
+\item<6-> Wir wollen eine Datenstruktur, die Elemente speichert und uns effizient auf diese zugreifen lässt.%
+%
+\item<7-> Mengen, Tupel, und Dictionaries sind andere Manifestationen dieses Konzepts.%
+%
+\item<8-> Sie alle halten alle ihre Elemente komplett im Speicher.%
+\end{itemize}
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Comprehension und Iteration}%
+%
+\begin{itemize}%
+\item Das ist aber nicht für \emph{jede} Aufgabe die richtige Lösung.%
+%
+\item<2-> Sagen wir, dass Sie eine Sequenz von Elementen haben, die Sie alle aufsummieren wollen.%
+%
+\item<3-> Die Funktion \pythonilIdx{sum} macht genau das\cite{PSF:P3D:TPSL:BIF}.%
+%
+\item<4-> Sie akzeptiert einen \pythonilIdx{Iterable} als Parameter\cite{PSF:P3D:TPSL:BIF}.%
+%
+\item<5-> Dann ruft sie wieder und wieder \pythonilIdx{next} auf, um seine Elemente zu bekommen, und addiert diese zu einer laufenden Summe zusammen.%
+%
+\item<6-> \pythonil{sum([i ** 2 for i in range(100)])} \DEzB\ addiert die Quadrate der Zahlen~\pythonil{i} für~$\pythonil{i}\in\intRange{0}{99}$.%
+%
+\item<7-> Die List Comprehension erzeugt dafür zuerst eine Liste mit allen diesen Quadratzahlen.%
+%
+\item<8-> Diese Liste wird dann an \pythonilIdx{sum} übergeben.%
+%
+\item<9-> Diese Funktion iteriert dann über die Liste und addiert die Werte zusammen.%
+%
+\item<10-> Das sieht erstmal gut aus.%
+%
+\item<11-> \alert{Es hat aber einen Nachteil.}%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Immer alles im Speicher?}%
+\begin{itemize}%
+%
+\item Es hat aber einen Nachteil.
+%
+\item<2-> Zuerst wird die komplette Liste im Speicher erstellt.%
+%
+\item<3-> Genau genommen ist alles, was wir (oder die Funktion~\pythonil{sum}) brauchen, eine Möglichkeit, die Elemente eines nach dem anderen auszulesen.%
+%
+\item<4-> Wir müssen das auch nur einmal machen.%
+%
+\item<5-> Es gibt überhaupt keinen Grund, alle Elemente im Speicher zu halten.%
+%
+\item<6-> Alles was wir wirklich wollen, ist wiederholt \pythonilIdx{next} auf einen \pythonilIdx{Iterator} über die Daten aufzurufen, wie wir das in Einheit~\unitIteration\ diskutiert haben.%
+%
+\item<7-> So ist \pythonilIdx{sum} auch implementiert.%
+%
+\item<8-> Es erwartet gar nicht, dass eine komplette Liste mit Daten im Speicher existiert.%
+%
+\item<9-> Alles, was es braucht ist ein \pythonilIdx{Iterable} als Argument, auf das es dann \pythonilIdx{iter} anwendet um einen \pythonilIdx{Iterator} zu erhalten.%
+%
+\item<10-> Dann wendet es wieder und wieder \pythonilIdx{next} auf den \pythonilIdx{Iterable} an, um die Elemente zu erhalten, die es dann aufsummiert.%
+%
+\item<11-> Nirgendwo erwartet es, dass alle Elemente gleichzeitig im Speicher existieren müssen.
+\end{itemize}%
+\end{frame}%
+%
+\section{Generator-Ausdrücke}%
+%
+\begin{frame}[t]%
+\frametitle{Generator-Ausdrücke}%
+\begin{itemize}%
+%
+\only<-3>{%
+\item Generator-Ausdrücke\cite{PEP289} existieren wir \inQuotes{bequem} Sequenzen erstellen können, die ihre Elemente bei Bedarf erstellen und zurückgeben, anstalle alle im Speicher zu halten.%
+}%
+%
+\only<-4>{%
+\item<2-> Die Syntax von Generator-Ausdrücken ist praktisch die gleiche wie für List Comprehension, mit dem Unterschied, dass wir runde Klammern statt eckiger Klammern verwenden.%
+}%
+%
+\only<-5>{%
+\item<3-> Es gibt einen Spezialfall\only<-3>{.}\uncover<4->{:}%
+}%
+%
+\only<-6>{%
+\item<4-> Wenn wir Generator-Ausdrücke als Parameter an eine Funktion \pythonil{my_func} übergeben, dann können wir die Klammern ganz weglassen.%
+}%
+%
+\item<5-> Wenn wir uns an die Syntax von List-, Mengen-, und Dictionary-Comprehension erinnern, könnte man denken, dass wir hier Tupel-Comprehension machen.%
+%
+\item<6-> Machen wir aber nicht. Generator-Ausdrücke sind etwas anderes.%
+%
+\item<7-> Tupel Comprehension gibt es nicht in \python.%
+%
+\end{itemize}%
+%
+\gitLoadPython{syntax/generator_expression}{}{syntax/generator_expression.py}{}%
+\listingPythonSyntax{}{syntax/generator_expression}{0.125}{0.44}{0.75}{0.9}%
+\end{frame}%
+%
+\section{Beispiele zur Funktionsweise}%%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Wie Generator-Ausdrücke funktionieren~(1)}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Probieren wir das mal aus.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir erstellen den Generator-Ausdruck \pythonil{(i ** 2 for i in} \pythonil{range(1_000_000_000))}.%
+}%
+%
+\only<-6>{%
+\item<3-> Was das List-Comprehension wäre, dann würde das eine Milliarde Ganzzahlen in den Speicher laden.%
+}%
+%
+\only<-7>{%
+\item<4-> Weil es aber ein Generator-Ausdruck ist, existiert es im Speicher nur als das Stück Kode in den Klammern.%
+}%
+%
+\only<-9>{%
+\item<5-> Dieser Kode erstellt den nachsten Wert von~\pythonil{i} und berechnet~\pythonil{i ** 2} nur wenn diese wirklich benötigt werden.%
+}%
+%
+\only<-10>{%
+\item<6-> Der richtige \glslink{typeHint}{Type Hint} für so einen Generator-Ausdruck ist \pythonil{Generator[etype, None, None]}, wobei \pythonil{etype} der Datentyp der Elemente ist, hier also \pythonil{int}.%
+}%
+%
+\only<-11>{%
+\item<7-> \pythonilIdx{Generator} wird dafür ebenfalls aus dem \pythonilIdx{typing}-Modul importiert.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir speichern den Generator-Ausdruck also in einer Variable \pythonil{gen}.%
+}%
+%
+\only<-12>{%
+\item<9-> Dann drucken wir die Variable \pythonil{gen} aus.%
+}%
+%
+\only<-13>{%
+\item<10-> Wenn \pythonil{gen} ein Tupel wäre, dann würde dies eine riesige Zeichenkette mit einer Milliarde Quadratzahlen ausgeben.%
+}%
+%
+\only<-14>{%
+\item<11-> Stattdessen sagt es uns nur den Objekttyp von \pythonil{gen} und wo es im Speicher liegt.%
+}%
+%
+\only<-16>{%
+\item<12-> Weil es ein Generator-Ausdruck ist, also nur ein Stück Kode im Speicher, gibt es wirklich nicht viel, was \python\ hier für uns ausgeben kann.%
+}%
+%
+\only<-17>{%
+\item<13-> Die nächste Zeile in der Ausgabe zeigt uns, dass der \pythonilIdx{type} von \pythonil{gen} gleich \pythonil{<class \'generator\'>} ist -- nicht \pythonilIdx{list} und auch nicht \pythonilIdx{tuple}.%
+}%
+%
+\only<-17>{%
+\item<14-> Wir bestätigen dass Generator-Ausdrücke ein Spezialfall von \pythonilIdx{Iterator} sind, in dem wir den  \pythonilIdx{isinstance}-Operator verwenden.%
+}%
+%
+\only<-19>{%
+\item<15-> Und so ein Iterator kann genau nur einmal verwendet werde.%
+}%
+%
+\only<-20>{%
+\item<16-> Das können wir sehen, wenn wir \pythonilIdx{iter} auf ihn anwenden.%
+}%
+%
+\only<-21>{%
+\item<17-> Dieser Operator gibt uns nämlich das selbe Objekt wieer zurpck, nämlich \pythonil{gen}, weshalb \pythonil{iter(gen) is gen} dann \pythonil{True} ergibt.%
+}%
+%
+\only<-22>{%
+\item<18-> Wir können beliebig viele Iteratoren für Listen oder Mengen erstellen, wobei jeder davon ein unabhängiges, anderes, eigenständiges Objekt darstellt, mit seiner eigenen Zustandsinformation.%
+}%
+%
+\only<-23>{%
+\item<19-> \pythonil{iter(gen)} ergibt daher wieder \pythonil{gen} selber.%
+}%
+%
+\only<-24>{%
+\item<20-> Und wir iterieren jetzt mal über \pythonil{gen}.%
+}%
+%
+\only<-25>{%
+\item<21-> Wir bekommen das erste Element~(\pythonil{0}) der Sequenz, in dem wir \pythonil{next(gen)} aufrufen.%
+}%
+%
+\only<-26>{%
+\item<23-> Der zweite Aufruf von \pythonil{next(gen)} ergibt dann~\pythonil{1}.%
+}%
+%
+\only<-27>{%
+\item<23-> Der dritte Aufruf von \pythonil{next(gen)} gibt uns~\pythonil{4}.%
+}%
+%
+\item<24-> Danach liefert \pythonil{next(gen)} dann~\pythonil{9}.%
+%
+\item<25-> Zu guter Letzt machen wir nochmal \pythonil{next(gen)} und bekommen~\pythonil{16}.%
+%
+\item<26-> Im Beispielprogramm hören wir jetzt auf.%
+%
+\item<27-> Das bedeutet, dass die übrigen 999\decSep999\decSep995 Elemente niemals erzeugt werden.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:generator_expressions_next_1}{}{iteration}{generator_expressions_next_1.py}{}%
+\listingPythonAndOutput{2-}{iteration:generator_expressions_next_1}{}{0.45}{0.06}{0.54}{0.94}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Wie Generator-Ausdrücke funktionieren~(2)}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Um diese so genannte \emph{lazy evaluation} besser zu verstehen, bauen wir ein zweites Beispielprogramm, nämlich \programUrl{iteration:generator_expressions_next_2}.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir wollen nun einen Generator-Ausdruck herstellen, bei dem wir genau sehen können, wann seine Elemente erzeugt werden.%
+}%
+%
+\only<-6>{%
+\item<3-> Dafür definieren wir zuerst die Funktion \pythonil{as_str}.%
+}%
+%
+\only<-6>{%
+\item<4-> \pythonil{as_str} akzeptiert einen ganzzahligen Parameter \pythonil{a} als Input.%
+}%
+%
+\only<-7>{%
+\item<5-> Wir wollen genau wissen, wann diese Funktion aufgerufen wird, also fügen wie einen so genannten Seiteneffekt hinzu.%
+}%
+%
+\only<-8>{%
+\item<6-> Die Funktion schreibt sofort \pythonil{f\"as_str(\{a\})\"} zum \glsFull{stdout}, wenn sie aufgerufen wird.%
+}%
+%
+\only<-9>{%
+\item<7-> Sie macht übergibt auch das Argument \pythonil{flush=True} an \pythonil{print}, was erzwingt dass aller zwischengespeicherter Output sofort geschrieben wird, also dass wir \emph{wirklich} sofort sehen, dass unsere Funktion aufgerufen wurde.%
+}%
+%
+\only<-11>{%
+\item<8-> Mit anderen Worten, wenn \pythonil{as_str} aufgerufen wird, dann sehen wir es sofort.%
+}%
+%
+\only<-12>{%
+\item<9-> Danach liefert die Funktion einfach die Stringrepräsentation von \pythonil{a} zurück, also \pythonil{str(a)}.%
+}%
+%
+\only<-13>{%
+\item<10-> Benutzen wir diese Funktion zuerst in der List-Comprehension \pythonil{lst = [as_str(j)} \pythonil{for j in range(3)]}.%
+}%
+%
+\only<-15>{%
+\item<11-> List-Comprehension erstellt die gesamte Liste sofort.%
+}%
+%
+\only<-16>{%
+\item<12-> Das bedeutet, dass in dem Moment, in dem diese Zeile Kode ausgeführt wird, unsere Funktion dreimal aufgerufen wird. nämlich mit \pythonil{a = 0}, \pythonil{a = 1}, und \pythonil{a = 2}.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir sehen, dass das wirklich passiert, weil alle \pythonil{as_str}-Ausgaben vor dem \pythonil{print(\"list created\")} in der nächsten Zeile kommen.%
+}%
+%
+\only<-18>{%
+\item<14-> In der folgenden Zeile drucken wir as Ergebnis von \pythonil{next(iter(lst))} aus.%
+}%
+%
+\only<-19>{%
+\item<15-> \pythonil{iter(lst))} erzeugt einen \pythonilIdx{Iterator} über \pythonil{lst}.%
+}%
+%
+\only<-20>{%
+\item<16-> Der \pythonilIdx{next}-Operator liefert dann das erste Element von diesem Iterator.%
+}%
+%
+\only<-21>{%
+\item<17-> Der entsprechende Text taucht in der \pgls{stdout} auf.%
+}%
+%
+\only<-22>{%
+\item<18-> Die Funktion \pythonil{as_str} wird hierbei nicht noch einmal aufgerufen.%
+}%
+%
+\only<-23>{%
+\item<19-> Natürlich nicht, sie wurde ja schon benutzt, wenn die Liste erstellt wurde.%
+}%
+%
+\only<-24>{%
+\item<20-> Die Liste wurde also tatsächlich vollständig erstellt, bevor wir angefangen haben, sie zu verarbeiten.%
+}%
+%
+\only<-25>{%
+\item<21-> Was passiert, wenn wir \pythonil{as_str} stattdessen einem Generator-Ausdruck verwenden?%
+}%
+%
+\only<-26>{%
+\item<22-> Wir machen das, in dem wir \pythonil{gen = (as_str(j)} \pythonil{for j in range(3))} setzen~(natürlich mit dem richtigen \glslink{typeHint}{Type Hint}).%
+}%
+%
+\only<-27>{%
+\item<23-> Wenn diese Zeile Kode ausgeführt wird, passiert erstmal garnichts.%
+}%
+%
+\only<-28>{%
+\item<24-> Der Generator-Ausdruck ist zu dieser Zeit nur ein Stück Kode im Speicher.%
+}%
+%
+\only<-29>{%
+\item<25-> Die nächste Zeile \pythonil{print(\"generator created\")} schreibt ihre Ausgabe.%
+}%
+%
+\only<-30>{%
+\item<26-> Offensichtlich wurde \pythonil{as_str} noch nicht aufgerufen.%
+}%
+%
+\only<-31>{%
+\item<27-> Wir haben noch kein Element aus der Sequenz abgefragt, weshalb der Generator-Ausdruck einfach nur so im Speicher herumliegt.%
+}%
+%
+\only<-32>{%
+\item<28-> Wir fragen nun die Ergebnisse iterativ von \pythonil{gen} mit \pythonilIdx{next} ab.%
+}%
+%
+\only<-32>{%
+\item<29-> Das erste Mal, als wir das machen, erscheint \textil{as_str(0)} im \pgls{stdout} \emph{vor} dem Ergebnis der Interpolation des \glslink{fstring}{f-Strings} \pythonil{f\"next(gen): \{next(gen)\}\"}.%
+}%
+%
+\only<-34>{%
+\item<30-> Das ist, weil das element, dass \pythonilIdx{next} zurückliefern soll, erstmal erstellt werden muss.%
+}%
+%
+\only<-35>{%
+\item<31-> Der Generator-Ausdruck ruft dafür \pythonil{as_str(0)} auf.%
+}%
+%
+\only<-36>{%
+\item<32-> In dem Moment wird \pythonil{\"as_str(0)\"} in den \pgls{stdout} geschrieben, und alle Ausgabepuffer werden geflushed.%
+}%
+%
+\only<-37>{%
+\item<33-> Dann wird der String \pythonil{\"0\"} an den aufrufenden Kode zurückgeliefert, welcher in dem Fall die \glslink{strinterpolation}{String-Interpolation} ist.%
+}%
+%
+\only<-38>{%
+\item<34-> Der \glslink{fstring}{f-String} wird zu \pythonil{\"next(gen): \'0\'\}\"} interpoliert und ausgrdruckt.%
+}%
+%
+\only<-39>{%
+\item<35-> Er erscheint in der Ausgabe \emph{nach} \pythonil{\"as_str(0)\"}.%
+}%
+%
+\only<-40>{%
+\item<36-> Dabei wurde \pythonil{as_str} genau nur einmal aufgerufen.%
+}%
+%
+\only<-41>{%
+\item<37-> Zu diesem Zeitpunkt wurden die anderen Elemente der Sequenz noch nicht erstellt.%
+}%
+%
+\only<-42>{%
+\item<38-> Wenn wir nochmal \pythonil{next(gen)} macen, dann erscheint \textil{as_str(1)}, und so weiter.%
+}%
+%
+\only<-43>{%
+\item<39-> Die Elemente des Generator-Ausdruck werden tatsächlich erst dann erstellt, wenn wir sie brauchen.%
+}%
+%
+\only<-44>{%
+\item<40-> Dass nennt man \emph{lazy evaluation}.%
+}%
+%
+\only<-45>{%
+\item<41-> Kein Speicher wird während dieses Prozesses verschwendet.%
+}%
+%
+\only<-46>{%
+\item<42-> Nur ein Element existiert im Speicher zu einer Zeit.%
+}%
+%
+\item<43-> Nach dem dritten Aufruf von \pythonil{next(gen)} ist \pythonil{range(3)} verbraucht.%
+%
+\item<44-> Wenn wir \pythonil{next(gen)} ein viertes Mal aufrufen, dann bekommen wir eine \pythonilIdx{StopIteration}-Ausnahme.%
+%
+\item<45-> Das ist kein Fehler, sondern signalisiert das Ende der Iteration.%
+%
+\item<46-> Wir können nur einmal über einen Generator-Ausdruck iterieren.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPythonAndErrors{iteration:generator_expressions_next_2}{}{iteration}{generator_expressions_next_2.py}{}%
+\listingPythonAndOutput{2-}{iteration:generator_expressions_next_2}{style=tool_style}{0.5}{0.005}{0.6}{1}%
+\end{frame}%
+%
+\section{Use Cases}%
+%
+\begin{frame}%
+\frametitle{Use Cases}%
+%
+\begin{itemize}%
+\item Wir können über Generator-Ausdrücke nur einmal drüberiterieren.%
+%
+\item<2-> Daher können wir sie nicht verwenden, wenn wir mehrmals über eine Sequenz iterieren müssen.%
+%
+\item<3-> Wir können sie auch nicht benutzen, wenn wir in beliebiger Reihenfolge auf Elemente zugreifen wollen, \DEzB\ über einen Index.%
+%
+\item<4-> Dann sind die Kollektionsdatentypen besser.%
+%
+\item<5-> Es gibt aber viele Use Cases, in denen Generator-Ausdrücke perfekt passen.%
+\end{itemize}%
+%
+\uncover<6->{%
+\bestPractice{generatorExpression}{%
+Generator-Ausdrücke sind besser als List Comprehension wenn wir die Elemente nur einmal verarbeiten müssen.\uncover<7->{ %
+Generator-Ausdrücke brauchen weniger Speicher.\uncover<8->{ %
+Wenn die Iteration über die Elemente vorzeitig abgebrochen werden kann, wie das \DEzB\ bei den Funktionen \pythonilIdx{all} oder \pythonilIdx{any} passieren kann, dann können Generator-Ausdrücke auch schneller sein.%
+}}}}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Generator-Ausdrücke als Argumente}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Zuerst wollen wir die Quadrate aller Zahlen von~0 bis 999\decSep999 aufaddieren.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir können das tun, in dem wir den Generator-Ausdruck \pythonil{(j ** 2 for j} \pythonil{in range(1_000_000))} an die \pythonilIdx{sum}-Funktion übergeben.%
+}%
+%
+\only<-7>{%
+\item<3-> Beachten Sie, dass wir nicht \pythonil{sum((generator expression...))} schreiben.%
+}%
+%
+\only<-8>{%
+\item<4-> Einfache Klammern sind hier ausreichend.%
+}%
+%
+\only<-9>{%
+\item<5-> Das Ergebnis dieser Summierung ist 333\decSep332\decSep833\decSep333\decSep500\decSep000.%
+}%
+%
+\only<-10>{%
+\item<6-> Jetzt wollen wir den größten und den kleinsten Wert von $\sin{k}$ für all~$k\in\intRange{-99}{99}$ berechnen.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir können den Generator-Ausdruck \pythonil{(sin(k) for k} \pythonil{in range(-100, 100))} verwenden.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir schreiben in einmal hin, um ihn an \pythonilIdx{max} zu übergeben, damit wir den größten Wert bekommen können.%
+}%
+%
+\only<-12>{%
+\item<9-> Dann schreiben wir ihn ein zweites Mal hin, um ihn an \pythonilIdx{min} zu übergeben, damit wir den kleinsten Wert bekommen.%
+}%
+%
+\only<-14>{%
+\item<10-> Es ist wieder nicht notwendig, doppelte Klammern zu verwenden.%
+}%
+%
+\only<-14>{%
+\item<11-> Für das nächste Beispiel erstellen wir erst eine Liste \pythonil{words} mit den Worten \pythonil{[\"hello\", \"how\",} \pythonil{\"are\", \"you\"]}.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir wollen wissen, ob \emph{alle} Worte in der Liste den Buchstabe~\inQuotes{e} beinhalten.%
+}%
+%
+\only<-17>{%
+\item<13-> Der Generator-Ausdruck \pythonil{\"e\" in word} \pythonil{for word in words} wertet \pythonil{\"e\" in word} für jedes \pythonil{word} in der Liste \pythonil{words} aus.%
+}%
+%
+\only<-18>{%
+\item<14-> Er würde die Sequenz \pythonil{True}, \pythonil{False}, \pythonil{True}, und \pythonil{False} produzieren.%
+}%
+%
+\only<-19>{%
+\item<15-> Die Funktion \pythonilIdx{all} liefert \pythonil{True} wenn und nur wenn alle Elemente aus der Sequenz, die sie als Parameter bekommt, ebenfalls \pythonil{True} sind.%
+}%
+%
+\only<-20>{%
+\item<16-> Sonst liefert sie \pythonil{False} zurück.%
+}%
+%
+\only<-20>{%
+\item<17-> Wir übergeben unseren Generator-Ausdruck als Argument an diese Funktion.%
+}%
+%
+\only<-21>{%
+\item<18-> Sie wird hier natürlich \pythonil{False} zurückliefern.%
+}%
+%
+\only<-21>{%
+\item<19-> Das Interessante ist, dass \pythonilIdx{all} aufhören kann, \pythonilIdx{next} aufzurufen, sobald das erste Mal \pythonil{False} auftaucht.%
+}%
+%
+\only<-22>{%
+\item<20-> Mit anderen Worten, unser Generator-Ausdruck wird niemals \pythonil{\"e\" in \"are\"} auswerten, weil nämlich \pythonil{\"e\" in \"how\"} schon \pythonil{False} ergab.%
+}%
+%
+\only<-23>{%
+\item<21-> Zu diesem Zeitpunkt ist klar, dass \pythonilIdx{all} auf jeden Fall \pythonilIdx{False} zurückliefert, gleichgültig was noch in der Sequenz kommt {\dots} und genau das macht es auch sofort.%
+}%
+%
+\only<-25>{%
+\item<22-> Hätten wir List Comprehension verwendet, dann wäre jedes einzelne geprüft worden und der entsprechende \pythonil{bool}-Wert wäre in einer \pythonil{list} gespeichert worden.%
+}%
+%
+\only<-27>{%
+\item<23-> Durch den Generator-Ausdruck wurde nur ein Teil der Daten generiert, der auch gebraucht wurde, ein Wert nach dem Anderen, und niemals irgendwo gespeichert.%
+}%
+%
+\only<-28>{%
+\item<24-> Die \pythonil{any}-Funktion komplementiert die \pythonil{all}-Funktion.%
+}%
+%
+\only<-29>{%
+\item<25-> \pythonilIdx{any} liefert \pythonilIdx{True} wenn wenigstens eines der Elemente der Sequenz, die sie als Argument empfängt, auch \pythonil{True} ist.%
+}%
+%
+\only<-30>{%
+\item<26-> Es liefert \pythonil{False} wenn \emph{alle} Elemente der Argumentsequenz \pythonilIdx{False} sind.%
+}%
+%
+\only<-31>{%
+\item<27-> Wir wollen jetzt wissen, ob der Buchstabe \inQuotes{w} in irgendeinem der Worte auftaucht.%
+}%
+%
+\only<-32>{%
+\item<28-> Dafür schreiben wir den Generator-Ausdruck \pythonil{(\"w\" in word} \pythonil{for word in words)}.%
+}%
+%
+\only<-33>{%
+\item<29-> Dieser wertet \pythonil{\"w\" in word} für jedes \pythonil{word} in der Liste \pythonil{words} aus.%
+}%
+%
+\only<-34>{%
+\item<30-> Wir übergeben diesen Generator-Ausdruck an \pythonilIdx{any}.%
+}%
+%
+\item<31-> Wir sehen sofort, dass \pythonil{\"w\" in \"how\"} shown \pythonil{True} ist.%
+%
+\item<32-> Daher ist das Ergebnis von \pythonilIdx{any} auch \pythonilIdx{True}.%
+%
+\item<33-> Daher kann die Auswertung der Sequenz bereits an der Stelle abbrechen, wo der erste \pythonil{True}-Wert erreicht wird.%
+%
+\item<34-> Hier spart uns also die \emph{lazy evaluation} viel Laufzeit.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:generator_expressions_in_reduction}{}{iteration}{generator_expressions_in_reduction.py}{}%
+\listingPythonAndOutput{2-}{iteration:generator_expressions_in_reduction}{}{0.45}{0.16}{0.54}{0.89}
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Schleifen über Generator-Ausdrücke}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Wir haben mal gesagt, dass in \python\ die \pythonilIdx{for}-Schleifen eigentlich auf Iteratoren arbeiten.%
+}%
+%
+\only<-6>{%
+\item<2-> Nun ist jeder \pythonilIdx{Generator} ja auch ein \pythonilIdx{Iterator}.%
+}%
+%
+\only<-7>{%
+\item<3-> Darum können wir natürlich auch über Generator-Ausdrücke mit der \pythonil{for}-Schleife iterieren.%
+}%
+%
+\only<-8>{%
+\item<4-> Das sehen wir nun in Beispiel \programUrl{iteration:generator_expressions_loops}.%
+}%
+%
+\only<-8>{%
+\item<5-> Hier erstellen wir den Generator-Ausdruck \pythonil{gen}, der Tupel der Form $(n,\sin{n})$ für alle $n\in\intRange{0}{1\decSep000\decSep000\decSep000}$ erstellt.%
+}%
+%
+\only<-9>{%
+\item<6-> Wir schreiben dafür \pythonil{((n, sin(n)) for} \pythonil{n in range(1_000_000_000))}.%
+}%
+%
+\only<-10>{%
+\item<7-> Nehmen wir an, dass wir aus irgendeinem Grund das erste $n\in\naturalNumbersZ$ finden wollen, für das gilt $\sin{n} < -0.99999$.%
+}%
+%
+\only<-11>{%
+\item<8-> Wir iterieren dafür über den Generator-Ausdruck \pythonil{gen}.%
+}%
+%
+\only<-12>{%
+\item<9-> Wir entpacken die Tupel, die der Ausdruck liefert, genauso wie wir das in Einheit~\unitForLoops\ schonmal für Kollektionen gemacht haben.%
+}%
+%
+\only<-13>{%
+\item<10-> Die Variable~\pythonil{o} bekommt den Wert von~\pythonil{n}, der als erstes Tupel-Element gespeichert war, und die Variable~\pythonil{p} bekommt den entsprechenden Wert~$\sin{\pythonil{o}}$.%
+}%
+%
+\only<-14>{%
+\item<11-> Wir packen dann ein \pythonil{if p < -0.99999} in die Schleife um unsere Suchbedingung zu prüfen.%
+}%
+%
+\only<-15>{%
+\item<12-> Wenn der Ausdruck \pythonil{p < -0.99999} wahr wird, dann drucken wir den entdeckten Wert und verlassen die Schleife mit \pythonilIdx{break}.%
+}%
+%
+\only<-16>{%
+\item<13-> Wenn die \pythonilIdx{for}-Schleife \alert{nicht} durch \pythonilIdx{break} verlassen wird, dann ist die Bedingung für der \pythonilIdx{else} nach ihrem Körper erfüllt.%
+}%
+%
+\only<-16>{%
+\item<14-> In diesem Fall geben wir eine Nachricht aus, dass wir keinen Wert gefunden haben, der unsere Bedingung erfüllt.%
+}%
+%
+\only<-18>{%
+\item<15-> Die Ausgabe \textil{sin(11)=-0.9999902065507035} zeigt uns jedoch, dass es sehr wohl eine passende Zahl gibt.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir wissen auch, dass diese schon nach 12~Schleifendurchläufen gefunden wurde, weil $n$ ja bei~0 losgeht.%
+}%
+%
+\item<17-> Einen Generator-Ausdruck hier zu verwenden war nicht nur speichereffizienter als das Nutzen einer Liste, es war auch schneller, weil wir nicht alle Werte berechnen mussten.%
+%
+\item<18-> OK, wir hätten auch einfach eine normale \pythonil{for}-Schleife nehmen können.%
+%
+\item<19-> Das wäre noch besser gewesen.%
+%
+\item<20-> Aber ich wollte ja ein Beispiel für Generator-Ausdrücke machen\dots%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:generator_expressions_loops}{}{iteration}{generator_expressions_loops.py}{}%
+\listingPythonAndOutput{4-}{iteration:generator_expressions_loops}{}{0.45}{0.16}{0.54}{0.89}
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Kollektionen mit Generator-Ausdrücken füllen}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Natürlich können Generator-Ausdrücke auch an die Konstruktoren von Kollektion übergeben werden, oder an andere Funktionen, die solche Datenstrukturen erstellen.%
+}%
+%
+\only<-6>{%
+\item<2-> Um das zu probieren, enhmen wir an, dass wir daten im \glsFull{CSV}-Format haben.%
+}%
+%
+\only<-7>{%
+\item<3-> In diesem Format werden oft Daten gespeichert, die in tabellarischer Form oder als Matrix vorliegen.%
+}%
+%
+\only<-7>{%
+\item<4-> Hier entspricht jede Textzeile einer Zeile von Datenelementen.%
+}%
+%
+\only<-8>{%
+\item<5-> Die einzelnen Elemente in solch einer Zeile werden dann durch Kommas~(\inQuotes{,}) von einander getrennt.%
+}%
+%
+\only<-9>{%
+\item<6-> In \scalebox{0.8}{\programUrl{iteration:generator_expressions_to_collection}} definieren wir zuerst einen String \pythonil{csv_text} mit dem Wert~\pythonil{\"22,56,33,67,43,33,12\"}.%
+}%
+%
+\only<-10>{%
+\item<7-> Er enthält also eine Zeile von \pgls{CSV}-Daten.%
+}%
+%
+\only<-11>{%
+\item<8-> Wenn wir \pythonil{csv_text.split(\",\")} aufrufen, dann wird der String in einzelne Zeichenketten aufgespalten, und zwar immer am Trennzeichen~\pythonil{\",\"}.%
+}%
+%
+\only<-11>{%
+\item<9-> Das ergibt die Liste \pythonil{[\"22\", \"56\", \"33\",} \pythonil{\"67\", \"43\", \"33\", \"12\"]}.%
+}%
+%
+\only<-12>{%
+\item<10-> Wir können diese Liste in Generator-Ausdrücken verwenden.%
+}%
+%
+\only<-13>{%
+\item<11-> Zum Beispiel ist \pythonil{(int(i) for i in} \pythonil{csv_text.split(\",\"))} ein Generator-Ausdruck der die Strings in aus der Liste in Ganzzahlen umwandelt.%
+}%
+%
+\only<-15>{%
+\item<12-> Wenn wir diesen Generator-Ausdruck an den Konstruktor \pythonilIdx{list} übergeben, also \pythonil{list(int(i) for} \pythonil{i in csv_text.split(\",\"))} aufrufen,  dann bekommen wir eine Liste mit allen Elementen, die der Ausdruck erstellt.%
+}%
+%
+\only<-17>{%
+\item<13-> Das funktioniert genauso, wenn wir den Ausdruck als Parameter an \pythonilIdx{tuple} oder \pythonilIdx{set} übergeben, welche dann ein Tupel bzw.\ eine Menge erstellen.%
+}%
+%
+\only<-18>{%
+\item<14-> Beachten Sie allerdings, dass die Menge keine Duplikate enthält.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir können den Generator-Ausdruck auch an die Funktion \pythonilIdx{sorted} übergeben.%
+}%
+%
+\only<-19>{%
+\item<16-> Diese Funktion erstellt eine sortierte Liste mit allen Elementen aus der Sequenz, die sie als Argument erhält.%
+}%
+%
+\only<-20>{%
+\item<17-> Dictionaries können aus Sequenzen von Tupeln erstellt werden.%
+}%
+%
+\only<-21>{%
+\item<18-> Das erste Element jedes Tupels wird dann als Schlüssel verwendet und das zweite als Wert.%
+}%
+%
+\only<-22>{%
+\item<19-> Wir übergeben den Generator-Ausdruck, der die Tupel \pythonil{(i, int(i))} für jedes~\pythonil{i} in \pythonil{csv_text.split(\",\")} liefert an~\pythonilIdx{dict}.%
+}%
+%
+\only<-23>{%
+\item<20-> Die Schlüssel des neuen Dictionaries sind daher die originalen Strings unserer \pgls{CSV}-Daten und die Werte sind ihre Ganzzahl-Repräsentation.%
+}%
+%
+\only<-25>{%
+\item<21-> Beachten Sie, dass Dictionary ebenfalls keine doppelten Schlüssel beinhalten.%
+}%
+%
+\only<-26>{%
+\item<22-> Nun wenden wir unser gutes altes Werkzeug \ruff\  auf \scalebox{0.8}{\programUrl{iteration:generator_expressions_to_collection}} an.%
+}%
+%
+\only<-27>{%
+\item<23-> Es sagt uns, dass es keinen Sinn ergibt, Generator-Ausdrücke zum Erstellen von Listen, Mengen, und Dictionaries zu verwenden.%
+}%
+%
+\item<24-> Wir könnten genauso gut die entsprechenden Comprehensions direkt verwenden.%
+%
+\item<25-> Und \ruff\ hat recht.%
+%
+\item<26-> Es gibt allerdings keine Tuple-Comprehension, also ist das Verwenden eines Generator-Ausdrucks in \pythonil{tuple(...)} schon OK.%
+%
+\item<27-> Das selbe gilt auch für die \pythonil{sorted}-Funktion.
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{iteration:generator_expressions_to_collection}{}{iteration}{generator_expressions_to_collection.py}{}%
+%
+\gitExec{exec:iteration:generator_expressions_to_collection:ruff}{\programmingWithPythonCodeRepo}{.}{_scripts_/ruff.sh iteration generator_expressions_to_collection.py}%
+%
+\listingPythonAndOutput{2-21}{iteration:generator_expressions_to_collection}{}{0.45}{0.16}{0.54}{0.89}
+\listingOutput{22-}{iteration:generator_expressions_to_collection:ruff}{style=tool_style}{0.45}{0.07}{0.54}{0.93}
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Damit haben wir das Ende unserer Diskussion von Generator-Ausdrücken erreicht.%
+%
+\item<2-> Wir haben sie als eine effiziente Quelle von Daten kennengelernt.%
+%
+\item<3-> Anders als Kollektions-Datenstrukturen halten sie nicht alle ihre Elemente im Speicher.%
+%
+\item<4-> Stattdessen werden sie \emph{lazily evaluated}, ihre Elemente werden also erst dann berechnet und zurückgeliefert, wenn sie benötigt werden.%
+%
+\item<5-> Das ist viel besser, wenn wir auf Elemente sowieso nur eins nach dem Anderen zugreifen wollen.%
+%
+\item<6-> Es ist sogar doppelt effizient, wenn wir vielleicht die Iteration vorzeitig abbrechen wollen.%
+%
+\item<7-> Dann sparen wir sowohl Laufzeit als auch Speicher.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
