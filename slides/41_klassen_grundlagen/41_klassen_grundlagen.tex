@@ -1,0 +1,1113 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{41.~Grundlagen von Klassen}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Wir haben bereits viele einfache Datentypen kennengelernt.%
+%
+\item<2-> Darüber hinaus haben wir auch verschiedene Arten von Kollektionen gelernt, die mehrere Elemente enthalten können.%
+%
+\item<3-> In vielen Situationen haben wir es jedoch mit Daten zu tun, von keinem der obigen Strukturen vernünftig repräsentiert werden können.%
+%
+\item<4-> Viele Datentypen sind im Grunde Strukturen, die mehrere Elemente, die miteinander in einer semantischen Beziehung stehen, verbinden.%
+%
+\item<5-> Die Elemente von Listen oder Tupeln, \DEzB, stehen nur in so fern mit einander in einer Beziehung, dass sie in der selben Kollektion auftauchen.%
+%
+\item<6-> Die Elemente \emph{Tag}, \emph{Monat}, und \pythonil{Jahr} eines \emph{Datums} haben dagegen eine viel engere Beziehung mit einer klaren Bedeutung.%
+%
+\item<7-> Oftmals formen solche Datentypen und die Operationen auf ihnen eine semantische Einheit.
+\end{itemize}
+\end{frame}%
+%
+\section{Gründe für Klassen}%
+%
+\begin{frame}[t]%
+\frametitle{Probleme mit Datenstrukturen am Beispiel Komplexe Zahlen}%
+\begin{itemize}%
+\only<-9>{%
+\item Stellen Sie sich vor, wir würden die komplexen Zahlen in \python\ implementieren wollen.%
+}%
+%
+\only<-9>{%
+\item<2-> (\python\ hat schon den Datentyp \pythonilIdx{complex} genau dafür, aber stellen Sie sich vor, es hätte ihn nicht.)%
+}%
+%
+\only<-10>{%
+\item<3-> Nun könnten Sie hingehen und eine komplexe Zahl einfach als \pythonil{tuple[float, float]} darstellen.%
+}%
+%
+\only<-10>{%
+\item<4-> Das hat aber mehrere Nachteile.%
+}%
+%
+\item<5-> Auf der einen Seite könnte dann \emph{jedes} Tupel von zwei \pythonils{float} als komplexe Zahl interpretiert werden.%
+%
+\item<6-> Von der \glslink{signature}{Signatur} einer Funktion, also basierend auf ihren Parameter- und Rückgabe-Datentyp, wäre es dann also nicht klar, ob diese Funktion mit komplexen Zahlen arbeitet oder nicht.%
+%
+\item<7-> Alles was wir direkt sehen würden ist, dass sie mit Tupeln von zwei \pythonils{float} arbeitet.%
+%
+\item<8-> Auf der anderen Seite haben die beiden Teile einer komplexen Zahl, der Realteil und der Imaginärteil, zwei verschiedene und wohldefinierte Bedeutungen.%
+%
+\item<9-> Es wäre aber nicht sofort klar, ob die erste Zahl im Tupel der Realteil oder der Imaginärteil ist.%
+%
+\item<10-> Genaugenommen könnten wir komplexe Zahlen auch in Polarform darstellen, wobei dann die Teile des Tupels wieder andere Bedeutungen hätten.%
+%
+\item<11-> Ebenso wäre die normale textuelle Repräsentation eines Tuples von zwei \pythonils{float} so etwas wie \pythonil{\"(3.0, 4.0)\"}, wobei wir für komplexe Zahlen eher so etwas wie \pythonil{\"3+4i\"} haben wöllten.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Use Case: Group Data and Operations}%
+\begin{itemize}%
+\item Der erste wichtige Use Case für Klassen (\pythoniles{class}) in \python\ ist, dass sie uns eine Möglichkeite bieten, eine Datenstruktur zusammen mit den Operationen für die Datenstruktur zu definieren~\cite{PSF:P3D:TPT:C}.%
+%
+\item<2-> Das erlaubt es uns \DEzB\ eine \pythonil{class} für komplexe Zahlen zu definieren, die die Attribute \pythonil{real_part} und \pythonil{imaginary_part} hat.%
+%
+\item<3-> Wir können Operatoren wie Addition und Subtraktion definieren, die mit dieser Klasse arbeiten, wodurch sofort klar wird, wie diese zu benutzen sind.%
+%
+\item<4-> Und die Klasse kann eine von uns gewählte textuelle Repräsentation haben.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Probleme mit APIs am Beispiel von Dokumenten}%
+\begin{itemize}%
+%
+\only<-7>{%
+\item Eine zweite Situation wo die Fähigkeit Funktionen zu definieren, die wir bereits gelernt haben, an ihre Grenzen stößt sind \glsFullpl{API} mit verschiedenen Implementierungen.%
+}%
+%
+\only<-8>{%
+\item<2-> Nehmen wir mal an, Sie wollen ein vielseitiges System bauen, das Dokumente erstellen kann.%
+}%
+%
+\only<-9>{%
+\item<3-> Auf der Ausgabeseite wollen Sie verschiedene Formate unterstützen, \DEzB \libreoffice\cite{DF2024LTDF,GL2012LTSOOSSCBAFACSOL}, \microsoftWord\cite{MS2024MW,DR2019STFAWAUMW}, und Adobe~\pgls{formatPDF}\cite{A2024WDPM,A2008P3DMPDFP1P1}.%
+}%
+%
+\only<-12>{%
+\item<4-> Auf der Eingabeseite wollen Sie dem Benutzer/Programmierer eine einheitliche Art zum Dokumente erstellen bereitstellen.%
+}%
+%
+\only<-13>{%
+\item<5-> Die \pgls{API} dafür sollte natürlich für alle Ausgabeformate gleich sein.%
+}%
+%
+\only<-14>{%
+\item<6-> Sie würde nicht aus einer einzelnen Funktion bestehen, sondern aus mehreren Gruppen von Funktionen.%
+}%
+%
+\only<-14>{%
+\item<7-> Es könnte sogar verschachtelte Hierarchien von Funktionen geben, die \DEzB\ das Erstellen von Kapiteln und Absätzen von Text erlauben, oder das Formattieren von Strings mit verschiedenen Fonts.%
+}%
+%
+\item<8-> Natürlich müssten wir diese Operationen verschieden für die verschiedenen Ausgabeformate implementieren.%
+%
+\item<9-> Wir könnten das versuchen, in dem wir in verschiedene Module für verschiedene Ausgabeformate implementieren.%
+%
+\item<10-> In den Modulen könnten wir dann Funktionen mit dem selben Namen und der selben \glslink{signature}{Signatur} implementieren, die das jeweils benötigte Verhalten implementieren.%
+%
+\item<11-> Das wäre jedoch ein gräßlicher Ansatz.%
+%
+\item<12-> Das größte Problem wäre, dass es keine Möglich gibt, zu definieren, \inQuotes{wie die \pgls{API} aussieht.}%
+%
+\item<13-> Das kann schnell zu Inkonsistenzen im Softwarelebenszyklus führen.%
+%
+\item<14-> Wenn wir die \glslink{signature}{Signatur} von einer Funktion geringfügig verändern, müssten wir das manuell in alle anderen Module ebenfalls einpflegen.%
+%
+\item<15-> Es gäbe auch keine Möglichkeit, dass ein \glslink{linter}{Linter} wie \ruff\ uns informieren könnte, wenn der Kode in einem Modul nicht mehr synchron mit den anderen ist.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Klassenhierarchien für APIs}%
+\begin{itemize}%
+\item Klassen bieten uns die notwendige Abstraktion.%
+%
+\item<2-> Wir könnten eine Basisklasse \pythonil{Document} für Dokument-Objekte definieren, die die notwendigen Operationen zum Einfügen von Text oder Grafiken definiert.%
+%
+\item<3-> Jede dieser Operationen könnte einfach einen \pythonilIdx{NotImplementedError} auslösen.%
+%
+\item<4-> Für jedes Ausgabeformat könnten wir eine Unterklasse von dieser Basisklasse ableiten, die die Operationen dann entsprechend implementiert.%
+%
+\item<5-> Der Benutzerkode könnte dann Dokumente aller Typen einheitlich benutzen, denn alle wären Instanzen von \pythonil{Document} with exactly the same operations.%
+%
+\item<6-> Alle formatspezifischen Dinge wären unsichtbar für den Benutzer, genauso, wie es auch seien sollte.%
+%
+\item<7-> \glslink{linter}{Linter} können uns dann auch sagen, wenn eine Unterklasse der Spezifikation der \pgls{API} in der Basisklasse nicht richtig folgt.%
+%
+\item<8-> Der zweite wichtige Use Case für Klassen ist daher, dass sie uns eine Abstraktion zum Definieren und Implementieren von \pglspl{API} bereitstellen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Use Case Zusammenfassung}%
+\begin{itemize}%
+\item Klassen können daher zwei wichtige Probleme lösen, bei denen einfache Datentypen, Kollektionen, und Funktionen nicht wirklich geeignet sind\only<-1>{.}\uncover<2->{:%
+%
+\begin{enumerate}%
+%
+\item Sie erlauben es uns, klar und semantisch Daten und die dazugehörigen Operationen zusammen zu gruppieren.%
+%
+\item<3-> Sie geben uns eine einfache Möglichkeit, mehrere Operationen in eine \pgls{API} zu gruppieren, die dann -- auf transparente Art -- auf verschiedene Art implementiert werden kann.%
+%
+\end{enumerate}}%
+%
+\item<4-> Wir werden nun also Klassen diskutieren.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Klassen Definieren}%
+%
+\begin{frame}[t]%
+\frametitle{Klassen Definieren: Syntax}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\only<-8>{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Klassen sind Datentypen die Datenelemente und den Kode, der auf diesen arbeitet, miteinander verbinden\cite{PSF:P3D:TPT:C}.%
+}%
+%
+\only<-6>{%
+\item<2-> Eine Klasse ist dabei im Grunde eine Blaupause, ein Konzept, wohingegen ein Objekt eine konkrete Instanz einer Klasse ist.%
+}%
+%
+\only<-7>{%
+\item<3-> Zum Beispiel ist \pythonil{int} im Grunde eine Klasse für Ganzzahlen, wohingegen \pythonil{5} eine konkrete Instanz dieser Klase ist.
+}%
+%
+\only<-7>{%
+\item<4-> Klassen werden mit dem Schlüsselwort \pythonil{class} gefolgt vom Klassennamen und dem Doppelpunkt~(\inQuotes{:}) deklariert.%
+}%
+%
+\only<-7>{%
+\item<5-> Der Körper der Klasse ist dann mit vier Leerzeichen eingerückt.%
+}%
+%
+\only<-8>{%
+\item<6-> Er beinhaltet alles, was zur Klasse gehört, die Dokumentation, die Methoden, und die Attribute.%
+}%
+%
+\only<-8>{%
+\item<7-> Das Erste, was nach der Klassendeklaration kommt, ist normalerweise der \glslink{docstring}{Docstring} der Klasse.%
+}%
+%
+\only<-8>{%
+\item<8-> Das kann eine einzelne, aussagekräftige Zeile sein oder eine mehrzeilige Dokumentation, die dann erst mit einer einzeligen Zusammenfassung anfängt, gefolgt von einer Leerzeile, gefolgt von mehreren Zeilen ausführlicher Dokumentation.%
+}%
+\only<9->{\item<9-> dummy}%
+\end{itemize}%
+}%
+%
+\only<-11>{%
+\uncover<9->{%
+\bestPractice{className}{\sloppy%
+Klassennamen sollten der \inQuotes{CapWords}-Konvention folgen, die auch oft \emph{Camel Case} genannt wird, also aussehen wir \pythonil{MyClass} oder \pythonil{UniversityDepartment}, aber \alert{nicht} wie \pythonil{my_class} der \pythonil{university_department}~\cite{PEP8}.}%
+}}%
+%
+\uncover<10->{%
+\begin{itemize}%
+\only<-14>{%
+\item Klassen können eine Initialisierer-Methode namens \dunder{init} haben.%
+}%
+%
+\only<-15>{%
+\item<11-> Diese Spezialmethode kann beliebig viele Parameter haben, liefert aber niemals einen Rückgabewert zurück.%
+}%
+%
+\only<-16>{%
+\item<12-> Sie wird mit \glslink{typeHint}{Type Hints} und einem \glslink{docstring}{Docstring} wie eine normale Methode annotiert.%
+}%
+%
+\only<-17>{%
+\item<13-> Nur der Spezialparameter \pythonilIdx{self} wird nicht annotiert.%
+}%
+%
+\only<-18>{%
+\item<14-> Der Initialisierer \dunder{init} wird benutzt, um alle~(nicht-geerbten) Attribute einer Klasseninstanz zu deklarieren und um ihnen anfängliche Werte zuzuweisen.%
+}%
+%
+\only<-19>{%
+\item<15-> In diesem Schritt geben wir auch \glslink{typeHint}{Type Hints} für die Attribute an.%
+}%
+%
+\only<-19>{%
+\item<16-> In allen Methoden der Klasse wird die aktuelle Instanz der Klasse, das aktuelle Objekt, über den Name \pythonilIdx{self} referenziert.%
+}%
+%
+\only<-20>{%
+\item<17-> Wenn wir auf ein Attribut oder eine Methode der Klasse zugreifen, tuen wir das immer über das Präfix \pythonil{self.}.%
+}%
+%
+\only<-21>{%
+\item<18-> Wir deklarieren daher \pythonilIdx{self} immer als ersten Parameter jeder Methode.%
+}%
+%
+\only<-21>{%
+\item<19-> Eine Zeile wie \pythonil{self.x: int = 5} in \dunder{init} erzeugt das Instanzenattribut \pythonil{x}, type-hinted es als Ganzzahl, und weist ihm den Initialwert 5 zu.%
+}%
+%
+\only<-23>{%
+\item<20-> Wir können auch ein kurzes Kommentar, dass die Bedeutung des Attributes beschreibt, in die Zeile \alert{vor} seiner Deklaration schreiben.%
+}%
+%
+\only<-24>{%
+\item<21-> Dieser Spezialkommentar fängt immer mit einem Doppelpunkt nach dem Hashmark an, also mit \pythonil{\#: }\cite{SD2024SIDFD:DCAD}.%
+}%
+%
+\only<-25>{%
+\item<22-> Wenn wir \pythonil{\#: This is the x-coordinate.} in die Zeile vor die Deklaration von \pythonil{self.x} schreiben, dann annotiert dies das Atribute mit einer Dokumentation die sagt, dass es, nun ja, eine \glslink{xAxis}{x}-Koordinate ist.%
+}%
+%
+\only<-27>{%
+\item<23-> Klassen können beliebig viele Methoden haben.%
+}%
+%
+\only<-28>{%
+\item<24-> Eine Methode ist eine Funktion, die mit den Attributwerten einer Klasseninstanz arbeitet.%
+}%
+%
+\only<-29>{%
+\item<25-> Jede Methode hat als ersten Parameter \pythonilIdx{self}, welches für das Objekt/die Instanz der Klasse steht, auf der die methode arbeitet.%
+}%
+%
+\only<-30>{%
+\item<26-> Eine Methode kann beliebig viele andere Parameter und einen Rückgabewert haben.%
+}%
+%
+\only<-31>{%
+\item<27-> Alle Parameter außer \pythonil{self} werden natürlich mit \glslink{typeHint}{Type Hints} annotiert.%
+}%
+%
+\only<-32>{%
+\item<28-> Methoden haben auch \glslink{docstring}{Docstrings}, wie normale Funktionen.%
+}%
+%
+\only<-33>{%
+\item<29-> In einer Methode können sowohl auf die Attribute als auch auf die Methoden einer Instanz über das \pythonil{self.}-Präfix zugreifen.%
+}%
+%
+\only<-34>{%
+\item<30-> Nachdem wir die Klasse definiert haben, können wir sie instantiieren.%
+}%
+%
+\only<-35>{%
+\item<31-> Dafür verwenden wir den Klassennamen wir eine normale Funktion.%
+}%
+%
+\only<-36>{%
+\item<32-> Dabei müssen wir Werte für alle Parameter von \dunder{init} angeben, außer für \pythonil{self}.%
+}%
+%
+\item<33-> Wir können Objekte der Klasse dann genauso wie normale Werte verwenden und sie \DEzB\ in Variablen speicher.%
+%
+\item<34-> Wir können den Klassennamen auch als \glslink{typeHint}{Type Hint} verwenden, denn ersteht ja für einen normalen Datentyp.%
+%
+\item<35-> So viel zur Struktur von Klassen.%
+%
+\item<36-> Lassen Sie uns nun ohne weiteres Vorgeplänkel mit einem Beispiel beginnen.%
+%
+\end{itemize}%
+}}}%
+%
+\gitLoadPython{syntax/class_init_method}{}{syntax/class_init_method.py}{}%
+\listingPythonSyntax{}{syntax/class_init_method}{0.45}{0.1}{0.54}{0.89}%
+\end{frame}%
+%
+\section{Beispiel}%
+%
+\begin{frame}%
+\frametitle{Beispiel: Punkte in der 2D-Ebene}%
+\begin{itemize}%
+\only<-9>{%
+\item Stellen Sie sich vor, das wir ein Programm zum Verarbeiten von Punkten in der zweidimensionalen Euklidischen Ebene schreiben wollen.%
+}%
+%
+\only<-10>{%
+\item<2-> Jeder Punkt sei durch seine x\nobreakdashes~und y\nobreakdashes-Koordinate definiert.%
+}%
+%
+\only<-11>{%
+\item<3-> Wir könnten nun ein \pythonil{tuple} von zwei Zahlen, sagen wir ein \pythonil{tuple[int | float, int | float]}, verwenden um diese Punkte zu repräsentieren.%
+}%
+%
+\only<-12>{%
+\item<4-> Das ist eine gute und schnelle Lösung.%
+}%
+%
+\only<-13>{%
+\item<5-> Aber dieser Lösung fehlt die Semantik, sie hat keine klare und offensichtliche Bedeutung.%
+}%
+%
+\only<-14>{%
+\item<6-> Nichts sagt dass ein \pythonil{tuple[int | float, int | float]} ein Punkt in der zweidimensionalen Euklidischen Ebene ist.%
+}%
+%
+\only<-15>{%
+\item<7-> Es könnte genauso gut ein Tupel von Reisezeit und Reisekosten für ein Zugticket von Hefei nach Beijing sein.%
+}%
+%
+\only<-16>{%
+\item<8-> Im Grunde ist es nur eine Gruppierung zweier Zahlen.%
+}%
+%
+\only<-16>{%
+\item<9-> Das selbe Fehlen von Semantik taucht wieder auf, wenn wir Operationen die diese Punkte verarbeiten implementieren wollen.%
+}%
+%
+\only<-17>{%
+\item<10-> Eine Funktion die den Abstand zweier solcher Punkte berechnet würde einfach zwei solche Tupel als Input nehmen.%
+}%
+%
+\item<11-> Natürlich sollte man dann nur solche Tupel als Argumente hereingeben, die auch wirklich Punkte in der zweidimensionalen Euklidischen Ebene repräsentieren.%
+%
+\item<12-> Aber niemand kann verhindern, dass ich andere Tupel hereingebe, \DEzB\ solche, die wirklich nur eine Reisezeit und Reisekosten für ein Zugticket von Hefei nach Beijing speichern\dots%
+%
+\item<13-> Das Ergebnis würde dann wenig Sinn ergeben.%
+%
+\item<14-> Trotzdem können solche Situation entstehen, \DEzB\ durch missverstandene Dokumentation.%
+%
+\item<15-> Wenn ich mit Punkten der zweidimensionalen Euklidischen Ebene arbeite, dann habe ich im Idealfall eine Datenstruktur die klar und unverständlich für solche Punkte und nur solche Punkte entwickelt wurde.%
+%
+\item<16-> Die Operationen für Punkte sollten nur Instanzen dieser Datenstruktur als Input akzeptieren und Ausnahmen auslösen, wenn etwas anderes hereingegeben wird.%
+%
+\item<17-> Wenn ich auf die x\nobreakdashes-Koordinate eines solchen Punktes zugreife, dann sollte sowohl von der Semantik als auch von den involvierten Namen absolut klar sein, dass das wirklich eine x\nobreakdashes-Koordinate ist und nicht irgendeine andere Zahl.%
+%
+\item<18-> Solch klare Semantik kann mit Klassen in \python\ erreicht werden.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Eine Klasse für Punkte}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\only<-37,46-79,82->{%
+\begin{itemize}%
+\only<-4,8>{%
+\item Wir implementieren eine Klasse für Punkte in Datei \programUrl{classes:point}.%
+}%
+%
+\only<-5,8-9>{%
+\item<2-> Wir erstellen die Klasse \pythonil{Point}\pythonIdx{class} in dem wir \pythonil{class Point:} schreiben.%
+}%
+%
+\only<-5,8-9>{%
+\item<3-> Dann erstellen dann den Körper der Klasse, den wir mit vier Leerzeichen einrücken.%
+}%
+%
+\only<-10>{%
+\item<4-> Das Erste, was wir in den Körper der Klasse schreiben, ist immer der \glslink{docstring}{Docstring}.%
+}%
+%
+\only<8->{%
+\only<-12>{%
+\item<8-> Danach definieren wir alle \emph{Methoden} der \pythonilIdx{class}.%
+}%
+%
+\only<-13>{%
+\item<9-> Methoden sind wie Funktionen, nur das ihr erster Parameter immer \pythonilIdx{self} genannt wird und immer eine Instanz der Klasse, also ein Objekt, ist.%
+}%
+%
+\only<-14>{%
+\item<10-> So oder so, alle Methoden kommen in den Körper der Klasse.%
+}%
+%
+\only<-15>{%
+\item<11-> Unsere Klasse \pythonil{Point} bekommt zwei Attribute, \pythonil{x} und~\pythonil{y}.%
+}%
+%
+\only<-16>{%
+\item<12-> Ein Attribut ist eine Variable, die jede einzelne Instanz einer Klasse hat.%
+}%
+%
+\only<-16>{%
+\item<13-> Später werden wir eine Instanz von \pythonil{Point} mit der x\nobreakdashes-Koordinate~5 und der y\nobreakdashes-Koordinate~10 erstellen und dann eine andere Instanz mit der x\nobreakdashes-Koordinate~2 und der  y\nobreakdashes-Koordinate~7.%
+}%
+%
+\only<-18>{%
+\item<14-> Jede Instanz von \pythonil{Point} muss also diese beiden Attribute haben.%
+}%
+%
+\only<-18>{%
+\item<15-> Darum braucht \pythonil{Point} einen Initialisierer, also eine spezielle Methode, die diese Attribute erstellt und initialisiert.%
+}%
+%
+\only<-20>{%
+\item<16-> Diese Methode wird \dunder{init} genannt.%
+}%
+%
+\only<-20>{%
+\item<17-> Jede Methode einer Klasse muss den Parameter \pythonilIdx{self} haben, der die Instanz der Klasse~(das Objekt), auf die die Methode angewandt wird, beinhaltet.%
+}%
+%
+\only<-22>{%
+\item<18-> Der Initialisierer \dunder{init} ist eine spezielle Methode, deshalb hat auch er den Parameter~\pythonilIdx{self}.%
+}%
+%
+\only<-23>{%
+\item<19-> Zusätzlich verlangen wir, dass Werte für die beiden Parameter~\pythonil{x} und~\pythonil{y} angegeben werden, wann immer wir eine Instanz von \pythonil{Point} erstellen.%
+}%
+%
+\only<-24>{%
+\item<20-> Wir erlauben sowohl \pythonils{int} als auch \pythonils{float} für deren Typen.%
+}%
+%
+\only<-24>{%
+\item<21-> In jeder Methode der Klasse kann auf die Attribute der Objekte über den Parameter \pythonilIdx{self} zugegriffen werden.%
+}%
+%
+\only<-25>{%
+\item<22-> Wir können das Attribut \pythonil{x} eines Objekts in einer Methode über \pythonil{self.x} auslesen.%
+}%
+%
+\only<-25>{%
+\item<23-> Hierbei kann \pythonil{self.x} wie eine normale lokale Variable verwendet werden.%
+}%
+%
+\only<-25>{%
+\item<24-> Wir können den Wert~\pythonil{a} in einem veränderlichen Attribut \pythonil{x} des aktuellen Objekts in einer Methode speichern, in dem \pythonil{self.x = a} schreiben.%
+}%
+%
+\only<-29>{%
+\item<25-> Dieser Wert wird bleiben, bis er wieder manuell geändert wird, auch wenn die Ausführung der Methode beendet ist.%
+}%
+%
+\only<28->{%
+%
+\only<-32>{%
+\item<28-> Wir wollen nur endliche Koordinaten für unsere \pythonils{Point} zulassen.%
+}%
+%
+\only<-32>{%
+\item<29-> Es ist besser, sofort einen Fehler über eine Ausnahme zu signalisieren wenn wir auf ungültige Daten treffen.%
+}%
+%
+\only<-33>{%
+\item<30-> Wir wollen also sofort nicht-finite Koordinaten aussortieren, wenn ein \pythonil{Point} erstellt wird.%
+}%
+%
+\only<-33>{%
+\item<31-> Daher ist das Erste, was wir im Initialisierer machen, die Koordinaten mit der \pythonilIdx{isfinite}-Funktion aus dem  \pythonilIdx{math}-Modul zu prüfen.%
+}%
+%
+\only<-34>{%
+\item<32-> Wenn \pythonil{x} oder \pythonil{y} nicht finit sind, dann lösen wir sofort einen \pythonilIdx{ValueError} aus.%
+}%
+%
+\only<-35>{%
+\item<33-> Streng genommen könnten wir auch die Typen von \pythonil{x} und \pythonil{y} prüfen und \DEzB\ einen \pythonil{TypeError} auslösen, wenn sie nicht passen {\dots} aber ich will das Beispiel nicht noch länger machen.%
+}%
+%
+\only<-37>{%
+\item<34-> Wenn die Koordinaten OK sind, dann setzen wir \pythonil{self.x: Final[int | float] = x} und \pythonil{self.y: Final[int | float] = y}.%
+}%
+%
+\only<-47>{%
+\item<35-> Diese Zeilen erstellen die Attribute \pythonil{self.x} und \pythonil{self.y} für das Objekt, das über den Parameter \pythonil{self} hereingegeben wurde.%
+}%
+%
+\only<-48>{%
+\item<36-> Der \glslink{typeHint}{Type Hint} \pythonilIdx{Final} aus dem Modul \pythonilIdx{typing} annotiert eine Variable oder ein Attribut als unveränderlich\cite{PEP591}.%
+}%
+%
+\only<-49>{%
+\item<37-> Wir erlauben also nicht, dass die Koordinaten eines \pythonils{Point} nachträglich verändert werden können.%
+}%
+%
+\only<46->{%
+%
+\only<-50>{%
+\item<46-> Nach dem wir unseren Initialisierer geschrieben haben, können wir nun so etwas wie  \pythonil{p = Point(1, 2)} machen.%
+}%
+%
+\only<-51>{%
+\item<47-> So wird ein neues Objekt als Instanz unserer Klasse \pythonil{Point} erstellt.%
+}%
+%
+\only<-52>{%
+\item<48-> Dafür wird zuerst der Speicher für das Objekt~\pythonil{p} reserviert.%
+}%
+%
+\only<-53>{%
+\item<49-> Dann wird der Initialisierer als \pythonil{\_\_init\_\_(p, 1, 2)} aufgerufen.%
+}%
+%
+\only<-54>{%
+\item<50-> Nach dem der Initialisierer fertig ist, wird das Objekt in der Variable gespeichert und \pythonil{p} zeigt nun auf das neue \pythonil{Point}-Objekt.%
+}%
+%
+\only<-55>{%
+\item<51-> Das Attribut \pythonil{p.x} hat nun den Wert \pythonil{1} und \pythonil{p.y} hat den Wert~\pythonil{2}.%
+}%
+%
+\only<-56>{%
+\item<52-> Von dem Wissen, dass \pythonil{p} eine Instanz von \pythonil{Point} ist, können wir sofort schlussfolgern, dass \pythonil{p.x} und \pythonil{p.y} seine x-\ und y\nobreakdashes-Koordinaten sind.%
+}%
+%
+\only<-57>{%
+\item<53-> Es ist fast unmöglich, die Bedeutung dieser Variablen misszuverstehen.%
+}%
+%
+\only<-57>{%
+\item<54-> Natürlich helfen unsere \glslink{docstring}{Docstrings} mit \glslink{doctest}{Doctest} und unsere \glslink{typeHint}{Type Hints} dem Benutzer zusätzlich dabei, die Bedeutung zu verstehen.%
+}%
+%
+\only<-59>{%
+\item<55-> Das wir nun eine Klasse für die Punkte der zweidimensionalen Ebene haben ist schon sehr schön.%
+}%
+%
+\only<-60>{%
+\item<56-> Aber diese Klasse erlaubt es uns auch, Operationen auf Punkten durch Methoden zu definieren.%
+}%
+%
+\only<-60>{%
+\item<57-> Als Beispiel implementieren wir die Methode \pythonil{distance}, die den Abstand zwischen zwei Punkten berechnet.%
+}%
+%
+\only<-61>{%
+\item<58-> Sie würden einen Punkt~\pythonil{p1} haben und könnten dann \pythonil{p1.distance(p2)} aufrufen, um den Abstand zu einem anderen Punkt \pythonil{p2} zu berechnen.%
+}%
+%
+\only<-63>{%
+\item<59-> Die Gleichung dafür kennen wir ja schon aus der letzten Einheit.%
+}%
+%
+\only<-63>{%
+\item<60-> Wir importieren dafür die Funktion \pythonilIdx{sqrt} aus dem Modul \pythonilIdx{math}.%
+}%
+%
+\only<-64>{%
+\item<61-> Unsere Methode \pythonil{distance} hat dann zwei Parameter, nämlich \pythonilIdx{self}, welche das Objekt, dessen Methode wir aufrufen, repräsentiert~(\pythonil{p1} im vorigen Beispiel) und~\pythonil{p}, das andere Punkt-Objekt~(oder \pythonil{p2} oben).%
+}%
+%
+\only<-65>{%
+\item<62-> Sie berechnet dann die Euklidische Distanz als \pythonil{sqrt((self.x - p.x) ** 2} \pythonil{+ (self.y - p.y) ** 2)}.%
+}%
+%
+\only<-66>{%
+\item<63-> In der Methode eines Objekts steht \pythonilIdx{self} immer für das Objekt selbst.%
+}%
+%
+\only<-67>{%
+\item<64-> Deshalb ist \pythonil{self.x} die x\nobreakdashes-Koordinate des aktuellen Objekts und \pythonil{self.y} ist seine y\nobreakdashes-Koordinate.%
+}%
+%
+\only<-68>{%
+\item<65-> \pythonil{p.x} ist die x\nobreakdashes-Koordinate des Punktes~\pythonil{p}, der als Argument hereingegeben wurde, und \pythonil{p.y} ist seine y\nobreakdashes-Koordinate.%
+}%
+%
+\only<-69>{%
+\item<66-> Beachten Sie, dass der \glslink{docstring}{Docstring} nicht nur beschreibt, wie die Methode verwendet wird, sondern auch einen einfachen \glslink{doctest}{Doctest} durchführt.%
+}%
+%
+\only<-70>{%
+\item<67-> Wenn Sie \pythonil{Point(1, 1).).} \pythonil{distance(Point(4, 4))}, dann erwarten Sie als Ergebnis so etwas wie~4.243\dots%
+}%
+%
+\only<-71>{%
+\item<68-> In diesem \glslink{doctest}{Doctest} -- \pythonil{Point(1, 1).} \pythonil{distance(Point(4, 4))} übergeben wir nur einen einzelnen Parameter an die Methode \pythonil{distance}.%
+}%
+%
+\only<-72>{%
+\item<69-> Wenn wir die Methode \pythonil{distance} aufrufen, dann brauchen wir keinen Wert für Parameter \pythonilIdx{self} direkt anzugeben.%
+}%
+%
+\only<-73>{%
+\item<70-> Er wird indirekt angegeben\only<-70>{.}\uncover<71->{:}%
+}%
+%
+\only<-74>{%
+\item<71-> Wenn wir zwei Punkte \pythonil{p1} und \pythonil{p2} haben und\pythonil{p1.distance(p2)} aufrufen, dann wird automatisch \pythonil{self = p1} gesetzt.%
+}%
+%
+\only<-75>{%
+\item<72-> Obwohl wir unsere Methode als \pythonil{def distance(self,} \pythonil{p: \"Point\") -> float} deklariert haben, was so aussieht, als ob wir zwei Parameter angeben müssten (\pythonilIdx{self} und~\pythonil{p}), brauchen wir nur einen Wert anzugeben, nämlich für~\pythonil{p}.%
+}%
+%
+\only<-76>{%
+\item<73-> Wenn wir das lesen sehen wir, dass der Parameter~\pythonil{p} mit einem sehr eigenartigen \glslink{typeHint}{Type Hint} annotiert ist\only<-73>{.}\uncover<74->{:}%
+}%
+%
+\only<-77>{%
+\item<74-> Wir würden erwarten, dass er mit \pythonil{Point} annotiert wird.%
+}%
+%
+\only<-78>{%
+\item<75-> Stattdessen ist er mit dem String \pythonil{\"Point\"} annotiert.%
+}%
+%
+\only<-78>{%
+\item<76-> Das hat den einfachen Grund dass die ganze Klasse \pythonil{Point} erst \emph{nach} ihrer Definition definiert ist, also nach dem ganzen Klassenkörper.%
+}%
+%
+\only<-78>{%
+\item<77-> Deshalb ist \pythonil{Point} noch nicht als Typ \emph{in} der Klassendefinition verfügbar.%
+}%
+%
+\item<78-> Den String~\pythonil{\"Point\"} hier zu verwenden ist also nur behelfsmäßig und hat keinen weiteren Effekt.%
+%
+\only<82->{%
+%
+\item<82-> Wir könnten nun weitere Methoden erstellen, die vernünftige Berechnungen mit \pythonils{Point} durchführen.%
+%
+\item<83-> Aber als erstes Beispiel reicht das eigentlich erstmal.%
+%
+%
+}}}}%
+\end{itemize}%
+}%
+%
+%
+\only<5-7>{%
+\uncover<5-7>{%
+\bestPractice{classDocString}{%
+An den Anfang der Klasse kommit immer ein \glslink{docstring}{Docstring}, der beschreibt, wozu die Klasse gedacht ist.\uncover<6->{ %
+Dieser \glslink{docstring}{Docstring} can include \glslink{doctest}{Doctests} um die Benutzung der Klasse zu verdeutlichen.\uncover<7->{ %
+Solche Tests können aber auch in den Docstring des Moduls gepackt werden.%
+}}}%
+}}%
+%
+\only<26-27>{%
+\uncover<26-27>{%
+\bestPractice{attributes}{%
+Objektattribute dürfen nur im Initialisierer \dunder{init} erstellt werden.\uncover<27->{ %
+Ein initialer Wert muss dort jedem Attribut sofort zugewiesen werden.%
+}}%
+}}%
+%
+\only<38-39>{%
+\uncover<38-39>{
+\bestPractice{attributeTypeHint}{%
+Jedes Attribute eines Objekts muss mit einem \glslink{typeHint}{Type Hint} annotiert werden, wenn es im Initialisierer \dunder{init} erstellt wird\cite{LM2024WTMD}.\uncover<39->{ %
+Dabei funktionieren Type Hints genau wir bei normalen Variablen.}}%
+}%
+}%
+%
+\only<40-43>{%
+\uncover<40-43>{%
+\bestPractice{attributeFinal}{%
+Der \glslink{typeHint}{Type Hint} \pythonilIdx{Final}\pythonIdx{typing!Final} markiert eine Variable oder ein Attribut als unveränderlich.\uncover<41->{ %
+Alle Attribute, die Sie nach der Erstellung nicht mehr verändern wollen, sollten mit \pythonilIdx{Final}\pythonIdx{typing!Final} annotiert werden.\uncover<42->{ %
+Dabei ist das natürlich nur ein \glslink{typeHint}{Type Hint}, wird also nicht vom Interpreter durchgesetzt\cite{PEP591} und bösartiger Kode kann die Attribute immer noch verändern.\uncover<43->{ %
+Ein Type Checker wie \mypy\ kann aber solche falschen Veränderungen erkennen und Warnungen ausgeben.%
+}}}}%
+}}%
+%
+\only<44-45>{%
+\uncover<44-45>{%
+\bestPractice{attributeDocstring}{%
+Ein Attribute wird mit einer Zeile \emph{über} seiner Initialisierung dokumentiert, und zwar mit einem \emph{Kommentar} das mit \pythonilIdx{\#: } anfängt und die Bedeutung des Attributs erklärt\cite{SD2024SIDFD:DCAD}.\uncover<45->{ %
+Manchmal wird die Dokumentation auch als String direkt unter dem Attribut angegeben\cite{PEP287}, aber wir bleiben bei der obigen Methode, weil sie auch von Werkzeugen wie \DEzB\ \sphinx\ unterstützt wird.%
+}}%
+}}%
+%
+%
+\only<79-81>{%
+\uncover<79-81>{%
+\bestPractice{methodDocstring}{%
+Alle Methoden einer Klasse müssen mit \glslink{docstring}{Docstrings} und \glslink{typeHint}{Type Hints} annotiert werden.%
+}
+\uncover<80->{%
+\bestPractice{ownClassTypeHint}{%
+Wenn wir eine Klasse~\pythonil{C} als \glslink{typeHint}{Type Hint} \emph{in} ihrer eigenen Definition bzw.\ ihrem eigenen Körper verwenden wollen, dann müssen wir \pythonil{\"C\"} anstatt von \pythonil{C} schreiben.\uncover<81->{ %
+Andernfalls werden der \python-Interpreter und Werkzeuge zur statischen Kode-Analyse verwirrt.%
+}%
+}%
+}}}%
+%
+}}%
+%
+\gitLoadPython{classes:point}{}{classes/point.py}{}%
+\listingPython{}{classes:point}{0.48}{0.01}{0.54}{0.99}%
+%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Beispiel: Punkt-Klasse verwenden}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Verwenden wir nun unsere neue Klasse \pythonil{Point} im Programm \programUrl{classes:point_user}.%
+}%
+%
+\only<-6>{%
+\item<2-> Zuerst müssen wir unsere Klasse \pythonil{Point} importieren.%
+}%
+%
+\only<-7>{%
+\item<3-> Die Klasse \pythonil{Point} ist in Datei \programUrl{classes:point} definiert.%
+}%
+%
+\only<-8>{%
+\item<4-> Der Dateiname ohne das \textil{.py} ist der Modulename, also \pythonil{point}, von wo wir die Klasse importieren können.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir schreiben also \pythonil{from point import Point}.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir erzeugen nun eine Instanz von \pythonil{Point} und speichern sie in der Variable~\pythonil{p1}.%
+}%
+%
+\only<-11>{%
+\item<7-> \pythonil{p1} soll also eine Instanz von \pythonil{Point} referenzieren, weshalb wir es mit einem entsprechenden \glslink{typeHint}{Type Hint} annotieren.%
+}%
+%
+\only<-12>{%
+\item<8-> Hier können wir \pythonil{Point} genau wie jeden anderen Datentyp verwenden.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir schreiben \pythonil{p1: Point = Point(3, 5)}.%
+}%
+%
+\only<-14>{%
+\item<10-> Der Initialisierer \dunder{init} automatisch aufgerufen, wenn wir \pythonil{Point(3, 5)} ausführen.%
+}%
+%
+\only<-15>{%
+\item<11-> Die beiden Argumente, die wir hereingeben, werden die Werte für dessen Parameters~\pythonil{x} und~\pythonil{y}.%
+}%
+%
+\only<-16>{%
+\item<12-> Der erste Parameter von \dunder{init} -- \pythonil{self} -- ist dann die neu angelegte und unintialisierte Instanz von \pythonil{Point}.%
+}%
+%
+\only<-17>{%
+\item<13-> Nachdem \dunder{init} fertig ist, wird die neue Instanz von \pythonil{Point}, die wir bekommen, ihr Attribut~\pythonil{x} auf \pythonil{3} und ihr Attribut~\pythonil{y} auf~\pythonil{5} gesetzt haben.%
+}%
+%
+\only<-18>{%
+\item<14-> Wir können auf diese über~\pythonil{p1.x} und~\pythonil{p1.y} zugreifen.%
+}%
+%
+\only<-19>{%
+\item<15-> Natürlich können wir diese auch in \glslink{fstring}{f-Strings} verwenden.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir sehen das \pythonil{f\"\{p1.x = \}, \{p1.y = \}\"} zu \pythonil{\"p1.x = 3, p1.y = 5\"} \glslink{strinterpolation}{interpoliert} wird.%
+}%
+%
+\only<-21>{%
+\item<17-> Der Typ von \pythonil{p1} ist \pythonil{Point}.%
+}%
+%
+\only<-22>{%
+\item<18-> Die Klasse \pythonil{Point} ist in Datei \programUrl{classes:point} definiert.%
+}%
+%
+\only<-23>{%
+\item<19-> Der Dateiname wird als Module~\pythonil{point} interpretier.%
+}%
+%
+\only<-24>{%
+\item<20-> Daher ist der volle Name des Datentyps \pythonil{point.Point}.%
+}%
+%
+\only<-25>{%
+\item<21-> Und er ist eine \pythonilIdx{class}.%
+}%
+%
+\only<-26>{%
+\item<22-> Wenn wir \pythonil{type(p1)} ausgeben, bekommen wir daher \textil{<class \'point.Point\'>}.%
+}%
+%
+\only<-27>{%
+\item<23-> Wir können prüfen, ob ein Object~\pythonil{o} eine Instanz unserer Klasse \pythonil{Point} ist, in dem wir schreiben \pythonil{isinstance(o, Point)}.%
+}%
+%
+\only<-28>{%
+\item<24-> Für \pythonil{p1} liefert das natürlich \pythonil{True}, wie man erwarten würde.%
+}%
+%
+\only<-29>{%
+\item<25-> Als test prüfen wir \pythonil{isinstance(5, Point)}, was aus offensichtlichen Gründen \pythonil{False} ergibt.%
+}%
+%
+\only<-30>{%
+\item<26-> \pythonil{isinstance(p1, int)} ist natürlich auch \pythonil{False}.%
+}%
+%
+\only<-31>{%
+\item<27-> Jetzt erstellen wir eine zweite Instanz~(\pythonil{p2}) der Klasse \pythonil{Point}.%
+}%
+%
+\only<-32>{%
+\item<28-> Diesmal übergeben wir die Argumente via die Parameternamen, schreiben also \pythonil{x=8} und \pythonil{y=7}.%
+}%
+%
+\only<-33>{%
+\item<29-> Diese Argumente werden dann wieder an \dunder{init} weitergereicht.%
+}%
+%
+\only<-34>{%
+\item<30-> Das speichert \pythonil{7} in \pythonil{p2.x} und \pythonil{8} in \pythonil{p2.y}.%
+}%
+%
+\only<-35>{%
+\item<31-> Wir können diese Attributwerte wieder mit einem \glslink{fstring}{f-String} ausgeben.%
+}%
+%
+\only<-36>{%
+\item<32-> Der Typ von \pythonil{p2} ist wieder die \pythonilIdx{class} \pythonil{point.Point}.%
+}%
+%
+\only<-37>{%
+\item<33-> Unsere Objekte können auch mit dem \pythonilIdx{is}-Operator verwendet werden, welcher auf Objekt-Identität prüft.%
+}%
+%
+\only<-38>{%
+\item<34-> \pythonil{p1}~ist natürlich das selbe Objekt wie es selbst, also ergibt \pythonil{p1 is p1} dann \pythonil{True}.%
+}%
+%
+\only<-39>{%
+\item<35-> Obwohl sie Instanzen der gleichen Klasse sind, sind \pythonil{p1} und \pythonil{p2} natürlich verschiedene Objekte.%
+}%
+%
+\only<-40>{%
+\item<36-> Deshalb ist \pythonil{p1 is p2} auch \pythonil{False}.%
+}%
+%
+\only<-41>{%
+\item<37-> Wir können nun auch unsere Methode \pythonil{distance} benutzen.%
+}%
+%
+\only<-42>{%
+\item<38-> \pythonil{p1.distance(p2)}, also der Abstand von~\pythonil{p1} zu~\pythonil{p2}, ist natürlich gleich \pythonil{p2.distance(p1)}, also dem Abstand von~\pythonil{p2} zu~\pythonil{p1}.%
+}%
+%
+\only<-43>{%
+\item<39-> Beide sind 5, weil~$\sqrt{(7 - 3)^2 + (8 - 5)^2}=\sqrt{4^2 + 3^2}=\sqrt{25}=5$.%
+}%
+%
+\only<-44>{%
+\item<40-> \pythonil{Point} kann wirklich wie jeder andere Datentyp verwendet werden.%
+}%
+%
+\only<-45>{%
+\item<41-> Wir können \DEzB\ Listen von Instanzen von \pythonils{Point} habe.%
+}%
+%
+\only<-46>{%
+\item<42-> Der richtige \glslink{typeHint}{Type Hint} für so eine Liste ist dann \pythonil{list[Point]}.%
+}%
+%
+\only<-47>{%
+\item<43-> Wir können so eine Liste auch mit List Comprehension erstellen, die wir in Einheit~\unitListComprehension\ kennengelernt haben.%
+}%
+%
+\only<-48>{%
+\item<44-> Wir können die Liste dann mit einem Generator-Ausdruck von Einheit~\unitGeneratorExpressions, der die Punkte in Strings umwandelt, verarbeiten.%
+}%
+%
+\only<-49>{%
+\item<45-> Der Ausdruck interpoliert den \glslink{fstring}{f-String} \pythonil{f\"(\{p.x\}, \{p.y\})\"} für jeden \pythonil{Point} \pythonil{p} in unserer Liste \pythonil{point_list}.%
+}%
+%
+\only<-50>{%
+\item<46-> Eine Sequenz von Strings der Form\textil{\"(x, y)\"} wird erstellt.%
+}%
+%
+\only<-51>{%
+\item<47-> Diese wird dann zusammengefasst von der Methode \pythonilIdx{join} des Strings~\pythonil{\", \"}~(siehe Einheit~\unitForLoops).%
+}%
+%
+\only<-52>{%
+\item<48-> Das Ergebnis sehen wir rechts unten.%
+}%
+%
+\item<49-> \pythonil{Point} ist ein Datentyp wie jeder anderer Datentyp.%
+%
+\item<50-> Genaugenommen ist es der allererste Datentyp in \python\ den wir selbst erstellt haben.%
+%
+\item<51-> Das ist schon ziemlich cool, wenn man darüber nachdenkt.%
+%
+\item<52-> Die Programmiersprache hate Datentypen wie \pythonil{str} oder \pythonil{list}.%
+%
+\item<53-> Nun können wir die Programmiersprache um unsere eigenen Datentypen erweitern.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{classes:point_user}{}{classes}{point_user.py}{}%
+\listingPythonAndOutput{}{classes:point_user}{}{0.48}{0.01}{0.54}{0.99}%%
+\end{frame}%
+%
+\section{Veränderbar vs.\ Unveränderbar}%
+%
+\begin{frame}%
+\frametitle{\texttt{Final} macht unveränderbar?}%
+%
+\begin{itemize}%
+\item Die Objekte unserer Klasse \pythonil{Point} sind \emph{unveränderbar}.%
+%
+\item<2-> Nachdem sie erstellt wurden, können ihre Attribute nicht mehr verändert werden\only<-2>{.}\uncover<3->{, zumindest nicht, ohne gegen die Regeln der Sprache zu verstoßen.}%
+%
+\item<4-> Das, was verhindern soll, dass sie verändert werden, ist der \glslink{typeHint}{Type Hint} \pythonil{Final}.%
+%
+\item<5-> Wie schon gesagt, \glslink{typeHint}{Type Hints} sind nur Hinweise und werden vom Interpreter nicht durchgesetzt\cite{PEP591}.%
+%
+\item<6-> Die Attribute \pythonil{x} und \pythonil{y} von Instanzen der Klasse \pythonil{Point} können also doch geändert werden.%
+%
+\item<7-> Werkzeuge wie \mypy\ und sogar \pycharm\ erkennen solche Fehler aber\cite{PEP591}.%
+%
+\end{itemize}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel für Verstoß gegen \texttt{Final}}%
+\parbox{0.4\paperwidth}{\small{%
+%
+\begin{itemize}%
+\only<-5>{%
+\item Wir probieren ja immer alles aus. Im Program \programUrl{classes:point_user_wrong} probiert das also auch mal aus.%
+}%
+%
+\only<-6>{%
+\item<2-> Nachdem wir das \pythonil{Point}-Object~\pythonil{p1} genau wie im vorigen Beispiel erstellt haben, setzen wir \pythonil{p1.x = 5}.%
+}%
+%
+\only<-7>{%
+\item<3-> Der \pythonilIdx{Final} \glslink{typeHint}{Type Hint} sagt uns explizit, das wir das nicht machen sollen.%
+}%
+%
+\only<-8>{%
+\item<4-> Wie die Ausgabe des Programms zeigt, können wir das aber trotzdem machen.%
+}%
+%
+\item<5-> Das das keine gute Idee ist, sehen wir schon, wenn wir das Programm in \pycharm\ öffnen.%
+%
+\item<6-> \pycharm\ hebt die fehlerhafte Zeile mit einer gelben Markierung hervor.%
+%
+\item<7-> Halten wir die Maus über die Markierung, dann ploppt eine sehr verständliche Fehlermeldung auf.%
+%
+\item<8-> \mypy\ gibt uns eine ganz ähnliche Warnung.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{classes:point_user_wrong}{}{classes}{point_user_wrong.py}{}%
+\gitExec{exec:classes:point_user_wrong:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh classes point_user_wrong.py}%
+%
+\listingPythonAndOutput{}{classes:point_user_wrong}{}{0.48}{0.05}{0.54}{0.89}%%
+\locateGraphicTB{5-}{width=0.5465\paperwidth}{graphics/finalViolatedPycharm}{0.45}{0.3}%
+\listingOutput{8-}{classes:point_user_wrong:mypy}{style=tool_style}{0.48}{0.8}{0.55}{0.42}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Warum eigentlich unveränderbar?}%
+%
+\only<-9>{%
+\begin{itemize}%
+%
+\only<-6>{%
+\item Die Attribute \pythonil{x} und \pythonil{y} werden von \dunder{init} initialisiert.%
+}%
+%
+\only<-7>{%
+\item<2-> Dort werden sie mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final} markiert und sie zu ändern ist daher ein Fehler.%
+}%
+%
+\only<-8>{%
+\item<3-> Why did we learn this right now?%
+}%
+%
+\item<4-> Weil es in vielen Fällen eine gute Idee ist, Objekte unveränderlich zu machen.%
+%
+\end{itemize}%
+}%
+%
+\only<-10>{%
+\uncover<5->{%
+\cquotation{B2008EJ}{%
+Classes should be immutable unless there's a very good reason to make them mutable{\dots}.
+If a class cannot be made immutable, limit its mutability as much as possible.%
+}}}%
+%
+\uncover<6->{%
+\begin{definition*}[Unveränderlich~(Immutable)]%
+Nach der Initialisierung können die Attribue eines \emph{unveränderlichen} Objekts nicht mehr verändert werden.%
+\end{definition*}}%%
+%
+\uncover<7->{%
+\begin{itemize}%
+%
+\item Klassen zu erstellen, deren Instanzen unveränderlich sind, hat viele Vorteile\only<-7>{.}\uncover<8->{, \DEzB:%
+\begin{enumerate}%
+\item Der Kode wird leichter zu verstehen, weil wir nicht darüber nach denken müssen, ob, wann, und wie ein Objekt verändert wird~(weil es nicht verändert werden kann).%
+%
+\item<9-> Die Schlüssel in Mengen und Dictionaries müssen unveränderliche Objekte sein, weil diese Kollektionen die Objekte basierend auf ihren Hash Codes speichern, welche wiederung aus den Attributen berechnet werden.\uncover<10->{ %
+Wenn die Attribute sich ändern, dann ändern sich die Hash Codes, dann können die Objekte nicht mehr gefunden werden.}%
+%
+\item<11-> Unveränderliche Objekte sind besonders nützlich bei paralleler Programmierung, wo veränderliche Variablen zu komplexen Bugs und Race Conditions führen kann.%
+\end{enumerate}}%
+%
+\end{itemize}}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\only<-11>{%
+\item In dem wir Klassen definieren können wir unsere eigenen Datenstrukturen erstellen.%
+}%
+\only<-12>{%
+\item<2-> Wir können Klassen genau wie alle anderen Datenstrukturen verwenden.%
+}%
+\only<-13>{%
+\item<3-> Klassen haben ihre eigenen Variablen, die Attribute genannt werden.%
+}%
+%
+\item<4-> Klassen können auch dazugehörige Funktionen haben, die Methoden genannt werden.%
+%
+\item<5-> Methoden können auf die Attribute zugreifen, um Dinge zu berechnen.
+%
+\item<6-> Jede Klasse kann beliebig viele Methoden und Attribute haben.%
+%
+\item<7-> Der Initialisierer \dunder{init} ist eine spezielle Methode.%
+%
+\item<8-> Er wird aufgerufen, wann immer eine neue Instanz der Klasse erzeugt wird.%
+%
+\item<9-> Er erstellt alle Attribute einer Instanz und weist ihnen ihren ersten Wert zu.%
+%
+\item<10-> Natürlich verwenden wir \glslink{typeHint}{Type Hints}, \glslink{docstring}{Docstrings}, und \glslink{doctest}{Doctests} auch mit Klassen.%
+%
+\item<11-> Wir können \DEzB\ mit dem \glslink{typeHint}{Type Hint} ein Attribut als unveränderlich markieren.%
+%
+\item<12-> Leider setzt \python\ das dann nicht streng durch, man kann das Attribute also trotzdem ändern.%
+%
+\item<13-> Das aber ist eine Sünde, die Werkzeuge wie \mypy\ oder \glslink{ide}{IDEs} wie \pycharm\ melden.%
+%
+\item<14-> Trotzdem ist es eine gute Idee, Attribute mit \pythonil{Final} zu markieren, da man durch unveränderliche Attribute viele mögliche Probleme vermeiden kann.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
