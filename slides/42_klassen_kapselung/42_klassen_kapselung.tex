@@ -1,0 +1,1041 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{42.~Klassen:~Kapselung}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\only<-10>{%
+\item Oftmals wollen wir, dass unsere Objekte unveränderlich sind.%
+}%
+%
+\only<-11>{%
+\item<2-> Das geht natürlich nicht immer.%
+}%
+%
+\item<3-> Es gibt auch viele Situationen, wo wir wollen, dass sich die Attribute eines Objekts ändern.%
+%
+\item<4-> Die Frage ist dann \emph{Wie sollte man den Zustand eines Objekts ändern?}%
+%
+\item<5-> Die große Mehrheit unsere Klassen werden mehr als ein Attribut haben.%
+%
+\item<6-> Alle Attribute eines Objekts zusammen formen den Zustand des Objekts und bilden eine semantische Einheit.%
+%
+\item<7-> Wenn ein Objekt mehrere Attribute hat, dann stehen diese Attribute wahrscheinlich miteinander in einer Beziehung und ihre Werte hängen irgendwie zusammen.%
+%
+\item<8-> Wir wollen dann nicht, dass irgendjemand diese Werte beliebig veränden kann.%
+%
+\item<9-> Oftmals wollen wir veränderliche Objekte so entwickeln, dass auf die Werte ihrer veränderlichen Attribute nur über Method zugegriffen werden kann.%
+%
+\item<10-> Die Methoden und Attribute einer Klasse formen ja auch eine semantische Einheit.%
+%
+\item<11-> Die Methoden werden von den selben Programmierern geschrieben, die die Attribute designed haben.%
+%
+\item<12-> Diese Programmierer wissen genau, wie die Attribute in einer vernünftigen und konsistenten Art verändert werden können.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiel}%
+%
+\begin{frame}[t]%
+\frametitle{Einleitung zum Beispiel}%
+\begin{itemize}%
+%
+\item Wir schauen uns nun ein Szenario an.%
+%
+\item<2-> Wir haben eine Klasse deren Attribute eng zusammenhängen, so dass es gar keinen Sinn ergeben würde, zu erlauben, dass ein Benutzer sie selbst verändern könnte.%
+%
+\item<3-> Stattdessen implementieren wir Methoden die die Attribute auf eine konsistente Art ändern und Information vom Objekte abrufen können.%
+%
+\item<5-> Natürlich nehmen wir als Beispiel wieder einen mathematischen Algorithmus.%
+%
+\item<6-> Wir haben ja schon einige interessante mathematische Algorithmen implementiert\only<-6>{.}\uncover<7->{\DEzB:%
+\begin{enumerate}%
+\item die Methode von LIU Hui~(刘徽) zum annähern von~\numberPi\ in Einheit~\unitLiuHui\only<-7>{.}\uncover<8->{,}%
+\item<8-> Heron's Methode zum annähern der Quadratwurzel in Einheit~\unitSqrtHeron\only<-8>{.}\uncover<9->{ und}%
+\item<9-> Euclids Algorithmus zum berechnen des größten gemeinsamen Teilers in Einheit~\unitEuclid.%
+\end{enumerate}%
+}%
+%
+\item<10-> Diese Algorithmen kennen Sie wahrscheinlich aus der Schule.%
+%
+\item<11-> Implementieren wir nun einen Algorithmus, von dem Sie wahrscheinlich noch \emph{nie} gehört haben.%
+%
+\item<12-> Eine praktische Methode, um die Beschränkungen des Datentyps \pythonil{float} zu umgehen, die wir vor langer Zeit in Einheit~\unitFloat\ diskutiert haben.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Grenzen des Datentyps \texttt{float}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir wissen, dass der Datentyp \pythonilIdx{float} Zahlen auf 15 bis 16 Ziffern genau darstellen kann.%
+}%
+%
+\only<-6>{%
+\item<2-> Wenn wir \pythonil{1} zu $10^{15}=\pythonil{1e15}$ addieren, dann ist das korrekte Ergebnis \pythonil{1000000000000001.0}.%
+}%
+%
+\only<-7>{%
+\item<3-> Wie Sie selbst zählen können, finden wir 16 Ziffern vor dem Dezimalpunkt, zwei \pythonil{1}en und 14~\pythonil{0}en.%
+}%
+%
+\only<-8>{%
+\item<4-> Daher würde die Addition von \pythonil{1} zu $10^{16}=\pythonil{1e16}$ 17 Ziffern erfordern.%
+}%
+%
+\only<-9>{%
+\item<5-> Es überschreitet die Kapazität des Datentyps \pythonils{float}.%
+}%
+%
+\only<-10>{%
+\item<6-> Daher geht die niedrigstwertige Ziffer \inQuotes{verloren}.%
+}%
+%
+\only<-11>{%
+\item<7-> Das Ergebnis von \pythonil{1e16 + 1}, berechnet mit \pythonils{float}, ist immer noch \pythonil{1e16}.%
+}%
+%
+\only<-12>{%
+\item<8-> Es ist nicht möglich, die Zahl $1+10^{16}$ exakt mit den 64~Bit Double Precision Floating Point Numbers\cite{PSF:P3D:TPT:FPAIAL,IEEE2019ISFFPA,H1997IS7FPN} die \python\ bietet, darzustellen.%
+}%
+%
+\only<-13>{%
+\item<9-> Normalerweise ist das auch OK.%
+}%
+%
+\only<-14>{%
+\item<10-> Es gibt sehr wenige Anwendungen, bei denen wir wirklich mehr als 15 Ziffern Genauigkeit brauchen.%
+}%
+%
+\only<-15>{%
+\item<11-> Machen wir mit dem Beispiel weiter.%
+}%
+%
+\only<-16>{%
+\item<12-> Was passiert, wenn wir $10^{18}+1$ berechnen, und dann $10^{18}$ von der Summe abziehen?%
+}%
+%
+\only<-17>{%
+\item<13-> Offensichtlich, in einer idealen Welt, wäre das Ergbenis~\pythonil{1.0}.%
+}%
+%
+\only<-17>{%
+\item<14-> Nun wäre \pythonil{1e16 + 1} ja \pythonil{10_000_000_000_000_001.0}, was \alert{nicht} in einen \pythonil{float} passt.%
+}%
+%
+\only<-19>{%
+\item<15-> \pythonil{1.0}~ist aber eine Zahl, die wir sehr wohl genau als \pythonilIdx{float} darstellen können.%
+}%
+%
+\only<-20>{%
+\item<16-> Das wirkliche Ergebnis der Berechnung in \python\ ist jedoch~\pythonil{0.0}.%
+}%
+%
+\only<-21>{%
+\item<17-> Der Grund ist, dass das Zwischenergebnis \pythonil{1e18 + 1 == 1e18} und dann \pythonil{1e18 - 1e18 == 0} erfolgt.%
+}%
+%
+\only<-22>{%
+\item<18-> Ähnliches passiert, wenn wir \pythonil{1e18 + 1 + 1e36 - 1e36 - 1e18} berechnen, was dann \pythonil{-1e18} ergibt, wohingegen das \inQuotes{korrekte} Ergebnis wieder \pythonil{1.0} wäre.%
+}%
+%
+\only<-23>{%
+\item<19-> Der Grund ist dass zuerst \pythonil{1e18 + 1 == 1e18} berechnet wird.%
+}%
+%
+\only<-23>{%
+\item<20-> Danach ergibt \pythonil{1e18 + 1e36} dann \pythonil{1e36}, wovon wir wiederung \pythonil{1e36} abziehen und \pythonil{0.0} bekommen.%
+}%
+%
+\only<-24>{%
+\item<21-> Die letzte Subtraktion von \pythonil{1e18} liefert dann \pythonil{1e-18}.%
+}%
+%
+\only<-25>{%
+\item<22-> Hätten wir unendliche Genauigkeit, dann würde der erste Rechenschritt $10^{18}+1=1\decSep000\decSep000$ $000\decSep000\decSep000\decSep001$ ergeben.%
+}%
+%
+\only<-26>{%
+\item<23-> Wenn wir \pythonil{1e36} zu dieser Zahl addieren, dann sollte das Ergebnis $1000\decSep000\decSep000$ $000\decSep000\decSep001$ $000\decSep000\decSep000\decSep000$ $000\decSep001$ sein.%
+}%
+%
+\only<-26>{%
+\item<24-> Das Abziehen von \pythonil{1e36} von dieser gigantischen Zahl würde uns wieder zu $10^{18}+1$ bringen und die letzte Subtraktion von \pythonil{1e18} ergäbe dann \pythonil{1.0}.%
+}%
+%
+\only<-27>{%
+\item<25-> Es ist leicht zu sehen, warum das nicht funktioniert.%
+}%
+%
+\only<-28>{%
+\item<26-> Die Entwickler der Fließkommaarithmetikeinheit von CPUs mussten eine bestimmte, begrenzte Anzahl von Bits für den Datentyp \pythonil{float} festlegen.%
+}%
+%
+\only<-30>{%
+\item<27-> Sie haben sich überlegt, dass 52~Bits für den \glslink{significand}{Signifikand}, die uns $52/\log_2 10\approx 15.7$~Ziffern geben, vernünftig sind und auch gut in acht Bytes Speicher passen.%
+}%
+%
+\only<-32>{%
+\item<28-> Dagegen benötigen 36~Ziffern einen \glslink{significand}{Signifikand} von $36\log_2 10\approx 120$~Bits, was den Datentyp viel größer macht und wahrscheinlich auch nur sehr selten benötigt werden würde.%
+}%
+%
+\only<-33>{%
+\item<29-> Naja, es sei denn, man addiert große und kleine Zahlen zusammen\dots%
+}%
+%
+\only<-34>{%
+\item<30-> Die interessante Frage, die wir basierend auf dem Beispiel stellen können ist\only<-30>{\dots}\uncover<31->{:}%
+}%
+%
+\only<-35>{%
+\item<31-> \emph{Gibt es eine Möglichkeit, große und kleine Zahlen genauer zu addieren?}%
+}%
+%
+\item<32-> Natürlich können wir \pythonil{1e16 + 1} niemlals genau mit einem \pythonil{float} repräsentieren.%
+%
+\item<33-> Trotzdem wollen wir das Endergebnis eine Summe doch so genau wie möglich darstellen.%
+%
+\item<34-> Wir wollen eine Möglichkeit, die Summe \pythonil{(1e18 + 1) + -1e18} so zu berechnen, dass am Ende \pythonil{1.0} herauskommt.%
+%
+\item<35-> Geht das?%
+\end{itemize}%
+}}%
+%
+\gitEvalPython{classes:adding_floats_error}{}{classes/adding_floats_error.py}%
+\listingOutput{}{classes:adding_floats_error}{style=python_console_style}{0.45}{0.18}{0.54}{0.92}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Kahan-Summe: Sinn und Zweck}%
+\begin{itemize}%
+%
+\item Zum Glück hatten \citeauthor{K1965PFRORTE}\cite{K1965PFRORTE} und \citeauthor{B1968NSIMA}\cite{B1968NSIMA} in den 1960ern eine Idee, wie man die Präzision für Addition erhöhen kann\cite{G1991WECSSKAFPA,L2020RWECSSKAFPA}\only<-1>{.}\uncover<2->{:}%
+%
+\item<2-> Wir addieren Zahlen in einer Variable \pythonil{sum} und verwenden zusätzlich eine Variable~\pythonil{cs}, in der wir uns merken, wie weit das Ergebnis daneben liegt.%
+%
+\item<3-> Stellen wir uns nochmal vor, dass wir \pythonil{1e18 + 1 - 1e18} berechnen wollen.%
+%
+\item<4-> Wie würden wir bei dem Ergebnis~\pythonil{1.0} ankommen?
+%
+\item<5-> In dem wir den folgenden, einfachen Algorithmus anwenden, der die Summe aller Zahlen in einer Variable~\pythonil{sum} bildet und zusätzlich einen Fehler-Term~\pythonil{cs} mitführt.
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Kahan-Summe: Ausprobieren}%
+%
+\locate{}{%
+\parbox{0.48\paperwidth}{\noindent\small{\noindent%
+\begin{itemize}%
+\item In dem wir den folgenden, einfachen Algorithmus anwenden:%
+\end{itemize}%
+\uncover<2->{%
+\begin{enumerate}%
+%
+\item Wir beginnen mit \pythonil{sum = 0} und \pythonil{cs = 0}.%
+%
+\item<3-> Für jede Zahl, die zur Summe dazuaddiert werden soll, machen wir die folgende Schritte\only<-3>{.}\uncover<4->{:%
+\begin{enumerate}%
+%
+\item Wir berechnen zuerst \pythonil{t = sum + value}.\only<5>{ %
+\pythonil{t}~ist damit die Summe, und zwar zu der Genauigkeit, die \pythonil{float} darstellen kann.}%
+%
+\item<6-> Dann berechnen wir \pythonil{error = (sum - t) + value}.\only<7-9>{ %
+Weil \pythonil{t = sum + value}, könnte man denken das \pythonil{error} eigentlich immer \pythonil{0.0} seien sollte, schließlich sieht das aus wie \pythonil{(sum - (sum + value)) + value}.\only<8-9>{ %
+Aber es können ja ein paar Ziffern \inQuotes{verloren gehen}, wenn wir \pythonil{sum + value} berechnen.\only<9>{ %
+Diese tauchen dann wieder in \pythonil{error} auf.}}}%%
+%
+\item<10-> Dann setzen wir \pythonil{sum = t}.%
+%
+\item<11-> Wir addieren die Fehler in \pythonil{cs} auf, setzen also \pythonil{cs += error}.%
+%
+\end{enumerate}}%
+%
+\item<12-> Das Endergebnis ist dann \pythonil{sum + cs}.
+\end{enumerate}%
+}%
+\uncover<13->{%
+\begin{itemize}%
+\item Probieren wir das am Beispiel \pythonil{1e18 + 1 - 1e18} aus.%
+\end{itemize}%
+}%
+}}}{0.02}{0.08}%
+%
+\locate{14-}{%
+\parbox{0.48\paperwidth}{\noindent\small{\noindent%
+%
+\begin{enumerate}%
+\item Wir beginnen mit \pythonil{sum = 0} und \pythonil{cs = 0}.%
+%
+\item<15-> Als erste Zahl addieren wir \pythonil{1e18} zur Summe.\only<16-19>{%
+\begin{enumerate}%
+\item In ersten Schritt berechnen wir~\pythonil{t = sum + value}, also \pythonil{t = 0 + 1e18}, also \pythonil{t = 1e18}.%
+%
+\item<17-> Dann setzen wir \pythonil{error = (sum - t) + value}, woraus dann \pythonil{error = (0 - 1e18) + 1e18} wird, was uns \pythonil{error = 0.0} gibt.%
+\item<18-> Wir setzen also \pythonil{sum = 1e18}, also \pythonil{sum = 1e18}.%
+\item<19-> \pythonil{cs}, was \pythonil{0} war, wird \pythonil{0 + 0.0}, und ist somit \pythonil{cs = 0.0}.%
+\end{enumerate}}%
+%
+\item<20-> Jetzt addieren wir \pythonil{1} zu der Summe.\only<21-26>{%
+\begin{enumerate}%
+%
+\item Wir berechnen \pythonil{t = sum + value}, was nun \pythonil{t = 1e18 + 1} ist, was uns dann \pythonil{t = 1e18} gibt.\uncover<22->{ %
+\alert{Die \pythonil{1} geht verloren.}}%
+%
+\item<23-> Also fast zumindest\only<-23>{.}\uncover<24->{: %
+\pythonil{error = (sum - t) + value} wird zu \pythonil{error = (1e18 - 1e18) + 1}, also ist \pythonil{error = 1.0}.}%
+%
+\item<25-> Nach diesem Schritt ist \pythonil{sum = 1e18}.%
+%
+\item<26-> Und \pythonil{cs = 0 + 1.0} wird \pythonil{1.0}.%
+\end{enumerate}}%
+%
+\item<27-> Wir ziehen nun \pythonil{1e18} von der Summe ab, was das Gleiche wie \pythonil{-1e18} dazuaddieren ist.\only<28-31>{%
+%
+\begin{enumerate}%
+\item Das bedeutet, dass wir zuerst \pythonil{t = sum + value} berechnen, also \pythonil{t = 1e18 + -1e18}, woraus dann \pythonil{t = 0.0} wird.%
+%
+\item<29-> Für den Fehlerterm bekommen wir \pythonil{error = (1e18 - 0.0) + -1e18}, was \pythonil{error = 0.0} ergibt.%
+%
+\item<30-> Wir bekommen nun \pythonil{sum = 0.0}.%
+%
+\item<31-> Und \pythonil{cs = 1.0 + 0.0}, beleibt also bei~\pythonil{cs = 1.0}.%
+\end{enumerate}}%
+%
+\item<32-> Das Endergebnis ist dann \pythonil{sum + cs} und das ergibt tatsächlich \pythonil{0.0 + 1.0}, also \pythonil{1.0}!%
+%
+\end{enumerate}%
+%
+\hfill%
+%
+\uncover<33->{\begin{itemize}%
+\item Mit der \citeauthor{K1965PFRORTE}-Summe konnten wir also \pythonil{1e18 + 1 - 1e18} berechnen und erhalten korrekt~\pythonil{1.0}.%
+%
+\item<34-> Der Preis ist, dass wie zusätzliche Variablen brauchen und diese bei jedem Rechnschritt updaten müssen.%
+\end{itemize}}%
+%
+}}}{0.52}{0.08}%
+%
+\end{frame}%
+%
+\gdef\innerAlgorithm{%
+%
+\aAssign{\aVar{sum}}{0}\aSep%
+\aAssign{\aVar{cs}}{0}\aSep%
+\aAssign{\aVar{ccs}}{0}\;%
+%
+\For(\algoCmtInline{Für jede der $n$ zu addierenden Zahlen in $x$.}){$\aVar{i} \in \intRange{0}{n-1}$}{%
+\aAssign{\aVar{t}}{\aVar{sum}+\aArrayIndex{\aVar{x}}{\aVar{i}}}\algoCmtEndline{Summe und Fehlerterm 1.Ordnung~(unten)\cite{B1968NSIMA,K1965PFRORTE}.}%
+\lIf(\algoCmtInline{\citeauthor{N1974REVZSES}'s Verbesserung\cite{N1974REVZSES}}){$|\aVar{sum}|\geq|\aArrayIndex{\aVar{x}}{\aVar{i}}|$}{%
+\aAssign{\aVar{c}}{(\aVar{sum}-\aVar{t})+\aArrayIndex{\aVar{x}}{\aVar{i}}}%
+}\lElse{%
+\aAssign{\aVar{c}}{(\aArrayIndex{\aVar{x}}{\aVar{i}}-\aVar{t})+\aVar{sum}}%
+}%
+%
+\aAssign{\aVar{sum}}{\aVar{t}}\algoCmtEndline{Die Gesamtsumme wird upgedated.}%
+\aAssign{\aVar{t}}{\aVar{cs}+\aVar{c}}\algoCmtEndline{Fehlersumme 2.~Ordnung von~\citeauthor{K2006AGKBSA}\cite{K2006AGKBSA} beginnt.}%
+%
+\lIf(\algoCmtInline{\citeauthor{N1974REVZSES}'s Verbesserung\cite{N1974REVZSES}}){$|\aVar{cs}|\geq|\aVar{c}|$}{%
+\aAssign{\aVar{cc}}{(\aVar{cs}-\aVar{t})+\aVar{c}}%
+}\lElse{%
+\aAssign{\aVar{c}}{(\aVar{c}-\aVar{t})+\aVar{cs}}%
+}%
+%
+\aAssign{\aVar{cs}}{\aVar{t}}\aSep%
+\aAssign{\aVar{ccs}}{\aVar{ccs}+\aVar{cc}}\;%
+%
+\Return{$\aVar{sum}+\aVar{cs}+\aVar{ccs}$}%
+}% end for
+}%
+%
+\begin{frame}[t]%
+\frametitle{Kahan-Summe: Algorithmus}%
+%
+\begin{itemize}%
+\only<-2>{%
+\item Es gibt eine Vielzahl von verschiedenen Implementierungen dieser sogenannten \citeauthor{K1965PFRORTE}-Summe der \citeauthor{K1965PFRORTE}-\citeauthor{B1968NSIMA}-Summe.%
+}%
+%
+\only<-3>{%
+\item<2-> \Citeauthor{N1974REVZSES}, \DEzB, hat \citeyear{N1974REVZSES} eine Verbesserung für den Fall, dass die laufende Summe kleiner als die zu addierende Zahl ist, beigesteuert\cite{N1974REVZSES}.%
+}%
+%
+\item<3-> \Citeauthor{K2006AGKBSA}\cite{K2006AGKBSA} hat dann die Präzision weiter verbessert, in dem eine Fehlersumme für die Fehlersumme eingeführt hat, also eine Fehlersumme 2.~Ordnung, und so weiter.%
+%
+\item<4-> Dieser verbesserte Algorithmus ist hier dargestellt.%
+%
+\end{itemize}%
+%
+%
+\setcounter{algocf}{0}%
+\locateAlgorithm{2-}{%
+Die \citeauthor{K1965PFRORTE}-\citeauthor{B1968NSIMA}-\citeauthor{N1974REVZSES} Summe Zweiter Ordnung~\cite{B1968NSIMA,K1965PFRORTE,N1974REVZSES,K2006AGKBSA} über einen Array~\aVar{x} mit $n$~Zahlen, nach der Spezifikation von \citeauthor{K2006AGKBSA}\cite{K2006AGKBSA}.}{\innerAlgorithm%
+}{0.15}{0.385}{0.85}{0.7}% end algorithm
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Haben Sie keine Angst.}%
+\begin{itemize}%
+\only<-10>{%
+\item Es ist nicht so wichtig, diesen Algorithmus hier im Detail zu diskutieren.%
+}%
+%
+\only<-11>{%
+\item<2-> Im Grunde ist er ja nur eine weiterentwicklent Version der einfachen \citeauthor{K1965PFRORTE}-Summe, die wir schon ausprobiert haben.%
+}%
+%
+\only<-12>{%
+\item<3-> Ich habe mit Absicht diese weiterentwickelte, gruselig aussehende Variante des Algorithmus ausgewählt.%
+}%
+%
+\only<-12>{%
+\item<4-> Ich will nämlich einen wichtigen Punkt machen\only<-4>{.}\uncover<5->{:}%
+}%
+%
+\item<5-> Ja. Manchmal sehen Algorithmen gefährlich und schwierig aus.%
+%
+\item<6-> Aber wenn wir der Definition ordentlich folgen, dann können wir sie trotzdem implementieren.%
+%
+\item<7-> Selbst wenn wir am Anfang nicht alles ganz verstehen.%
+%
+\item<8-> Während wir den Algorithmus implementieren, also seine Komponenten auf Elemente der Programmiersprache übertragen, können wir lernen, ihn besser zu verstehen.%
+%
+\item<9-> Wir können den Kode auch Zwischenergebnisse für von uns gewählte Beispiele ausdrucken lassen.%
+%
+\item<10-> Dann können wir den Algorithmus nachverfolgen und sein Verhalten besser verstehen.%
+%
+\item<11-> Wir könnten ihn auch Schritt-für-Schritt mit einem \glslink{debugger}{Debugger} ausführen~(lernen wir später).%
+%
+\item<12-> Wenn wir eine klare Algorithmusdefinition haben, dann können wir diese nach \python\ übersetzen.%
+%
+\item<13-> Und wir können davon lernen.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Design der Klasse}%
+\only<-35,39-42,46->{%
+\begin{itemize}%
+\only<-3>{%
+\item Jetzt implementieren wir die \citeauthor{K1965PFRORTE}-\citeauthor{B1968NSIMA}-\citeauthor{N1974REVZSES} Summe Zweiter Ordnung in Datei \programUrl{classes:kahan_sum}.%
+}%
+%
+\only<-4>{%
+\item<2-> Die Frage ist nun \emph{Wie machen wir das?}.%
+}%
+%
+\only<-5>{%
+\item<3-> Wir könnten ihn als Funktion implementieren, die ein \pythonilIdx{Iterable} \pythonil{x} mit den zu summierenden Zahlen als Parameter erhält.%
+}%
+%
+\only<-6>{%
+\item<4-> So ist der Algorithmus ja im Grunde definiert.%
+}%
+%
+\only<-7>{%
+\item<5-> Wir entscheiden uns anders.%
+}%
+%
+\only<-9>{%
+\item<6-> Wir wollen ihn als Klasse \pythonil{KahanSum} implementieren, die eine laufende Summe darstellt.%
+}%
+%
+\only<-10>{%
+\item<7-> Ein Klasse hat Attribute\only<8->{und Methoden}.%
+}%
+%
+\only<-11>{%
+\item<9-> Schauen wir uns den Algorithmus genauer an.%
+}%
+%
+\only<-12>{%
+\item<10-> Er beginnt mit der Initialisierung der Zustandsvariablen \aVar{sum}, \aVar{cs}, und \aVar{ccs}.%
+}%
+%
+\only<-13>{%
+\item<11-> Diese müsste man als Attribute der Instanzen der Klasse realisieren.%
+}%
+%
+\only<-14>{%
+\item<12-> In einer Klasse kommt der Kode, der Attribute initialisiert, in den Initialisierer \dunder{init}.%
+}%
+%
+\only<-15>{%
+\item<13-> Also tun wir diesen Teil des Algorithmus auch dort hin.%
+}%
+%
+\only<-16>{%
+\item<14-> In einer Schleife addiert der Algorithmus eine Zahl nach der anderen zu der Summe hinzu.%
+}%
+%
+\only<-17>{%
+\item<15-> Wir wollen eine Methode \pythonil{add} implementieren, die jeweils genau eine Zahl zur Summe hinzuaddiert.%
+}%
+%
+\only<-18>{%
+\item<16-> Diese könnte ja dann genauso gut in einer Schleife aufgerufen werden.%
+}%
+%
+\only<-19>{%
+\item<17-> Der Parameter \pythonil{value} tritt dann an Stelle der Schleifenvariable \aArrayIndex{\aVar{x}}{\aVar{i}}.%
+}%
+%
+\only<-20>{%
+\item<18-> Nach dem Ende der Schleife, am Ende des Algorithmus, wird die entgültige Summe berechnet.%
+}%
+%
+\only<-21>{%
+\item<19-> Dazu werden die Summenvariable \aVar{sum} und die Fehlerterme 1.\ und~2.~Ordnung~(\aVar{cs} und~\aVar{ccs}) addiert.%
+}%
+%
+\only<-22>{%
+\item<20-> Wir packen das in eine Methode \pythonil{result}, die das Ergebnis liefern soll.%
+}%
+%
+\only<-23>{%
+\item<21-> Genaugenommen ist dieses \inQuotes{entgültige} Ergebnis gar nicht so entgültig.%
+}%
+%
+\only<-24>{%
+\item<22-> Bei seiner Berechnung werden ja keine Attribute \emph{verändert}.%
+}%
+%
+\only<-25>{%
+\item<23-> Wir könnten also einfach ein paar Zahlen mit \pythonil{add} addieren, das Ergebnis mit \pythonil{result} abfragen, dann noch ein paar Zahlen dazuaddieren, dann das Ergebnis nochmal abfragen.%
+}%
+%
+\only<-26>{%
+\item<24-> Wir haben eine wirkliche laufende Summe.%
+}%
+%
+\only<-27>{%
+\item<25-> Was wir noch nicht diskutiert haben, sind die Attribute unserer Klasse.%
+}%
+%
+\only<-28>{%
+\item<26-> Wir brauchen Attribute für die Summe~\aVar{sum}, den Fehlerterm erster Ordnung~\aVar{cs} and den Fehlerterm zweiter Ordnung~\aVar{ccs}.%
+}%
+%
+\only<-29>{%
+\item<27-> Die Werte dieser Attribute ändern sich während der Summation, also sind sie nicht \pythonil{Final}.%
+}%
+%
+\only<-30>{%
+\item<28-> Sie repräsentieren den \emph{internen} Zustand unserer Summe.%
+}%
+%
+\only<-31>{%
+\item<29-> Sie sind bedeutungslos für jeden anderen, äußeren Kode.%
+}%
+%
+\only<-32>{%
+\item<30-> Wahrscheinlich kann niemand außer uns ihre Bedeutung verstehen.%
+}%
+%
+\only<-33>{%
+\item<31-> Deshalb sollte auch niemand sie sehen oder gar verändern können.%
+}%
+%
+\only<-34>{%
+\item<32-> Denn dafür gibt es ja keinen Grund.%
+}%
+%
+\only<-35>{%
+\item<33-> Die Attribute sollten \emph{\inQuotes{versteckt}} sein.%
+}%
+%
+%
+\only<-40>{%
+\item<34-> Anders als bei den Attributen~\pythonil{x} und~\pythonil{y} unserer Klasse \pythonil{Point}, hat der Benutzer (ein anderer Programmierer) keinen Grund, auf den (internen) Zustand unserer Summe zuzugreifen.%
+}%
+%
+%
+\only<-41>{%
+\item<35-> Stattdessen sollte er mit unseren Objekten nur über die Methoden  \pythonil{add} und \pythonil{result} interagieren.%%
+}%
+%
+%
+\only<-42>{%
+\item<40-> Wir wollen unsere Objekte vollständig kapseln.%
+}%
+%
+%
+\only<-46>{%
+\item<41-> Wir erstellen drei Attribute \pythonil{__sum}, \pythonil{__cs} und \pythonil{__ccs}.%
+}%
+%
+%
+\only<-47>{%
+\item<42-> Die Namen stammen aus dem Algorithmus, aber sehen Sie die beiden Unterstriche jeweils am Anfang?%
+}%
+%
+%
+\only<-48>{%
+\item<46-> Mit anderen Worten, niemand sollte von Außen auf \pythonil{__sum}, \pythonil{__cs} oder \pythonil{__ccs}.%
+}%
+%
+%
+\only<-49>{%
+\item<47-> Wie alle solche Dinge in \python\ wird das natürlich \alert{nicht} vom Interpreter erzwungen\dots%
+}%
+%
+\item<48-> {\dots}es ist also kein absoluter Schutz unserer Attribute.%
+%
+\item<49-> Es ist nur ein sehr klarer Hinweis an andere Programmierer, dass sie da die Finger von lassen sollen.%
+\end{itemize}}%
+%
+\locateGraphic{-5}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_01}{0.075}{0.47}%
+\locateGraphic{6}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_02}{0.075}{0.47}%
+\locateGraphic{7}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_03}{0.075}{0.47}%
+\locateGraphic{8}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_04}{0.075}{0.47}%
+\locateGraphic{9-11}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_05}{0.075}{0.47}%
+\locateGraphic{12-13}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_06}{0.075}{0.47}%
+\locateGraphic{14}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_07}{0.075}{0.47}%
+\locateGraphic{15-16}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_08}{0.075}{0.47}%
+\locateGraphic{17}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_09}{0.075}{0.47}%
+\locateGraphic{18}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_10}{0.075}{0.47}%
+\locateGraphic{19-24}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_11}{0.075}{0.47}%
+\locateGraphic{25-35,39-40}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_12}{0.075}{0.47}%
+\locateGraphic{36-38}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_12}{0.075}{0.52}%
+\locateGraphic{41-42,46-}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_13}{0.075}{0.47}%
+\locateGraphic{43-45}{width=0.85\paperwidth}{graphics/kahanAlgorithmToClass/kahanAlgorithmToClass_13}{0.075}{0.52}%
+%
+\only<36-38>{\vspace{-0.5em}%
+\begin{definition*}[(Vollständige) Kapselung]\small{%
+\emph{Kapselung} bedeutet, dass auf die Attribute eines Objekts nur durch seine Methoden zugegeriffen wird.\uncover<37->{ %
+Unter vollsändiger Kapselung können die Attribute eines Objekts nur durch seine Methoden gelesen oder verändert werden.\uncover<38->{ %
+Kapselung erlaubt es daher Programmierern, sicherzustellen, dass der Zustand von Objekten nur einer konsistenten und korrekten Art und Weise verändert werden kann.}}}%
+\end{definition*}}%
+%
+\only<43-45>{\vspace{-0.5em}%
+\bestPractice{doubleUnderscore}{\small{%
+Namen von Attributen oder Methoden, die mit einem doppelten Unterstrich beginnen~(\pythonilIdx{\_\_}) müssen als  \emph{privat} betrachtet werden\cite{PSF:P3D:TPLR:PNM,PSF:P3D:TPT:C:PV}.\uncover<44->{ %
+Auf sie sollte nicht von außerhalb der Klasse zugegriffen werden.\uncover<45->{ %
+Alle internen Attribute und Methoden einer Klasse sollte nicht von außen zugänglich sein und sollten deshalb nach dieser Konvention benannt werden, mit einem doppelten Unterstrich als Präfix.}}}%
+}%
+}%
+%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Warum als Klasse?}%
+\begin{itemize}%
+\item Wir hätten den Algorithmus als einfache Funktion, die auf ein \pythonil{Iterable} von Zahlen angewandt wird, implementieren können.%
+%
+\item<2-> Das wäre wohl die \inQuotes{natürlichste} Art gewesen, ihn zu implementieren.%
+%
+\item<3-> Wir haben aber das Klassen-basierte Design gewählt, weil es uns größere Flexibilität gibt.%
+%
+\item<4-> Wir können damit natürlich trotzdem über Sequenzen von Zahlen summieren.%
+%
+\item<5-> Wir können aber eben auch anders summieren.%
+%
+\item<6-> Wir können Zwischenergebnisse abfragen.%
+%
+\item<7-> Wir können auch mehrere \pythonil{KahanSum}-Objekte auf einmal verwenden.%
+%
+\item<8-> Wenn wir \DEzB\ einen Datenstrom haben, dann könnten wir zwei Instanzen von \pythonil{KahanSum} verwenden, um die Zahlen (in dereinen) zu addieren und um deren Quadrate aufzusummieren (in der anderen Instanz), was durchaus nützlich seien kann, wenn wir \DEzB\ die \glslink{sampleVar}{Sample-Varianz} bestimmen wollen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Kahan-Summe: Implementation}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-1>{%
+\item Implementieren wir diesen Algorithmus nun also.%
+}%
+%
+\only<-2>{%
+\item<2-> Eine neue Instanz von \pythonil{KahanSum} beginnt mit allen ihren drei Summenattributen auf \pythonil{0} gesetzt, was im Initialisierer \dunder{init} passiert.%
+}%
+%
+\only<-4>{%
+\item<3-> Wir implementieren zuerst die Methode \pythonil{add}.%
+}%
+%
+\only<-5>{%
+\item<4-> Diese entspricht dem Köper der Schleife im Algorithmus.%
+}%
+%
+\only<-5>{%
+\item<5-> Im Algorithmus wird in jeder Iteration ein Wert \aArrayIndex{\aVar{x}}{\aVar{i}} zur Summe addiert.%
+}%
+%
+\only<-6>{%
+\item<6-> Unsere Methode \pythonil{add} hat dafür den Parameter \pythonil{value}, mit dem Wert den wir zur Summe addieren wollen.%
+}%
+%
+\only<-7>{%
+\item<7-> Wir müssen also nur den Schleifenkörper vom Algorithmus in die Methode~\pythonil{add} übertragen.%
+}%
+%
+\only<-8>{%
+\item<8-> Dabei ersetzen wir \aVar{sum}, \aVar{cs}, \aVar{ccs} und \aArrayIndex{\aVar{x}}{\aVar{i}} mit \pythonil{self.__sum}, \pythonil{self.__cs}, \pythonil{self.__ccs} und \pythonil{value}.%
+}%
+%
+\only<-9>{%
+\item<9-> Wir schreiben die Verbesserung von \citeauthor{N1974REVZSES}\cite{N1974REVZSES} als ein inline \pythonil{if...else}-Statement.%
+}%
+%
+\only<-11>{%
+\item<10-> Um den Absolutwert~$|a|$ einer Zahl~$a$ zu berechnen, können wir \python's Funktion \pythonilIdx{abs} verwenden.%
+}%
+%
+\only<-11>{%
+\item<11-> Und das war's auch schon.%
+}%
+%
+\only<-12>{%
+\item<12-> Es gibt nichts im Schleifenkörper vom Algorithmus, das wir nicht mehr oder weniger direkt in \python-Kode übertragen können.%
+}%
+%
+\only<-13>{%
+\item<13-> Wir können nun die letzte Zeile des Algorithmus, die das Endergebnis der Summe liefert, in die neue Methode \pythonil{result} packen.%
+}%
+%
+\only<-14>{%
+\item<14-> Natürlich wird diese auf die Attributes \pythonil{self.__sum}, \pythonil{self.__cs} und \pythonil{self.__ccs} anstelle von \aVar{sum}, \aVar{cs} und \aVar{ccs} zugreifen.%
+}%
+%
+\only<-16>{%
+\item<15-> Und damit ist das fertig.%
+}%
+%
+\only<-16>{%
+\item<16-> Wir haben einen relativ komplexen mathematischen Algorithmus in ein Stück \python-Kode übersetzt.%
+}%
+%
+\only<-18>{%
+\item<17-> Wir haben einen monolithischen Algorithmus in eine \glslink{API}{API} verpackt, die iterativ aufgerufen werden kann.%
+}%
+%
+\only<-19>{%
+\item<18-> Aber funktioniert er auch?%
+}%
+%
+\only<-19>{%
+\item<19-> Wir platzieren erstmal einen \glslink{doctest}{Doctest} in den \glslink{docstring}{Docstring} des Moduls.%
+}%
+%
+\only<-20>{%
+\item<20-> Dieser \glslink{doctest}{Doctest} berechnet die Summe \pythonil{1e18 + 1 + 1e36} \pythonil{- 1e36 - 1e18}, die unser Beispiel am Anfang der Einheit war.%
+}%
+%
+\only<-21>{%
+\item<21-> Dort haben wir gelernt, dass wenn wir die Summe direkt berechnen, einfach \pythonil{0.0} rauskommt.%
+}%
+%
+\only<-22>{%
+\item<22-> Wir wissen aber, dass das richtige Ergebnis \pythonil{1.0} ist.%
+}%
+%
+\only<-24>{%
+\item<23-> Wenn wir mit unserer Klasse \pythonil{KahanSum} die Zahlen \pythonil{[1e18, 1, 1e36,} \pythonil{-1e36, -1e18]} aufaddieren, dann \emph{sollte} dieses richtige Ergebnis herauskommen.%
+}%
+%
+\item<24-> Wir wir sehen, tut es das auch.%
+\end{itemize}%
+}}%
+%
+%
+\algoCommentsOff%
+\setcounter{algocf}{0}%
+\locateAlgorithm{-23}{\small%
+\citeauthor{K1965PFRORTE}-\citeauthor{B1968NSIMA}-\citeauthor{N1974REVZSES} Summe}{\innerAlgorithm%
+}{0.02}{0.3666}{0.53}{0.48}% end algorithm
+%
+\gitLoadPython{classes:kahan_sum}{}{classes/kahan_sum.py}{}%
+\listingPython{2-}{classes:kahan_sum}{0.56}{0.01}{0.48}{0.99}%
+%
+\gitExec{exec:classes:kahan_sum:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh classes kahan_sum.py}%
+\listingOutput{24-}{classes:kahan_sum:doctest}{style=tool_style}{0.02}{0.5}{0.51}{0.6}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Kahan Summe: Vergleich}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-4>{%
+\item Im Programm \programUrl{classes:kahan_user} benutzen wir nun unsere neue \pythonil{KahanSum} Klasse.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir vergleichen ihre Ergebnisse mit der built-in Funktion \pythonilIdx{sum} und der genauen Summenfunktion \pythonilIdx{fsum} aus dem \pythonilIdx{math} Modul.%
+}%
+%
+\only<-6>{%
+\item<3-> Alle drei können \pythonil{[1e-15, 1e-14, 1e-13,} \pythonil{1e-16, 1e-12]} exakt zu \pythonil{1.1111e-12} aufaddieren.%
+}%
+%
+\only<-7>{%
+\item<4-> \pythonilIdx{sum} liefert \pythonil{0.0} für die Summe von \pythonil{[1e+18, 1, -1e+18]} und auch für \pythonil{[1e+36, 1e+18, 1,} \pythonil{-1e+36, -1e+18]}.%
+}%
+%
+\only<-8>{%
+\item<5-> \pythonil{KahanSum} und \pythonilIdx{fsum} können für beide Fälle korrekt \pythonil{1.0} ausrechnen.%
+}%
+%
+\only<-9>{%
+\item<6-> Wenn wir aber noch größere Zahlen mit einbeziehen und \DEzB\ die Summe über \pythonil{[1e+36, 1e+72, 1e+18,} \pythonil{-1e+36, -1e+72, 1,} \pythonil{-1e+18]} berechnen, dann liefert unsere \pythonil{KahanSum} \pythonil{0.0} anstatt des korrekten Ergebnisses \pythonil{1.0}.%
+}%
+%
+\only<-10>{%
+\item<7-> \pythonilIdx{fsum} finded das richtige Ergebnis, wohingegen \pythonilIdx{sum} mit \pythonil{-1e18} weit daneben liegt.%
+}%
+%
+\item<8-> Zuletzt addieren wir noch \pythonil{[1, -1e-16,} \pythonil{1e-16, 1e-16]}.%
+%
+\item<9-> Alle drei Methoden liefern \pythonil{1.0}, wohingegen das genaue Ergebnis $1+10^{-16}$ wäre.%
+%
+\item<10-> Dies kann allerdings nicht mit dem Datentyp \pythonil{float} dargestellt werden, also sind die Ergebnisse schon richtig.%
+\end{itemize}%
+}}%
+%
+\gitLoadAndExecPython{classes:kahan_user}{}{classes}{kahan_user.py}{}%
+\listingPythonAndOutput{}{classes:kahan_user}{}{0.48}{0.01}{0.54}{0.99}%%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Ergebnis des Vergleichs}%
+%
+\begin{itemize}%
+\only<-10>{%
+\item Mit unserem Experiment haben wir herausgefunden, dass \pythonilIdx{fsum} uns das präziseste Ergebnis gibt.%
+}%
+%
+\only<-11>{%
+\item<2-> Unsere \pythonil{KahanSum} ist aber definitiv besser als die built-in Funktion \pythonilIdx{sum}.%
+}%
+%
+\only<-12>{%
+\item<3-> Das bringt uns zu zwei Fragen\only<-3>{.}\uncover<4->{:%
+%
+\begin{enumerate}%
+\item Warum kann unsere \pythonil{KahanSum} uns nicht immer das genaue Ergebnis liefern?%
+\item<5-> Wie und warum ist \pythonil{fsum} besser?%
+\end{enumerate}%
+}}%
+%
+\only<-14>{%
+\item<6-> Die Antwort auf die erste Frage ist sehr einfach\only<-6>{.}\uncover<7->{:}%
+}%
+%
+\only<-14>{%
+\item<7-> Wenn wir genau eine Summationsvariable verwenden, so wie \pythonil{sum} das tut, dann können präzise bis zu 15 oder 16~Ziffern sein und verliegen alle Ziffern darüber hinaus.%
+}%
+%
+\only<-15>{%
+\item<8-> Wenn wir eine Summationsvariable und einen Fehlerterm \pythonil{cs} erster Ordnung, dann bekommen wir im Grunde 15 bis 16 Ziffern dazu, um Zwischenergebnisse genauer darzustellen.%
+}%
+%
+\only<-17>{%
+\item<9-> Mit dem Fehlerterm zweiter Ordnung \pythonil{ccs} können wir dann Zwischenergebnisse mit 45 bis 48~Ziffern genau darstellen.%
+}%
+%
+\only<-18>{%
+\item<10-> Damit können wir \pythonil{1} zu \pythonil{1e36} addieren und dann wieder \pythonil{1e36} abziehen und bekommen~\pythonil{1}.%
+}%
+%
+\only<-19>{%
+\item<11-> Aber wenn wir noch \pythonil{1e72} dazuaddieren, dann überschreiten wir das Fenster von 48~Ziffern und die \pythonil{1} geht verloren.%
+}%
+%
+\only<-20>{%
+\item<12-> Mit unserer \pythonil{KahanSum} mit zwei Fehlertermen können wir also Zwischenergebnisse von bis zu 48~Ziffern darstellen.%
+}%
+%
+\only<-21>{%
+\item<13-> Die zweite Frage war \emph{Was macht \pythonilIdx{fsum} anders?}%
+}%
+%
+\only<-22>{%
+\item<14-> Eigentlich nicht viel.%
+}%
+%
+\only<-23>{%
+\item<15-> Es basiert auf dem Algorithmus von \citeauthor{S1997APFPAAFRGP}\cite{S1997APFPAAFRGP,H2005BFPSATFPPR}, welcher dynamisch eine Liste von Hilfsvariablen managed um eine beweisbar genaue Summe zu berechnen~(mit Ergebnis~\pythonil{float}).%
+}%
+%
+\only<-24>{%
+\item<16-> Im Grunde ist es eine dynamische Version der \citeauthor{K1965PFRORTE}-Summe, welche bei Bedarf mehr Fehlerterme benutzt und diese auch wieder freigibt, wenn sie nicht mehr benötigt werden.%
+}%
+%
+\item<17-> Das Prinzip ist das gleiche, nur das eine Liste die Variablen \pythonil{cs} und \pythonil{ccs} ersetzt.%
+%
+\item<18-> Unser \pythonilIdx{KahanSum} benutzt genau drei Variablen für die ganze Summation.%
+%
+\item<19-> Es allokiert nicht dynamisch mehr Speicher.%
+%
+\item<20-> Deshalb ist die Anzahl der Rechenschritte, die es für jede hinzuaddierte Zahl macht, auch konstant.%
+%
+\item<21-> \pythonilIdx{fsum} macht eine variable Zahl von Rechenschritten, deren Anzahl auf der Länge der internen Datensturktur baisert.%
+%
+\item<22-> Damit ist \pythonil{KahanSum} tatsächlich ein sehr schöne Kompromisslösung, die eine höhere Präzision als die normale Addition bietet und aber immer noch die selbe konstante Speicher- und Zeitkomplexität hat.%
+%
+\item<23-> Es ist auch vielseitiger als \pythonilIdx{fsum}.%
+%
+\item<24-> Wir müssen die aufzuaddierenden Werte nicht in einem \pythonilIdx{Iterable} haben.%
+%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\only<-10>{%
+\item Klassen erlauben es uns, zwei Probleme beim Programmieren zu lösen\only<-1>{.}\uncover<2->{:%
+%
+\begin{enumerate}%
+\item Wir können Daten und die Operationen auf den Daten semantisch gruppieren.%
+%
+\item<3-> Wir können Schnittstellen, also \glslink{API}{APIs}, definieren, die aus mehreren Operationen bestehen.\uncover<4->{ %
+Wir können diese API dann auf verschiedene Arten realisieren und die Operationen jeweils anders implementieren.}%
+%
+\end{enumerate}%
+}}%
+%
+\item<5-> Bisher haben wir uns auf den ersten Fall konzentriert.%
+%
+\item<6-> Wir haben zwei Beispiele dafür angeschaut.%
+%
+\item<7-> Wir haben auch zwei Prinzipien kennengelernt, wie wir Klassen entwerfen können\only<-7>{.}\uncover<8->{%
+\begin{enumerate}%
+\item Wir können unveränderliche Klassen als Kontainer konstanter Information erstellen, deren Attribute sich nicht ändern. \uncover<9->{ %
+Unsere Klasse \pythonil{Point} ist ein Beispiel dafür.}%
+%
+\item<10-> Wir können auch gekapselte Klassen erstellen, wobei der Zugriff auf Attribute nur durch die Methoden der Klasse möglich ist.\uncover<11->{ %
+Dadurch wird sichergestellt, dass jede Zustandsänderung konsistent und korrekt ist.\uncover<12->{ %
+Unsere Klasse \pythonil{KahanSum} ist ein Beispiel dafür.}}%
+\end{enumerate}%
+}%
+\item<13-> Die meisten Klassen, die entweder Daten speichern oder irgendein Verhalten realisieren, können auf eine dieser beiden Arten implementiert werden.%
+%
+\item<14-> Es kann natürlich auch Designs geben, die dazwischen liegen, wo einige Attribute \pythonil{Final} und von außen zugänglich sind und andere Attribute wieder nur durch Methoden geändert werden können.
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung: Unveränderliche Objekte}%
+\begin{itemize}%
+\item Instanzen unserer Klasse \pythonil{Point} speichern ein Paar Koordinaten in der zwei-dimensionalen Euklidischen Ebene.%
+%
+\item<2-> Die Operation \pythonil{distance} ist untrennbar mit dieser Datenstruktur verbunden.%
+%
+\item<3-> Wir haben gelernt, dass es oft eine gute Idee ist, Objekte unveränderlich zu machen.%
+%
+\item<4-> Dann werden die Werte der Attribute eines Objektes nur während seiner Initialisierung~(durch die \dunder{init} Methode) gesetzt und ändern sich danach nicht.%
+%
+\item<5-> Dann kann es niemals Verwirrung über die Attributwerte geben.%
+%
+\item<6-> Es kann nie passieren, dass ein Teil unseres Prozesses eine Referenz auf eine \pythonil{Point}-Variable hat und \inQuotes{denkt} das diese die Koordinaten $(0,1)$ hat, aber das anderer Kode die Werte auf etwas anderes geändert hat.%
+%
+\item<7-> Das kann nicht passieren, weil sich die Koordinatenwerte einer Instanz von \pythonil{Point} niemals ändern.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung: Gekapselte Klasse}%
+\begin{itemize}%
+\item Wenn sich Attribute ändern müssen, dann ist es oft eine gute Idee, sie zu kapseln \emph{encapsulate}.%
+%
+\item<2-> Kapselung bedeutet, dass die Attribute eines Objekts nur durch die Methoden des Objekts gelesen oder geändert werden können.%
+%
+\item<3-> Unsere Klasse \pythonil{KahanSum} ist ein Beispiel dafür.%
+%
+\item<4-> Die Klasse erlaubt es uns, Zahlen more präzise zu addieren, in dem sie intern Fehlerterme zusätzlich zur normalen Summe unterhält.%
+%
+\item<5-> Der Benutzer bekommt diese internen Attribute niemals zu sehen und kann sie auch nicht direkt verändern.%
+%
+\item<6-> Stattdessen können sie verändert werden, in dem wir neue Zahlen an die Methode \pythonil{add} liefern.%
+%
+\item<7-> Über die Methode \pythonil{result} kann der Nutzer eine konsistente Sicht auf den Zustand der Summe bekommen, ohne durch den internen Zustand verwirrt zu werden.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung: Python is Nachsichtig}%
+\begin{itemize}%
+\only<-10>{%
+\item \python\ ist eine sehr nachsichtige Sprache.%
+}%
+%
+\only<-11>{%
+\item<2-> Es ist sehr nachsichtig darin, was erlaubt ist und was nicht.%
+}%
+%
+\only<-12>{%
+\item<3-> Sie erinnern sich daran, dass \glslink{typeHint}{Type Hints} nur Hinweise für Werkzeuge und Programmierer sind.%
+}%
+%
+\only<-13>{%
+\item<4-> Der \python-Interpreter setzt sie nicht durch.%
+}%
+%
+\only<-14>{%
+\item<5-> Es ist problemlos möglich, so etwas wir \pythonil{a: str = 5} auszuführen.%
+}%
+%
+\only<-15>{%
+\item<6-> Diese Nachsichtigkeit betrifft auch die beiden Designprinzipien von oben.%
+}%
+%
+\only<-16>{%
+\item<7-> Attribute und Variablen können \inQuotes{unveränderlich} gemacht werden, in dem wir sie mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final} annotieren.%
+}%
+%
+\item<8-> Das ist natürlich wieder nur ein \glslink{typeHint}{Type Hint}, nur eine Information für Programmierer und Werkzeuge.%
+%
+\item<9-> Der \python-Interpreter ignoriert das.%
+%
+\item<10-> Wie können erst \pythonil{a: Final[int] = 5} und dann \pythonil{a = 6} machen, ohne bestraft zu werden.%
+%
+\item<11-> Ähnliches gilt wenn wir Attribute durch Namen die mit einem doppelten Unterstrich~(\pythonilIdx{\_\_}) anfangen als privat markieren.%
+%
+\item<12-> Sie werden dadurch nicht privat.%
+%
+\item<13-> Der \python-Interpreter verändert zwar ihre Namen intern\cite{PEP8}, aber ein cleverer Programmierer kann sie trotzdem auslesen und ändern.%
+%
+\item<14-> Werkzeuge wie \mypy\ können solches Fehlverhalten finden.%
+%
+\item<15-> \python\ gibt die Verantwortung in unsere Hände.%
+%
+\item<16-> Wir müssen uns an Standards und Programmierregeln halten.%
+%
+\item<17-> Aber \python\ erzwingt das nicht.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
