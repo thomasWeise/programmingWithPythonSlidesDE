@@ -63,6 +63,7 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 40. [Operationen für Iteratoren](https://thomasweise.github.io/programmingWithPythonSlidesDE/40_operationen_für_iteratoren.pdf)
 41. [Klassen: Grundlagen](https://thomasweise.github.io/programmingWithPythonSlidesDE/41_klassen_grundlagen.pdf)
 42. [Klassen: Kapselung](https://thomasweise.github.io/programmingWithPythonSlidesDE/42_klassen_kapselung.pdf)
+43. [Klassen: Vererbung](https://thomasweise.github.io/programmingWithPythonSlidesDE/43_klassen_vererbung.pdf)
 
 
 ### 2.3. Die Slides in Englisch

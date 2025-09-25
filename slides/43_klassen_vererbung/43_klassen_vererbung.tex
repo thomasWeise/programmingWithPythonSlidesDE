@@ -1,0 +1,775 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{43.~Klassen:~Vererbung}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Vererbung und Spezialisierung sind eines der wichtigsten Konzepte von \glsFull{OOP}.%
+%
+\item<2-> Ein Subklasse kann von einer existierenden Klasse abgeleitet werden.%
+%
+\item<3-> Sie wird dann alle Methoden und Attribute von der Basisklasse erben.%
+%
+\item<4-> Sie kann auch neue Methoden und Attribute hinzufügen.%
+%
+\item<5-> Und sie kann Methoden überschreiben, also neu implementieren, also ihr Verhalten ändern.%
+%
+\item<6-> Dieser Mechanismus von Vererbung kann aus verschiedenen Blickwinkeln betrachtet werden.%
+\end{itemize}%
+\end{frame}%
+%
+%
+\begin{frame}%
+\frametitle{Vererbung als mengentheoretisches Konzept}%
+\begin{itemize}%
+\only<-9>{%
+\item Wir können Vererbung aus der Perspektive der Mengentheorie betrachten.%
+}%
+%
+\item<2-> Wir können eine Klasse als die Menge aller Objekte, die zu ihr gehören, betrachten.%
+%
+\item<3-> Subklassen sind dann Teilmengen dieser Menge.%
+%
+\item<4-> Erinnern wir uns an die baumartige Struktur der Built-In Ausnahmeklassen in \python\ von Einheit~\unitBuiltInExceptions.%
+%
+\item<5-> Die \inQuotes{Wurzel} wurde von \pythonilIdx{BaseException} geformt.%
+%
+\item<6-> Alle Ausnahmeobjekte sind Instanzen dieser Klasse.%
+%
+\item<7-> Sie hat eine Subklasse \pythonilIdx{Exception}.%
+%
+\item<8-> Alle Instanzen von \pythonilIdx{Exception} sind \pythonilsIdx{BaseException}, aber nicht alle \pythonilsIdx{BaseException} sind \pythonilsIdx{Exception}.%
+%
+\item<9-> \pythonilIdx{ArithmeticError} wiederum ist eine Subklasse von \pythonilIdx{Exception}, was heist, dass alle \pythonilsIdx{ArithmeticError} Instanzen von \pythonilsIdx{Exception} sind -- aber nicht andersherum.%
+%
+\item<10-> Wir könnten sagen, dass wenn eine \pythonil{ClassA} eine Subklasse von einer Klasse \pythonil{ClassB} ist, also wenn \pythonil{issubclass(ClassA, ClassB)}\pythonIdx{issubclass} gilt, dann ist \pythonil{ClassA} sozusagen eine Teilmenge von \pythonil{ClassB}.%
+\end{itemize}%
+%
+\uncover<11->{%
+\begin{equation}%
+\pythonil{ClassA} \subseteq \pythonil{ClassB} \Leftrightarrow \pythonil{issubclass(ClassA, ClassB)}\pythonIdx{issubclass}%
+\end{equation}%
+}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Veerbung als Spezialisierung}%
+\begin{itemize}%
+\item Eine andere Perspektive ist das Konzept der Spezialisierung.%
+%
+\item<2-> In vernünftigen Designs sind Subklassen ja nicht einfach irgendwelche Teilmengen ihrer Basisklasse.%
+%
+\item<3-> Normalerweise definieren sie bestimmte Eigenschaften, die alle ihre Objektinstanzen haben aber andere Objekte eben nicht.%
+%
+\item<4-> Wenn \pythonil{Tier} eine Klasse wäre, dann wäre \pythonil{Vogel} eine Subklasse.%
+%
+\item<5-> Es wäre aber nicht irgendeine zufällige Gruppe von Tieren.%
+%
+\item<6-> Es würde die Tiere repräsentierenm die zwei Füße, Flügel, und Federn haben sowie die Eier legen.%
+%
+\item<7-> Es könnte das Attribut \pythonil{Gewicht} und die Methode \pythonil{essen()} von seiner Basisklasse \pythonil{Tier} erben.%
+%
+\item<8-> Es könnte die Methoden \pythonil{laufen()} und \pythonil{fliegen()} hinzufügen.%
+%
+\item<9-> \pythonil{Spatz} und \pythonil{Strauß} wären dann Spezialfälle, also Subklassen, von \pythonil{Vogel}, wobei jede wieder ihre eigenen Characteristiken mitbringt, die sie von anderen Vögeln unterscheidet.%
+%
+\item<10-> So könnte \pythonil{Strauß} \DEzB\ die Methode \pythonil{fliegen()} so überschreiben, dass sie einen \pythonil{NotImplementedError} auslöst.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Vererbung als Grundlage für APIs}%
+\begin{itemize}%
+\item Die Vererbung und das Überschreiben von Methoden macht Klassen besonders geeignet, \glslink{API}{APIs} zu definieren und zu implementieren.%
+%
+\item<2-> Wir können eine Basisklasse entwerfen, die die Methoden für eine bestimmte Aufgabe als abstrakte Hüllen bereitstellt, ohne diese jedoch zu implementieren.%
+%
+\item<3-> Sie könnten nichts machen oder einen \pythonil{NotImplementedError} auslösen.%
+%
+\item<4-> Sie würden nur die \glslink{API}{API} definieren.%
+%
+\item<5-> In Subklassen können die Methoden dann mit vernünftigem Verhalten implementiert werden.%
+%
+\item<6-> Wir können die \glslink{API}{API} in verschiedenen Subklassen auf verschiedene Art implementieren.%
+%
+\item<7-> Man könnte sich \DEzB\ eine \glslink{API}{API} zum rendern von Dokumenten vorstellen, die in einer Subklasse für \glslink{formatPDF}{PDF} und in einer anderen Subklasse für \glslink{SVG}{SVG} output implementiert wird.%
+%
+\item<8-> Ein Benutzer der \glslink{API}{API} muss dann nur die Dokumentation und \glslink{signature}{Methoden Signaturen} der Basisklasse verstehen.%
+%
+\item<9-> Er kann dann jede Subklasse benutzen, jenachdem, was für Output er will.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Beispiel: Formen in der Euklidischen Ebene}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Formen in der Euklidischen Ebene}%
+%
+\begin{itemize}%
+\only<-4>{%
+\item Wir willen alle geschlossenen Formen auf der zweidimensionalen Euklidischen Ebene repräsentieren können.%
+}%
+%
+\only<-5>{%
+\item<2-> Wir können eine Basisclass \pythonil{Shape} zu diesem Zweck erstellen.%
+}%
+%
+\item<3-> Jede geschlossene Form hat einen Flächeninhalt~(\emph{area}) und einen Umfang~(\emph{perimeter}).%
+%
+\item<4-> Darum definiert \pythonil{Shape} zwei Methoden, \pythonil{area} und \pythonil{perimeter}, die die Fläche in Flächeneinheiten und den Umfang in Längeneinheiten zurückliefern.%
+%
+\item<5-> Es implementiert diese Methoden noch nicht, weil das Berechnen des Umfangs und der Fläche für verschiedene Arten von Formen anders funktioniert.%
+%
+\item<6-> In dem wir die Methoden aber definieren, machen wir klar, dass diese beiden Dinge für jede wirkliche Instanz von \pythonil{Shape} berechnet werden kann.%
+%
+\end{itemize}%
+%
+\locateGraphic{2-}{width=0.35\paperwidth}{graphics/exampleInheritance/exampleInheritance_01}{0.325}{0.575}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Shape}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item In Datei\programUrl{classes:shape} erstellen wir diese neue Basisklasse \pythonil{Shape}.%
+}%
+%
+\only<-6>{%
+\item<2-> Die Klasse ist nicht dafpr da, um wirklich instantiiert zu werden.%
+}%
+%
+\only<-7>{%
+\item<3-> Stattdessen wollen wir sie als Basisklasse für die Arten von 2D-Formen benutzen, die wir schon in der Grundschule gelernt haben.%
+}%
+%
+\only<-8>{%
+\item<4-> \pythonil{Shape} hat keine Attribute.%%
+}%
+%
+\only<-9>{%
+\item<5-> Aber, wie gesagt, hat diese Klasse die beiden Methoden \pythonil{area} und \pythonil{perimeter}.%
+}%
+%
+\only<-10>{%
+\item<6-> Natürlich können wir die Fläche und den Umfang von solchen abstrakten Formen nicht wirklich berechnen.%
+}%
+%
+\only<-11>{%
+\item<7-> Deshalb lösen beide Methoden einen \pythonilIdx{NotImplementedError} aus.%
+}%
+%
+\only<-12>{%
+\item<8-> Wenn jemand unsere Klasse \pythonil{Shape} tatsächlich instantiieren würde, sagen wir, duch \pythonil{s = Shape()} und dann versuchen würde, \pythonil{s.perimeter()} zu machen, dann würde das fehlschlagen.%
+}%
+%
+\item<9-> Dieses Verhalten wird mit einem \glslink{doctest}{Doctest} im Kopf des Moduls getestet.%
+%
+\item<10-> Das Wichtige ist jedoch, dass die Methoden da sind.%
+%
+\item<11-> Alle nicht-abstrakten abgeleitete Klassen müssen sie überschreiben und sinnvoll implementieren.%
+%
+\item<12-> Der Benutzer kann also die Fläche und den Umfang von jeder echten Instanz von \pythonil{Shape} auf genau die gleiche Art abfragen.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{classes:shape}{}{classes/shape.py}{}%%
+\listingPython{}{classes:shape}{0.48}{0.05}{0.52}{0.96}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Kreise}%
+%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Ein Kreis ist eine besondere zwei-dimensionale Form.%
+}%
+%
+\only<-5>{%
+\item<2-> Ein Kreis hat einen Mittelpunkt~(center) und einen Radius.%
+}%
+%
+\only<-6>{%
+\item<3-> Wenn wir diese Attribute kennen, dann könnten wir einen Kreis \DEzB\ an seinem korrekten Ort malen oder seinen Flächeninhalt und Umfang berechnen.%
+}%
+%
+\only<-7>{%
+\item<4-> Wenn wir das als Klasse ausdrücken wollen, dann könnten die Klasse \pythonil{Circle} als Subklasse der Klasse \pythonil{Shape} definieren.%
+}%
+%
+\only<-8>{%
+\item<5-> Nicht alle \pythonils{Shape} sind \pythonils{Circle}, aber jeder \pythonil{Circle} ist eine \pythonil{Shape}.%
+}%
+%
+\only<-9>{%
+\item<6-> Die Klasse \pythonil{Circle} hätte zwei Attributes.%
+}%
+%
+\only<-10>{%
+\item<7-> Das Attribut \pythonil{center} könnte eine Instanz unserer allerersten Klasse \pythonil{Point} sein.%
+}%
+%
+\item<8-> Das Attribut \pythonil{radius} könnte ein \pythonil{int} oder \pythonil{float} sein.%
+%
+\item<9-> Die Methoden \pythonil{area} und \pythonil{perimeter} können dann vernünftig implementiert werden.%
+%
+\item<10-> \pythonil{Shape} selbst ist nutzlos, aber wir können verschiedene, spezialisierte Subklassen davon erzeugen, die die Methoden \pythonil{area} und \pythonil{perimeter} und implementieren.%
+%
+\item<11-> Der Nutzer dieser Klassen kann dann alle verschiedenen Subklassen genau gleich behandeln, denn alle unterstützen das von \pythonil{Shape} definierte Interface.%
+%
+\end{itemize}%
+%
+\locateGraphic{-3}{width=0.5\paperwidth}{graphics/exampleInheritance/exampleInheritance_02}{0.475}{0.47}%
+\locateGraphic{4-6}{width=0.5\paperwidth}{graphics/exampleInheritance/exampleInheritance_03}{0.475}{0.47}%
+\locateGraphic{7-}{width=0.5\paperwidth}{graphics/exampleInheritance/exampleInheritance_04}{0.475}{0.47}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Circle}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item In Datei \programUrl{classes:circle} definieren wie die Klasse \pythonil{Circle}.%
+}%
+%
+\only<-6>{%
+\item<2-> In dem wir schreiben \pythonil{class Circle(Shape)}, deklarieren wir sie als Subklasse von \pythonil{Shape}.%
+}%
+%
+\only<-7>{%
+\item<3-> Durch ihren Initialisierer \dunder{init} liefern wir zwei Parameter.%
+}%
+%
+\only<-8>{%
+\item<4-> Der Erste ist \pythonil{center}, eine Instanz unserer Klasse \pythonil{Point}.%
+}%
+%
+\only<-9>{%
+\item<5-> Der zweite ist \pythonil{radius}, der entweder ein \pythonil{int} oder ein \pythonil{float} seien kann.%
+}%
+%
+\only<-10>{%
+\item<6-> Der Initialisierer prüft erst, ob \pythonil{radius} eine endliche positive Zahl ist und löst andernfalls einen \pythonilIdx{ValueError} aus.%
+}%
+%
+\only<-11>{%
+\item<7-> Der Initialisierer der Klasse \pythonil{Point} prüft das ja, das beide Koordinaten endliche Zahlen sind, also müssen wir das nicht mehr testen.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir haben also sichergestellt, dass wir nur gültige Kreise erstellen.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir speichern \pythonil{center} und \pythonil{radius} in zwei Attributen mit den gleichen Namen.%
+}%
+%
+\only<-14>{%
+\item<10-> Wir annotieren diese mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final}, was bedeutet, dass sie nicht verändert werden sollen.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir erstellen unsere Klasse also nach dem Prinzip der Unveränderlichkeit.%
+}%
+%
+\item<12-> Wir können nun die Methode \pythonil{area} so implementieren, dass sie $\numberPi\pythonil{radius}^2$ liefert.%
+%
+\item<13-> Die Methode \pythonil{perimeter} liefert $2\numberPi\pythonil{radius}$.%
+%
+\item<14-> Damit haben wir das ganze, von der Basisklasse \pythonil{Shape} definierte, Interface mit Bedeutung gefüllt.%
+%
+\item<15-> Wir fügen natürlich umfassende \glslink{doctest}{Doctests} in unsere Datei ein, damit wir sofort testen können, dass alles so funktioniert, wie es soll.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{classes:circle}{}{classes/circle.py}{}%%
+\listingPython{-1}{classes:circle}{0.48}{0.01}{0.52}{0.99}%
+\listingPython{2-}{classes:circle}{0.48}{-0.25}{0.52}{1.25}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Circle} benutzen}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Programm \programUrl{classes:circle_user} erforschen wir diese neue Klasse etwas.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir erstellen die Instance \pythonil{circ} of \pythonil{Circle} by providing the \pythonil{point=Point(2, 3)} and \pythonil{radius=4}.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir stellen fest, dass die Parameter ordentlich in den Attributen gespeichert werden.%
+}%
+%
+\only<-8>{%
+\item<4-> Der Operator \pythonil{isinstance(a, B)} prüft ob ein Object~\pythonil{a} eine Instanz der Klasse~\pythonil{B} ist.%
+}%
+%
+\only<-9>{%
+\item<5-> Wenn ja, dann liefert er \pythonil{True} und sonst \pythonil{False}.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir bestätigen dass \pythonil{isinstance(cir, Circle)}\pythonIdx{isinstance} \pythonil{True} ist.%
+}%
+%
+\only<-11>{%
+\item<7-> Es gilt auch \pythonil{isinstance(cir, Shape)}.%
+}%
+%
+\only<-12>{%
+\item<8-> Jede Instanz von \pythonil{Circle} ist auch eine Instanz von \pythonil{Shape}.%
+}%
+%
+\only<-13>{%
+\item<9-> Weil \pythonil{Circle} ein Spezialfall von \pythonil{Shape} ist.%
+}%
+%
+\only<-14>{%
+\item<10-> Es gilt auch \pythonil{isinstance(cir, object)}.%
+}%
+%
+\only<-15>{%
+\item<11-> \pythonilIdx{object} ist die niedrigste Basisklasse aller Klassen in \python\cite{PSF:P3D:G:O,PSF:P3D:TPSL:BIF:O}.%
+}%
+%
+\only<-15>{%
+\item<12-> Wenn wir nicht explizit eine Basisklasse bei der Klassendefinition angeben, dann wird \pythonilIdx{object} verwendet.%
+}%
+%
+\only<-16>{%
+\item<13-> Das ist der Fall für unsere Klasse \pythonil{Shape} und auch für unsere älteren Klassen \pythonil{Point} und \pythonil{KahanSum}.%
+}%
+%
+\only<-17>{%
+\item<14-> Jeder \pythonil{Circle} ist also auch ein \pythonilIdx{object}.%
+}%
+%
+\item<15-> Während der Operator \pythonilIdx{isinstance} Objekte mit Klassen in Verbindung bringt, macht der Operator \pythonilIdx{issubclass} das selbe mit zwei Klassen.%
+%
+\item<16-> \pythonil{issubclass(A, B)} ist \pythonil{True} wenn Klasse \pythonil{A} eine Subklasse von Klasse \pythonil{B} ist, also von \pythonil{B} erbt.%
+%
+\item<17-> Darum ist \pythonil{issubclass(Circle, Shape)} \pythonil{True} während \pythonil{issubclass(Shape, Circle)} \pythonil{False} ergibt.%
+%
+\item<18-> \pythonil{issubclass(Shape, object)} und \pythonil{issubclass(Circle, object)} sind auch beide \pythonil{True}.%
+%
+\end{itemize}%
+}}%
+%
+%
+\gitLoadAndExecPython{classes:circle_user}{}{classes}{circle_user.py}{}%
+\listingPythonAndOutput{2-}{classes:circle_user}{}{0.45}{0.1}{0.54}{0.89}%
+\end{frame}%
+%
+
+\begin{frame}[t]%
+\frametitle{Beispiel: Polygone}%
+%
+\begin{itemize}%
+%
+\item Kreise sind nicht die einzigen Sonderfälle von Formen.%
+%
+\item<2-> Eine andere sehr allgemeine Klasse von Formen sind Polygone.%
+%
+\item<3-> Polygone sind Formen, die von geraden Linien begrenzt werden.%
+%
+\item<4-> Deshalb kann jedes Polygon durch das Spezifizieren seiner Eckpunkte definiert werden.%
+%
+\item<5-> Wir definieren also für jedes Polygon eine Methode \pythonil{points()}, die eine Sequenz der Eckpunkte zurückliefern soll.%
+%
+\end{itemize}%
+%
+\locateGraphic{-1}{width=0.6\paperwidth}{graphics/exampleInheritance/exampleInheritance_05}{0.2}{0.5}%
+\locateGraphic{2-}{width=0.6\paperwidth}{graphics/exampleInheritance/exampleInheritance_06}{0.2}{0.5}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Circle}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Wir definieren die Klasse \pythonil{Polygon} in Datei \programUrl{classes:polygon}.%
+}%
+%
+\only<-6>{%
+\item<2-> Sie ist ein Spezialfall und erbt daher von \pythonil{Shape}.%
+}%
+%
+\only<-6>{%
+\item<3-> \pythonil{Polygon} erweitert das Interface von \pythonil{Shape}, in dem es die Methode \pythonil{points} definiert.%
+}%
+%
+\only<-7>{%
+\item<4-> Diese Methode liefert einen \pythonilIdx{Iterable} von Instanzen von \pythonil{Point}, die die Eckpunkte des Polygons definieren.%
+}%
+%
+\only<-8>{%
+\item<5-> Unser Ziel ist es hier, eine Basisklasse für verschiedene Arten von Polygonen bereitzeustellen.%
+}%
+%
+\only<-8>{%
+\item<6-> Wir wollen nicht direkt und sofort eine Datenstruktur für beliebige Polygone implementieren.%
+}%
+%
+\only<-10>{%
+\item<7-> Daher löst die Methode \pythonil{points} auch einen \pythonil{NotImplementedError} und muss von Subklassen implementiert werden.%
+}%
+%
+\only<-11>{%
+\item<8-> Wir können also annehmen, dass alle nicht-abstrakten Subklassen von \pythonil{Polygon} immer die Methode \pythonil{points} vernünftig implementieren und diese die Sequenz von Eckpunkten des Polygons lifert.%
+}%
+%
+\only<-13>{%
+\item<9-> Wenn wir die Sequenz der Eckpunkte kennen und diese mit geraden Linien verbinden sind, dann können wir den Umfang leicht berechnen.%
+}%
+%
+\only<-14>{%
+\item<10-> Wir können daher die Methode \pythonil{perimeter} implementieren.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir iterieren über die Instanzen von \pythonil{Point}, die \pythonil{points()} uns liefert.%
+}%
+%
+\only<-16>{%
+\item<12-> In einer Summenvariable addieren wie Entfernung von jedem Punkt zu seinem Nachfolger in der Sequenz.%
+}%
+%
+\only<-17>{%
+\item<13-> Am Ende addieren wir noch die Entfernung vom letzten Punkt zum ersten Punkt.%
+}%
+%
+\only<-18>{%
+\item<14-> Die Entfernungen können mit der Methode \pythonil{distance} der \pythonil{Point}-Klasse berechnet werden.%
+}%
+%
+\only<-19>{%
+\item<15-> Nun implementiert \pythonil{Polygon} selbst nicht die Methode \pythonil{points}.%
+}%
+%
+\only<-19>{%
+\item<16-> Aber ihre Subklassen werden das tun.%
+}%
+%
+\only<-20>{%
+\item<17-> Wenn wir \pythonil{a.perimeter()} aufrufen, dann wird \emph{automatisch} die richtige Implementierung von \pythonil{points()} der Subklasse, zu der \pythonil{a} gehört verwendet.%
+}%
+%
+\only<-20>{%
+\item<18-> Wir können hier also \pythonil{perimeter} implementieren, selbst wenn \pythonil{points} noch nicht implementiert ist.%
+}%
+%
+\only<-20>{%
+\item<19-> Wenn wir ein Subklasse erstellen, die \pythonil{points} implementiert, und dann \pythonil{perimeter} von einem Objekt der Subklasse aufrufen, dann wird das funktionieren.%
+}%
+%
+\only<-23>{%
+\item<20-> Das Aufsummieren der Entfernungen könnte leicht mit einer normalen Variable vom Typ \pythonil{float} gemacht werden.%
+}%
+%
+\only<-24>{%
+\item<21-> Wir haben aber schon die \citeauthor{K1965PFRORTE}-\citeauthor{B1968NSIMA}-\citeauthor{N1974REVZSES}-Summe zweiter Ordnung implementiert {\dots} also benutzen wir die.%
+}%
+%
+\only<-25>{%
+\item<22-> Sie sollte uns ein sehr genaues Ergebnis liefern.%
+}%
+%
+\only<-26>{%
+\item<23-> Beachten Sie, dass wir hier \pythonilIdx{fsum} nicht verwenden können, ohne erst alle Entfernungen in einer Liste zu speichern.%
+}%
+%
+\only<-27>{%
+\item<24-> Der Gund ist, dass wir über diese Entfernungen in der Sequenz von Punkten summieren müssen, aber auch die Entfernung vom ersten zum letzten Punkt brauchen.%
+}%
+%
+\only<-28>{%
+\item<25-> Unsere \pythonil{KahanSum} hat hier also doch einen Vorteil.%
+}%
+%
+\only<-28>{%%
+\item<26-> Aus Bequemlichkeit fügen wir noch eine Methode \pythonil{print} mit dazu, die einfach die Eckpunkte des Poligons ausgibt.%
+}%
+%
+\item<27-> Wir haben gelernt, dass Subklassen neue Methoden und neues Verhalten einführen können.%
+%
+\item<28-> Wir haben auch gelernt, dass Subklassen selbst auch als abstrakte Basisklassen entworfen werden können.%
+%
+\item<29-> Und wir haben gelernt, dass wenn wir \pythonil{a.method()} aufrufen (oder \pythonil{self.method()} in einer Methode), dann wird das immer die \inQuotes{letzte} Implementierung der Methode \pythonil{method} in der Klassenhierarchie, zu der Object~\pythonil{a} gehört, aufrufen.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{classes:polygon}{}{classes/polygon.py}{}%%
+\listingPython{-20,23-}{classes:polygon}{0.48}{0.01}{0.52}{0.99}%
+\locateGraphic{21-22}{width=0.82\paperwidth}{graphics/exampleInheritance/exampleInheritance_07}{0.09}{0.48}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Rechtecke und Dreiecke}%
+%
+\begin{itemize}%
+%
+\item Rechtecke und Dreiecke sind Sonderfälle von Polygonen.%
+%
+\item<2-> Wir implementieren sie als Klassen \pythonil{Triangle} und \pythonil{Rectangle}, welche beide Subklassen von \pythonil{Polygon} sind.%
+%
+\end{itemize}%
+%
+\locateGraphic{-1}{width=0.85\paperwidth}{graphics/exampleInheritance/exampleInheritance_08}{0.075}{0.28}%
+\locateGraphic{2}{width=0.85\paperwidth}{graphics/exampleInheritance/exampleInheritance_09}{0.075}{0.28}%
+\locateGraphic{3-}{width=0.85\paperwidth}{graphics/exampleInheritance/exampleInheritance_10}{0.075}{0.28}%
+\end{frame}%
+%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Rectangle}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Die Klasse \pythonil{Rectangle} für Rechtecke wird in Datei \programUrl{classes:rectangle} erstellt.%
+}%
+%
+\only<-6>{%
+\item<2-> Ein Rechteck kann durch seine linke untere und rechte obere Ecke definiert werden.%
+}%
+%
+\only<-7>{%
+\item<3-> Der Initialisierer \dunder{init} der Klasse \pythonil{Rectangle} akzeptiert daher zwei Punkte \pythonil{p1} und \pythonil{p2} als Parameter.%
+}%
+%
+\only<-7>{%
+\item<4-> Wir lösen einen \pythonilIdx{ValueError} aus, wenn diese gleich sind und kein Rechteck ergeben.%
+}%
+%
+\only<-8>{%
+\item<5-> Andernfalls speichern wir die minimalen x\nobreakdashes-\ und y\nobreakdashes-Koordinaten im \inQuotes{links-unten} Punkt-Attribut~\pythonil{p1}.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir speichern die maximale x\nobreakdashes-\ und y\nobreakdashes-Koordinaten im Attribut~\pythonil{p2}, was den Punkt oben rechts markiert.%
+}%
+%
+\only<-10>{%
+\item<7-> Wir können nun die Methode \pythonil{points} so implementieren, dass sie alle vier Eckpunkte des Rechtecks zurückliefert.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir brauchen zwar nur zwei Punkte speichern, aber hier müssen wir alle vier zurückliefern, um der Definition der Methode zu entsprechen.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir können die Punkte problemlos berechnen und in einem Tupel zurückgeben.%
+}%
+%
+\only<-13>{%
+\item<10-> Die Fläche des Rechtecks ist leicht zu berechnen.%
+}%
+%
+\only<-15>{%
+\item<11-> Die Methode \pythonil{area} muss dafür nur die Breite und Höhe des Rechtecks berechnen und miteinander multiplizieren.%
+}%
+%
+\only<-15>{%
+\item<12-> Die Breite ist der Unterschied zwischen den x\nobreakdashes-Koordinaten der beiden Eckpunkte.%
+}%
+%
+\only<-16>{%
+\item<13-> Die Höhe ist der Unterschied zwischen den x\nobreakdashes-Koordinaten der beiden Eckpunkte.%
+}%
+%
+\only<-17>{%
+\item<14-> Eigentlich kann die Methode \pythonil{perimeter}, die den Umfang des Rechtecks berechnet, eigentlich schon mit unserer Methode \pythonil{points} funktionieren.%
+}%
+%
+\item<15-> Wir überschreiben sie aber trotzdem.%
+%
+\item<16-> Das ist sinnvoll, weil wir den Umfang schneller und genauer berechnen können, in dem wir einfach die doppelte Summe von Breite und Höhe des Rechtecks zurückliefern.%
+%
+\item<17-> Die geerbte \pythonil{perimeter} methode würde stattdessen über die vier Euklidischen Punktabstände iterieren, wobei jeweils eine Quadratwurzel berechnet werden muss.%
+%
+\item<18-> Das ist langsamer und ungenauer, besonders wenn die Koordinaten ganzzahlig sind.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{classes:rectangle}{}{classes/rectangle.py}{}%
+\listingPython{-1}{classes:rectangle}{0.48}{0.01}{0.52}{0.99}%
+\listingPython{2-}{classes:rectangle}{0.48}{-0.23}{0.52}{1.23}%
+\end{frame}%
+%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Klasse \texttt{Triangle}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Die Klasse \pythonil{Triangle} für Dreiecke wird in der Datei \programUrl{classes:triangle} implementiert.%
+}%
+%
+\only<-6>{%
+\item<2-> Dieses mal müssen wir alle drei Eckpunkte speichern.%
+}%
+%
+\only<-7>{%
+\item<3-> Im Initialisierer \dunder{init} prüfen wir aber erst, ob eine Seitenlänge~0 ist, denn dann würden die Punkte kein Dreieck beschreiben.%
+}%
+%
+\only<-8>{%
+\item<4-> In diesem Fall lösen wir einen \pythonilIdx{ValueError} aus.%
+}%
+%
+\only<-8>{%
+\item<5-> In der Implementierung der Methode \pythonil{points} liefern wir alle drei Eckpunkte zurück.%
+}%
+%
+\only<-9>{%
+\item<6-> Diesmal gibt es keine besser Möglichkeit, den Umfang des Dreiecks zu berechnen, als das was die \pythonil{perimeter} aus der \pythonil{Polygon} sowieso schon macht.%
+}%
+%
+\only<-10>{%
+\item<7-> Deshalb überschreiben wir sie diesmal nicht.%
+}%
+%
+\item<8-> Die Fläche des Dreiecks kann über die Formel $A=x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)$ berechnet werden.%
+%
+\item<9-> Beide Subklassen von \pythonil{Polygon} benutzen \glslink{doctest}{Doctests} in ihren \glslink{docstring}{Docstrings}.%
+%
+\item<10-> Wir mussten diese Tests kurz halten, damit die Beispiele noch auf eine Slide passen.%
+%
+\item<11-> Trotzdem sind sie aufschlussreich für den Benutzer.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{classes:triangle}{}{classes/triangle.py}{}%
+\listingPython{-1}{classes:triangle}{0.48}{0.01}{0.52}{0.99}%
+\listingPython{2-}{classes:triangle}{0.48}{-0.3}{0.52}{1.3}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: Die Subklassen von \texttt{Shape} benutzen}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Im Programm \programUrl{classes:shape_user} benutzen wir nun alle \pythonil{Shape} abgeleiteten Klassen.%
+}%
+%
+\only<-6>{%
+\item<2-> Alle von ihnen unterstützen die Methoden \pythonil{area} und \pythonil{permeter}.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir deklarieren eine Variable \pythonil{shapes}, die eine Liste mit je einer Instanz von jeder der Subklassen speichert.%
+}%
+%
+\item<4-> Wir können die Liste mit dem \glslink{typeHint}{Type Hint} \pythonil{list[Shape]} annotieren.%
+%
+\item<5-> Der \glslink{typeHint}{Type Hint} sagt aus, dass die Liste nur Instanzen von \pythonil{Shape} beinhalten kann.%
+%
+\item<6-> Da alle Instanzen von \pythonil{Circle}, \pythonil{Rectangle}, und \pythonil{Triangle} auch Instanzen von \pythonil{Shape} sind, funktioniert das gut.%
+%
+\item<7-> Wir iterieren dann über die Liste und geben die Fläche und den Umfang jeder Form aus.%
+\end{itemize}%
+}}%
+%
+%
+\gitLoadAndExecPython{classes:shape_user}{}{classes}{shape_user.py}{}%
+\listingPythonAndOutput{2-}{classes:shape_user}{}{0.45}{0.17}{0.54}{0.89}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\only<-10>{%
+\item Wir haben nun diskutiert wie Veerbung mit Klassen in \python\ funktioniert.%
+}%
+%
+\only<-11>{%
+\item<2-> Wir benutzten dieses Wissen, um eine Hierarchie von geometrischen Objekten in der zweidimensionalen Euklidischen Ebene zu konstruieren.%
+}%
+%
+\only<-11>{%
+\item<2-> Während wir das gemacht haben, haben wir gesehen, wie Methoden auf eine abstrakte Art in einer Basisklasse definiert und dann in Subklassen implementiert werden können.%
+}%
+%
+\only<-12>{%
+\item<3-> Was wir hier in einer sehr abgekürzten Art gesehen haben ist, wie komplexe \glslink{API}{APIs} definiert und implementiert werden können.%
+}%
+%
+\only<-13>{%
+\item<4-> Auf eine gewisse Art definiert die Klasse \pythonil{Shape} ja eine \glslink{API}{API} für geometrische Objekte.%
+}%
+%
+\only<-14>{%
+\item<5-> Sie definiert dass jedes Objekt die beiden Operationen \pythonil{area()} und \pythonil{perimeter()} unterstützen muss.%
+}%
+%
+\only<-15>{%
+\item<6-> Die Klassen \pythonil{Circle}, \pythonil{Triangle}, und \pythonil{Rectangle} haben diese \glslink{API}{API} dann implementiert.%
+}%
+%
+\only<-16>{%
+\item<7-> OK, das klingt etwas weit hergeholt.%
+}%
+%
+\only<-16>{%
+\item<8-> Aber in der Realität könnte es schon so in etwa funktionieren.%
+}%
+%
+\item<9-> Stellen wir uns vor das wir eine \glslink{API}{API} zum Erstellen von Grafiken durch Programme erstellen sollen.%
+%
+\item<10-> Ihre Objekte würden sich dann wie eine blanke Leinwand verhalten.%
+%
+\item<11-> Sie hätten wahrscheinlich eine Methode, um ein Rechteck mit bestimmten Koordinaten und einer bestimmten Farbe zu malen.%
+%
+\item<12-> Sie hätten wahrscheinlich eine Methode, um eine Linie mit bestimmten Koordinaten und einer bestimmten Farbe zu malen.%
+%
+\item<13-> Sie könnten das als abstrakte Basisklasse mit mindestens zwei Methoden, \pythonil{draw_line} und \pythonil{draw_rectangle}, definieren.%
+%
+\item<14-> Sie könnten diese Methoden dann in einer Subklasse so implementieren, dass sie eine \glslink{SVG}{SVG}-Grafik\cite{DDGLMSWFJJ2011SVGSSE} im Speicher erstellen.%
+%
+\item<15-> Eine andere Subklasse könnte stattdessen eine Grafik im Adobe~\pgls{formatPDF}-Format\cite{A2024WDPM,A2008P3DMPDFP1P1} erstellen.%
+%
+\item<16-> So etwas zu machen ist viel komplizierter braucht viel mehr Platz als wie hier für ein vernünftiges Beispiel investieren können.%
+%
+\item<17-> Der prinzipielle Ansatz wäre aber wahrscheinlich nicht sehr anders, als was wir hier gelernt haben.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
