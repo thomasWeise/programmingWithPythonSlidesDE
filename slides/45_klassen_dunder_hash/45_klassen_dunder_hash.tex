@@ -1,0 +1,508 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{44.~Klassen/Dunder:~\texttt{\_\_hash\_\_}}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Unsere \pythonil{Point}-Objekte sind unveränderlich.%
+%
+\item<2-> Sie speichern nur zwei numerische Koordination.%
+%
+\item<3-> Vielleicht könnte es eine Situation geben, wo jemand solche Punkte als Schlüssel für ein Dictionary verwenden will.%
+%
+\item<4-> Oder jemand will eine Menge von Punkten erstellen.%
+%
+\item<5-> Damit so etwas geht, müssen drei Bedingungen erfüllt werden\only<-5>{.}\uncover<6->{:
+%
+\begin{enumerate}%
+%
+\item Instanzen von \pythonil{Point} müssen unveränderlich sein.\uncover<7->{ %
+Das ist schon wahr.\uncover<8->{ Ich wollte es nur nochmal sagen.}}%
+%
+\item<9-> Es muss eine Dunder-Methode \dunder{eq} geben, die eine Instanz von \pythonils{Point} auf Gleichheit mit anderen Objekten vergleicht.\uncover<10->{ Auch die habe wir schon.}%
+%
+\item<11-> Die Dunder-Methode \dunder{hash} muss implementiert sein, die einen Hash-Wert eines \pythonil{Point}-Objekts in Form eines \pythonil{int} liefert.\uncover<11->{ Die fehlt noch.}%
+%
+\end{enumerate}%
+}%
+%
+\item<12-> Wenn wir diese Kriterien erfüllen, dann können \pythonils{Point} in Mengen gespeichert oder als Schlüssel in Dictionaries verwendet werden.%
+%
+\end{itemize}%
+\end{frame}%
+%
+%
+\section{\texttt{\_\_eq\_\_} und \texttt{\_\_hash\_\_}}%
+%
+%
+\begin{frame}
+\frametitle{\texttt{\_\_eq\_\_} und \texttt{\_\_hash\_\_}}%
+\begin{itemize}%
+\item Wir müssten also nur eine weitere Methode, implementieren nämlich \dunder{hash}.
+\item<2-> Für die zwei Dunder-Methoden \dunder{eq} und \dunder{hash} muss immer gelten\cite{PSF:P3D:TPLR:DM:H}:%
+\end{itemize}%
+%
+\uncover<3->{%
+\begin{equation}%
+\pythonil{a.\_\_eq\_\_(b)} \Rightarrow \pythonil{a.\_\_hash\_\_()} = \pythonil{b.\_\_hash\_\_()}%
+\label{eq:eqAndHash1}%
+\end{equation}%
+%
+\uncover<4->{%
+\begin{itemize}%
+\item Das ist das selbe wie\cite{PSF:P3D:TPSL:BIE,PSF:P3D:TPLR:DM:H}:%
+\end{itemize}%
+%
+\begin{equation}%
+\pythonil{a == b} \Rightarrow \pythonil{hash(a)} = \pythonil{hash(b)}%
+\label{eq:eqAndHash2}%
+\end{equation}}}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Ganzzahlige Hash-Tabellen}%
+\begin{itemize}%
+\only<-10>{%
+\item Machen wir mal einen Schritt zurück.%
+}%
+%
+\only<-11>{%
+\item<2-> Was ist überhaup ein Hash-Wert?%
+}%
+%
+\only<-12>{%
+\item<3-> Warum brauchen wir diese ganzzahligen Hash-Werte?%
+}%
+%
+\only<-13>{%
+\item<4-> Und warum müssen gleiche Objekte die gleichen Hash-Werte haben?%
+}%
+%
+\only<-14>{%
+\item<5-> Dictionaries in \python~(und \pgls{Java}) benutzen intern Tabellen, in denen die Schlüssel-Wert-Paare gespeichert sind\cite{G2020PHTUTH,L2011PDI}.%
+}%
+%
+\only<-15>{%
+\item<6-> Mengen machen das selbe, speichern aber nur Schlüssel.%
+}%
+%
+\only<-16>{%
+\item<7-> Die internen Tabellen funktionieren so ähnlich wie lineare Listen.%
+}%
+%
+\only<-17>{%
+\item<8-> Anders als bei Listen werden neue Elemente nicht am Ende angehängt.%
+}%
+%
+\only<-18>{%
+\item<9-> Stattdessen funktionieren sie eher wie Listen fester Länge, bei denen neue Elemente an bestimmten Indizes gespeichert werden, wo sie wieder gefunden werden können.%
+}%
+%
+\only<-19>{%
+\item<10-> Hash-Tabellen\cite{K1998SAS,CLRS2009ITA,SKS2019DSC} sind sehr schnell.%
+}%
+%
+\only<-20>{%
+\item<11-> Sie haben eine Element-weise Lese-, Such-, und Update-Komplexität von~\bigOb{1}\cite{H2025PM:PBOTTCODDSIPP33,PSF:TPW:TC,N2022CCSFPO}.%
+}%
+%
+\only<-21>{%
+\item<12-> Ein Element in einer Liste~\pythonil{l} kann in \bigOb{\pythonil{len(l)}} gesucht werden, also ist ein bestimmtes Element in einer Liste zu finden viel langsamer.%
+}%
+%
+\only<-22>{%
+\item<13-> Wie gesagt können Sie sich vorstellen, dass Hash-Tabellen intern Listen als Speicher verwenden.%
+}%
+%
+\only<-23>{%
+\item<14-> Wir können wir also eine Liste~\pythonil{l} mit Such-Komplexität \bigOb{\pythonil{len(l)}} in eine Hash-Tabelle mit Such-Komplexität \bigOb{1} umbauen?%
+}%
+%
+\only<-24>{%
+\item<16-> Stellen wir uns erstmal vor, das wir nur Ganzzahlen speichern wollen und das unsere Liste viel größer ist, als die Anzahl der Elemente die wir speichern wollen.%
+}%
+%
+\only<-25>{%
+\item<17-> Wir benutzen eine Liste von \pythonil{int | None} Werten und sie ist anfänglich nur mit \pythonil{None} gefüllt.%
+}%
+%
+\item<18-> Wenn wir eine Ganzzahl~\pythonil{i} speichern wollen, dann berechnen wir den \glslink{modulodiv}{Rest} der Division durch die Listenlänge, also \pythonil{i \% len(l)}, und platzieren das Element an diesem Index.%
+%
+\item<19-> Wenn wir wissen wollen, ob eine Ganzzahl~\pythonil{j} in der Liste ist, dann berechnen wir wieder \pythonil{j \% len(l)} und prüfen, ob es gleich dem Element an diesem Index ist~(via \dunder{eq}).%
+%
+\item<20-> Beide Operationen, Einfügen und Suchen, funktionieren nun in~\bigOb{1}.%
+%
+\item<21-> Natürlich war das eine sehr krasse Vereinfachung\cite{G2020PHTUTH,L2011PDI}.%
+%
+\item<22-> Es könnte \DEzB\ verschiedene Ganzzahlen mit dem selben Ergebnis für \pythonil{i \% len(l)} geben.%
+%
+\item<23-> Dictionaries und Sets müssen also mit solchen Kollisionen umgehen können.%
+%
+\item<24-> Sie müssen auch wachsen können, wenn sie langsam gefüllt werden.%
+%
+\item<25-> Aber das ist zumindest die grundlegende Idee.%
+%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Warum Hash-Werte?}%
+\begin{itemize}%
+\only<-10>{%
+\item Weil wir auch andere Objekte, die keine Ganzzahlen sind, als Schlüssel verwenden wollen, brauchen wir eine Möglichkeit, diese zu Ganzzahlen umzurechnen.%
+}%
+%
+\only<-11>{%
+\item<2-> Das ist, was \dunder{hash} machen soll.%
+}%
+%
+\only<-12>{%
+\item<3-> Es muss keine bijektive Funktion sein, also die \inQuotes{Umrechnung} muss nur in Richtung \pythonil{int} functionieren.%
+}%
+%
+\only<-13>{%
+\item<4-> Es muss auch nicht injektiv sein, also verschiedene Objekte dürfen den gleichen Hash-Wert haben.%
+}%
+%
+\only<-14>{%
+\item<5-> Das sollte aber so weit wie möglich vermieden werden.%
+}%
+%
+\only<-15>{%
+\item<6-> Die Dictionary- oder Mengen-Implementierung ist dann dafür verantwortlich, diese ganzzahligen Hash-Werte in Indizes für ihre internen Tabellen umzurechnen.%
+}%
+%
+\only<-16>{%
+\item<7-> Also werden die Hash-Werte gebraucht, um Objekte in Dictionaries und Mengen zu finden.%
+}%
+%
+\only<-17>{%
+\item<8-> Wir wollen wissen, ob ein Objekt~\pythonil{a} \pythonilIdx{in} der Menge~\pythonil{s} ist?%
+}%
+%
+\only<-18>{%
+\item<9-> Dann benutzt die Menge~\pythonil{s} die Funktion \pythonil{hash(a)}\pythonIdx{hash}, welche dann \pythonil{a.__hash__()}\pythonIdx{\_\_hash\_\_} aufruft, um den Hash-Wert von~\pythonil{a} zu bekommen.%
+}%
+%
+\item<10-> Das funktioniert so ähnlich wie \pythonil{repr(a)}, das \pythonil{a.__repr__()} aufruft, wenn es definiert ist.%
+%
+\item<11-> Dann übersetzt \pythonil{s} den Hash-Wert in einen Index.%
+%
+\item<12-> Dann prüft es, ob da ein Objekt \pythonil{b} an diesem Index ist mit \pythonil{b == a}.%
+%
+\item<13-> Wenn ja, dann ist \pythonil{a} in der Menge~\pythonil{s} und pythonil{a in s} liefert \pythonil{True}.%
+%
+\item<14-> Wenn nicht, dann nicht.%
+%
+\item<15-> Und wie gesagt, das ist komplizierter in der Realität, \DEzB\ kann es verschiedene Objekte mi den selben Hash-Kodes geben und die Menge muss solche Kollisionen irgendwie auflösen {\dots} aber für uns reicht diese prinzipielle Idee.%
+%
+\item<16-> Vereinfacht gesagt gilt also, dass wenn wir ein Objekt in die Menge~\pythonil{s} tun wollen, dessen Hash-Wert berechnet und dann in einen Index für die interne Tabelle umgerechnet wird.%
+%
+\item<17-> Dictionaries funktionieren genauso, nur speichern sie Schlüssel-Wert-Paare und berechnen den Hash-Code nur von den Schlüsseln.%
+%
+\item<18-> Sie können die Details in \bracketCite{G2020PHTUTH,L2011PDI} nachlesen.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{\texttt{\_\_eq\_\_} und \texttt{\_\_hash\_\_}}%
+\begin{itemize}%
+\item Es ist klar, dass wenn wir \dunder{hash} zweimal für das selbe Objekt~\pythonil{a} aufrufen, wir auch zweimal den selben Wert bekommen müssen.%
+%
+\item<2-> Weil der Hash-Wert benutzt wird, um Objekte in Mengen und Dictionaries zu finden, darf er sich niemals ändern.%
+%
+\item<3-> Deshalb ist auch klar, dass sich Objekte, die wir als Schlüssel in Dictionaries verwenden oder in Mengen speichern niemals verändern dürfen, also unveränderlich seien müssen.%
+%
+\item<4-> Es ist auch klar, dass wenn zwei Objekte~\pythonil{a} und~\pythonil{b} gleich sind, sie dann auch den selben Hash-Wert haben müssen.%
+%
+\item<5-> Das folgt schon daraus, das für zwei gleich Objekte~\pythonil{a} und \pythonil{b} gelten muss, das $\pythonil{a in s}=\pythonil{b in s}$.%
+%
+\item<6-> Sonst könnte es ja sein, dass \pythonil{\"123\" in s} für das \glslink{literal}{String Literal} \pythonil{\"123\"} das Ergebnis \pythonil{True} liefert, aber \pythonil{False} für \pythonil{str(123) in s}.%
+%
+\item<7-> Das würde ja überhaupt keinen Sinn ergeben.%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Objekte \inQuotes{Hash-bar} machen}%
+%
+\only<-4>{%
+\cquotation{PSF:P3D:TPLR:DM:H}{{\dots}The \pythonil{\_\_hash\_\_()}\pythonIdx{\_\_hash\_\_}\pythonIdx{dunder!\_\_hash\_\_} method should return an integer. %
+The only required property is that objects which compare equal have the same hash value; %
+it is advised to mix together the hash values of the components of the object that also play a part in comparison of objects by packing them into a \pythonil{tuple} and hashing the tuple.}%
+}%
+%
+\uncover<2->{%
+%
+\bestPractice{hash}{%
+Um \dunder{eq} und \dunder{hash} zu implementieren, sind die folgenden Regeln zu beachten\cite{PSF:P3D:TPLR:DM:H}\only<-2>{.}\uncover<3->{:%
+\begin{itemize}%
+%
+\only<-6>{%
+\item Nur unveränderliche Klassen dürfen \dunder{hash} implementieren, also nur Klassen, bei denen alle Attribute den \glslink{typeHint}{Type Hint} \pythonilIdx{Final} haben und ihre Werte nur im Initialisierer \dunder{init} bekommen.%
+}%
+%
+\only<4-7>{%
+\item<4-> Das Ergebnis von \pythonil{a.\_\_hash\_\_()} darf sich nie ändern~(weil \pythonil{a} sich auch nie ändern darf).%
+}%
+%
+\only<5-8>{%
+\item<5-> Wenn eine Klasse nicht \dunder{eq} definiert, dann kann sie auch nicht \dunder{hash} implementieren.%
+}%
+%
+\only<6-10>{%
+\item<6-> Instanzen einer Klasse, die \dunder{eq} implementiert aber nicht \dunder{hash}, können nicht als Schlüssel in Dictionaries oder Elemente von Mengen verwendet werden.%
+}%
+%
+\only<7-11>{%
+\item<7-> Nur Instanzen einer Klasse, die sowohl \dunder{eq} als auch \dunder{hash} implementiert, können als Schlüssel in Dictionaries oder Elemente von Mengen verwendet werden.%
+}%
+%
+\only<8-11>{%
+\item<8-> Die Ergebnisse von \dunder{eq} und \dunder{hash} müssen auf Basis der selben Attribute berechnet werden.\uncover<9->{ %
+Mit anderen Worten, die Attribute eines Objekts~\pythonil{a}, die das Ergebnis von \pythonil{a.\_\_eq\_\_(...)} bestimmen, müssen genau die gleichen sein wie die, die das Ergebnis von \pythonil{a.\_\_hash\_\_()} bestimmen.}%
+}%
+%
+\only<10->{%
+\item<10-> Es ist am Besten, die Ergebnisse von \pythonil{a.\_\_hash\_\_()} zu berechnen, in dem man einfach alle diese Attribute in ein \pythonil{tuple} tut und dann dieses Tupel an \pythonilIdx{hash} übergibt.%
+}%
+%
+\only<11->{%
+\item<11-> Zwei Objekte, die gleich sind, müssen den gleichen Hash-Wert haben.%
+}%
+\end{itemize}%
+}}}%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: \texttt{Point} mit \texttt{\_\_hash\_\_}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Nun können wir endlich unsere Klasse \pythonil{Point} \inQuotes{hashbar} machen.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir erstellen eine neue Datei \programUrl{dunder:point_with_hash}.%
+}%
+%
+\only<-6>{%
+\item<3-> Wir behalten die vorherige Implementierung von \pythonil{Point} mit der Methode \dunder{eq}.%
+}%
+%
+\only<-7>{%
+\item<4-> Alles, was wir machen müssen, ist eine neue Methode \dunder{hash} hinzuzufügen.%
+}%
+%
+\only<-8>{%
+\item<5-> Die einzigen Attribute, die in unserer \dunder{eq}-Methode eine Rolle spielen, sind die beiden Koordinaten des Punktes, \pythonil{self.x} und~\pythonil{self.y}.%
+}%
+%
+\only<-10>{%
+\item<6-> Also kann das Ergebnis von \dunder{hash} einfach \pythonil{hash((self.x, self.y))}\pythonIdx{hash} sein.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir brauchen die inneren Klammern um ein Tupel zu erstellen, also wir machen implizit \pythonil{t = (self.x, self.y)} und dann \pythonil{hash(t)}.%
+}%
+%
+\only<-12>{%
+\item<8-> Wenn wir das so hinschreiben, bekommen wir plötzlich einen Schreck.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir erlauben ja, dass die Koordinaten der Punkte entweder \pythonils{int} oder \pythonils{float} seien können.%
+}%
+%
+\only<-14>{%
+\item<10-> Nun wissen wir, dass \pythonil{5.0 == 5} natürlich \pythonil{True} ergibt.%
+}%
+%
+\only<-15>{%
+\item<11-> Deshalb ist ja \pythonil{Point(5.0, 3).\_\_eq\_\_(Point(5, 3))} auch \pythonil{True}.%
+}%
+%
+\only<-15>{%
+\item<12-> Ist aber \pythonil{hash((5.0, 3))} wirklich das gleiche wie \pythonil{hash((5, 3))}?%
+}%
+%
+\only<-16>{%
+\item<13-> Oder, noch einfacher, ist \pythonil{hash(5.0) == hash(5)} wirklich wahr?%
+}%
+%
+\only<-17>{%
+\item<14-> Wenn nicht, dann hätten wir den Vertrag von \dunder{hash} und \dunder{eq} auf eine sehr eigenartige und unerwartete Weise gebrochen.%
+}%
+%
+\only<-18>{%
+\item<15-> \pythonil{Point(5.0, 3)} wäre gleich zu \pythonil{Point(5, 3)}, aber ihre Hash-Werte wären verschieden.%
+}%
+%
+\only<-19>{%
+\item<16-> Wenn wir eine Menge~\pythonil{s} von Punkten hätten und \pythonil{Point(5.0, 3)} in dieser Menge speichern, dann könnte das Ergebnis von \pythonil{Point(5, 3) in s} entweder \pythonil{True} oder \pythonil{False} sein.%
+}%
+%
+\only<-21>{%
+\item<17-> Wenn das Layout der internen Tabelle, deren Größe von allen vorherigen Einfügungen und Löschungen abhängt, so ist, dass die verschiedenen Hash-Werte auf den selben Index gemappt werden, dann ist das Ergebnis \pythonil{True}.%
+}%
+%
+\only<-21>{%
+\item<18-> Im viel Wahrscheinlicheren Fall dass das nicht zutrifft, ist das Ergebnis \pythonil{False}.%
+}%
+%
+\only<-22>{%
+\item<19-> Wenn \pythonil{hash(5.0) != hash(5)} wirklich wahr wäre, dann würde unsere Implementierung Programme erzeugen, die sich unerwartet anders verhalten, in seltenen Situationen, die wir wahrscheinlich nicht deterministisch reproduzieren könnten.%
+}%
+%
+\only<-24>{%
+\item<20-> Das ist eine der schrecklichsten Arten von Bugs.%
+}%
+%
+\only<-26>{%
+\item<21-> Gleichzeitig könnten wir dann Mengen erzeugen, die das gleiche Element mehrfach beinhalten können.%
+}%
+%
+\item<22-> Das würde dann die Definition von Mengen verletzen.%
+%
+\item<23-> Kein Wunder, das \python\ mit den Regeln für  \dunder{hash} und \dunder{eq} recht streng ist\dots%
+%
+\item<24-> Zum Glück haben die Entwickler von \python\ an dieses Problem gedacht.%
+%
+\item<26-> Daher können wir also wirklich unsere \dunder{hash}-Funktion genauso implementieren, wie wir es uns überlegt haben.%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:point_with_hash}{}{dunder/point_with_hash.py}{}%
+\listingPython{1}{dunder:point_with_hash}{0.55}{0.01}{0.54}{0.99}%
+\listingPython{2-}{dunder:point_with_hash}{0.48}{-0.15}{0.54}{1.15}%
+%
+\locate{25}{%
+\cquotation{PSF:P3D:TPSL:BIF}{%
+Numeric values that compare equal have the same \pythonilIdx{hash} value~(even if they are of different types, as is the case for~\pythonil{1} and~\pythonil{1.0}).%
+}%
+}{0.02}{0.75}%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{Beispiel: \texttt{Point} mit \texttt{\_\_hash\_\_} benutzen}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item Wir benutzen unsere neue Klasse im Programm \programUrl{dunder:point_with_hash_user}.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir erstellen zuerst drei Punkte \pythonil{p1 = Point(3, 5)}, \pythonil{p2 = Point(7, 8)} und \pythonil{p3 = Point(3, 5.0)}.%
+}%
+%
+\only<-7>{%
+\item<3-> \pythonil{p1 == p2} ist \pythonil{False}, aber \pythonil{p1 == p3} ist \pythonil{True}, obwohl die \pythonil{y}\nobreakdashes-Koordinate von \pythonil{p1} ein \pythonil{int} ist und die von  \pythonil{p2} ein \pythonil{float} (aber mit dem selben Wert).%
+}%
+%
+\only<-8>{%
+\item<4-> Dann erstellen wir die Menge \pythonil{points} als \pythonil{\{p1, p2, p3\}}.%
+}%
+%
+\only<-9>{%
+\item<5-> Sie hat Größe 2.%
+}%
+%
+\only<-10>{%
+\item<6-> Weil \pythonil{p1 == p3} wird nur eines dieser beiden Objekte in der Menge gespeicher.%
+}%
+%
+\only<-11>{%
+\item<7-> \pythonil{p1 in points}, \pythonil{p2 in points} und \pythonil{p3 in points} sind aber alle \pythonil{True}.%
+}%
+%
+\only<-12>{%
+\item<8-> Das ist weil \pythonil{p1} und \pythonil{p3} gleich sind und auch den selben Hash-Wert haben.%
+}%
+%
+\only<-13>{%
+\item<9-> Wenn einen nuen Punkt \pythonil{p4} mit den gleichen Koordinaten wie \pythonil{p2}  erstellen wirden, dann würde \pythonil{p4 in points} auch gelten.%
+}%
+%
+\only<-14>{%
+\item<10-> Ein Punkt \pythonil{p5} mit Koordinaten, die anders als die von \pythonil{p1} und \pythonil{p2} sind, wäre kein Element von \pythonil{points}, also \pythonil{p5 in points} wäre dann \pythonil{False}.%
+}%
+%
+\only<-15>{%
+\item<11-> Wir können nun Instanzen der Klasse \pythonil{Point} auch als Schlüssel für ein Dictionary \pythonil{point_vals} verwenden.%
+}%
+%
+\only<-16>{%
+\item<13-> Die selben Dictionary-Operationen wie in Einheit~\unitDictionaries\ können problemlos verwendet werden.%
+}%
+%
+\only<-17>{%
+\item<14-> Wir assoziieren Wert \pythonil{\"A\"} mit Schlüssel \pythonil{p1} und \pythonil{\"B\"} mit Schlüssel \pythonil{p2}.%
+}%
+%
+\only<-18>{%
+\item<15-> Dann fügen wir ein weiteres Schlüssel-Wert-Paar hinzu, in dem wir \pythonil{\"C\"} unter Schlüssel \pythonil{Point(7, 9)} speichern.%
+}%
+%
+\item<16-> Dieses neue Paar taucht im Dictionary wie erwartet auf.%
+%
+\item<17-> Wenn wir den Wert \pythonil{\"D\"} unter Schlüssel \pythonil{Point(3.0, 5.0)} speichern, dann überschreibt das den Wert \pythonil{\"A\"}, der unter Schlüssel \pythonil{p1} gespeichert ist, weil \pythonil{p1} nämlich \pythonil{Point(3, 5)} ist.%
+%
+\item<18-> Wenn wir dann \pythonil{point_vals[p1]} abfragen, kommt \pythonil{\"D\"}.%
+\end{itemize}%
+}}%
+%
+%
+\gitLoadAndExecPython{dunder:point_with_hash_user}{}{dunder}{point_with_hash_user.py}{}%
+\listingPythonAndOutput{}{dunder:point_with_hash_user}{}{0.5}{0.01}{0.54}{0.99}%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Objekte \inQuotes{hashbar} zu machen ist ein Thema, welches wir nicht soooo oft antreffen werden.%
+%
+\item<2-> Aber es ist ein Thema, von dem wir lernen können.%
+%
+\item<3-> Wir haben gelernt, dass die Arbeit mit Dunder-Methoden Vorsicht erfordert.%
+%
+\item<4-> Wir müssen wirklich verstehen, was wir tun.%
+%
+\item<5-> Andernfalls können wir sehr schwer verständliche Fehler erzeugen.%
+%
+\item<6-> Wir könnten \DEzB\ \dunder{eq} und \dunder{ne} aus Versehen so implementieren, dass \pythonil{x == y} nicht mehr das Gegenteil von \pythonil{x != y} ist.%
+%
+\item<7-> Oder wir könnten \dunder{eq} und \dunder{hash} so implementieren, dass Mengen keine Mengen mehr sind\dots%
+%
+\item<8-> Solcherlei Bugs wären schwer zu finden.%
+%
+\item<9-> Wir müssen die Dokumentation gründlich lesen.%
+%%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
