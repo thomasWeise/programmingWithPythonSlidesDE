@@ -1,0 +1,599 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{46.~Klassen/Dunder:~Arithmetische Operatoren und Vergleiche}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Einleitung}%
+\begin{itemize}%
+%
+\item Viel von dem Verhalten der Syntax von \python\ ist in Dunder-Methoden implementiert.%
+%
+\item<2-> Selbst arithmetische Operatoren wie~\pythonilIdx{+}, \pythonilIdx{-}, \pythonilIdx{*} und \pythonilIdx{/}!
+%
+\item<3-> Dadurch können wir auch \alert{selber} numerische Typen definieren, wenn wir das wollen.%
+%
+\item<4-> Und da wir schon viel Spaß mit Mathematik in diesem Kurs hatten\dots%
+%
+\item<5-> \alert{Natürlich wollen wir das!}%
+%
+\item<6-> Wir werden die grundlegenden arithmetischen Operationen für eine Klasse \pythonil{Fraction} implementieren, die die rationalen Zahlen~$q\in\rationalNumbers$ repräsentiert, also die Zahlen für die gilt~$q=\frac{a}{b}$ mit~$a,b\in\integerNumbers$ and~$b\neq0$.%
+%
+\item<7-> Ja, \python\ hat schon so eine Klasse\cite{PSF:P3D:TPSL:FRN} aber das ist mir egal.%
+%
+\item<8-> Mit anderen Worten: Wir wollen unsere Grundschulmathematik in einen neuen numerischen Typ gießen.%
+%
+\item<9-> Frischen wir unsere Erinnerung nochmal kurz auf\only<-9>{.}\uncover<10->{: Wenn wir einen Bruch $\frac{a}{b}$ haben, dann wird %
+\begin{itemize}%
+\item $a$ als der \glslink{numerator}{Numerator} oder Nennen bezeichnet\only<-10>{.}\uncover<11->{ und}%
+\item<11-> $b$ wird \glslink{denominator}{Denominator} oder Zähler bezeichnet.%
+%
+\end{itemize}}%
+\item<12-> Los geht's.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Klasse für Brüche}%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: Initialisierer und Konstanten}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Fangen wir an, unsere Klasse \pythonil{Fraction} für Brüche in der Datei \programUrl{dunder:fraction} zu implementieren.%
+}%
+%
+\only<-6>{%
+\item<2-> Diesmal arbeiten wir uns Stückchen-weise durch, denn die Klasse ist etwas länger.%
+}%
+%
+\only<-7>{%
+\item<3-> Zuerst müssen wir uns entscheiden, welche Attribute unsere Klasse braucht.%
+}%
+%
+\only<-8>{%
+\item<4-> Wir bauen uns also zuerst den Initialisierer \dunder{init} zusammen.%
+}%
+%
+\only<-9>{%
+\item<5-> Weil der Bruch~$\frac{a}{b}$ durch zwei Ganzzahlen~$a$ und~$b$ definiert werden kann, entscheidden wir uns für zwei \pythonil{int}-Attribute~\pythonil{a} und~\pythonil{b}.%
+}%
+%
+\only<-11>{%
+\item<6-> Wir wollen, das unserer Brüche unveränderlich.%
+}%
+%
+\only<-12>{%
+\item<7-> Man kann den Wert von \pythonil{5} nicht verändern und sollte daher auch den Wert von \pythonil{1/3} nicht verändern können.%
+}%
+%
+\only<-14>{%
+\item<8-> Die Attribute werden daher mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final[int]}\cite{PEP591} annotiert.%
+}%
+%
+\only<-15>{%
+\item<9-> Unsere Brüche sollten in einer kanonischen Normalform sein.%
+}%
+%
+\only<-15>{%
+\item<10-> Es ist möglich, dass zwei Brüche $\frac{a}{b}=\frac{c}{d}$ mit $a\neq c$ und $b\neq c$.%
+}%
+%
+\only<-16>{%
+\item<11-> Das ist der Fall für \DEzB~$\frac{-9}{3}$ und $\frac{12}{-4}$.%
+}%
+%
+\only<-17>{%
+\item<12-> In solchen Fällen sollte man sie idealerweise in Objekten speichern, die die selben Attributwerde haben.%
+}%
+%
+\only<-18>{%
+\item<13-> Die Brüche~$\frac{1}{2}$ und~$\frac{2}{4}$ sind gleich.%
+}%
+%
+\only<-18>{%
+\item<14-> Sie sollten beide als~$\frac{1}{2}$ gespeichert werden.%
+}%
+%
+\only<-18>{%
+\item<15-> Es ist klar, dass~$\frac{a}{b}=\frac{c*a}{c*b}$ gilt für alle Ganzzahlen~$a,b,c\in\integerNumbers$ und~$b,c>0$.%
+}%
+%
+\only<-19>{%
+\item<16-> Bevor wir also~$a$ und~$b$ speichern, teilen wir beide Zahlen durch ihren \emph{größten gemeinsamen Teiler}~(ggT, engl.~gcd).%
+}%
+%
+\only<-21>{%
+\item<17-> In Einheit~\unitGCD\ haben wir den Euklidischen Algorithmus zum Berechnen des ggT implementiert.%
+}%
+%
+\only<-22>{%
+\item<18-> Diesmal verwenden wir die \pythonilIdx{gcd}-Funktion aus dem Modul \pythonilIdx{math} direkt.%
+}%
+%
+\only<-23>{%
+\item<19-> So oder so, in dem wir \glslink{numerator}{Zähler}~$a$ und \glslink{denominator}{Nenner}~$b$ durch ihren ggT teilen, stellen wir sicher, dass die Brüche in der kompaktesten Art dargestellt werden.%
+}%
+%
+\only<-24>{%
+\item<20-> Das lässt nur noch die Frage offen, wie das Vorzeichen gespeichert werden soll.%
+}%
+%
+\only<-25>{%
+\item<21-> Natürlich gilt $\frac{-5}{2}=\frac{5}{-2}$ und $\frac{5}{2}=\frac{-5}{-2}$.%
+}%
+%
+\only<-26>{%
+\item<22-> Wir entscheiden uns dafür, dass das Zeichen des Bruchs immer im Attribut~\pythonil{a} gespeichert werden soll.%
+}%
+%
+\only<-27>{%
+\item<23-> In anderen Worten, wenn $\frac{a}{b}<0$, dann wird \pythonil{a} negativ sein, sonst positiv oder~0.%
+}%
+%
+\only<-28>{%
+\item<24-> Es kann nur sein, dass $\frac{a}{b}<0$ wenn genau eins von $a<0$ oder $b<0$ zutrifft.%
+}%
+%
+\only<-29>{%
+\item<25-> Deshalb können wir das Vorzeichen unserers Bruch als \pythonil{-1 if ((a < 0) != (b < 0)) else 1} bestimmen.%
+}%
+%
+\only<-30>{%
+\item<26-> Im Initialisierer müssen wir auch sicherstellen, dass so etwas wie~$\frac{7}{0}$ nicht passiert.%
+}%
+%
+\only<-31>{%
+\item<27-> In diesem Fall lösen wir einen \pythonilIdx{ZeroDivisionError} aus.%
+}%
+%
+\only<-32>{%
+\item<28-> Natürlich müssen wir noch richtige \glslink{doctest}{Doctests} für den Initialisierer bauen.%
+}%
+%
+\only<-33>{%
+\item<29-> Wir prüfen, ob die Werte $a$ und $b$ ordentlich in den Attributen \pythonil{a} und \pythonil{b} gespeichert werden.%
+}%
+%
+\only<-34>{%
+\item<30-> Dann müssen wir prüfen, ob das mit dem Teilen durch den ggT auch funktioniert, also ob der Initialisierer $\frac{12}{2}$ auf $\frac{6}{1}$ umrechnet.%
+}%
+%
+\only<-35>{%
+\item<31-> Und wir müssen prüfen, dass $\frac{2}{-12}$ und $\frac{-2}{12}$ korrekt zu $\frac{-1}{6}$ werden, währed $\frac{-2}{-12}$ zu $\frac{1}{6}$ wird.%
+}%
+%
+\only<-36>{%
+\item<32-> Der Spezialfall der Zahl~0 muss auch geprüft werden.%
+}%
+%
+\only<-37>{%
+\item<33-> Wir wissen, dass \pythonil{gcd(0, -9) = -9}, also sollte $\frac{0}{-9}$ zu $\frac{0}{1}$ werden.%
+}%
+%
+\only<-37>{%
+\item<34-> Aber es ist besser, das auch nachzuprüfen.%
+}%
+%
+\only<-38>{%
+\item<35-> Genauso müssen wir prüfen, ob auch wirlich ein \pythonilIdx{ZeroDivisionError} ausgelöst wird, wenn wir versuchen eine Zahl mit einem \glslink{denominator}{Nenner} von~0 anzulegen.%
+}%
+%
+\only<-43>{%
+\item<36-> Ohne den Kode von \dunder{init} zu lesen, kann ein Benutzer bereits viel über unsere Klasse \pythonil{Fraction} nur von den \glslink{doctest}{Doctests} lernen.%
+}%
+%
+\only<-44>{%
+\item<37-> Nun ist es so, dass einige spezielle Brüche in vielen Berechnungen vorkommen.%
+}%
+%
+\item<38-> Anstatt sie immer wieder neu anzulegen, könnten wir sie als Konstanten definieren.%
+%
+\item<39-> Eine Konstante ist eine Variable, die sich niemals verändern kann.%
+%
+\item<43-> Wir definieren die drei Konstanten \pythonil{ZERO}, \pythonil{ONE} und \pythonil{ONE_HALF}.%
+%
+\item<44-> Diese Brüche werden oft benutzt und sie als Konstanten vorzuhalten spart Laufzeit und Speicher.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_1}{}{dunder/fraction.py}{--args format --labels part_1}%
+\listingPython{-2}{dunder:fraction:part_1}{0.6}{0.01}{0.54}{0.99}%
+\listingPython{3-39}{dunder:fraction:part_1}{0.5}{-0.15}{0.52}{1.45}%
+\listingPython{43-}{dunder:fraction:part_1}{0.5}{-0.15}{0.54}{1.15}%
+%
+\locate{40-42}{%
+\parbox{0.54\paperwidth}{\noindent%
+\bestPractice{constants}{\vspace{-0.5em}\small%
+Konstanten sind Modul-level Variablen denen ein Wert bei ihrer Erstellung zugewiesen wird und die mit dem \glslink{typeHint}{Type Hint}~\pythonilIdx{Final} annotiert werden\cite{PEP591}.%
+}\uncover<41->{%
+\bestPractice{constNames}{\vspace{-0.5em}\small%
+Die Namen von Konstanten bestehen nur aus Großbuchstaben, wobei Unterstriche Worte trennen. Beispiele sind \pythonil{MAX_OVERFLOW} und \pythonil{TOTAL}\cite{PEP8}.%
+}\uncover<42->{%
+\bestPractice{constDoc}{\vspace{-0.5em}\small%
+Konstanten werden dokumentiert, in dem ein Kommentar der mit \pythonil{\#: }\pythonIdx{\#:} anfängt direkt über die Konstantendefinition geschrieben wird\cite{SD2024SIDFD:DCAD}.%
+}}}%
+}}{0.46}{0.05}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: \texttt{\_\_str\_\_} und \texttt{\_\_repr\_\_}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-6>{%
+\item Ist Ihnen aufgefallen, dass wir die \glslink{doctest}{Doctests} im \glslink{docstring}{Docstring} unserer Klasse sehr umständlich geschrieben haben?%
+}%
+%
+\only<-7>{%
+\item<2-> Das war weil wir \dunder{str} und \dunder{repr} noch nicht definiert hatten.%
+}%
+%
+\only<-8>{%
+\item<3-> Das machen wir jetzt.%
+}%
+%
+\only<-8>{%
+\item<4-> Die Methode \dunder{str} soll eine kompakte Repräsentation eines Objekts liefern.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir implementieren sie so, dass sie \pythonil{self.a} als String zurückliefert, wenn der \glslink{denominator}{Nenner}~1 ist, also wenn~\pythonil{self.b == 1}.%
+}%
+%
+\only<-10>{%
+\item<6-> Dann ist der Bruch ja eine Ganzzahl.%
+}%
+%
+\only<-11>{%
+\item<7-> Sonst soll sie \pythonil{f\"\{self.a\}/\{self.b\}\"} liefern.%
+}%
+%
+\only<-12>{%
+\item<8-> Das ist klar genug, um den Wert eines Bruches zu erkennen.%
+}%
+%
+\only<-13>{%
+\item<9-> Es ist aber auch uneindeutig, denn wir können \pythonil{str(Fraction(12, 1))} und \pythonil{str(12)} nicht voneinander unterscheiden.%
+}%
+%
+\only<-14>{%
+\item<10-> Brüche, die Ganzzahlen repräsentieren, haben die gleiche textuelle repräsentation wie diese Ganzzahlen.%
+}%
+%
+\only<-15>{%
+\item<11-> Die \dunder{repr}-Methode existieret, um eindeutige und klare Ausgaben zu erzeugen.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir implementieren sie so, dass sie \pythonil{f\"Fraction(\{self.a\}, \{self.b\})\"} liefert.%
+}%
+%
+\only<-17>{%
+\item<13-> In den \glslink{docstring}{Docstrings} beider Methoden schreiben wir wieder \glslink{doctest}{Doctests}.%
+}%
+%
+\only<-18>{%
+\item<14-> Die Dunder-Methode \dunder{str} wird automatisch verwendet, wenn wir ein Objekt an \pythonilIdx{print} übergeben.%
+}%
+%
+\item<15-> Das bedeutet, dass wir den erwarteten Output von \pythonil{f.\_\_str\_\_()} für einen Bruch~\pythonil{f} mit dem Ergebnis von \pythonil{print(f)} vergleichen können.%
+%
+\item<16-> Andernfalls konvertieren \glslink{doctest}{Doctests} Objekte immer mit \pythonilIdx{repr} zu strings.%
+%
+\item<17-> Das bedeutet, dass die Zeile \pythonil{Fraction(-5, 12)} in dem \glslink{doctest}{Doctest} von \dunder{repr} tatsächlich \pythonil{repr(Fraction(-5, 12)} aufruft.%
+%
+\item<18-> Mit der String-Konversation aus dem Weg können wir nun mathematische Operatoren implementieren.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_2}{}{dunder/fraction.py}{--args format --labels part_2}%
+\listingPython{}{dunder:fraction:part_2}{0.45}{0.1}{0.54}{0.99}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: Addition und Subtraktion}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-4>{%
+\item Wir wollen nun Instanzen unserer Klasse \pythonil{Fraction} mit den \pythonil{+} und \pythonil{-} Operatoren verwendbar machen.%
+}%
+%
+\only<-5>{%
+\item<2-> In \python\ ruft \pythonil{x + y} nämich \pythonil{x.\_\_add\_\_(y)} auf, wenn die Klasse von~\pythonil{x} die Dunder-Methode \dunder{add} definiert.%
+}%
+%
+\only<-6>{%
+\item<3-> In der Grundschule haben wir gelernt, dass $\frac{a}{b}+\frac{c}{d} = \frac{a*d+c*b}{b*d}$ ist, für $b,d\neq0$.%
+}%
+%
+\only<-7>{%
+\item<4-> Wenn \pythonil{other} auch eine Instanz von \pythonil{Fraction} ist, dann berechnet \pythonil{\_\_add\_\_(other)} das Ergebnis genau so und liefert eine neue \pythonil{Fraction} zurück.%
+}%
+%
+\only<-9>{%
+\item<5-> Der Initialisierer des neuen Bruchs wird diesen automatisch unter Benutzung des ggT normalisieren.%
+}%
+%
+\only<-10>{%
+\item<6-> Wenn \pythonil{other} keine Instanz von \pythonil{Fraction} ist, dann geben wir einfach \pythonilIdx{NotImplemented} zurück.%
+}%
+%
+\only<-11>{%
+\item<7-> Das kennen wir schon von unserer Implementierung von \dunder{eq} für Punkte.%
+}%
+%
+\only<-12>{%
+\item<8-> Das ermöglicht \python, nach anderen möglichen Routen zu suchen, eine Addition hinzubekommen.%
+}%
+%
+\only<-13>{%
+\item<9-> \python\ würde schauen, ob \pythonil{other} eine \dunder{radd}-Methode hat, die nicht \pythonilIdx{NotImplemented} zurückliefert.%
+}%
+%
+\only<-14>{%
+\item<10-> Wir wollen hier aber nicht alle möglichen arithmetischen Operationen implementieren, also lassen wir \dunder{radd} mal aus.%
+}%
+%
+\only<-15>{%
+\item<11-> So oder so, wir müssen unsere Methode wieder mit \glslink{doctest}{Doctests} testen.%
+}%
+%
+\only<-16>{%
+\item<12-> Wir prüfen ob $\frac{1}{3} + \frac{1}{2}$ wirklich $\frac{5}{6}$ ergibt.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir prüfen ob $\frac{1}{2}+\frac{1}{2}$ wirklich $\frac{1}{1}$ ergibt.%
+}%
+%
+\only<-17>{%
+\item<14-> Wir prüfen auch auf korrekte Normalisierung, in dem wir  gucken, ob $\frac{21}{-12}+\frac{-33}{42}=\frac{882+396}{-504}=\frac{1278}{-504}=\frac{18*1278}{18*-28}=\frac{-71}{28}$ stimmt.%
+}%
+%
+\item<15-> Nachdem wir bestätigt haben, dass diese Tests erfolgreich sind, wollen wir nun die \dunder{sub}-Methode ganz genauso implementieren.%
+%
+\item<16-> Das erlaubt nämlich Subtraktion mit~\pythonilIdx{-}, denn \pythonil{x - y} ruft \pythonil{x.\_\_sub\_\_(y)} auf, wenn die Klasse von~\pythonil{x} die \dunder{sub}-Methode definiert.%
+%
+\item<17-> Es ist klar, dass $\frac{a}{b}-\frac{c}{d} = \frac{a*d-c*b}{b*d}$ für $b,d\neq0$.%
+%
+\item<18-> Als \glslink{doctest}{Doctests} nehmen wir dann die selben drei Fälle wie für die \dunder{add}-Methode.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_3}{}{dunder/fraction.py}{--args format --labels part_3}%
+\listingPython{}{dunder:fraction:part_3}{0.45}{0.05}{0.54}{0.99}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: Multiplikation, Division, und Betrag}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Schauen wir uns nun Multiplikation und Division an.%
+}%
+%
+\only<-6>{%
+\item<2-> Der \pythonil{*}~Operator benutzt die Methode \dunder{mul}, wenn diese implementiert ist.%
+}%
+%
+\only<-7>{%
+\item<3-> Der \pythonil{/}~Operator benutzt die Methode \dunder{truediv}, wenn diese implementiert ist.%
+}%
+%
+\only<-8>{%
+\item<4-> Wenn wir die Brüche $\frac{a}{b}$ und $\frac{c}{d}$ multiplizieren, dann bekommen wir $\frac{a*c}{b*d}$ für $b,d\neq0$.%
+}%
+%
+\only<-10>{%
+\item<5-> Das Teilen von $\frac{a}{b}$ durch $\frac{c}{d}$ ergibt $\frac{a*d}{b*c}$ für $b,c,d\neq0$.%
+}%
+%
+\only<-10>{%
+\item<6-> Die Dunder-Methoden können nach dem selben Schema wie vorher implementiert werden.%
+}%
+%
+\only<-11>{%
+\item<7-> Wir testen die Multiplikation, in dem wir bestätigen das $\frac{6}{19}*\frac{3}{-7}=\frac{6 * 3}{19*-7}=\frac{18}{-133}=\frac{-18}{133}$.%
+}%
+%
+\only<-12>{%
+\item<8-> Wir testen die Division, in dem wir bestätigen, dass $\frac{6}{19}*\frac{3}{-7}=\frac{6 * -7}{19*3}=\frac{-42}{57}=\frac{3*-14}{3*19}$ wirklich $\frac{-14}{19}$ ergibt.%
+}%
+%
+\only<-13>{%
+\item<9-> Wir implementieren auch eine Unterstützung für die \pythonilIdx{abs}-Function.%
+}%
+%
+\item<10-> \pythonilIdx{abs} liefert den Betrag einer Zahl.%
+%
+\item<11-> Es gilt das $\pythonil{abs(5)}=\pythonil{abs(-5)}=\pythonil{5}$.%
+%
+\item<12-> \pythonil{abs(x)} ruft \pythonil{x.\_\_abs\_\_()}\pythonIdx{\_\_abs\_\_}\pythonIdx{dunder!\_\_abs\_\_} auf, wenn diese Methode definiert ist.%
+%
+\item<13-> Wir implementieren diese Methode so:%
+%
+\item<14-> Wenn unser Bruch positiv ist, dann liefern wir ihn direkt zurück.%
+%
+\item<15-> Sonst erstellen wir eine neue, positive Variante unserers Bruchs.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_4}{}{dunder/fraction.py}{--args format --labels part_4}%
+\listingPython{}{dunder:fraction:part_4}{0.45}{0.01}{0.54}{0.99}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: Vergleichsoperatoren}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-11>{%
+\item Zuletzt implementieren wir noch die sechs Vergleichsoperatoren als Dunder-Methoden, wie in \bracketCite{PEP207} spezifiziert\only<-1>{.}}\only<2-11>{%
+%
+\begin{itemize}%
+\only<-6>{%
+\item \dunder{eq} implementiert die Funktionalität von~\pythonilIdx{==}.%
+}%
+%
+\only<-7>{%
+\item<3-> \dunder{ne} implementiert die Funktionalität von~\pythonil{!=}\pythonIdx{"!=}.%
+}%
+%
+\only<-8>{%
+\item<4-> \dunder{lt} implementiert die Funktionalität von~\pythonilIdx{<}.%
+}%
+%
+\only<-9>{%
+\item<5-> \dunder{le} implementiert die Funktionalität von~\pythonil{<=}\pythonIdx{<=}.%
+}%
+%
+\only<-10>{%
+\item<6-> \dunder{gt} implementiert die Funktionalität von~\pythonilIdx{>}.%
+}%
+%
+\item<7-> \dunder{ge} implementiert die Funktionalität von~\pythonil{>=}\pythonIdx{>=}.%
+\end{itemize}}%
+%
+\only<-12>{%
+\item<8-> Der Gleichheits- und der Ungleichheitsoperator sind sehr einfach.%
+}%
+%
+\only<-13>{%
+\item<9-> Unsere Brüche sind ja normalisiert.%
+}%
+%
+\only<-14>{%
+\item<10-> Für zwei Brüche~\pythonil{x} und~\pythonil{y} gilt \pythonil{x == y} dann und nur dann, wenn \pythonil{x.a == y.a} und \pythonil{x.b == y.b}.%
+}%
+%
+\only<-15>{%
+\item<11-> Ist daher schnell implementiert.%
+}%
+%
+\only<-16>{%
+\item<12-> \dunder{ne} ist das Komplement davon für den \pythonil{!=}\pythonIdx{"!=}-Operator.%
+}%
+%
+\only<-17>{%
+\item<13-> \pythonil{x != y} ist \pythonil{True} wenn \pythonil{x.a != y.a} oderr \pythonil{x.b != y.b} wahr sind.%
+}%
+%
+\only<-18>{%
+\item<14-> Die anderen vier Operatoren können implementiert werden, wenn wir uns daran erinnern, wie wir den gemeinsamen \glslink{denominator}{Nenner} für Addition und Subtraktion verwendet haben.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir haben so addiert:~$\frac{a}{b}+\frac{c}{d}=\frac{a*d}{b*d}+\frac{c*b}{b*d}=\frac{a*d+c*b}{b*d}$.%
+}%
+%
+\only<-20>{%
+\item<16-> Wenn wir uns das nochmal angucken, dann stellen wir fest, das $\frac{a}{b}<\frac{c}{d}$ das Gleiche wir $\frac{a*d}{b*d}<\frac{c*b}{b*d}$ ist.%
+}%
+%
+\only<-22>{%
+\item<17-> Das ist wiederum das Gleiche wir~$a*d<c*b$.%
+}%
+%
+\only<-23>{%
+\item<18-> Daher ist $\frac{a}{b}\leq\frac{c}{d}$ das Gleiche wie $a*d\leq c*b$.%
+}%
+%
+\only<-23>{%
+\item<19-> Der \inQuotes{größer-} und der \inQuotes{größer-gleich-Operator} können genauso nur andersherum implementiert werden.%
+}%
+%
+\only<-25>{%
+\item<20-> Diesmal lasse ich die \glslink{doctest}{Doctests} aus Platzgründen weg.%
+}%
+%
+\only<-26>{%
+\item<21-> Genau genommen habe ich manches hier im Text etwas verkürzt.%
+}%
+%
+\item<22-> Der Initialisierer \dunder{init} prüft \DEzB\ nicht, ob seine Parameter wirklich \pythonil{int} sind\dots%
+%
+\item<23-> Das sollten wir in zusätzlichen \glslink{unitTest}{Unit Tests} prüfen.%
+%
+\item<24-> Sie sollten aber niemals solche Tests weglassen.%
+%
+\item<25-> In Ihrem Programmkode haben Sie Platz.%
+%
+\item<26-> Der muss ja nicht auf eine Slide passen\dots%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_5}{}{dunder/fraction.py}{--args format --labels part_5}%
+\listingPython{}{dunder:fraction:part_5}{0.5}{0.01}{0.54}{0.99}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Ergebnis der Doctests}%
+\begin{itemize}%
+\item Und was kommt bei den \glslink{doctest}{Doctests} raus?%
+\item<3-> Dann passt's ja.%
+\end{itemize}%
+%
+\gitExec{exec:dunder:fraction:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh dunder fraction.py}%
+\listingOutput{2-}{dunder:fraction:doctest}{style=tool_style}{0.04}{0.35}{0.92}{0.64}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item Es gibt noch ein paar mehr Dunder-Methoden, um arithmetische Operationen zu implementieren.%
+%
+\item<2-> Und das macht wirklich Spaß.%
+%
+\item<3-> Wir können unsere eigenen Klassen für Brüche und komplexe Zahlen haben!%
+%
+\item<4-> Na gut, \python\ hat die schon\dots%
+%
+\item<5-> Aber wir könnten komplexe Zahlen mit Brüchen implementieren\dots%
+%
+\item<6-> The sky is the limit!%
+%%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%

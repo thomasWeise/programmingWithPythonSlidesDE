@@ -66,6 +66,7 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 43. [Klassen: Vererbung](https://thomasweise.github.io/programmingWithPythonSlidesDE/43_klassen_vererbung.pdf)
 44. [Klassen/Dunder: `__str__`, `__repr__`, und `__eq__`](https://thomasweise.github.io/programmingWithPythonSlidesDE/44_klassen_dunder_str_rep_eq.pdf)
 45. [Klassen/Dunder: `__hash__`](https://thomasweise.github.io/programmingWithPythonSlidesDE/45_klassen_dunder_hash.pdf)
+46. [Klassen/Dunder: Arithmetische Operatoren und Vergleiche](https://thomasweise.github.io/programmingWithPythonSlidesDE/46_klassen_dunder_math.pdf)
 
 
 ### 2.3. Die Slides in Englisch
