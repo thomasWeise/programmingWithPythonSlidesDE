@@ -1,0 +1,1365 @@
+\pdfminorversion=7%
+\documentclass[aspectratio=169,mathserif,notheorems]{beamer}%
+%
+\xdef\bookbaseDir{../../bookbase}%
+\xdef\sharedDir{../../shared}%
+\RequirePackage{\bookbaseDir/styles/slides}%
+\RequirePackage{\sharedDir/styles/styles}%
+\toggleToGerman%
+%
+\subtitle{47.~Zwischenspiel: Debugger}%
+%
+\begin{document}%
+%
+\startPresentation%
+%
+\section{Einleitung}%
+%%
+\begin{frame}[t]%
+\frametitle{Das Szenario}%
+\begin{itemize}%
+%
+\item Wir wollen nun Mathematik basierend auf unserer Klasse \pythonil{Fraction} für \inQuotes{echte} Berechnungen verwenden.%
+%
+\item<2-> Erinnern Sie sich an Einheit~\unitSqrtHeron, als wie Heron's Methode zum berechnen der Quadratwurzel mit einer \pythonil{while}-Schleife implementiert hatten?%%
+%
+\item<3-> In Einheit~\unitFunctionsInModules\ haben wir den Kode dann in eine Funktion gegossen.%
+%
+\item<4-> Wenn wir uns diese Funktion wieder angucken, dann stellen wir fest, dass sie die Quadratwurzel nur mit Vergleichen, Addition, Multiplikation, und Division implementiert.%
+%
+\item<5-> Diese Operationen gibt es auch für unsere Klasse \pythonils{Fraction}!%
+%
+\item<6-> Das heist, wir könnten die Quadratwurzel einer Zahl beliebig genau berechnen!%
+%
+\item<7-> Nun, wir müssten eine Art Abbruchkriterion hinzufügen, aber abgesehen davon{\dots}%
+%
+\item<8-> {\dots}Wir könnten nun $\sqrt{2}$ auf 700~Ziffern genau berechnen!%
+\end{itemize}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Die Anforderung}%
+\begin{itemize}%
+\item Wobei {\dots} bisher haben wir noch keine Möglichkeit, diese Ziffern auch auszugeben.%
+%
+\item<2-> Unsere \dunder{str}-Methode liefert Textreprästentationen von Brüchen in der Form~\pythonil{\"a/b\"}.%
+%
+\item<3-> Wenn wir einen Bruch, der $\sqrt{2}$ annähert, berechnet, dann könnte der \DEzB\ als $\frac{6369051672525773}{4503599627370496}$ ausgegeben werden.%
+%
+\item<4-> Wir hätten aber lieber 1.4142135623730951.%
+%
+\item<5-> Also zuerst müssen wir eine Methode \pythonil{decimal_str} implementieren, die einen Bruch in so einen Ziffern-basierten String umrechnet.%
+%
+\item<6-> Da einige Brüche wie~$\frac{1}{3}$ und~$\frac{1}{7}$ unendlich lange dezimale Repräsentationen haben, braucht unsere Funktion einen Parameter \pythonil{max_frac}, der die maximale Anzahl der Dezimalstellen angibt.%
+%
+\item<7-> Wir nehmen 100 als Default-Wert.%
+%
+\item<8-> OK, implementieren wir das mal.%
+\end{itemize}%
+\end{frame}%
+%
+\section{Die Implementierung}%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: \texttt{decimal\_str}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+\only<-5>{%
+\item In Datei \programUrl{dunder:fraction_decimal_str_err:part_6} implementieren wir unsere neue Variante der Klasse \pythonil{Fraction} mit dieser Funktion.%
+}%
+%
+\only<-6>{%
+\item<2-> Hier zeigen wir nur die neue Methode \pythonil{decimal_str}.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir beginnen unsere Methode \pythonil{decimal_str}, in dem wir erst den \glslink{numerator}{Zähler} in eine Variable~\pythonil{a} kopieren.%
+}%
+%
+\only<-8>{%
+\item<4-> Wenn \pythonil{a == 0}, dann ist der Bruch~0 und wir liefern direkt \pythonil{\"0\"} zurück.%
+}%
+%
+\only<-9>{%
+\item<5-> Sonst prüfen wir, ob der Bruch negativ ist.%
+}%
+%
+\only<-13>{%
+\item<6-> Die Boolsche Variable \pythonil{negative} wird auf \pythonil{True} gesetzt wenn \pythonil{a < 0} und sonst auf \pythonil{False}.%
+}%
+%
+\only<-14>{%
+\item<7-> Wir stellen dann sicher, dass \pythonil{a} positiv ist, in dem wir es auf \pythonil{abs(a)} setzen.%
+}%
+%
+\only<-15>{%
+\item<8-> Dann kopieren wir auch den \glslink{denominator}{Nenner} in eine Variable~\pythonil{b}.%
+}%
+%
+\only<-16>{%
+\item<9-> Wir werden die lokalen Variablen \pythonil{negative} und \pythonil{b} in unserer Methode nicht verändern, also markieren wir sie beide mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final}.%
+}%
+%
+\only<-17>{%
+\item<13-> In einer \pythonil{while}-Schleife füllen wir nun eine Liste \pythonil{digits} mit den Ziffern die den Bruch repräsentieren.%
+}%
+%
+\only<-18>{%
+\item<14-> Die Schleife wird fortgesetzt bis entweder \pythonil{a == 0} oder bis unsere Liste \pythonil{digits} \pythonil{max_frac} Nachkommastellen beinhaltet.%
+}%
+%
+\only<-19>{%
+\item<15-> Nehmen wir mal an, unser Bruch wäre $-\frac{179}{16}$.%
+}%
+%
+\only<-20>{%
+\item<16-> Dann ist \pythonil{negative == True}, \pythonil{a = 179} und \pythonil{b = 16}.%
+}%
+%
+\only<-22>{%
+\item<17-> Im Schleifenkörper hängen wir das Ergebnis der Ganzzahldivision von \pythonil{a} durch \pythonil{b}, also \pythonil{a // b}, an die Liste \pythonil{digits} an.%
+}%
+%
+\only<-23>{%
+\item<18-> In der ersten Iteration gibt uns das \pythonil{179 // 16}.%
+}%
+%
+\only<-24>{%
+\item<19-> Die erste \inQuotes{Ziffer}, die wir an die Liste \pythonil{digits} anhängen, ist also \pythonil{11}.%
+}%
+%
+\only<-25>{%
+\item<20-> Das ist der ganzzahlige Teil unseres Bruches und auch die einzige \inQuotes{Ziffer} größer als~9 die auftauchen kann.%
+}%
+%
+\only<-26>{%
+\item<21-> Jetzt updaten wir \pythonil{a} zu \pythonil{10 * (a \% b)}.%
+}%
+%
+\only<-27>{%
+\item<22-> \pythonilIdx{\%} ist der \glslink{modulodiv}{Rest der Division}.%
+}%
+%
+\only<-27>{%
+\item<23-> \pythonil{a \% b} gibt uns den Rest der Division von~179 durch~16, also~3.%
+}%
+%
+\only<-28>{%
+\item<24-> Wir bekommen also \pythonil{a = 30}.%
+}%
+%
+\only<-28>{%
+\item<25-> Im zweiten Schleifendurchlauf gibt uns \pythonil{a // b} also \pythonil{30 // 16} die Ziffer~\pythonil{1}.%
+}%
+%
+\only<-29>{%
+\item<26-> Nun wird \pythonil{10 * (a \% b)} 140 als neuer Wert für~\pythonil{a}.%
+}%
+%
+\only<-30>{%
+\item<27-> Das führt dann zu \pythonil{140 // 16}, also~8, als dritte Ziffer und \pythonil{a} wird zu  \pythonil{10 * (a \% b)}, also~120.%
+}%
+%
+\only<-32>{%
+\item<27-> Am Anfang des vierten Schleifendurchlaufs gilt \pythonil{a = 120}, währen \pythonil{b = 16} unverändert bleibt.%
+}%
+%
+\only<-32>{%
+\item<28-> Der vierte Wert, der an \pythonil{digits} angehängt wird, ist daher \pythonil{120 // 16 == 7}.%
+}%
+%
+\only<-34>{%
+\item<29-> Die Variable~\pythonil{a} wird mit dem Ergebnis von \pythonil{10 * (a \% b)} upgedated, was 80 ist.%
+}%
+%
+\only<-35>{%
+\item<30-> Als letzte Ziffer bekommen wir daher \pythonil{80 // 16}, nämlich~\pythonil{5}.%
+}%
+%
+\only<-36>{%
+\item<31-> Das ist die letzte Ziffer, denn \pythonil{80 \% 16} ist~0.%
+}%
+%
+\only<-36>{%
+\item<32-> Deshalb trifft \pythonil{a == 0} nach der fünften Iteration zu.%
+}%
+%
+\only<-37>{%
+\item<33-> Dadurch wird die erste Schleifenbedingung~(\pythonil{a != 0}) \pythonil{False} und die Schleife bricht ab.%
+}%
+%
+\only<-38>{%
+\item<34-> Zu diesem Zeitpunkt ist \pythonil{digits == [11, 1, 8, 7, 5]}.%
+}%
+%
+\only<-39>{%
+\item<35-> Und das stimm, denn $\frac{179}{16}=11.1875$.%
+}%
+%
+\only<-40>{%
+\item<36-> Beachten Sie, dass es zwei Bedingungen gibt, bei denen die Schleife abbricht\only<-34>{.}%
+}%
+%
+\only<-41>{%
+\item<37-> Sie hört auf, wenn wir den Bruch komplett und vollständig als Textstring mit nicht mehr als als der angegebenen Menge \pythonil{max_frac} von Ziffern darstellen können.%
+}%
+%
+\only<-42>{%
+\item<38-> Das war der Fall in unserem Beispiel.%
+}%
+%
+\only<-43>{%
+\item<39-> Die Schleife hört auch auf, wenn wir die maximale Anzahl von Ziffern erreichen, also wenn \pythonil{len(digits)} \pythonil{max_frac} übertrifft.%
+}%
+%
+\only<-44>{%
+\item<40-> Aber das kann auch zu Problemen führen.%
+}%
+%
+\only<-45>{%
+\item<41-> Was passiert \DEzB, wenn wir $\frac{10006}{10000}=1.0006$ mit nur \emph{3} Nachkommastellen ausdrücken wollen?%
+}%
+%
+\only<-46>{%
+\item<42-> Nach der Schleife steht dann \pythonil{[1, 0, 0, 0]} in \pythonil{digits}.%
+}%
+%
+\only<-47>{%
+\item<43-> Zu diesem Zeitpunkt hätten wir dann \pythonil{a = 60000} und \pythonil{b = 10000}.%
+}%
+%
+\only<-48>{%
+\item<44-> Die 6 am Ende des \glslink{numerator}{Zählers} ist ungünstig\only<-42>{.}\uncover<43->{:}%
+}%
+%
+\only<-48>{%
+\item<45-> Wenn wir den Bruch mit drei Nachkommastellen darstellen wollen, dann sollte da 1.001 herauskommen, nicht 1.000, wie in der Liste \pythonil{digits} steht.%
+}%
+%
+\only<-50>{%
+\item<46-> Nun, alles, was wir tun müssen, um das zu reparieren, ist zu prüfen ob die nächste Ziffer, die wir anhängen würden, größer oder gleich 5 wäre.%
+}%
+%
+\only<-51>{%
+\item<47-> Wenn ja, dann erhöhen wir die letzte Ziffer in \pythonil{digits} um \pythonil{1}.%
+}%
+%
+\only<-52>{%
+\item<48-> Das wird sich später als Fehler herausstellen\dots%
+}%
+%
+\only<-53>{%
+\item<49-> Um ein Aufrunden einzuführen, fügen wir ein \pythonil{if (a // b) >= 5} ein, das dann \pythonil{digits[-1] += 1} ausführt, wenn seine Kondition zutrifft.%
+}%
+%
+\only<-54>{%
+\item<50-> An dieser Stelle haben wir jedenfalls eine Repräsentation eines Bruchs als Liste von Ziffern.%
+}%
+%
+\only<-55>{%
+\item<51-> Jetzt müssen wir diese nur in einen String umrechnen und den dann zurückliefern.%
+}%
+%
+\only<-56>{%
+\item<52-> Zuerst schauen wir, ob wir einen Dezimalpunkt~(\inQuotes{.}) einfügen müssen.%
+}%
+%
+\only<-57>{%
+\item<53-> Wenn wir nur eine einzige Ziffer haben, dann ist unser Bruch eine Ganzzahl und wir können ihn genau so zurückliefern.%
+}%
+%
+\only<-58>{%
+\item<54-> Wenn \pythonil{len(digits) <= 1}, dann stellen wir das Vorzeichen wieder her und konvertieren die einzelne zu einem String und liefern diesen zurück.%
+}%
+%
+\only<-59>{%
+\item<55-> Sonst müssen wir einen Punkt~\inQuotes{.} nach der ersten Nummer in \pythonil{digits} einfügen.%
+}%
+%
+\only<-60>{%
+\item<56-> Das geht via \pythonil{digits.insert(1, \".\")}.%
+}%
+%
+\only<-61>{%
+\item<57-> In unserem Beispiel von $\frac{-179}{16}$ hatten wir erst \pythonil{digits == [11, 1, 8, 7, 5]}.%
+}%
+%
+\only<-62>{%
+\item<58-> Nach diesem Schritt haben wir \pythonil{digits == [11, \".\", 1, 8, 7, 5]}.%
+}%
+%
+\only<-62>{%
+\item<59-> Wenn der Bruch negativ war, also wenn \pythonil{negative} wahr ist, dann fügen wir ein Minus vorne an die Liste an, via \pythonil{digits.insert(0, \"-\")}\pythonIdx{list!insert}.%
+}%
+%
+\only<-63>{%
+\item<60-> In unserem Beispiel bekommen wir also \pythonil{digits == [\"-\",} \pythonil{11, \".\", 1, 8, 7, 5]}.%
+}%
+%
+\only<-65>{%
+\item<61-> Alles, was wir jetzt noch machen müssen, ist alle Ganzzahlen in Strings zu übersetzen und dann alle Strings aneinander anzuhängen.%
+}%
+%
+\only<-65>{%
+\item<62-> Das schaffen wir mit einer einzigen Zeile Kode: \pythonil{\"\".join(map(str, digits))}.%
+}%
+%
+\only<-67>{%
+\item<63-> \pythonilIdx{map} liefert uns einen \pythonil{Iterator}, der die Ergebnisse der Funktion \pythonilIdx{str} angewandt auf die Elemente von \pythonil{digits} eins nach dem Anderen zurückliefert.%
+}%
+%
+\only<-68>{%
+\item<64-> \pythonilIdx{str} auf einen String angewandt liefert den String direkt zurück.%
+}%
+%
+\item<65-> Angewandt auf eine Ganzzahl konvertiert es diese zu einem String.%
+%
+\item<66-> Die Methode \pythonilIdx{join}\pythonIdx{str!join} eines Strings hängt alle Element des \pythonils{Iterable}, das sie als Parameter bekonnt, aneinander und verwendet den String selbst als Separator.%
+%
+\item<67-> \pythonil{\"X\".join([\"a\", \"b\", \"c\"])} \DEzB\ würde \pythonil{\"aXbXc\"} ergeben.%
+%
+\item<68-> Wir benutzen den leeren String als Separator, deshalb bekommen wir in unserem Beispiel \pythonil{\"-11.1875\"}.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction_decimal_str_err:part_6}{}{dunder/fraction_decimal_str_err.py}{--args format --labels part_6}%
+\listingPython{-2}{dunder:fraction_decimal_str_err:part_6}{0.5}{0.01}{0.56}{0.99}%
+\listingPython{3-}{dunder:fraction_decimal_str_err:part_6}{0.45}{-0.18}{0.56}{1.2}%
+%
+\locate{10-12}{%
+\parbox{0.54\paperwidth}{\noindent%
+\bestPractice{varFinal}{%
+Wann immer Sie eine Variable deklarieren, die Sie nicht vor haben zu ändern, markieren Sie diese mit dem \glslink{typeHint}{Type Hint} \pythonilIdx{Final}\cite{PEP591}.\uncover<11->{ %
+Auf der einen Seite demonstriert das klar die Absicht \inQuotes{das hier ändert sich nicht} jedem Leser des Kodes.\uncover<12->{ %
+Auf der anderen Seite können Sie dann später mit Werkzeugen wie \mypy\ feststellen, ob Sie sie nicht doch (aus Versehen?) irgendwo ändern\dots}}%
+}%
+}}{0.46}{0.1}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: Doctests}%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Nachdem wir mit der Implementierung von \pythonil{decimal_str} fertig sind, müssen wir die Methode noch testen.}%
+%
+\only<-6>{%
+\item<2-> Dafür können wir ja \glslink{doctest}{Doctests} in den \glslink{docstring}{Docstring} der Methode schreiben.%
+}%
+%
+\only<-7>{%
+\item<3-> Wir machen das mit einigen normalen Fällen und ein paar extremen Situationen.%
+}%
+%
+\only<-8>{%
+\item<4-> Zuerst prüfen wir, ob Ganzzahlen ordentlich dargestellt werden.%
+}%
+%
+\only<-9>{%
+\item<5-> Es ist klar, dass \pythonil{Fraction(124,} \pythonil{2).decimal_str()} das Ergebnis \pythonil{\"62\"} haben muss.%
+}%
+%
+\only<-10>{%
+\item<6-> Dann prüfen wir, ob ein normaler Bruch genau übersetzt wird: \pythonil{Fraction(1,} \pythonil{2).decimal_str()} sollte \pythonil{\"0.5\"} ergeben.%
+}%
+%
+\only<-11>{%
+\item<7-> Als Bruch der nicht genau als Dezimalzahl geschrieben werden kann wählen wir $\frac{1}{3}$ aus.%
+}%
+%
+\only<-12>{%
+\item<8-> $\frac{1}{3}$ auf zehn Ziffern nach dem Komma sollte \pythonil{\"0.3333333333\"} ergeben.%
+}%
+%
+\only<-13>{%
+\item<9-> Als Beispiel für einen negativen Bruch und als Beispiel für einen Bruch mit mehreren führenden Nullen wählen wir $\frac{-101001}{100000000}$.%
+}%
+%
+\only<-14>{%
+\item<10-> Das sollte \pythonil{\"-0.00101001\"} ergeben.%
+}%
+%
+\only<-14>{%
+\item<11-> Um das Runden der letzten Ziffer zu prüfen, erwarten wir das \pythonil{Fraction(1235,} \pythonil{1000).decimal_str(2)} dann \pythonil{\"1.24\"} ergibt.%
+}%
+%
+\only<-16>{%
+\item<12-> Diese Zahl hätte eigentlich drei Nachkommastellen, wir wollen aber nur zwei.%
+}%
+%
+\only<-17>{%
+\item<13-> Da die dritte Ziffer eine 5 wäre, muss also gerundet werden.%
+}%
+%
+\only<-17>{%
+\item<14-> Anstelle von \pythonil{\"1.235\"} oder \pythonil{\"1.23\"} müsste korrekterweise \pythonil{\"1.24\"} herauskommen.%
+}%
+%
+\only<-20>{%
+\item<15-> \pythonil{Fraction(99995,} \pythonil{100000).decimal_str(5)}, also 0.99995 auf fünf Nachkommastellen gerundet, sollte \pythonil{\"0.99995\"} sein.%
+}%
+%
+\only<-21>{%
+\item<16-> \pythonil{Fraction(91995,} \pythonil{100000).decimal_str(3)} bedeutet 0.91995 auf drei Nachkommastellen zu runden.%
+}%
+%
+\only<-22>{%
+\item<17-> Die letzte Ziffer, eine~5, wird abgeschnitten.%
+}%
+%
+\only<-23>{%
+\item<18-> Das bedeutet, das wir aufrunden, was wiederum die vorletzte Ziffer~(9) auch aufrunden wird, wodurch die nächste~9 auch aufgerundet wird.%
+}%
+%
+\only<-23>{%
+\item<19-> Die 1 wird dann zu einer 2 und wir sollten \pythonil{\"0.92\"} bekommen.%
+}%
+%
+\only<-24>{%
+\item<20-> Etwas ähnliches muss passieren, wenn wir \pythonil{Fraction(99995,} \pythonil{100000).decimal_str(4)} berechnen.%
+}%
+%
+\only<-25>{%
+\item<21-> 0.9995 auf vier Ziffern gerundet wird die 5 aufrunden, wodurch alle 9en auch aufgerundet werden, so dass wir letztendlich \pythonil{\"1\"} bekommen.
+}%
+%
+\only<-28>{%
+\item<22-> Führen wir also diese \glslink{doctest}{Doctests} mit \pytest\ aus.%
+}%
+%
+\item<23-> Sie schlagen fehl!%
+%
+\item<24-> Die Ausgabe zeigt us, dass \pythonil{Fraction(91995,} \pythonil{100000).decimal_str(3)} nicht wie erwartet \pythonil{\"0.92\"} liefert.%
+%
+\item<25-> Stattdessen bekommen wir \pythonil{\"0.9110\"}.%
+%
+\item<26-> Wo kommt die 0 am Ende her?%
+%
+\item<27-> Und warum sind da zwei 1en?%
+%
+\item<28-> Selbst wenn wir falsch gerundet hätten, dann hätte doch vielleicht 0.919 herauskommen können {\dots} aber doch nicht 0.911??%
+%
+\end{itemize}%
+}}%
+%
+\listingPython{-22}{dunder:fraction_decimal_str_err:part_6}{0.45}{-0.18}{0.56}{1.2}%
+%
+\gitExec{exec:dunder:fraction_decimal_str_err:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh dunder fraction_decimal_str_err.py}%
+\listingOutput{23-}{dunder:fraction_decimal_str_err:doctest}{style=tool_style}{0.45}{0.05}{0.54}{0.95}%
+\end{frame}%
+%
+\section{Debugging}%
+%
+\begin{frame}[t]%
+\frametitle{Doctests in PyCharm}%%
+%
+\begin{itemize}%
+\only<-2>{%
+\item Wir wollen diesen komischen Fehler untersuchen.%
+}%
+%
+\only<-3>{%
+\item<2-> Dafür wollen wir erstmal die \glslink{doctest}{Doctests} nochmal in \pycharm\ ausführen.%
+}%
+%
+\only<-4>{%
+\item<3-> Wir öffnen unsere Datei \programUrl{dunder:fraction_decimal_str_err:part_6} und skrollen zu unserer Methode \pythonil{decimal_str}.%
+}%
+%
+\only<-5>{%
+\item<4-> Wir klicken mit der rechten Maustaste und ein Kontextmenü öffnet sich.%
+%
+\item<5-> Hier klicken wir mit der linken Maustaste auf \menu{Run \inSQuotes{Doctest decimal\_str}}.%
+}%
+%
+\only<-7>{%
+\item<6-> Dadurch werden \emph{alle} \glslink{doctest}{Doctests} ausgeführt.%
+%
+\item<7-> In dem kleinen Fenster unten links können wir die \emph{fehlgeschlagenen} Tests sehen.%
+}%
+%
+\only<-9>{%
+\item<8-> Wir können auf die fehlgeschlagenen Tests klicken, um mehr Informationen zu erhalten.%
+}%
+%
+\only<-10>{%
+\item<9-> Ein links-Klick auf den ersten fehlgeschlagenen Test in diesem Fenster unten links zeigt die Ausgaben dieses Tests im Fenster unten rechts.%
+}%
+%
+\only<-11>{%
+\item<10-> Das ist die selbe Information, die wir schon gesehen haben.%
+}%
+%
+\only<-12>{%
+\item<11-> Was wir noch nicht gesehen hatten, ist das sogar \alert{zwei} \glslink{doctest}{Doctests} fehlschlagen.%
+}%
+%
+\only<-13>{%
+\item<12-> Ein links-Klick auf den zweiten fehlgeschlagenen Test zeigt uns, dass \pythonil{Fraction(99995,} \pythonil{100000).decimal_str(4)} nicht wie erwartet~\pythonil{\"1\"} liefert.%
+}%
+%
+\only<-14>{%
+\item<13-> Stattdessen hat es \pythonil{\"0.99910\"}. ergeben%
+}%
+%
+\only<-15>{%
+\item<14-> Warum ist da eine \pythonil{\"0\"} am Ende unserer Zahl?%
+}%
+%
+\only<-16>{%
+\item<15-> Wo kommt die her?%
+}%
+%
+\only<-17>{%
+\item<16-> Nullen am Ende sollten doch mit unserem Kode gar nicht möglich sein.%
+}%
+%
+\only<-18>{%
+\item<17-> Außerdem sind da vier Neunen in der Zahl, nicht drei.%
+}%
+%
+\item<18-> Was ist hier schief gegangen?
+%
+\item<19-> Wir wissen nicht, warum die Tests fehlschlagen.%
+%
+\end{itemize}%
+
+\locateGraphicTB{2-5}{width=0.61\paperwidth}{graphics/doctests1}{0.195}{0.31}%
+\locateGraphicTB{6-7}{width=0.61\paperwidth}{graphics/doctests2}{0.195}{0.31}%
+\locateGraphicTB{8-11}{width=0.61\paperwidth}{graphics/doctests3}{0.195}{0.31}%
+\locateGraphicTB{12-19}{width=0.61\paperwidth}{graphics/doctests4}{0.195}{0.31}%
+\end{frame}%
+%
+\begin{frame}%
+\frametitle{Debugger}%
+%
+\begin{itemize}%
+%
+\only<-7>{%
+\item Wir fragen uns, was wir jetzt tun können.%%
+}%
+%
+\only<-7>{%
+\item<2-> Wenn wir herausfinden wollen, was schief geht, dann wäre es nützlich, wenn wir unser Programm irgendwie Schritt-für-Schritt ausführen könnten.%
+}%
+%
+\only<-7>{%
+\item<3-> Als ich erklärt habe, wie \pythonil{decimal_str} funktioniert, habe ich $\frac{-179}{16}$ als Beispiel für den Ablauf unserer Methode durchexerziert.%
+}%
+%
+\item<4-> Wäre es nicht schön, wenn wir unser Programm Schritt-für-Schritt für die Tests durchgehen könnten?%
+%
+\item<5-> Dann könnten wir sehen, was es wirklich macht.%
+%
+\item<6-> Nun, das können wir!%
+%
+\item<7-> Und zwar mit einem Werkzeug genannt \glslink{debugger}{Debugger}, das mit \python\ und \pycharm\ ausgeliefert wird.%
+%
+\end{itemize}%
+%
+%
+\uncover<8->{%
+\usefulTool{debugger}{%
+Ein \glslink{debugger}{Debugger} ist ein Werkzeug, das mit vielen Programmiersprachen und \glslink{ide}{IDEs} mit ausgeliefert wird.\uncover<9->{ %
+Es erlaub uns, ein Programm Schritt-für-Schritt auszuführen und dabei die aktuellen Werte von Variablen zu beobachten.\uncover<10->{ %
+So können wir Fehler im Kode leichter finden\cite{W2024PME,A2002D,R2007PPBPDTAM}.}}%
+}}%
+%
+\end{frame}%
+%
+\begin{frame}[t]%
+\frametitle{Debuggen in PyCharm}%%
+%
+\begin{itemize}%
+%
+\only<-1>{%
+\item In \pycharm\ können wir den \glslink{debugger}{Debugger} auf ein ganzes Programm anwenden, aber auch auf einen \glslink{doctest}{Doctest}.%
+}%
+%
+\only<-2>{%
+\item<2-> Dafür müssen wir zuerst unsere Datei \programUrl{dunder:fraction_decimal_str_err:part_6} öffnen und zu unserer Methode \pythonil{decimal_str} skrollen.%
+}%
+%
+\only<-4>{%
+\item<3-> Auf der linken Seite unseres Kode-Fensters sehen wir eine Spalte mit Zeilennummern.%
+}%
+%
+\only<-5>{%
+\item<4-> Wir können dort links-klicken um einen \glslink{breakpoint}{Breakpoint}, also einen Haltepunkt, zu setzen.%
+}%
+%
+\only<-6>{%
+\item<5-> \glslink{breakpoint}{Breakpoints} sind markierungen in unserer \glslink{ide}{IDE} an denen wir später die Ausführung eines Programms pausieren wollen.%
+}%
+%
+\only<-7>{%
+\item<6-> Wir wollen genau am Anfang von \pythonil{decimal_str} pausieren.%
+}%
+%
+\only<-8>{%
+\item<7-> Deshalb machen wir genau dort einen \glslink{breakpoint}{Breakpoint} hin.%
+%
+\item<8-> Der \glslink{breakpoint}{Breakpoint} wird als roter Ball über der Zeilennummer angezeigt.%
+}%
+%
+\only<-10>{%
+\item<9-> Um mit dem Debuggen zu beginnen, öffnen wir wieder das Kontextmenü, in dem wir in den \glslink{doctest}{Doctest} rechts-klicken.%
+%
+\item<10-> Dieses mal wählen wir \menu{Debug \inSQuotes{Doctest decimal\_str}} aus.%
+}%
+%
+\only<-12>{%
+\item<11-> Die \glslink{doctest}{Doctests} werden nun ausgeführt.%
+}%
+%
+\only<-13>{%
+\item<12-> Anstatt sie vollständig auszuführen, wird der \glslink{debugger}{Debugger} aktiv.%
+}%
+%
+\only<-14>{%
+\item<13-> Die Ausführung wird genau an unserem \glslink{breakpoint}{Breakpoint} pausiert.%
+%
+\item<14-> Diese Zeile Kode wird noch nicht ausgeführt, abre in blau markiert.%
+}%
+%
+\only<-16>{%
+\item<15-> Bevor wir weitermachen, schauen wir in das untere \pycharm-Fenster.%
+}%
+%
+\only<-17>{%
+\item<16-> Dort gibt es eine \menu{Debug}-Zeile.%
+}%
+%
+\only<-18>{%
+\item<17-> Wir können sie mit der rechten Maustaste aktivieren und hochziehen.%
+}%
+%
+\only<-19>{%
+\item<18-> Wir sehen nun ein Abteil unserers Fensters das die Debug-Informationen beinhaltet.%
+}%
+%
+\only<-20>{%
+\item<19-> Das wichtigste ist der Register \menu{Threads \& Variables}.%
+%
+\item<20-> Hier können wir die Werte aller lokaler Variablen am aktuellen Ausführungspunkt sehen.%
+}%
+%
+\only<-21>{%
+\item<21-> Wir sehen das \pythonil{max_frac} den (Default-)Wert \pythonil{100} hat.%
+}%
+%
+\only<-22>{%
+\item<22-> Wenn wir auf die Variable \pythonil{self} klicken, sehen wir das der \glslink{numerator}{Zähler} \pythonil{a} des aktuellen Bruchs den Wert \pythonil{62} hat, während der \glslink{denominator}{Nenner} \pythonil{b} den Wert \pythonil{1} hat.%
+}%
+%
+\only<-24>{%
+\item<23-> Das ist genau was wir erwarten.%
+%
+\item<24-> Der erste Test Case war ja \pythonil{Fraction(124,} \pythonil{2).decimal_str()}, also ist der normalisierte Bruch korrekt $\frac{62}{1}$.%
+}%
+%
+\only<-26>{%
+\item<25-> Wir wissen bereits, dass dieser Test Case erfolgreich durchlaufen werden wird.%
+}%
+%
+\only<-27>{%
+\item<26-> Deshalb interessiert er uns nicht.%
+}%
+%
+\only<-28>{%
+\item<27-> Wir klicken auf das Symbol \pycharmDebuggerResume\ im \menu{Debug}-Register, wodurch das Program weiter ausgeführt wird.%
+%
+\item<28-> Alternativ können wir auch einfach \keys{F9} drücken.%
+}%
+%
+\only<-30>{%
+\item<29-> Die Ausführung des \glslink{doctest}{Doctests} wird fortgesetzt.%
+}%
+%
+\only<-31>{%
+\item<30-> Sie wird wieder an unserem \glslink{breakpoint}{Breakpoint} pausiert.%
+}%
+%
+\only<-32>{%
+\item<31-> Dieses Mal sind wir beim zweiten \glslink{doctest}{Doctest} angekommen, der \pythonil{Fraction(1, 2)} als Daten hat.%
+}%
+%
+\only<-33>{%
+\item<32-> Auch dieser Test Case ist uninteressant.%
+%
+\item<33-> Also klicken wir wieder auf \pycharmDebuggerResume\ oder drücken~\keys{F9} um die Ausführung fortzusetzen.%
+}%
+%
+\only<-35>{%
+\item<34-> Das bringt uns an den Anfang des dritten \glslink{doctest}{Doctest} Case, wo der Bruch $\frac{1}{3}$ mit \pythonil{max_frac} gleich \pythonil{10} untersucht wird.%
+}%
+%
+\only<-36>{%
+\item<35-> Auch dieser Test Case wird erfolgreich sein, das wissen wir bereits.%
+}%
+%
+\only<-37>{%
+\item<36-> Er wird uns keine nützlichen Informationen liefern.%
+%
+\item<37-> Wir überspringen ihn mit ~\keys{F9}.
+}%
+%
+\only<-39>{%
+\item<38-> Als wir den \glslink{breakpoint}{Breakpoint} wieder erreichen, sind wir im vierten \glslink{doctest}{Doctest} Case angekommen: $\frac{-101001}{100000000}$.%
+%
+\item<39-> Auch diesen überspringen wir.%
+}%
+%
+\only<-40>{%
+\item<40-> Wenn der \glslink{debugger}{Debugger} am fünften Test Case ankommt, sehen wir, dass der Bruch \pythonil{Fraction(1235, 1000)} korrekt zu $\frac{247}{200}$ normalisiert wurde.%
+}%
+%
+\only<-41>{%
+\item<41-> Wir überspringen den Test Case trotzdem mit \keys{F9}, denn wir wissen ja, das er erfolgreich seien wird.%
+}%
+%
+\only<-42>{%
+\item<42-> Das bringt uns zum letzten erfolgreichen Test Case, \pythonil{Fraction(99995, 100000)}, was dem Bruch $\frac{19999}{20000}$ entspricht.%
+}%
+%
+\only<-43>{%
+\item<43-> Nach dem wir diesen Test Case mit \pycharmDebuggerResume\ übersprungen haben, werden wir endlich in einem Test Case angekommen, der fehlschlagen wird, und den wir deshalb Schritt-für-Schritt durchgehen müssen.%
+}%
+%
+\only<-44>{%
+\item<44-> Wir sind jetzt am Anfang des \glslink{doctest}{Doctest} Cases \pythonil{Fraction(91995,} \pythonil{100000).decimal_str(3)} angekommen, der fehlschlagen wird.%
+}%
+%
+\only<-45>{%
+\item<45-> Der Bruch~$\frac{91995}{100000}$ wurde im Initializer \dunder{init} zu $\frac{18399}{20000}$ normalisiert.%
+}%
+%
+\only<-47>{%
+\item<46-> Der Parameter \pythonil{max_frac} von \pythonil{decimal_str} hat den Wert \pythonil{3}, wir wir im \menu{Threads \& Variables}-Fenster sehen.%
+}%
+%
+\only<-48>{%
+\item<47-> Wir wollen nun die Methode \pythonil{decimal_str} Schritt-für-Schritt ausführen.%
+}%
+%
+\only<-49>{%
+\item<48-> Nun hat der \glslink{debugger}{Debugger} erstmal die Ausführung an der ersten Zeile der Methode pausiert.%
+%
+\item<49-> Diese Zeile wurde noch nicht ausgeführt.%
+}%
+%
+\only<-50>{%
+\item<50-> Wir führen diese Zeile Kode aus, in dem wir entweder auf \pycharmDebuggerStepOver\ klicken oder \keys{F8} drücken.%
+}%
+%
+\only<-52>{%
+\item<51-> Wir sehen, dass eine neue Variable im \menu{Threads \& Variables}-Fenster auftaucht.%
+}%
+%
+\only<-53>{%
+\item<52-> Da wir \pythonil{a = self.a} ausgeführt haben, gibt es jetzt die lokale Variable~\pythonil{a} mit dem Wert \pythonil{18399}.%
+%
+\item<53-> Die nächste Kodezeile kann nun ausgeführt werden und ist mit blauer Farbe markiert.%
+}%
+%
+\only<-55>{%
+\item<54-> Wir drücken \keys{F8} und führen damit die Zeile \pythonil{if a == 0:} aus.%
+}%
+%
+\only<-56>{%
+\item<55-> Weil \pythonil{a == 0} nicht \pythonil{True} ist, wird der Körper des \pythonil{if} nicht ausgeführt.%
+}%
+%
+\only<-57>{%
+\item<56-> Das Programm springt darüber.%
+}%
+%
+\only<-58>{%
+\item<57-> Die nächste Kodezeile nach dem \pythonil{if} ist nun markiert.%
+%
+\item<58-> Wir führen sie mit \keys{F8} aus.
+}%
+%
+\only<-60>{%
+\item<59-> Die lokale Variable \pythonil{negative} wird erzeugt.%
+}%
+%
+\only<-61>{%
+\item<60-> Da \pythonil{a < 0} nämlich \pythonil{False} ist, ist \pythonil{negative} ebenfalls \pythonil{False}.%
+%
+\item<61-> Die nächste Kodezeile ist markiert und wir führen sie mit \keys{F8} aus.
+}%
+%
+\only<-63>{%
+\item<62-> \pythonil{a = abs(a)} hat keinen Effekt, denn \pythonil{a} ist ja schon positiv.%
+%
+\item<63-> Wir drücken \keys{F8} um weiterzumachen.%
+}%
+%
+\only<-65>{%
+\item<64-> Das führt \pythonil{b = self.b} aus.%
+}%
+%
+\only<-66>{%
+\item<65-> Eine neue lokale Variable \pythonil{b} mit Wert \pythonil{20000} wird erstellt.%
+}%
+%
+\only<-67>{%
+\item<66-> Wir sind jetzt an der letzten Zeile des \inQuotes{trivialen Setups} unserer Methode  \pythonil{decimal_str}, dem Erstellen der Liste~\pythonil{digits}.%
+%
+\item<67-> Wir drücken~\keys{F8}.%
+}%
+%
+\only<-69>{%
+\item<68-> Die neue Variable \pythonil{digits} ist wirklich aufgetaucht.%
+}%
+%
+\only<-70>{%
+\item<69-> Sie ist eine leere Liste~\pythonil{[]}.%
+}
+%
+\only<-71>{%
+\item<70-> Wir sind nun am Anfang der \pythonil{while}-Schleife.%
+%
+\item<71-> Wir drücken \keys{F8}, wodurch die Bedingung am Anfang der Schleife geprüft wird.%
+}%
+%
+\only<-73>{%
+\item<72-> Wir sehen, dass nun die erste Zeile des Schleifenkörpers markiert ist.%
+}%
+%
+\only<-73>{%
+\item<73-> Das bedeutet, dass \pythonil{a != 0} und \pythonil{len(digits) <= max_frac} beide \pythonil{True} sind.%
+}%
+%
+\only<-74>{%
+\item<74-> Und das sollten sie auch sein, denn \pythonil{a} ist \pythonil{18399}, \pythonil{len(digits)} ist~0 und \pythonil{max_frac} ist~3.%
+}%
+%
+\only<-75>{%
+\item<75-> Wir drücken den \pycharmDebuggerStepOver-Knopf, um die erste Zeile des Schleifenkörpers auszuführen.%
+}%
+%
+\only<-76>{%
+\item<76-> \pythonil{digits.append(a // b)} wird nun den Wert \pythonil{18399 // 20000} an die Liste \pythonil{digits} anhängen.%
+}%
+%
+\only<-78>{%
+\item<77-> Weil das das Ergebnis einer Ganzzahldivision ist, bei der der \glslink{denominator}{Nenner} größer als der \glslink{numerator}{Zähler} ist, ist \pythonil{digits} nun~\pythonil{[0]}.%
+%
+\item<78-> Wir drücken \keys{F8} um weiterzumachen.%
+}%
+%
+\only<-80>{%
+\item<79-> Nun wird \pythonil{a = 10 * (a \% b)} ausgeführt.%
+}%
+%
+\only<-81>{%
+\item<80-> Weil \pythonil{18399 \% 20000} immer noch \pythonil{18399} ist, wird \pythonil{a} nun \pythonil{183990}.%
+}%
+%
+\only<-82>{%
+\item<81-> Nun wird der Kopf der Schleifen mit deren Bedingung wirder markiert.%
+%
+\item<82-> Wir drücken \pycharmDebuggerStepOver\ um ihn auszuführen.%
+}%
+%
+\only<-83>{%
+\item<83-> Die Schleifenbedingung wird immer noch erfüllt, also ist nun wieder die erste Zeile der Schleife markiert.%
+}%
+%
+\only<-84>{%
+\item<84-> Nachdem wir \keys{F8} drücken, wird \pythonil{9} an die Liste \pythonil{digits} angehängt.%
+}%
+%
+\only<-85>{%
+\item<85-> Nun wird \pythonil{a} auf \pythonil{39900} gesetzt.%
+}%
+%
+\only<-86>{%
+\item<86-> Wir kommen zur nächsten Iteration der Schleife.%
+}%
+%
+\only<-87>{%
+\item<87-> Nun wird \pythonil{1} an die Liste \pythonil{digits} angehängt.%
+}%
+%
+\only<-88>{%
+\item<88-> Dann wird \pythonil{a} auf \pythonil{199000} upgdated.%
+}
+%
+\only<-89>{%
+\item<89-> Ein neuer Schleifendurchlauf begint.%
+}%
+%
+\only<-90>{%
+\item<90-> Nun wird \pythonil{9} an \pythonil{digits} angehängt.%
+}%
+%
+\only<-92>{%
+\item<91-> Danach wird \pythonil{a} auf \pythonil{190000} gesetzt.%
+}%
+%
+\only<-93>{%
+\item<92-> Bisher sieht alles gut aus.%
+}%
+%
+\only<-94>{%
+\item<93-> Nun ist \pythonil{digits} zu \pythonil{[0, 9, 1, 9]} geworden.%
+}%
+%
+\only<-95>{%
+\item<94-> Weil \pythonil{max_frac} gleich \pythonil{3} ist, trifft \pythonil{len(digits) <= max_frac} nicht mehr zu.%
+}%
+%
+\only<-96>{%
+\item<95-> Wir sind wieder am Kopf der Schleife.%
+}%
+%
+\only<-97>{%
+\item<96-> Wenn wir nun \keys{F8} drücken, wird die Schleifenbedingung wieder ausgewertet.%
+}%
+%
+\only<-98>{%
+\item<97-> Dieses Mal ist sie aber \pythonil{False}.%
+%
+\item<98-> Die Schleife terminiert und die nächste Zeile Kode danach wird markiert.%
+}%
+%
+\only<-100>{%
+\item<99-> Wenn wir uns anschauen, was wir bisher berechnet haben, dann stimmt alles.%
+}%
+%
+\only<-101>{%
+\item<100-> Wir wollen den Bruch $\frac{91995}{100000}$ zu einer Dezimal mit drei Nachkommastellen umrechnen.%
+}%
+%
+\only<-102>{%
+\item<101-> Bisher haben wir die Ziffern~0, 9, 1, und~9.%
+}%
+%
+\only<-103>{%
+\item<102-> Die nächste Kodezeile, \pythonil{if (a // b) >= 5}, soll prüfen ob wir die letzte Ziffer aufrunden müssen.%
+}%
+%
+\only<-104>{%
+\item<103-> Nun, \pythonil{a} ist \pythonil{190000} und \pythonil{b} ist immer noch \pythonil{20000}, deshalb ist \pythonil{a // b} gleich \pythonil{9}.%
+}%
+%
+\only<-105>{%
+\item<104-> Die Bedingung sollte also wahr sein.%
+%
+\item<105-> Wir drücken \pycharmDebuggerStepOver\ um das zu prüfen.%
+}%
+%
+\only<-107>{%
+\item<106-> Jetzt sehen wir den Bug, also den Fehler, in unserem Kode.%
+}%
+%
+\only<-108>{%
+\item<107-> Um aufzurunden, haben wir die letzte Ziffer in unserer Liste \pythonil{digits} um 1 erhöht.%
+}%
+%
+\only<-109>{%
+\item<108-> \pythonil{digits} war \pythonil{[0, 9, 1, 9]}.%
+}%
+%
+\only<-110>{%
+\item<109-> Deshalb ist es jetzt \pythonil{[0, 9, 1, 10]}.%
+}%
+%
+\only<-111>{%
+\item<110-> Die komische 0 hinten in der Ausgabe war keine einzelne Ziffer.%
+}%
+%
+\only<-112>{%
+\item<111-> Es war die hintere 0 einer Zehn.%
+}%
+%
+\only<-113>{%
+\item<112-> Wir haben nicht bedacht, dass wir nicht nur in einfachen Fällen aufrunden.%
+}%
+%
+\only<-114>{%
+\item<113-> Klar, das Aufrunden von 1.25 ergibt 1.3 und wir müssen nur eine Ziffer erhöhen.%
+}%
+%
+\only<-115>{%
+\item<114-> Es könnte aber auch Fälle wie 0.9999, geben, wo wir auf 1 runden müssen, selbst wenn wir drei Nachkommastellen Genauigkeit haben wollen.%
+}%
+%
+\only<-116>{%
+\item<115-> Unser Kode macht das nicht.%
+}%
+%
+\item<116-> Wir können hier aufhören, zu debuggen, und zurück zu unserem Kode gehen.%
+\end{itemize}%
+%
+\locateGraphicTB{-2}{width=0.61\paperwidth}{graphics/debug01}{0.195}{0.31}%
+\locateGraphicTB{3-8}{width=0.61\paperwidth}{graphics/debug02}{0.195}{0.31}%
+\locateGraphicTB{9-10}{width=0.61\paperwidth}{graphics/debug03}{0.195}{0.31}%
+\locateGraphicTB{11-14}{width=0.61\paperwidth}{graphics/debug04}{0.195}{0.31}%
+\locateGraphicTB{15-20}{width=0.61\paperwidth}{graphics/debug05}{0.195}{0.31}%
+\locateGraphicTB{21-24}{width=0.61\paperwidth}{graphics/debug06}{0.195}{0.31}%
+\locateGraphicTB{25-28}{width=0.61\paperwidth}{graphics/debug07}{0.195}{0.31}%
+\locateGraphicTB{29-33}{width=0.61\paperwidth}{graphics/debug08}{0.195}{0.31}%
+\locateGraphicTB{34-37}{width=0.61\paperwidth}{graphics/debug09}{0.195}{0.31}%
+\locateGraphicTB{38-39}{width=0.61\paperwidth}{graphics/debug10}{0.195}{0.31}%
+\locateGraphicTB{40-41}{width=0.61\paperwidth}{graphics/debug11}{0.195}{0.31}%
+\locateGraphicTB{42-43}{width=0.61\paperwidth}{graphics/debug12}{0.195}{0.31}%
+\locateGraphicTB{44-49}{width=0.61\paperwidth}{graphics/debug13}{0.195}{0.31}%
+\locateGraphicTB{50}{width=0.61\paperwidth}{graphics/debug14}{0.195}{0.31}%
+\locateGraphicTB{51-53}{width=0.61\paperwidth}{graphics/debug15}{0.195}{0.31}%
+\locateGraphicTB{54-58}{width=0.61\paperwidth}{graphics/debug16}{0.195}{0.31}%
+\locateGraphicTB{59-61}{width=0.61\paperwidth}{graphics/debug17}{0.195}{0.31}%
+\locateGraphicTB{62-63}{width=0.61\paperwidth}{graphics/debug18}{0.195}{0.31}%
+\locateGraphicTB{64-67}{width=0.61\paperwidth}{graphics/debug19}{0.195}{0.31}%
+\locateGraphicTB{68-71}{width=0.61\paperwidth}{graphics/debug20}{0.195}{0.31}%
+\locateGraphicTB{72-75}{width=0.61\paperwidth}{graphics/debug21}{0.195}{0.31}%
+\locateGraphicTB{76-78}{width=0.61\paperwidth}{graphics/debug22}{0.195}{0.31}%
+\locateGraphicTB{79-82}{width=0.61\paperwidth}{graphics/debug23}{0.195}{0.31}%
+\locateGraphicTB{83}{width=0.61\paperwidth}{graphics/debug24}{0.195}{0.31}%
+\locateGraphicTB{84}{width=0.61\paperwidth}{graphics/debug25}{0.195}{0.31}%
+\locateGraphicTB{85}{width=0.61\paperwidth}{graphics/debug26}{0.195}{0.31}%
+\locateGraphicTB{86}{width=0.61\paperwidth}{graphics/debug27}{0.195}{0.31}%
+\locateGraphicTB{87}{width=0.61\paperwidth}{graphics/debug28}{0.195}{0.31}%
+\locateGraphicTB{88}{width=0.61\paperwidth}{graphics/debug29}{0.195}{0.31}%
+\locateGraphicTB{89}{width=0.61\paperwidth}{graphics/debug30}{0.195}{0.31}%
+\locateGraphicTB{90}{width=0.61\paperwidth}{graphics/debug31}{0.195}{0.31}%
+\locateGraphicTB{91-95}{width=0.61\paperwidth}{graphics/debug32}{0.195}{0.31}%
+\locateGraphicTB{96-98}{width=0.61\paperwidth}{graphics/debug33}{0.195}{0.31}%
+\locateGraphicTB{99-105}{width=0.61\paperwidth}{graphics/debug34}{0.195}{0.31}%
+\locateGraphicTB{106-}{width=0.61\paperwidth}{graphics/debug35}{0.195}{0.31}%
+%
+\end{frame}%
+%
+\section{Reparierte Methode}%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: \texttt{decimal\_str}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Wir implementieren unsere Methode \pythonil{decimal_str} jetzt korrekt in \programUrl{lst:dunder:fraction:part_6}.%
+}%
+%
+\only<-6>{%
+\item<2-> Unser Kode zum Aufrunden wird komplexer\only<-2>{.}\uncover<3->{.}%
+}%
+%
+\only<-7>{%
+\item<3-> Zuerst müssen wir über alle Nachkommastellen von hinten nach vorne iterieren.%
+}%
+%
+\only<-8>{%
+\item<4-> Das geht mit \pythonil{for i in range(len(digits)} \pythonil{- 1, 0, -1)}.%
+}%
+%
+\only<-9>{%
+\item<5-> Wenn \pythonil{len(digits) == 5}, dann iteriert \pythonil{range(len(digits)} - \pythonil{1, 0, -1)} über die Zahlen 4, 3, 2 und~1.%
+}%
+%
+\only<-10>{%
+\item<6-> Wir erhöhen die Ziffer an Index~\pythonil{i} jeweils um~1.%
+}%
+%
+\only<-11>{%
+\item<7-> Wenn das Ergebnis nicht 10 ist, dann können wir die Schleife mit \pythonilIdx{break} abbrechen.%
+}%
+%
+\only<-12>{%
+\item<8-> Wenn das Ergebnis 10 ist, dann setzen wir es auf 0 und iterieren weiter.%
+}%
+%
+\only<-13>{%
+\item<9-> Somit wird dann die nächste Nachkommastelle erhöht, usw.%
+}%
+%
+\only<-14>{%
+\item<10-> Wenn wir bei Index~1 ankommen und trotzdem weiter iterieren müssten, dann ended die Schleife trotzdem.%
+}%
+%
+\only<-15>{%
+\item<11-> Dann wird aber das \pythonil{else}-Statement ausgeführt.%
+}%
+%
+\only<-16>{%
+\item<12-> Erinnern wir uns an Einheit~\unitWhile\only<-12>{.}\uncover<13->{:}%
+}%
+%
+\only<-17>{%
+\item<13-> Das \pythonil{else}-Statement am Ende einer Schleife wird \alert{nur} dann ausgeführt, wenn die Schleife regulär beendet wurde, also wenn \alert{kein} \pythonil{break}-Statement ausgeführt wurde.%
+}%
+%
+\only<-18>{%
+\item<14-> Dann und nur dann wenn die Nachkommastelle and Index~1 auch 10 wurde und deshalb auf 0 gesetzt wurde, dann erhöhen wir die Zahl an Index~0 um~1.%
+}%
+%
+\only<-20>{%
+\item<15-> Diese Zahl repräsentiert den Ganzzahl-Teil unseres Bruches.%
+}%
+%
+\item<16-> Hier ist es völlig OK, eine 9 auf 10 aufzurunden.%
+%
+\item<17-> \DEZB\ kann man 9.999 auf 10 runden und 1239.9 auf 240.%
+%
+\item<18-> Dieser neue Kode kann zu Nullen am Ende des Strings führen.%
+%
+\item<19-> Wir löschen diese mit einer zusätzlichen \pythonil{while}-Schleife direkt nach dem Runden.%
+%
+\item<20-> Wir haben nun funktionierenden Kode, der Brüche in Dezimalzahlen umwandelt.%
+%
+\item<21-> All \glslink{doctest}{Doctests} sind nun erfolgreich.%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{dunder:fraction:part_6}{}{dunder/fraction.py}{--args format --labels part_6}%
+\listingPython{}{dunder:fraction:part_6}{0.45}{-0.5}{0.55}{1.51}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{Fraction}: \texttt{sqrt}}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item So, nun können wir das machen, was wir eigentlich machen wollten\only<-1>{.}\uncover<2->{:}%
+}%
+%
+\only<-6>{%
+\item<2-> Wir wollten Quadratwurzeln mit wahnsinniger Genauigkeit berechnen!%
+}%
+%
+\only<-6>{%
+\item<3-> Schauen wir uns dafür unsere Funktion \pythonil{sqrt} aus \programUrl{functions:my_math} nochmal an.%
+}%
+%
+\only<-7>{%
+\item<4-> Im Grunde werden wir diese Funktion in unsere neue Datei \programUrl{dunder:fraction_sqrt} kopieren und ein paar notwendige Änderungen vornehmen.%
+}%
+%
+\only<-9>{%
+\item<5-> Wir müssen alle \pythonils{float} in diesem Kode mit \pythonils{Fraction} austauschen.%
+}%
+%
+\only<-10>{%
+\item<6-> Die \glslink{signature}{Signatur} der Funktion ändert sich von \pythonil{def sqrt(number:} \pythonil{float)} \pythonil{-> float} zu \pythonil{def sqrt(number:} \pythonil{Fraction)} \pythonil{-> Fraction}.%
+}%
+%
+\only<-11>{%
+\item<7-> Nun wissen wir ja, dass die Quadratwurzel von Zahlen wie $\sqrt{2}$ irrational sind.
+}%
+%
+\only<-12>{%
+\item<8-> Wir können sie also nicht exakt mit einer Instanz von \pythonil{Fraction} darstellen.%
+}%
+%
+\only<-13>{%
+\item<9-> Im Originalkode ist das kein Problem.%
+}%
+%
+\only<-14>{%
+\item<10-> Die Originalfunktion wird wegen der begrenzten Genauigkeit des Datentyps \pythonil{float} irgendwann aufhören.%
+}%
+%
+\only<-15>{%
+\item<11-> Das passiert, wenn die 15 bis 16 Ziffern Genauigkeit von \pythonil{float} aufgebraucht sind.%
+}%
+%
+\only<-16>{%
+\item<12-> Mit \pythonil{Fraction} kann er selbe Kode aber unendlich lange iterieren.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir haben ja eine Genauigkeit, die nur durch den zur Verfügung stehenden Arbeitsspeicher begrenzt wird.%
+}%
+%
+\only<-18>{%
+\item<14-> Der Kode könnte fast für immer nach besseren Annäherungen suchen.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir müssen also die Anzahl der Iterationen mit einem weiteren Parameter begrenzen.%
+}%
+%
+\only<-20>{%
+\item<16-> Wir fügen also den neuen Parameter \pythonil{max_steps: int = 10} hinzu.%
+}%
+%
+\only<-21>{%
+\item<17-> Wir werden später sehen, dass der Default-Wert, der nur 10 Iterationen zulässt, bereits ziemlich gute Annäherungen erlaubt.%
+}%
+%
+\only<-22>{%
+\item<18-> Wir ersetzen auch die Zahlen \pythonil{0.0}, \pythonil{0.5} und \pythonil{1.0} mit unseren Konstanten \pythonil{ZERO}, \pythonil{ONE_HALF}, and~\pythonil{ONE}.%
+}%
+%
+\only<-23>{%
+\item<19-> Das müssen wir machen, denn unsere Dunder-Methoden funktionieren nur mit Instanzen von \pythonil{Fraction}.%
+}%
+%
+\only<-23>{%
+\item<20-> Wir hätten sie so implementieren können, dass sie auch mit \pythonil{int} oder \pythonil{float} funktionieren\dots%
+}%
+%
+\only<-24>{%
+\item<21-> Das haben wir nicht gemacht, weil sonst unser Beispielkode aber viel länger geworden wäre.%
+}%
+%
+\only<-26>{%
+\item<22-> So oder so, die numerischen Konstanten in unserer Funktion sind nun Instanzen von \pythonil{Fraction}.%
+}%
+%
+\item<23-> Unsere neue \pythonil{sqrt}-Funktion beginnt damit, zu prüfen ob die Eingabezahl negativ ist.%
+%
+\item<24-> Wenn ja, dann löst sie einen \pythonilIdx{ArithmeticError} aus.%
+%
+\item<24-> Danach hat sie fast die gleiche Schleife wie unsere originale Funktion.%
+%
+\item<25-> Der Einzige Unterschied ist, dass wir \pythonil{max_steps} in jedem Schritt verringern.%
+%
+\item<26-> Wir brechen die Schleife mit \pythonil{break} ab, wenn es \pythonil{0} wird.%
+%
+%
+\end{itemize}%
+}}%
+%
+\gitLoadPython{functions:my_math}{}{functions/my_math.py}{}%
+\listingPython{-3}{functions:my_math}{0.45}{0.087}{0.54}{0.92}%
+\gitLoadPython{dunder:fraction_sqrt}{}{dunder/fraction_sqrt.py}{}%
+\listingPython{4-}{dunder:fraction_sqrt}{0.46}{0.01}{0.54}{0.99}%
+%
+\end{frame}%
+%
+%
+\begin{frame}[t]%
+\frametitle{\texttt{sqrt}: Doctests}%
+%
+\parbox{0.4\paperwidth}{\small{%
+\begin{itemize}%
+%
+\only<-5>{%
+\item Natürlich machen wir wieder \glslink{doctest}{Doctests} für unsere Funktion.%
+}%
+%
+\only<-6>{%
+\item<2-> Wir testen zum Beispiel den Ausdruck \pythonil{sqrt(Fraction(2,} \pythonil{1)).decimal_str(750)}.%
+}%
+%
+\only<-7>{%
+\item<3-> Der Berechnet~$\sqrt{\frac{2}{1}}=\sqrt{2}$ mit zehn Schritten von Heron's Algorithmus.%
+}%
+%
+\only<-8>{%
+\item<4-> Danach übersetzt er das Ergebnis zu einer Dezimalzahl mit \alert{700 Nachkommastellen}!%
+}%
+%
+\only<-9>{%
+\item<5-> Wir holen uns den korrekten Wert von~\bracketCite{S2024DEOSRO2,NB1997TSROTT1MD}.%
+}%
+%
+\only<-9>{%
+\item<6-> Wenn unsere Funktion diese Zahl \alert{nach zehn Schritten} nicht auf \alert{700 Nachkommastellen genau} liefert, wird dieser \glslink{doctest}{Doctest} fehlschlagen!%
+}%
+%
+\only<-11>{%
+\item<7-> Der zweite \glslink{doctest}{Doctest} prüft einfach ob $\sqrt{4}$ als nach der \pythonil{decimal_str}-Übersetzung als 2 ausgegeben wird.%
+}%
+%
+\only<-12>{%
+\item<8-> Natürlich nähern wir die Quadratwurzel nur durch mehrere Schritte an.%
+}%
+%
+\only<-13>{%
+\item<9-> Daher ist der echte Näherungswert vielleicht nicht wirklich~2.%
+}%
+%
+\only<-14>{%
+\item<10-> Wenn wir ihn auf 100 Nachkommastellen runden und ausgeben, dann sollte es uns \pythonil{\"2\"} liefern.%
+}%
+%
+\only<-15>{%
+\item<11-> Zu guter Letzt wollen wir den Goldenen Schnitt~\numberGoldenRatio\cite{EOEBEB:GR,EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR,S2024DEOGRPOT} berechnen.%
+}%
+%
+\only<-16>{%
+\item<12-> Dieser entspricht~$\frac{1+\sqrt{5}}{2}$.%
+}%
+%
+\only<-17>{%
+\item<13-> Wir können das als \pythonil{ONE_HALF * (ONE +} \pythonil{sqrt(Fraction(5, 1)))} schreiben.%
+}%
+%
+\only<-18>{%
+\item<14-> Im \glslink{doctest}{Doctest} erwarten wir, dass das Ergebnis auf 420~Nachkommastellen (die wir von~\bracketCite{F1996TGR1T2P} nehmen) genau ist.%
+}%
+%
+\only<-19>{%
+\item<15-> Wir führen die \glslink{doctest}{Doctests} mit \pytest\ aus.%
+}%
+%
+\only<-20>{%
+\item<16-> Sie sind alle erfolgreich!%
+}%
+%
+\item<17-> Wir haben nun Grundschulmathematik in eine Klasse in \python\ gegossen.%
+%
+\item<18-> Dann haben wir die in einem 2000~Jahre alten Algorithmus verwendet.%
+%
+\item<19-> Und mit zehn Schritten des Algorithms konnten wir $\sqrt{2}$ und \numberGoldenRatio\ auf mehrere hundert Nachkommastellen genau berechnen.%
+%
+\item<20-> Ist das nicht irrsinnig cool?%
+%
+\end{itemize}%
+}}%
+%
+\listingPython{-15}{dunder:fraction_sqrt}{0.46}{0.01}{0.54}{1.56}%
+%
+\gitExec{exec:dunder:fraction_sqrt:doctest}{\programmingWithPythonCodeRepo}{.}{_scripts_/pytest_doctest.sh dunder fraction_sqrt.py}%
+\listingOutput{16-}{dunder:fraction_sqrt:doctest}{style=tool_style}{0.45}{0.3}{0.54}{0.92}%
+%
+\end{frame}%
+%
+\section{Zusammenfassung}%
+%
+\begin{frame}[t]%
+\frametitle{Zusammenfassung}%
+%
+\begin{itemize}%
+\item In dieser Einheit haben wir gelernt, wie wir einen \glslink{debugger}{Debugger} benutzen können.%
+%
+\item<2-> Der \glslink{debugger}{Debugger} ist eines der wichtigsten Werkzeuge im Werkzeuggürtel eines Programmierers.%
+%
+\item<3-> Die Arbeitsweise von Kode wird klar, wenn wir ihn Schritt-für-Schritt ausführen können.%
+%
+\item<4-> Wir können \glslink{breakpoint}{Breakpoints} setzen und den Prozess laufen lassen, bis er bei ihnen ankommt.%
+%
+\item<5-> Dann können wir uns die Werte von Variablen anschauen.%
+%
+\item<6-> Dann können wir jede Zeile Kode einzeln ausführen.%
+%
+\item<7-> Wir können sehen, wie sich jede einzelne Variable ändert.%
+%
+\item<8-> Wir können verfolgen, wie der Kontrollfluss durch die Zweige von Alternativen fließt und durch Schleifen iteriert.%
+%
+\item<9-> Wenn unser Kode einen Fehler hat, also einen Bug, dann ist das Benutzen des \glslink{debugger}{Debuggers} oft der erste Schritt, diesen zu finden.%
+%
+\item<10-> Darum heist er wohl auch \glslink{debugger}{Debugger}.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+\end{document}%%
+\endinput%
+%
