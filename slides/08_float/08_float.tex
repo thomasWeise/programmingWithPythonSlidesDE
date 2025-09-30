@@ -37,7 +37,7 @@
 \frametitle{Wie funktioniert das?}%
 \begin{itemize}%
 \item Aber wie kann man überhaupt eine brauchbare Untermenge von~\realNumbers\ auf dem Computer darstellen?%
-\item<2-> Wie können wir mit dem Fakt umgehen, dass wir keine beliebigen Nachkommastellen genau darstellen können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
+\item<2-> Wie können wir mit dem Fakt umgehen, dass wir die Zahlen nicht beliebig genau speichern können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
 \item<3-> Wie gehen wir damit um, dass es reelle Zahlen gibt so groß wie~$10^{300}$ und so klein wie~$10^{-300}$?%
 \item<4-> In \python\ gibt es dafür den Datentype~\pythonil{float}.%
 \item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN,G1991WECSSKAFPA}.%
@@ -52,7 +52,7 @@
 \item Schauen wir uns das \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN} kurz an.%
 %
 \only<2-6>{%
-\item<2-> Die ersten 52~Bit -- der sogenannte Significand oder die Mantisse -- speichern die Ziffern der Zahl.%
+\item<2-> Die ersten 52~Bit -- der so genannte \glslink{significand}{Signifikand} oder die Mantisse -- speichern die Ziffern der Zahl.%
 }%
 %
 \only<3-7>{%
@@ -81,7 +81,7 @@ Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die klei
 }%
 %
 \only<10-13>{%
-\item<10-> Der Exponent repräsentiert eine Potenz von~2, mit der der Significand multipliziert wird.%
+\item<10-> Der Exponent repräsentiert eine Potenz von~2, mit der der \glslink{significand}{Signifikand} multipliziert wird.%
 }%
 %
 \only<11-14>{%
@@ -91,7 +91,7 @@ Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die klei
 \item<12-> Daher wird von dem Exponent immer ein konstanter Bias von~1023 abgezogen.%
 }%
 \only<13->{%
-\item<13-> Ist \DEzB\ 1050 im Exponenten-Feld gespeichert, dann ist der eigentliche Exponent $1050-1023=27$ und der Significand wird mit~$2^{27}=134\decSep217\decSep728$ multipliziert.%
+\item<13-> Ist \DEzB\ 1050 im Exponenten-Feld gespeichert, dann ist der eigentliche Exponent $1050-1023=27$ und der \glslink{significand}{Signifikand} wird mit~$2^{27}=134\decSep217\decSep728$ multipliziert.%
 }%
 %
 \only<14->{%
@@ -115,11 +115,11 @@ Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die klei
 \item Fließkommazahlen~(\pythonils{float}) können eine große Vielzahl verschiedener Werte repräsentieren.%
 \item<4-> Ihr Wertebereich ist groß, aber begrenzt.%
 \item<5-> Sie können Ganzzahlen und gebrochene Zahlen darstellen.%
-\item<6-> Ihre Genauigkeit ist jedoch auf 15~Ziffern begrenzt.%
+\item<6-> Ihre Genauigkeit ist jedoch auf 15 bis 16~Ziffern begrenzt.%
 \end{enumerate}%
 }
 %
-\item<7-> Wenn Sie zum Beispiel~1 zu~$10^{16}$ addieren, dann ist das Erbenis immer noch~$10^{16}$, weil nur 15~Ziffern \inQuotes{gespeichert} werden und die~1 einfach \inQuotes{herunterfällt.}%
+\item<7-> Wenn Sie zum Beispiel~1 zu~$10^{16}$ addieren, dann ist das Ergebnis immer noch~$10^{16}$, weil nur 15~Ziffern \inQuotes{gespeichert} werden und die~1 einfach \inQuotes{herunterfällt.}%
 %
 \item<8-> \alert{Zahlen können mit \pythonils{float} nicht beliebig genau gespeichert werden\cite{PSF:P3D:TPT:FPAIAL}.}%
 \item<9-> Ansonsten sind \pythonils{float} aber schon ziemlich cool.%
@@ -185,60 +185,60 @@ Dann könnten wir Zahlen von~$0$ bis~$0.001*(2^{52}-1)$ darstellen, und die klei
 \only<-27>{%
 \item<26-> Die Konstante~\numberE, in \python\ \pythonil{math.e}\only<-26>{\dots}\uncover<27->{ hat den Näherungswert \pythonil{2.718281828459045}, der auf etwa 15~Stellen genau ist.}}%
 %
-\only<-33>{%
+\only<-34>{%
 \item<28-> Stellen Sie sich vor, wir sollen den Bruch~$\frac{1}{7}$ als dezimale Kommazahl aufschreiben.%
 \item<29-> Das funktioniert nicht.\uncover<30->{ Wir müssen immer irgendwo abbrechen.}%
-\item<30-> Wir könnten \DEzB~$0.14285714285714285$ schreiben {\dots} aber das ist nicht das Gleiche wie~$\frac{1}{7}$.%
-\item<31-> Im binären Format sehen wir das Problem schon bei Zahlen wie~$\frac{1}{10}=0.1$\cite{PSF:P3D:TPT:FPAIAL}.%
-\item<32-> Wir könnten schreiben $\frac{1}{10}\approx\frac{1}{2^4}+\frac{1}{2^5}+\frac{1}{2^8}+\frac{1}{2^9}+\frac{1}{2^{12}}+\frac{1}{2^{13}}+\frac{1}{2^{16}}+\dots$, aber wir würden niemals genau auf~0.1 kommen.%
-\item<33-> Das bedeutet, das 0.1 nicht im genau im \pythonil{float}-Format dargestellt werden kann.%
+\item<31-> Wir könnten \DEzB~$0.14285714285714285$ schreiben {\dots} aber das ist nicht das Gleiche wie~$\frac{1}{7}$.%
+\item<32-> Im binären Format sehen wir das Problem schon bei Zahlen wie~$\frac{1}{10}=0.1$\cite{PSF:P3D:TPT:FPAIAL}.%
+\item<33-> Wir könnten schreiben $\frac{1}{10}\approx\frac{1}{2^4}+\frac{1}{2^5}+\frac{1}{2^8}+\frac{1}{2^9}+\frac{1}{2^{12}}+\frac{1}{2^{13}}+\frac{1}{2^{16}}+\dots$, aber wir würden niemals genau auf~0.1 kommen.%
+\item<34-> Das bedeutet, das 0.1 nicht im genau im \pythonil{float}-Format dargestellt werden kann.%
 }%
 %
-\only<-35>{%
-\item<34-> Aber was bedeutet wiederum das? Addieren wir \inQuotes{zehn \pythonil{0.1}} zusammen\only<-34>{\dots}\uncover<35->{, dann liegt das Ergebnis ganz knapp neben~1!}%
+\only<-36>{%
+\item<35-> Aber was bedeutet wiederum das? Addieren wir \inQuotes{zehn \pythonil{0.1}} zusammen\only<-35>{\dots}\uncover<36->{, dann liegt das Ergebnis ganz knapp neben~1!}%
 }%
 %
-\only<-37>{%
-\item<36-> Ziehen wir \pythonil{1.0} von \inQuotes{zehn \pythonil{0.1}} ab\only<-36>{\dots}\uncover<37->{, dann ist das Ergebnis eben nur fast~0!}%
+\only<-38>{%
+\item<37-> Ziehen wir \pythonil{1.0} von \inQuotes{zehn \pythonil{0.1}} ab\only<-36>{\dots}\uncover<38->{, dann ist das Ergebnis eben nur fast~0!}%
 }%
 %
-\only<-39>{%
-\item<38-> Anderes Thema: \python\ hat natürlich auch trigonometrische und logarithmische Funktionen\only<-38>{.}\uncover<39->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
+\only<-40>{%
+\item<39-> Anderes Thema: \python\ hat natürlich auch trigonometrische und logarithmische Funktionen\only<-39>{.}\uncover<40->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
 }%
 %
-\only<-41>{%
-\item<40-> Aus der Schule wissen wir, dass $\sin{\left(\frac{\numberPi}{4}\right)}=\frac{\sqrt{2}}{2}$ und das darum $\sin^2\left(\frac{\numberPi}{4}\right)=\frac{1}{2}$, also berechnen wir \pythonil{sin(0.25 * pi) ** 2}\only<-40>{\dots}\uncover<41->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+\only<-42>{%
+\item<41-> Aus der Schule wissen wir, dass $\sin{\left(\frac{\numberPi}{4}\right)}=\frac{\sqrt{2}}{2}$ und das darum $\sin^2\left(\frac{\numberPi}{4}\right)=\frac{1}{2}$, also berechnen wir \pythonil{sin(0.25 * pi) ** 2}\only<-41>{\dots}\uncover<42->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
 }%
 %
-\only<-43>{%
-\item<42-> Aus der Schule wissen wir, dass $\cos\left(\frac{\numberPi}{3}\right)=\frac{1}{2}$, also berechnen wir \pythonil{cos(pi / 3)}\only<-42>{\dots}\uncover<43->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+\only<-44>{%
+\item<43-> Aus der Schule wissen wir, dass $\cos\left(\frac{\numberPi}{3}\right)=\frac{1}{2}$, also berechnen wir \pythonil{cos(pi / 3)}\only<-43>{\dots}\uncover<44->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
 }%
 %
-\only<-45>{%
-\item<44-> Aus der Schule wissen wir, dass $\tan\left(\frac{\numberPi}{4}\right)=1$, also berechnen wir \pythonil{tan(pi / 4)}\only<-44>{\dots}\uncover<45->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+\only<-46>{%
+\item<45-> Aus der Schule wissen wir, dass $\tan\left(\frac{\numberPi}{4}\right)=1$, also berechnen wir \pythonil{tan(pi / 4)}\only<-45>{\dots}\uncover<46->{ und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
 }%
 %
-\only<-47>{%
-\item<46-> Aus der Schule wissen wir, dass $\log\left(e^{10}\right)=10$, also berechnen wir \pythonil{log(e ** 10)}\only<-46>{\dots}\uncover<47->{ und das Ergebnis stimmt genau.}%
+\only<-48>{%
+\item<47-> Aus der Schule wissen wir, dass $\log\left(e^{10}\right)=10$, also berechnen wir \pythonil{log(e ** 10)}\only<-47>{\dots}\uncover<48->{ und das Ergebnis stimmt genau.}%
 }%
 %
-\only<-49>{%
-\item<48-> \python\ hat natürlich auch die Umkehrfunktionen der trigonometrischen Funktionen\only<-48>{.}\uncover<49->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
+\only<-50>{%
+\item<49-> \python\ hat natürlich auch die Umkehrfunktionen der trigonometrischen Funktionen\only<-49>{.}\uncover<50->{, die wir natürlich wieder aus \pythonil{math} importieren.}%
 }%
 %
-\only<-51>{%
-\item<50-> Aus der Schule wissen wir, dass $\arcsin{\sin x} = x$~$\forall x\in[-\frac{\numberPi}{2},\frac{\numberPi}{2}]$, also berechnen wir \pythonil{asin(sin(0.925))}\only<-50>{\dots}\uncover<51->{ und das Ergebnis stimmt genau.}%
+\only<-52>{%
+\item<51-> Aus der Schule wissen wir, dass $\arcsin{\sin x} = x$~$\forall x\in[-\frac{\numberPi}{2},\frac{\numberPi}{2}]$, also berechnen wir \pythonil{asin(sin(0.925))}\only<-51>{\dots}\uncover<52->{ und das Ergebnis stimmt genau.}%
 }%
 %
-\only<-53>{%
-\item<52-> Aus der Schule wissen wir, dass $\arccos{\cos x} = x$~$\forall x\in[0,\numberPi]$, also berechnen wir \pythonil{acos(cos(-0.3))}, wobei -0.3 außerhalb des Intervalls liegt\only<-52>{\dots}\uncover<53->{; und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
+\only<-54>{%
+\item<53-> Aus der Schule wissen wir, dass $\arccos{\cos x} = x$~$\forall x\in[0,\numberPi]$, also berechnen wir \pythonil{acos(cos(-0.3))}, wobei -0.3 außerhalb des Intervalls liegt\only<-53>{\dots}\uncover<54->{; und das Ergebnis kommt auf etwa 15~Stellen genau hin\dots}%
 }%
 %
-\only<-55>{%
-\item<54-> Aus der Schule wissen wir, dass $\arctan{\tan x} = x$~$\forall x\in(-\frac{\numberPi}{2},\frac{\numberPi}{2})$, also berechnen wir \pythonil{atan(tan(1))}\only<-54>{\dots}\uncover<55->{ und das Ergebnis stimmt genau.}%
+\only<-56>{%
+\item<55-> Aus der Schule wissen wir, dass $\arctan{\tan x} = x$~$\forall x\in(-\frac{\numberPi}{2},\frac{\numberPi}{2})$, also berechnen wir \pythonil{atan(tan(1))}\only<-55>{\dots}\uncover<56->{ und das Ergebnis stimmt genau.}%
 }%
 %
-\item<56-> Damit haben wir erstmal einige grundlegende Rechenarten abgearbeitet.%
+\item<57-> Damit haben wir erstmal einige grundlegende Rechenarten abgearbeitet.%
 %
 \end{itemize}%
 %
@@ -716,19 +716,19 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 }%
 %
 \only<4-5>{%
-\item<4-> Wir geben~\pythonil{9e-324} ein\only<-4>{\dots}\uncover<5->{ und \python\ gibt uns stattdessen wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+\item<4-> Wir geben~\pythonil{9e-324} ein\only<-4>{\dots}\uncover<5->{ und \python\ gibt uns stattdessen wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des \glslink{significand}{Signifikand} genutzt werden und viele Zahlen zusammenfallen.}%
 }%
 %
 \only<6-7>{%
-\item<6-> Wir geben~\pythonil{8e-324} ein\only<-6>{\dots}\uncover<7->{ und \python\ gibt uns wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+\item<6-> Wir geben~\pythonil{8e-324} ein\only<-6>{\dots}\uncover<7->{ und \python\ gibt uns wieder \pythonil{1e-323} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des \glslink{significand}{Signifikand} genutzt werden und viele Zahlen zusammenfallen.}%
 }%
 %
 \only<8-9>{%
-\item<8-> Wir geben~\pythonil{7e-324} ein\only<-7>{\dots}\uncover<9->{ und \python\ gibt uns nun \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+\item<8-> Wir geben~\pythonil{7e-324} ein\only<-7>{\dots}\uncover<9->{ und \python\ gibt uns nun \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des \glslink{significand}{Signifikand} genutzt werden und viele Zahlen zusammenfallen.}%
 }%
 %
 \only<10-11>{%
-\item<10-> Wir geben~\pythonil{6e-324} ein\only<-10>{\dots}\uncover<11->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des Significand genutzt werden und viele Zahlen zusammenfallen.}%
+\item<10-> Wir geben~\pythonil{6e-324} ein\only<-10>{\dots}\uncover<11->{ und \python\ gibt uns wieder \pythonil{5e-324} aus. Wir sind bereits so nahe an~0, dass nur noch die letzten Bits des \glslink{significand}{Signifikand} genutzt werden und viele Zahlen zusammenfallen.}%
 }%
 %
 \only<12-13>{%
@@ -765,7 +765,7 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 %
 \item<28-> Wir können also sehr kleine Zahlen mit \pythonils{float} speichern.%
 \item<29-> Aber es gibt eine Grenze, und wenn wir diese unterschreiten, werden die Zahlen als~\pythonil{0} interpretiert.%
-\item<30-> Und wenn wir der Grenze sehr nahe kommen, dann fallen immer mehr Zahlen aufeinander, weil wir nur noch die letzten paar Bits des Significand nutzen.%
+\item<30-> Und wenn wir der Grenze sehr nahe kommen, dann fallen immer mehr Zahlen aufeinander, weil wir nur noch die letzten paar Bits des \glslink{significand}{Signifikand} nutzen.%
 %
 \end{itemize}%
 %
