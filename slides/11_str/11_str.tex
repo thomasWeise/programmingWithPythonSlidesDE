@@ -192,7 +192,7 @@ Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführun
 \only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind \inQuotes{case-sensitive}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
 Somit gilt \pythonil{\"W\" != \"w\"}.}\uncover<10->{ %
 Somit kann \pythonil{\"world\"} nicht in \pythonil{\"Hello World!\"} gefunden werden.\uncover<11->{ %
-Somit liefert die Function~\pythonil{-1} zurück.\uncover<12->{ %
+Somit liefert die Funktion~\pythonil{-1} zurück.\uncover<12->{ %
 Beachte also:~Niemals das Ergebnis von \pythonil{find} direkt zum Indizieren nehmen, denn \pythonil{-1} steht für \inQuotes{letztes Zeichen}\dots%
 }}}}}%
 %
@@ -483,7 +483,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \begin{frame}[t]%
 \frametitle{Strings in Andere Datentypen Konvertieren}%
 \begin{itemize}%
-\only<-6,26->{%
+\only<-6,37->{%
 \item Oft wollen wir Daten in unser Program einlesen oder eingeben.%
 \item<2-> Die Daten sind of als Text gespeichert oder werden als Text in ein \glslink{terminal}{Terminal} eingegeben.%
 \item<3-> Wir brauchen sie dann aber oft als andere Datentypen, \DEzB\ als Zahlen.%
@@ -520,10 +520,31 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-23>{\item<22-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<23->{ Aus \pythonil{bool(\"True\")} wird daher~\pythonil{True}.%
 }}%
 %
-\only<-25>{\item<24-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\uncover<25->{ Und \pythonil{bool(\"False\")} wird zu~\pythonil{False}.%
+\only<-29>{\item<24-> Die Funktion~\pythonil{bool} wandelt einen Wert~\pythonil{a} eines anderen Datentypen in einen \pythonil{bool}\nobreakdashes-Wert um. \pythonil{a}~könnte \DEzB\ ein String sein.\only<-27>{\uncover<25->{ Und \pythonil{bool(\"False\")} wird zu~\pythonil{False}.\uncover<26->{ %
+\alert{Halt!}\uncover<27->{ \alert{Nein wird es nicht!}}}}}\uncover<28->{ \alert{Und \pythonil{bool(\"False\")} wird auch zu~\pythonil{True}!}%
 }}%
 %
-\item<26-> Das war relativ einfach.%
+\only<-30>{%
+\item<29-> Der Grund ist, dass die Funktion \pythonil{bool} in so genanntes \alert{truth value testing} durchführt\cite{PSF:P3D:TPSL:BIF:B,PSF:P3D:TPSL:TVT}.%
+}%
+%
+\only<-32>{%
+\item<30-> Objekte bekommen dabei den Wert \pythonil{True}, \alert{\textbf{es sei denn}}, sie bieten selber eine explizite Umrechnung in den Type \pythonil{bool} an (und die ergibt \pythonil{False}) oder sie haben eine Länge (und die ist~0).%
+}
+%
+\only<-32>{%
+\item<31-> \pythonil{\"False\"} ist ein String mit einer Länge größer als~0.\uncover<32->{ Daher ist \pythonil{bool(\"False\")} \pythonil{True}.}%
+}%
+%
+\only<-34>{%
+\item<33-> Welchen Wahrheitswert hat dann der leere String \pythonil{\"\"}?\uncover<34->{ Der wird dann wirklich zu \pythonil{False}.}%
+}%
+%
+\only<-36>{%
+\item<35-> Für einen beliebigen nicht-leeren string, \DEzB\ \pythonil{\"blabla\"}\only<-35>{\dots}\uncover<36->{ gibt \pythonil{bool} uns aber immer \pythonil{True}.}%
+}%
+%
+\item<37-> Von der Überraschung mit \pythonil{bool} abgesehen war das relativ einfach.%
 %
 \end{itemize}%
 %
@@ -545,7 +566,11 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \locateGraphic{22}{width=0.8\paperwidth}{graphics/fromStr/fromStr15boolTrue}{0.1}{0.37}%
 \locateGraphic{23}{width=0.8\paperwidth}{graphics/fromStr/fromStr16boolTrueDone}{0.1}{0.37}%
 \locateGraphic{24}{width=0.8\paperwidth}{graphics/fromStr/fromStr17boolFalse}{0.1}{0.37}%
-\locateGraphic{25}{width=0.8\paperwidth}{graphics/fromStr/fromStr18boolFalseDone}{0.1}{0.37}%
+\locateGraphic{25-32}{width=0.8\paperwidth}{graphics/fromStr/fromStr18boolFalseDone}{0.1}{0.37}%
+\locateGraphic{33}{width=0.8\paperwidth}{graphics/fromStr/fromStr19boolEmptyStr}{0.1}{0.37}%
+\locateGraphic{34}{width=0.8\paperwidth}{graphics/fromStr/fromStr20boolEmptyStrDone}{0.1}{0.37}%
+\locateGraphic{35}{width=0.8\paperwidth}{graphics/fromStr/fromStr21boolBlabla}{0.1}{0.37}%
+\locateGraphic{36}{width=0.8\paperwidth}{graphics/fromStr/fromStr22boolBlablaDone}{0.1}{0.37}%
 \end{frame}%
 %
 %
