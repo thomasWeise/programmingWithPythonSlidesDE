@@ -31,10 +31,10 @@
 \begin{frame}%
 \frametitle{Einleitung}%
 \begin{itemize}%
-\item In den zukünftigen Slides werden wir eher weniger Screenshots vom \pycharm\ \glsFull{ide} verwenden.%
+\item In den zukünftigen Slides werden wir eher weniger Screenshots vom \pycharm\ \glsShort{ide} verwenden.%
 \item<2-> Stattdessen werden wir die Programme und ihre Ausgaben als Listings präsentieren.%
 \item<3-> Das ist äquivalent mit dem Vorteil, dass wir Kode auch in den Slides selektieren und kopieren können.%
-\item<4-> Bevor wir uns aber von den Screenshots verabschieden, wollen wir uns noch eine wichtige Funktion anschauen, die viele \pglspl{ide} bereitstellen\only<-4>{.}\uncover<5->{:}%
+\item<4-> Bevor wir uns aber von den Screenshots verabschieden, wollen wir uns noch eine wichtige Funktion anschauen, die viele \glsShort{ide} bereitstellen\only<-4>{.}\uncover<5->{:}%
 \item<5-> Sie können uns beim Suchen von Fehlern helfen.%
 \end{itemize}%
 \end{frame}%
@@ -53,8 +53,8 @@ Manchmal haben wir vielleicht den Algorithmus, den wir gerade versuchen zu imple
 }}}}}%
 \item<9-> Manche Fehler sind einfach zu finden.%
 \item<10-> Manchmal führen wir ein Programm aus, as crashed, und die Ausgabe verrät uns, wo der Fehler ist.
-\item<11-> Manchmal müssen wir lange \glslink{debugger}{debuggen}, um die Fehler zu entdecken~(das kommt später mal).%
-\item<12-> Bei manchen einfachen Fällen, wie Tippfehlern, kann uns eine gute \pgls{ide} aber schon helfen.%
+\item<11-> Manchmal müssen wir lange \glslink{debugger}{debuggen}, um die Fehler zu entdecken~(das kommt später in Einheit~\unitDebugger).%
+\item<12-> Bei manchen einfachen Fällen, wie Tippfehlern, kann uns eine gute \glsShort{ide} aber schon helfen.%
 \end{itemize}%
 \end{frame}%
 %
@@ -78,7 +78,7 @@ Manchmal haben wir vielleicht den Algorithmus, den wir gerade versuchen zu imple
 \item<3-> Genau. In Zeile~12 hat der Programmierer aus Versehen \pythonil{intvar} statt \pythonil{int_var} geschrieben.%
 %
 \end{itemize}%
-\listingPython{}{variables:assignment_wrong}{0.15}{0.31}{0.7}{0.7}%
+\listingPython{}{variables:assignment_wrong}{0.15}{0.33}{0.7}{0.7}%
 \end{frame}%
 %
 \begin{frame}[t]%
@@ -90,7 +90,7 @@ Manchmal haben wir vielleicht den Algorithmus, den wir gerade versuchen zu imple
 }%
 %
 \only<-3>{%
-\item<2-> Wir können das Programm auch in dem \pycharm\ \gls{ide} ausführen, in dem wir entweder auf \pycharmRun\ klicken oder in dem wir \keys{\shift+F10} drücken.%
+\item<2-> Wir können das Programm auch in dem \pycharm\ \glsShort{ide} ausführen, in dem wir entweder auf \pycharmRun\ klicken oder in dem wir \keys{\shift+F10} drücken.%
 }%
 %
 \only<-6>{%
@@ -137,11 +137,11 @@ Manchmal haben wir vielleicht den Algorithmus, den wir gerade versuchen zu imple
 \item<13-> Mit dieser Information haben wir gute Chancen, den Fehler zu finden und zu korrigieren.%
 }%
 %
-\item<14-> Dieser so genannte \pythonil{Exception} \glslink{stackTrace}{Stack Trace}, der auf dem \emph{\glsFull{stderr}} ausgegeben wrd, sagt uns also nicht nur, dass es einen Fehler gab.%
+\item<14-> Dieser so genannte \pythonil{Exception} \glslink{stackTrace}{Stack Trace}, der auf dem \emph{Standard Error Stream (\glsShort{stderr})} ausgegeben wrd, sagt uns also nicht nur, dass es einen Fehler gab.%
  %
 \item<15-> Er sagt uns auch, was der wahrscheinlichste Grund für den Fehler und wo er wahrscheinlich stattfand.%
 %
-\item<16-> Wir diskutieren das Thema \pythonilsIdx{Exception} später, aber bereits jetzt sollte die Sachse ziemlich klar sein:%
+\item<16-> Wir diskutieren das Thema \pythonilsIdx{Exception} später~(ab Einheit~\unitRaiseExceptions), aber bereits jetzt sollte die Sachse ziemlich klar sein:%
 %
 \end{itemize}%
 %
@@ -150,9 +150,10 @@ Manchmal haben wir vielleicht den Algorithmus, den wir gerade versuchen zu imple
 \locateGraphicTB{3}{width=0.8\paperwidth}{graphics/errorsInIde02exception}{0.1}{0.35}%
 %
 \uncover<17->{%
-\bestPractice{readErrorMessage}{Always carefully \emph{read} error messages. %
-They often provide you very crucial information where to look for the mistake. %
-Not reading error messages is wrong.%
+\bestPractice{readErrorMessage}{%
+Lesen Sie immer alle Fehlermeldungen. %
+Sie geben uns oft wichtige Informationen, wenn wir nach Fehlern suchen. %
+\alert{Fehlermeldungen nicht zu lesen ist falsch.}%
 }}%%
 %
 \end{frame}%
@@ -190,7 +191,7 @@ Not reading error messages is wrong.%
 %
 \only<8->{%
 \only<-9>{%
-\item<8-> Wir kennen jetzt also schon zwei Methoden, Fehler im Kode mit Hilfe des \pgls{ide} zu finden.%
+\item<8-> Wir kennen jetzt also schon zwei Methoden, Fehler im Kode mit Hilfe des \glsShort{ide} zu finden.%
 }%
 %
 \only<-10>{%
@@ -198,7 +199,7 @@ Not reading error messages is wrong.%
 }%
 %
 \only<-11>{%
-\item<10-> Die \pycharm\ \pgls{ide} zeigt uns auch das kleine rote~\pycharmErrorsSymbol~Symbol in der oberen rechten Ecke.%
+\item<10-> Die \pycharm\ \glsShort{ide} zeigt uns auch das kleine rote~\pycharmErrorsSymbol~Symbol in der oberen rechten Ecke.%
 }%
 %
 \only<-12>{%
@@ -231,7 +232,7 @@ Not reading error messages is wrong.%
 }%
 \end{itemize}%
 %
-\locateGraphicTB{1-2}{width=0.8\paperwidth}{graphics/errorsInIde02exception}{0.1}{0.35}%
+\locateGraphicTB{1-2}{width=0.8\paperwidth}{graphics/errorsInIde02exception}{0.1}{0.38}%
 \locateGraphicTB{3-6,8-9}{width=0.8\paperwidth}{graphics/errorsInIde03underlined}{0.1}{0.35}%
 \locateGraphicTB{10-11}{width=0.8\paperwidth}{graphics/errorsInIde04errors}{0.1}{0.35}%
 \locateGraphicTB{12}{width=0.8\paperwidth}{graphics/errorsInIde05errorsList}{0.1}{0.35}%
@@ -242,7 +243,7 @@ Not reading error messages is wrong.%
 %
 \only<7>{%
 \bestPractice{redUnderline}{%
-Wenn wir Kode schreiben, sollten wir immer aufpassen, ob das \pgls{ide} uns über irgendwelche mögliche Fehler benachrichtigt. %
+Wenn wir Kode schreiben, sollten wir immer aufpassen, ob das \glsShort{ide} uns über irgendwelche mögliche Fehler benachrichtigt. %
 Bei \pycharm\ bekommen wir solche Benachrichtigungen oftmals durch rote oder gelbe Unterstreichungen. %
 Wir sollten solche Markierungen immer überprüfen.%
 }%
@@ -250,9 +251,9 @@ Wir sollten solche Markierungen immer überprüfen.%
 %
 \only<18->{%
 \usefulTool{ideForErrors}{%
-Das \pgls{ide} und die Fehlermeldungen (\pythonilIdx{Exception} \glslink{stackTrace}{Stack Traces}) sind Ihre wichtigsten Werkzeuge um Fehler zu finden. %
+Das \glsShort{ide} und die Fehlermeldungen (\pythonilIdx{Exception} \glslink{stackTrace}{Stack Traces}) sind Ihre wichtigsten Werkzeuge um Fehler zu finden. %
 Lesen Sie die Fehlermeldungen. %
-Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn dieses \pgls{ide} Ihren Kode mit Warnungen und Fehlerhinweisen annotiert, dann lesen und prüfen Sie jeden einzelnen Hinweis.%
+Gleichgültig ob Sie \pycharm\ oder irgendein anderes \glsShort{ide} verwenden, wenn dieses \glsShort{ide} Ihren Kode mit Warnungen und Fehlerhinweisen annotiert, dann lesen und prüfen Sie jeden einzelnen Hinweis.%
 }%
 }%
 %
@@ -271,7 +272,7 @@ Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn
 \item<6-> Das kann nicht verhindert werden.%
 \item<7-> Die Frage ist also, wie wir damit umgehen.%
 \item<8-> Wie können wir die Anzahl der Fehler, die wir machen werden, minimieren?%
-\item<9-> Wie können wir die Anzahl der Fehler, die wir finden und korrigieren, maximieren=?%
+\item<9-> Wie können wir die Anzahl der Fehler, die wir finden und korrigieren, maximieren?%
 \item<10-> Die Antwort ist:~\alert{Mit allen zur Verfügung stehenden Mitteln}.%
 \end{itemize}%
 \end{frame}%
@@ -281,9 +282,9 @@ Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn
 \begin{itemize}%
 \item Wir nutzen \alert{alle} Werkzeuge, die wir finden können, um Fehler zu entdecken und zu korrigieren.%
 \item<2-> Wenn wir ein Programm ausführen und es crashed, dann lesen wir Ausgabe genau.%
-\item<3-> Wenn unser \pgls{ide} mögliche Fehler und Warnungen anzeigt, dann schauen wir uns diese genau an.%
+\item<3-> Wenn unser \glsShort{ide} mögliche Fehler und Warnungen anzeigt, dann schauen wir uns diese genau an.%
 \item<4-> Beides kann unglaublich hilfreich sein.%
-\item<5-> Randnotiz:~Sie können an der Anzahl der verschiedenen Methodn, wie \pycharm\ Warnhinweise präsentiert, erkennen, wie wichtig das ist.%
+\item<5-> Randnotiz:~Sie können an der Anzahl der verschiedenen Methoden, wie \pycharm\ Warnhinweise präsentiert, erkennen, wie wichtig das ist.%
 \end{itemize}%
 \end{frame}%
 %
@@ -292,17 +293,17 @@ Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn
 \begin{itemize}%
 \item Selbst wenn Ihr Programm wie erwartet funktioniert, dann können trotzdem versteckte Fehler irgendwo im Kode sein.%
 %
-\item<2-> Manchmal kann man einfach festellen, ob die Ausgabe eines Programms korrect ist.%
+\item<2-> Manchmal kann man einfach festellen, ob die Ausgabe eines Programms korrekt ist.%
 %
 \item<3-> Manchmal kann man das nicht.%
 %
 \item<4-> Manchmal kann ein Output, der OK aussieht, trotzdem falsch sein.%
 %
-\item<5-> Manchmal können fehlerhafte Befehle in einem Programm sein, die nur bei der aktuellen Ausführung nicht erreicht urden.%
+\item<5-> Manchmal können fehlerhafte Befehle in einem Programm sein, die nur bei der aktuellen Ausführung nicht erreicht wurden.%
 %
 \item<6-> Selbst korrekte Ausgaben garantieren uns nicht, dass unsere Programme korrekt sind.%
 %
-\item<7-> Prüfen Sie daher immer alle Hinweise Ihres \pgls{ide}.%
+\item<7-> Prüfen Sie daher immer alle Hinweise Ihres \glsShort{ide}.%
 %
 \item<8-> Stellen Sie sicher, dass Sie immer alle Fehler- und Warnnachrichten vollständig verstanden haben.%
 %
@@ -314,13 +315,13 @@ Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn
 %
 \begin{itemize}%
 \item Warnhinweise können ebenfalls wichtig sein.%
-\item<2-> Sie können uns auf mögliche Problem hinweise.%
+\item<2-> Sie können uns auf mögliche Probleme hinweisen.%
 \item<3-> Vielleicht hat eine Variable einen falschen Typ.%
 \item<4-> Vielleicht fehlt ein benötigtes Paket.%
-\item<5-> Korrigieren Sie alle Fahler und Warnungen wo immer möglich.%
+\item<5-> Korrigieren Sie alle Fehler und Warnungen wo immer möglich.%
 \item<6-> Selbst wenn Sie denken, dass es False-Positives sind, schauen Sie, ob Sie sie nicht doch korrigieren können.%
 \item<7-> Denn False-Positives könnten auch von falsch formatiertem Kode herrühren, der für andere Entwickler schwer zu verstehen.%
-\item<8-> Versuchen Sie immer Warnungs- und Fehler-freien Kode zu produzieren.%
+\item<8-> Versuchen Sie immer Warnungs- und fehlerfreien Kode zu produzieren.%
 \item<9-> Denn, auf der einen Seite, könnten Sie ja falsch liegen, selbst wenn Sie denken, dass die Warnung falsch und der Kode korrekt ist\dots%
 \item<10-> Auf der anderen Seite wird es einfacher, die echten Fehler zu finden, wenn es weniger Warnungen gibt.%
 \end{itemize}%
@@ -331,7 +332,7 @@ Gleichgültig ob Sie \pycharm\ oder irgendein anderes \pgls{ide} verwenden, wenn
 \begin{itemize}%
 \item Wir haben nun zwei wichtige Methoden kennengelernt, Fehler in unserem Kode zu finden.%
 \item<2-> Auf der einen Seite gibt uns die Ausgabe bei Programmabstürzen schon ziemlich viele Informationen.%
-\item<3-> Auf der anderen Seite können wir viele Hinweise und Warnungen bereits in dem \pycharm\ \pgls{ide} sehen.%
+\item<3-> Auf der anderen Seite können wir viele Hinweise und Warnungen bereits in dem \pycharm\ \glsShort{ide} sehen.%
 \item<4-> Wichtig ist, dass wir immer allen Warnungen und Fehlermeldungen nachgehen.%
 \item<5-> Wir können nicht verhindern, dass wir Fehler machen.%
 \item<6-> Aber wir sollten es uns möglichst einfach machen, Fehler zu finden.%

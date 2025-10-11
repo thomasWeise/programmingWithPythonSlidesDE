@@ -125,106 +125,106 @@ Kommentare können eine ganze Zeile einnehmen oder wir können zwei Leerzeichen 
 \item<9-> Der Wert~\pythonil{1} steht danach irgendwo im Speicher und \pythonil{int_var} ist ein Name, der auf diese Speicherstelle zeigt.%
 }%
 %
-\only<-13>{%
+\only<-12>{%
 \item<10-> Jetzt können wir \pythonil{int_var} wie jeden anderen beliebigen Wert verwenden.
-\item<12-> Wir können \pythonil{2 + int_var} berechnen und das Ergebnis der \pythonilIdx{print}-Funktion übergeben.%
-\item<13-> Diese druckt dann den Text \textil{3} in den \glsFull{stdout} unseres Programms.%
+\item<11-> Wir können \pythonil{2 + int_var} berechnen und das Ergebnis der \pythonilIdx{print}-Funktion übergeben.%
+\item<12-> Diese druckt dann den Text \textil{3} in den \glsFull{stdout} unseres Programms.%
 }%
 %
-\only<-15>{%
-\item<14-> Wir können \pythonil{int_var} auch in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
-\item<15-> \pythonil{f\"int_var has value \{int_var\}.\"} wird dann zu \pythonil{\"int_var has value 1.\"} \glslink{strinterpolation}{interpoliert}.%
+\only<-14>{%
+\item<13-> Wir können \pythonil{int_var} auch in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
+\item<14-> \pythonil{f\"int_var has value \{int_var\}.\"} wird dann zu \pythonil{\"int_var has value 1.\"} \glslink{strinterpolation}{interpoliert}.%
 }%
 %
-\only<-18>{%
-\item<16-> Variablen werden \inQuotes{Variablen} genannt und nicht \inQuotes{Konstanten}, weil wir ihnen auch neue Werte zuweisen können.%
-\item<17-> Wir können \pythonil{int_var} also updaten und ihm einen neuen Wert zuweisen.%
+\only<-17>{%
+\item<15-> Variablen werden \inQuotes{Variablen} genannt und nicht \inQuotes{Konstanten}, weil wir ihnen auch neue Werte zuweisen können.%
+\item<16-> Wir können \pythonil{int_var} also updaten und ihm einen neuen Wert zuweisen.%
+}%
+%
+\only<-19>{%
+\item<17-> Wir können also \pythonil{int_var = (3 * int_var ) + 1} machen.%
+\item<18-> In dieser Berechnung wird der alte Wert von \pythonil{int_var} benutzt.%
 }%
 %
 \only<-20>{%
-\item<18-> Wir können also \pythonil{int_var = (3 * int_var ) + 1} machen.%
-\item<19-> In dieser Berechnung wird der alte Wert von \pythonil{int_var} benutzt.%
+\item<19-> Wie berechnen also \pythonil{(3 * 1) + 1}, was~\pythonil{4} ergibt.%
+\item<20-> Auch dieser Wert steht dann irgendwo im Speicher, und \pythonil{int_var} zeigt darauf.%
 }%
 %
-\only<-21>{%
-\item<20-> Wie berechnen also \pythonil{(3 * 1) + 1}, was~\pythonil{4} ergibt.%
-\item<21-> Auch dieser Wert steht dann irgendwo im Speicher, und \pythonil{int_var} zeigt darauf.%
+\only<-23>{%
+\item<21-> Der alte Wert \pythonil{1} wird nicht mehr referenziert.
+\item<22-> Der \python-Interpreter kann den entsprechenden Speicher freigeben und für etwas anderes benutzen.
+\item<23-> Wenn wir jetzt nochmal \pythonil{print(f\"int_var is now \{int_var\}.\")}, wird stattdessen \textil{int_var is now 4.} auf dem \pgls{stdout} ausgegeben.%
 }%
 %
-\only<-24>{%
-\item<22-> Der alte Wert \pythonil{1} wird nicht mehr referenziert.
-\item<23-> Der \python-Interpreter kann den entsprechenden Speicher freigeben und für etwas anderes benutzen.
-\item<24-> Wenn wir jetzt nochmal \pythonil{print(f\"int_var is now \{int_var\}.\")}, wird stattdessen \textil{int_var is now 4.} auf dem \pgls{stdout} ausgegeben.%
+\only<-26>{%
+\item<24-> Natürlich können wir mehrere Variablen haben!%
+\item<25-> Das Kommando \pythonil{float_var = 3.5} erstellt eine Variable namens \pythonil{float_var}.%
+\item<26-> Es allokiert den entsprechenden Speicher, schreibt den Fließkommawert \pythonil{3.5} hinein, und lässe \pythonil{float_var} datauf zeigen.%
 }%
 %
-\only<-27>{%
-\item<25-> Natürlich können wir mehrere Variablen haben!%
-\item<26-> Das Kommando \pythonil{float_var = 3.5} erstellt eine Variable namens \pythonil{float_var}.%
-\item<27-> Es allokiert den entsprechenden Speicher, schreibt den Fließkommawert \pythonil{3.5} hinein, und lässe \pythonil{float_var} datauf zeigen.%
+\only<-28>{%
+\item<27-> Wir können auch diese Variable in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
+\item<28-> \pythonil{print(f\"float_var has value \{float_var\}.\")} wird zu \pythonil{\"float_var has value 3.5.\"} \glslink{strinterpolation}{interpoliert}.%
 }%
 %
-\only<-29>{%
-\item<28-> Wir können auch diese Variable in \glslink{fstring}{f\nobreakdashes-Strings} verwenden.%
-\item<29-> \pythonil{print(f\"float_var has value \{float_var\}.\")} wird zu \pythonil{\"float_var has value 3.5.\"} \glslink{strinterpolation}{interpoliert}.%
+\only<-30>{%
+\item<29-> In einem letzten Schritt erstellen wir eine dritte Variable mit dem Namen \pythonil{new_var}, um das Ergebnis der Berechnung \pythonil{new_var = float_var * int_var} zu speichern.%
+\item<30-> Das ist das Ergebnis von \pythonil{3.5 * 4}, also der \pythonilIdx{float}-Wert~\pythonil{14.0}.
 }%
 %
-\only<-31>{%
-\item<30-> In einem letzten Schritt erstellen wir eine dritte Variable mit dem Namen \pythonil{new_var}, um das Ergebnis der Berechnung \pythonil{new_var = float_var * int_var} zu speichern.%
-\item<31-> Das ist das Ergebnis von \pythonil{3.5 * 4}, also der \pythonilIdx{float}-Wert~\pythonil{14.0}.
+\only<-32>{%
+\item<31-> Zu guter Letzt drucken wir noch \pythonil{print(f\"\{new_var = \}.\" )}, was als \textil{new_var = 14.0.} auf \pgls{stdout} erscheint.%
 }%
 %
 \only<-33>{%
-\item<32-> Zu guter Letzt drucken wir noch \pythonil{print(f\"\{new_var = \}.\" )}, was als \textil{new_var = 14.0.} auf \pgls{stdout} erscheint.%
+\item<32-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
+\item<33-> Das passt.%
 }%
 %
-\only<-34>{%
-\item<33-> Schauen wir uns die gesamte Ausgabe auf den \pgls{stdout} unseres Programms an.%
-\item<34-> Das passt.%
+\only<-35>{%
+\item<34-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
 }%
-%
 \only<-36>{%
-\item<35-> Nun führen wir das Program im \glslink{terminal}{Terminal} aus.%
+\item<35-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
 }%
 \only<-37>{%
-\item<36-> Unter \ubuntu\ \linux\ können wir ein Terminal durch Druck auf \ubuntuTerminal\ öffnen, unter \microsoftWindows\ durch \windowsTerminal.%
+\item<36-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \programUrl{variables:assignment}.%
 }%
 \only<-38>{%
-\item<37-> Auf beiden \glslink{OS}{Betriebssystemen} gehen wir mit Hilfe des Kommandos~\bashil{cd} in den Ordner mit der Programmdatei \programUrl{variables:assignment}.%
+\item<37-> Dort können wir diese dann durch \bashil{python3 assignment.py} ausführen.%
+\item<38-> Die Ausgabe ist natürlich die selbe.%
 }%
+%
 \only<-39>{%
-\item<38-> Dort können wir diese dann durch \bashil{python3 assignment.py} ausführen.%
-\item<39-> Die Ausgabe ist natürlich die selbe.%
+\item<39-> Alternativ können wir die Programmdatei auch in \pycharm\ dem \glsFull{ide} öffnen.%
 }%
 %
 \only<-40>{%
-\item<40-> Alternativ können wir die Programmdatei auch in \pycharm\ dem \glsFull{ide} öffnen.%
+\item<40-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `assignment'}.%
 }%
 %
 \only<-41>{%
-\item<41-> Um sie auszuführen, können wir auf den Dateinamen im Project-View rechts-klicken und dann auf \menu{Run `assignment'}.%
-}%
-%
-\only<-42>{%
-\item<42-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
+\item<41-> Oder wir drücken einfach \keys{\ctrl+\shift+F10} im Editor.%
 }%
 %
 %\only<-43>{%
-\item<43-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
+\item<42-> So oder so wird das Programm ausgeführt und wir bekommen wieder genau die erwartete Ausgabe.%
 %}%
 \end{itemize}%
 %
-\listingPython{2-8,10-20,22-26,28-30,32}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
-\listingOutput{33-34}{variables:assignment}{}{0.05}{0.45}{0.9}{0.7}%
+\listingPython{2-8,10-19,21-25,27-29,31}{variables:assignment}{0.15}{0.38}{0.7}{0.7}%
+\listingOutput{32-33}{variables:assignment}{}{0.05}{0.45}{0.9}{0.7}%
 %
-\locateGraphic{9,21,27,31}{width=0.2\paperwidth}{graphics/assignment1}{0.04}{0.38}%
-\locateGraphic{21,27,31}{width=0.2\paperwidth}{graphics/assignment2}{0.28}{0.38}%
-\locateGraphic{27,31}{width=0.2\paperwidth}{graphics/assignment3}{0.52}{0.38}%
-\locateGraphic{31}{width=0.2\paperwidth}{graphics/assignment4}{0.76}{0.38}%
+\locateGraphic{9,20,26,30}{width=0.2\paperwidth}{graphics/assignment1}{0.04}{0.38}%
+\locateGraphic{20,26,30}{width=0.2\paperwidth}{graphics/assignment2}{0.28}{0.38}%
+\locateGraphic{26,30}{width=0.2\paperwidth}{graphics/assignment3}{0.52}{0.38}%
+\locateGraphic{30}{width=0.2\paperwidth}{graphics/assignment4}{0.76}{0.38}%
 %
-\locateGraphic{36-40}{width=0.9\paperwidth}{graphics/assignmentTerminal}{0.05}{0.55}%
-\locateGraphicTB{41}{width=0.7\paperwidth}{graphics/assignmentPyCharm1}{0.15}{0.285}%
-\locateGraphicTB{42-43}{width=0.7\paperwidth}{graphics/assignmentPyCharm2}{0.15}{0.285}%
-\locateGraphicTB{44}{width=0.7\paperwidth}{graphics/assignmentPyCharm3}{0.15}{0.285}%
+\locateGraphic{35-39}{width=0.9\paperwidth}{graphics/assignmentTerminal}{0.05}{0.55}%
+\locateGraphicTB{40}{width=0.7\paperwidth}{graphics/assignmentPyCharm1}{0.15}{0.285}%
+\locateGraphicTB{41-42}{width=0.7\paperwidth}{graphics/assignmentPyCharm2}{0.15}{0.285}%
+\locateGraphicTB{43}{width=0.7\paperwidth}{graphics/assignmentPyCharm3}{0.15}{0.285}%
 %
 \end{frame}%
 %
@@ -525,7 +525,7 @@ Nicht unter der Creative Commons Lizenz, Copyright~\textcopyright\ liegt be CAST
 }%
 %
 \only<-10>{%
-\item<8-> Dafür müssen wir natürlich die \pythonIdx{sqrt}-Funktion aus dem Modul \pythonil{math} importieren.%
+\item<8-> Dafür müssen wir natürlich die \pythonil{sqrt}-Funktion aus dem Modul \pythonil{math} importieren.%
 }%
 %
 \only<-11>{%
@@ -627,27 +627,27 @@ Nicht unter der Creative Commons Lizenz, Copyright~\textcopyright\ liegt be CAST
 \item<7-> Diese Methode kann auch verwendet werden, umd die Werte von Variablen zu \alert{tauschen}.%
 }%
 %
-\only<-10>{%
+\only<-9>{%
 \item<8-> \pythonil{a, b = b, a} bedeutet im Grunde \inQuotes{der \emph{neue} Wert von~\pythonil{a} wird der \emph{jetzige} Wert von~\pythonil{b} und der \emph{neue} Wert von~\pythonil{b} wird der \emph{jetzige} Wert von~\pythonil{a}.}%
 }%
 %
-\only<-11>{%
+\only<-10>{%
 \item<9-> Die Zeile ist daher im Grunde äquivalent zu \pythonil{t = a}, \pythonil{a = b}, und \pythonil{b = t}.%
 }%
 %
-\only<-12>{%
+\only<-11>{%
 \item<10-> Ohne diese Doppel-Zuweisung müssten wir den Wert von~\pythonil{a} in einer temporären Variable~\pythonil{t} speichern, dann \pythonil{a} mit \pythonil{b} überschreiben, und dann den alten Wert von~\pythonil{a}, der jetzt in \pythonil{t} wäre, in~\pythonil{b} speichern.%
 }%
 %
-\only<-13>{%
+\only<-12>{%
 \item<11-> \pythonil{a, b = b, a} schafft das in einem Schritt.%
 }%
 %
-\only<-14>{%
+\only<-13>{%
 \item<12-> Und wir brauchen keine temporäre Variable.%
 }%
 %
-\only<-15>{%
+\only<-14>{%
 \item<13-> \pythonil{print(f\" \{a = \}, \{b = \}\")} druckt nun \textit{a = 10, b = 5}.%
 }%
 %
