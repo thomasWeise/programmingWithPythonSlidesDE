@@ -52,17 +52,19 @@
 \frametitle{Starke und Schwache Typisierung}%
 %
 \begin{definition*}[Stark Typisierte Sprache]
-In einer stark typisierten (strongly-typed) Programmiersprache hat jeder \emph{Wert} einen unveränderlichen \emph{Typ}.%
+In einer stark typisierten~\inEN{strongly-typed} Programmiersprache hat jeder \emph{Wert} einen unveränderlichen \emph{Typ}.%
 \end{definition*}%
 \uncover<2->{%
 \begin{itemize}%
+\only<-6>{%
 \item Solche Sprachen verbieten die Interaktion zwischen inkompatiblen Typen.%
+}%
 \item<3-> Man kann also nicht so etwas wie \pythonil{\"str\" + 5} machen.%
 \item<4-> Beispiele für solche Sprachen sind \python, \pgls{Java}, und~\pgls{C}.%
 \end{itemize}%
 \uncover<5->{%
 \begin{definition*}[Schwach Typisierte Sprache]%
-In einer schwach typisierten (weakly-typed) Programmiersprache kann der Typ eines Wertes automatisch nach den Erfordernissen der aktuellen Berechnung konvertiert werden.%
+In einer schwach typisierten~\inEN{weakly-typed} Programmiersprache kann der Typ eines Wertes automatisch nach den Erfordernissen der aktuellen Berechnung konvertiert werden.%
 \end{definition*}%
 %
 \uncover<6->{%
@@ -77,19 +79,21 @@ In einer schwach typisierten (weakly-typed) Programmiersprache kann der Typ eine
 \frametitle{Statische und Dynamische Typisierung}%
 %
 \begin{definition*}[Statisch Typisierte Sprache]%
-In einer statisch typisierten (statically-typed) Programiersprache hat jede \emph{Variable} einen \emph{festen Datentyp} und kann nur Werte dieses Typs aufnehmen.%
+In einer statisch typisierten~\inEN{statically-typed} Programiersprache hat jede \emph{Variable} einen \emph{festen Datentyp} und kann nur Werte dieses Typs aufnehmen.%
 \end{definition*}%
 %
 \uncover<2->{%
 \begin{definition*}[Dynamisch Typisierte Sprache]%
-In einer dynamisch typisierten (dynamically-typed) Programmiersprache hat eine \emph{Variable} keinen expliziten Typ. %
+In einer dynamisch typisierten~\inEN{dynamically-typed} Programmiersprache hat eine \emph{Variable} keinen expliziten Typ. %
 Wir können Werte verschiedenen Typs in einer Variable speichen.%
 \end{definition*}%
 %
 \uncover<3->{%
 \begin{itemize}%
 \item \python\ ist eine dynamisch typisierte Sprache.%
+\only<-6>{%
 \item<4-> \pgls{C} und \pgls{Java} sind statisch typisiert.%
+}%
 \only<-7>{%
 \item<5-> Die ursprünglische Kombination von starker und dynamischer Typisierung hat viele Vorteile für \python.%
 }%
@@ -216,15 +220,15 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 \item<27-> Vielleicht hat er später gemerkt, dass eine Fließkommadivision doch besser ist, den Operator getauscht, eber einfach vergessen, die Variable umzubenennen.%
 }%
 %
-\only<-31>{%
+\only<-30>{%
 \item<28-> Oder es war ihm einfach egal.%
 }%
 %
-\only<-32>{%
+\only<-31>{%
 \item<29-> Durch das Beibehalten des Namens entstehen aber Gefahren!%
 }%
 %
-\only<-37>{%
+\only<-32>{%
 \item<30-> Wenn jetzt ein anderer Programmierer an dem Kode arbeitet, dann könnte der aus dem Variablennamen schlussfolgern, dass dort ein \pythonil{int} drin gespeichert ist.%
 }%
 %
@@ -242,40 +246,41 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 %
 \only<35->{%
 \only<-38>{%
-\item<35-> Hätte der Programmierer diese Best-Practice beachtet, dann könnte es nur einen Grund geben, weshalb ein \pythonil{float} in der Variable \pythonil{int_var} gelandet ist\only<-35>{.}\uncover<36->{ Es war ein Fehler!}%
+\item<35-> Hätte der Programmierer diese Best-Practice beachtet, dann könnte es nur einen Grund geben, weshalb ein \pythonil{float} in der Variable \pythonil{int_var} gelandet ist\only<-35>{.}\uncover<36->{: Es war ein Fehler!}%
 }%
 %
-\only<36->{%
+\only<37->{%
 \only<-39>{%
 \item<37-> Der wahrscheinlichste Grund wäre dann eine Verwechslung der \pythonilIdx{/}- und \pythonilIdx{//}-Operatoren.%
 }%
 %
-\only<37->{%
+\only<38->{%
 \only<-40>{%
 \item<38-> So oder so, Sie stimmen mir sicherlich zu, dass etwas mit dem Programm nicht stimmt.%
 }%
 %
-\only<38->{%
+\only<39->{%
 \only<-41>{%
 \item<39-> Leider sind wir nicht die Autoren des Programms, also wissen wir nicht, was falsch ist.%
 }%
 %
-\only<-42>{%
+\only<40-42>{%
 \item<40-> Dieser Kode wird also später Fehler verursachen.%
 }%
 %
-\only<-43>{%
+\only<41-43>{%
 \item<41-> Viele solche Probleme existieren in vielen Softwareprojekten -- und sie sind schwer zu finden\cite{KCVM2022AESOTRDIPP}.%
 }%
 %
-\only<-44>{%
+\only<42-44>{%
 \item<42-> Hier wird es zum Problem, dass wir in \python\ die Datentypen nicht explizit spezifizieren müssen.%
 }%
 %
-\only<-45>{%
+\only<43-45>{%
 \item<43-> Diese ganze Gruppe von Problem resultiert daraus, das \python\ dynamisch typisiert ist.%
 }%
 %
+\only<44->{%
 \item<44-> Jeder von uns macht solche Fehler.%
 %
 \item<45-> Wir können das gar nicht verhinden.%
@@ -289,7 +294,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 %
 \item<49-> Und in meinem Kurs machen Sie besser beides.%
 \item<50-> Und das gucken wir uns jetzt an.%
-}}}}%
+}}}}}%
 \end{itemize}%
 %
 \listingPythonAndOutput{2-33,38-47}{variables:types_wrong}{}{0.05}{0.475}{0.9}{0.6}%
@@ -306,7 +311,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 %
 \begin{itemize}%
 \only<-7>{%
-\item Der erste Schritt, Typ-bezogene Fehler zu machen, ist natürlich vorsichtiges Programmieren.%
+\item Der erste Schritt, weniger Typ-bezogene Fehler zu machen, ist natürlich vorsichtiges Programmieren.%
 %
 \item<2-> Der zweite Schritt ist es, Werkzeuge einzusetzen, die prüfen, ob Programmkode Mehrdeutigkeiten oder Fehler beinhaltet.%
 %
@@ -324,7 +329,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 \item<8-> So oder so, \mypy\ wird installiert.%
 \end{itemize}%
 %
-\locateGraphic{8}{width=0.6\paperwidth}{graphics/pipInstallMypy}{0.2}{0.38}%
+\locateGraphic{8}{width=0.6\paperwidth}{graphics/pipInstallMypy}{0.2}{0.39}%
 %
 \end{frame}%
 %
@@ -348,20 +353,24 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 }%
 %
 \only<-7>{%
-\item<4-> Tatsächlich: \mypy\ sagt uns, dass etwas komisches in der vierten Zeile passiert, also bei \pythonil{int_var = int_var / 3}.%
+\item<4-> Wenn das nicht geht, dann versuchen Sie es mit \bashil{python3 -m mypy variable_types_wrong.py} \bashil{--no-strict-optional --check-untyped-defs}
 }%
 %
-\item<5-> \mypy\ schlägt mit dem \glslink{exitCode}{Exit-Kode}~\bashil{1} fehl.%
+\only<-8>{%
+\item<5-> Tatsächlich: \mypy\ sagt uns, dass etwas komisches in der vierten Zeile passiert, also bei \pythonil{int_var = int_var / 3}.%
+}%
 %
-\item<6-> Programme beenden sich normalerweise mit dem \glslink{exitCode}{Exit-Kode}~\bashil{0} wenn sie fehlerlos abgelaufen sind.%
+\item<6-> \mypy\ schlägt mit dem \glslink{exitCode}{Exit-Kode}~\bashil{1} fehl.%
 %
-\item<7-> Ein Rückgabewert, der nicht~\bashil{0} ist, zeugt von einem Fehler.%
+\item<7-> Programme beenden sich normalerweise mit dem \glslink{exitCode}{Exit-Kode}~\bashil{0} wenn sie fehlerlos abgelaufen sind.%
 %
-\item<8-> Und \mypy\ hat tatsächlich einen Fehler gefunden.%
+\item<8-> Ein Rückgabewert, der nicht~\bashil{0} ist, zeugt von einem Fehler.%
+%
+\item<9-> Und \mypy\ hat tatsächlich einen Fehler gefunden.%
 \end{itemize}%
 %
 %
-\listingOutput{4-}{variables:variable_types_wrong:mypy}{style=tool_style}{0.1}{0.55}{0.8}{0.6}%
+\listingOutput{4-}{variables:variable_types_wrong:mypy}{style=tool_style}{0.1}{0.665}{0.8}{0.6}%
 %
 \end{frame}%
 %
@@ -373,9 +382,9 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 \only<-8>{%
 \usefulTool{mypy}{%
 \mypy\cite{LLHSVRZSJYYMC2024MOSTFP} ist ein statischer Type-Checker für \python.\uncover<2->{% %
-Dieses Wekrzeug kann Sie warnen wenn Sie, \DEzB~einen Wert einer Variable zuweisen, der einen anderen Datentype hat als der vorher in der gespeicherte Wert -- was ein potentieller Programmierfehler ist.\uncover<3->{ %
+Dieses Werkzeug kann Sie warnen wenn Sie, \DEzB~einen Wert einer Variable zuweisen, der einen anderen Datentype hat als der vorher in der gespeicherte Wert -- was ein potentieller Programmierfehler ist.\uncover<3->{ %
 Sie können \mypy\ via \bashil{pip install mypy} installieren.\uncover<4->{ %
-Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei \textil{fileToScan.py} der Name der zu prüfenden Datei ist (es kann auch ein Verzeichnis angegeben werden).}}}%
+Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei \textil{fileToScan.py} der Name der zu prüfenden Datei ist~(es kann auch ein Verzeichnis angegeben werden).}}}%
 }}%
 %
 \uncover<5->{%
@@ -484,7 +493,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \item<4-> Ein Type-Checking Werkzeug kann nicht wissen, was die Intention des Programmierers war.%
 \item<5-> Es kann nur herausfinden, dass Zeile~4 wahrscheinlich falsch ist, weil wir in \pythonil{int_var} erst einen \pythonil{int} und später einen \pythonil{float} gespeichert haben.%
 \only<-10>{%
-\item<6-> Aber eben nich \emph{warum}.%
+\item<6-> Aber eben nicht \emph{warum}.%
 }%
 \item<7-> Komischerweise existiert dieses Problem nur zu einem viel kleineren Grad in einer statisch typisierten Sprache wie~\pgls{C}.%
 \item<8-> Hier müssen wir nämlich den Datentyp jeder Variable definieren, bevor wir ihr einen Wert zuweisen können.%
@@ -539,7 +548,9 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \gitExec{exec:variables:variable_types_wrong_hints_2:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh variables variable_types_wrong_hints_2.py}%
 %
 \begin{itemize}%
+\only<-3>{%
 \item Wie gesagt, es gibt zwei mögliche Intentionen, die der Programmierer von \programUrl{variables:types_wrong} hätte gehabt haben können.%
+}%
 %
 \only<-5,10-12>{%
 \item<2-> In \programUrl{variables:types_wrong_hints_1} wollte er tatsächlich, das \pythonil{int_var} eine Ganzzahlvariable ist.%
@@ -640,8 +651,8 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \item<10-> Stattdessen sollten wir unsere Intention immer mit Type Hints ausdrücken.%
 \end{itemize}%
 %
-\listingPython{1}{variables:types}{0.1}{0.2}{0.8}{0.92}%
-\listingPython{2,7}{variables:types_hints}{0.1}{0.2}{0.8}{0.92}%
+\listingPython{1}{variables:types}{0.1}{0.375}{0.8}{0.92}%
+\listingPython{2-3,7}{variables:types_hints}{0.1}{0.375}{0.8}{0.92}%
 \listingOutput{8}{variables:variable_types_hints:mypy}{style=tool_style}{0.05}{0.7}{0.9}{0.6}%
 \end{frame}%
 %
@@ -678,9 +689,9 @@ Die Idee, dass man ja Kode später annotieren kann, ist falsch.}%
 \begin{itemize}%
 \item Statische Type-Checker können auch einen positiven Einfluss auf Sicherheitsaspekte haben, wie wir in unserem \citetitle{databases}-Buch erläutern~\cite{databases}.%
 %
-\item<2-> So genannte Injection-Angriffe wie \glsFull{SQLi} sind seit vielen Jahren ein Sicherheitsproblem.%
+\item<2-> So genannte Injection-Angriffe wie \glsShort{SQL} Injection Attacken~(\glsShort{SQLi}) sind seit vielen Jahren ein Sicherheitsproblem.%
  %
-\item<3-> Solche Angriffe auf \glslink{db}{Datenbanken} können verhindert werden, wenn \sql-Anfragen niemals mit Hilfe von String-Operationen oder \glslink{fstring}{f-Strings} erstellt werden, sondern immer nur String-Literable sind.%
+\item<3-> Solche Angriffe auf \glslink{db}{Datenbanken} können verhindert werden, wenn \sql-Anfragen niemals mit Hilfe von String-Operationen oder \glslink{fstring}{f-Strings} erstellt werden, sondern immer nur String-\glslink{literal}{Literale} sind.%
 %
 \item<4-> \python\ bietet den Datentyp~\pythonilIdx{LiteralString} für String-\glslink{literal}{Literale} an\cite{PEP675}.%
 %

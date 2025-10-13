@@ -96,7 +96,9 @@
 %
 \parbox{0.334\paperwidth}{\small{%%
 \begin{itemize}%
+\only<-3>{%
 \item String-\glslink{literal}{Literale} werden gecached und wiederverwendet, Verbindungen von String-Literalen in einem Ausdruck werden gleich als String-Literale interpretiert -- \pythonil{a}, \pythonil{b}, und \pythonil{c} sind das selbe Objekt.%
+}%
 \item<2-> \pythonil{d} wird in zwei Schritten berechnet, kommt nicht aus dem Cache, und ist daher ein anderes Objekt.%
 \item<3-> Implementationsspezifisch cached und wiederverwendet der \python-Interpreter kleine Integer-Werte~(\pythonil{e} und \pythonil{f}).%
 \item<4-> Große aber nicht~(\pythonil{g} und~\pythonil{h}).%
