@@ -39,7 +39,7 @@
 \item Aber wie kann man überhaupt eine brauchbare Untermenge von~\realNumbers\ auf dem Computer darstellen?%
 \item<2-> Wie können wir mit dem Fakt umgehen, dass wir die Zahlen nicht beliebig genau speichern können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
 \item<3-> Wie gehen wir damit um, dass es reelle Zahlen gibt so groß wie~$10^{300}$ und so klein wie~$10^{-300}$?%
-\item<4-> In \python\ gibt es dafür den Datentype~\pythonil{float}.%
+\item<4-> In \python\ gibt es dafür den Datentyp~\pythonil{float}.%
 \item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN,G1991WECSSKAFPA}.%
 \item<6-> Das Ziel ist es, dass wir eben genau Zahlen so groß wie~$10^{300}$ und so klein wie~$10^{-300}$ darstellen können\only<-6>{.}\uncover<7->{, aber das wir auch akzeptieren, dass wir~$10^{300}+10^{-300}$ nicht exakt erfassen können.}%
 \end{itemize}%
@@ -1194,7 +1194,7 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 \frametitle{Zusammenfassung}%
 \begin{itemize}%
 \item \python\ bietet uns beliebig große Ganzzahlen mit dem Datentyp~\pythonil{int} an.%
-\item<2-> Für reelle Zahlen können wir den Datentype~\pythonil{float} benutzen.%
+\item<2-> Für reelle Zahlen können wir den Datentyp~\pythonil{float} benutzen.%
 \item<3-> Dieser Datentyp ist \alert{nicht} beliebig genau, sondern sollte \alert{immer} als ungenau betrachtet werden.%
 \item<4-> Er reicht aber aus, um viele Berechnungen genau genug durchzuführen {\dots} 15~Ziffern sind schon ziemlich viel\dots.%
 \item<5-> Durch runden können \pythonils{float} in \pythonils{int} überführt werden~(wobei zu beachten ist, das die Funktion \pythonil{round} Banker's Rounding durchführt).%

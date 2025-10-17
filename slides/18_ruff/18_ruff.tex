@@ -46,13 +46,17 @@
 \gitExec{exec:lists:lists_error:mypy}{\programmingWithPythonCodeRepo}{.}{_scripts_/mypy.sh collections lists_error.py}%
 %
 \begin{itemize}%
+\only<-6>{%
 \item Das Erste, was wir immer machen, ist unseren Kode mit \mypy\cite{LLHSVRZSJYYMC2024MOSTFP} prüfen.%
+}%
 \item<2-> Klar: Wir definieren \pythonil{my_list} als Liste von Strings und speichern dann \pythonils{int} drin.%
 \item<3-> Das ist offensichtlich falsch und muss korrigiert werden.%
 \item<4-> \mypy\ sucht \emph{nur} nach Datentyp-bezogenen Fehlern.%
 \item<5-> Aber haben wir \emph{nur} Datentyp-bezogene Fehler gemacht?%
 \item<6-> Gibt es Werkzeuge, die auch andere Arten von Fehlern finden können?%
-\item<7-> \alert{Ja}:~\glslink{linter}{Linters} sind Werkzeuge zum analysieren von Kode mit dem Ziel Bugs, Probleme, Schwachstellen, und inkonsistenten Stil zu finden\cite{J1978LACPC,RJYKK2022CULTDVM}.
+\only<7->{%
+\item<7-> \alert{Ja}:~\glslink{linter}{Linters} sind Werkzeuge zum analysieren von Kode mit dem Ziel Bugs, Probleme, Schwachstellen, und inkonsistenten Stil zu finden\cite{J1978LACPC,RJYKK2022CULTDVM}.%
+}%
 \end{itemize}%
 %
 \listingOutput{2-}{lists:lists_error:mypy}{style=tool_style}{0.05}{0.1}{0.9}{0.6}%
@@ -175,7 +179,7 @@ So oder so, in \glslink{docstring}{Docstring} muss mit~\pythonil{\"\"\"...\"\"\"
 \item<4-> \ruff\ auch.%
 \end{itemize}%
 %
-\listingPythonAndOutput{2}{lists:lists_fixed}{}{0.127}{0.19}{0.9}{0.81}%
+\listingPythonAndOutput{2}{lists:lists_fixed}{}{0.22}{0.2}{0.8}{0.79}%
 \listingOutput{3}{lists:lists_fixed:mypy}{style=tool_style}{0.075}{0.45}{0.85}{0.9}%
 \listingOutput{4}{lists:lists_fixed:ruff}{style=tool_style}{0.075}{0.45}{0.85}{0.9}%
 \end{frame}%
@@ -226,7 +230,7 @@ Und benutzen Sie sie nicht nur -- \alert{implementieren} Sie alle gefunden Hinwe
 \begin{itemize}%
 \item Mit \ruff\ und \mypy\ kennen wir nun zwei Werkzeuge zur statischen Kode-Analyse.%
 %
-\item<2-> \mypy\ sucht nach Datentype-Problemen. Wenn wir einen \pythonil{int} in einer \pythonil{str}-Variable speichern wollen, dann wird \mypy\ meckern.%
+\item<2-> \mypy\ sucht nach Datentyp-Problemen. Wenn wir einen \pythonil{int} in einer \pythonil{str}-Variable speichern wollen, dann wird \mypy\ meckern.%
 %
 \item<3-> \ruff\ ist ein so genannter \glslink{linter}{Linter} und sucht nach allen möglichen (anderen) Problem. Es findet fehlende Dokumentation, Performanz-Probleme, und verschiedene Programmierfehler.%
 %

@@ -739,7 +739,7 @@ Sie sollten \emph{immer} gelesen und verstanden werden, bevor am Kode weitergear
 \item Wie ist es überhaupt möglich ist, dass wir \pythonil{sqrt} mit einem String als Argument aufrufen, obwohl wir doch seinen Parameter explizit mit dem \glslink{typeHint}{Type-Hint} \pythonil{float} versehen haben?%
 }%
 %
-\item<2-> Das geht, weil \python\ keine Type-Restriktionen zur Laufzeit erzwingt.%
+\item<2-> Das geht, weil \python\ keine Typ-Restriktionen zur Laufzeit erzwingt.%
 %
 \item<3-> Wir können zwar \emph{schreiben}, dass unsere Funktion nur \pythonils{float} als Eingabedaten bekommen soll.%
 %
@@ -857,8 +857,8 @@ Sie sollten \emph{immer} gelesen und verstanden werden, bevor am Kode weitergear
 .4 \pythonilIdx{IndentationError}\DTcomment{falsch eingrückter Kode}.
 .5 \pythonilIdx{TabError}\DTcomment{inkonsistente Benutzung von Tabs und Leerzeichen}.
 .3 \pythonilIdx{SystemError}\DTcomment{ein interner Fehler des Interpreter}.
-.3 \pythonilIdx{TypeError}\DTcomment{in Parameter hatte einen falschen Type oder war \pythonil{None}}.
-.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Type, aber einen falschen Wert}.
+.3 \pythonilIdx{TypeError}\DTcomment{in Parameter hatte einen falschen Typ oder war \pythonil{None}}.
+.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Typ, aber einen falschen Wert}.
 }}}%
 \end{frame}
 %
@@ -869,7 +869,7 @@ Sie sollten \emph{immer} gelesen und verstanden werden, bevor am Kode weitergear
 \dirtree{%
 .1 \pythonilIdx{BaseException}\DTcomment{die Basisklasse aller Ausnahmen}.
 .2 \pythonilIdx{Exception}\DTcomment{Situationen, wo vernüftige Fehlerbehandlung möglich seien sollte}.
-.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Type, aber einen falschen Wert}.
+.3 \pythonilIdx{ValueError}\DTcomment{ein Parameter hatte den richtigen Typ, aber einen falschen Wert}.
 .4 \pythonilIdx{UnicodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
 .5 \pythonilIdx{UnicodeDecodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
 .5 \pythonilIdx{UnicodeEncodeError}\DTcomment{Fehler bein Verarbeiten von \pgls{unicode} Text}.
