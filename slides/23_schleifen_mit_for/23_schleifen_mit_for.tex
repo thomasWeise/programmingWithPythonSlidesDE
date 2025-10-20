@@ -29,7 +29,7 @@
 %
 \only<-9>{%
 \only<-8>{%
-\item<3-> \emph{Schleifen}~erlauben uns genau das, nämlich eine Aktion mehrfach auszuführen.%
+\item<3-> \emph{Schleifen}~\inEN{loops}~erlauben uns genau das, nämlich eine Aktion mehrfach auszuführen.%
 }%
 %
 \only<-8>{%
@@ -69,7 +69,7 @@ Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion 
 %
 \begin{itemize}%
 \only<-6>{%
-\item Die Syntax einr \texttt{for}-Schleife ist einfach\cite{PSF:P3D:TPT:MCFT}.%
+\item Die Syntax einer \texttt{for}-Schleife ist einfach\cite{PSF:P3D:TPT:MCFT}.%
 }\only<-6>{%
 \item<3-> Das Schlüsselwort~\pythonilIdx{for} wird von der Schleifenvariable gefolgt.%
 }\only<-7>{%
@@ -102,7 +102,7 @@ Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion 
 %
 \item<4-> \pythonil{range(5)} gibt uns eine Sequenz von Ganzzahlen, die mit~0 anfängt, in Schritten von~1 ansteigt, und \emph{vor}~5 aufhört, also im Grunde~\intRange{0}{4}.%
 %
-\item<5-> \pythonil{range(6, 9)} gibt uns eine Ganzzahlen, die mit~6 anfängt, in Schritten von~1 ansteigt, und \emph{vor}~9 aufhört, also im Grunde~\intRange{6}{8}.%
+\item<5-> \pythonil{range(6, 9)} gibt uns eine Sequenz von Ganzzahlen, die mit~6 anfängt, in Schritten von~1 ansteigt, und \emph{vor}~9 aufhört, also im Grunde~\intRange{6}{8}.%
 %
 \item<6-> \pythonil{range(20, 27, 2)} ist eine Sequenz von Ganzzahlen, die mit 20 anfängt, in Schritten von~2 ansteigt, und \emph{vor}~27 aufhört, also~$(20, 22, 24, 26)$.%
 %
@@ -213,7 +213,7 @@ Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion 
 %
 \uncover<19-20>{%
 \bestPractice{underscore}{%
-Wenn der Wert einer Variable oder eines Parameters egan ist, dann sollten wie diese~\pythonil{_}~nennen\cite{PEP635}. %
+Wenn der Wert einer Variable oder eines Parameters egal ist, dann sollten wie diese~\pythonil{_}~nennen\cite{PEP635}. %
 \uncover<20->{%
 Diese Information ist nützlich für andere Programmierer sowie für statische Kodeanalyse.}%
 }}%
@@ -369,7 +369,7 @@ Diese Information ist nützlich für andere Programmierer sowie für statische K
 \frametitle{Schleifen verschachteln}%
 \begin{itemize}%
 %
-\item Genau wir Alternativen, können wir Schleifen beliebig verschachteln.%
+\item Genau wir Alternativen, können wir Schleifen beliebig verschachteln~\inEN{nest}.%
 %
 \item<2-> Die Körper von Schleifen können andere Schleifen und Alternativen beinhalten.%
 %
@@ -380,7 +380,7 @@ Diese Information ist nützlich für andere Programmierer sowie für statische K
 \end{itemize}%
 \uncover<5->{%
 \begin{definition*}[Primezahl]%
-Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also größer als eins, die keine positiven ganzzahligen Teiler anders als~$1$ und~$p$ selbst hat\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF}.%
+Eine Primzahl~\inEN{prime number}~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also größer als eins, die keine positiven ganzzahligen Teiler anders als~$1$ und~$p$ selbst hat\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF}.%
 \end{definition*}%
 }%
 \end{frame}%
@@ -388,7 +388,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \begin{frame}%
 \frametitle{Beispiel}%
 \only<-1>{%
-\begin{definition*}[Primezahl]%
+\begin{definition*}[Primzahl]%
 Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also größer als eins, die keine positiven ganzzahligen Teiler anders als~$1$ und~$p$ selbst hat\cite{W2024MAWWR:PN,CP2005PNACP,R1994PNACMFF}.%
 \end{definition*}%
 }%
@@ -513,7 +513,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 }%
 %
 \only<-34>{%
-\item<31-> Für alle \pythonil{candidate <= 3} wird diese Schleife gar nicht ausgeführt.%
+\item<31-> Für alle \pythonil{candidate <= 8} wird diese Schleife gar nicht ausgeführt, denn \pythonil{isqrt(8) == 2}.%
 }%
 %
 \only<-35>{%
@@ -617,7 +617,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \item<5-> \pythonil{i} ist die Schleifenvariable und wird Schritt-für-Schritt alle Werde aus \pythonil{lst} annehmen.%
 }%
 \only<-9>{%
-\item<6-> Im Körper der Schleife rufen wir dann \pythonil{txt.append(f\"\{i = \}\")} auf.
+\item<6-> Im Körper~\inEN{body} der Schleife rufen wir dann \pythonil{txt.append(f\"\{i = \}\")} auf.
 }%
 \only<-10>{%
 \item<7-> Dieser \glslink{fstring}{f-String} ergibt \pythonil{\"i = 1\"} in der ersten Iteration, \pythonil{\"i = 2\"} in der zweiten, \pythonil{\"i = 3\"} in der dritten, und \pythonil{\"i = 50\"} in der letzten Iteration.%
@@ -749,7 +749,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 %
 \item<50-> Es hängt alle Strings in \pythonil{seq} hintereinander an, wobei jeweils \pythonil{z} als Separator zwischen zwei Strings eingefügt wird.%
 %
-\item<51-> Daher produziert \pythonil{\", \".join(txt)} als Ergebnis \textil{i = 1, i = 2, i = 3, i = 50, f = 7.6, ...}.%
+\item<51-> Daher produziert \pythonil{\", \".join(txt)} als Ergebnis \textil{i = 1, i = 2, i = 3, i = 50,} \textil{f = 7.6, ...}.%
 %
 \item<52-> Dieser Text wird mit der \pythonilIdx{print} ausgegeben.%
 \end{itemize}%
@@ -772,10 +772,10 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \item<2-> Wir verbessern unser Programm zum Finden von Primzahlen.%
 }%
 \only<-5>{%
-\item<3-> Als wir mit dem Originalprogramm angefangen haben, dann haben wir sofort die Zahl~\pythonil{2} als eine Primzahl in unsere List~\pythonil{primes} gespeichert.%
+\item<3-> Als wir mit dem Originalprogramm angefangen haben, dann haben wir sofort die Zahl~\pythonil{2} als eine Primzahl in unsere Liste~\pythonil{primes} gespeichert.%
 }%
 \only<-6>{%
-\item<4-> Wir haben dann alle ungeraden Zahlen weniger als 200 als potentielle Prinzahlen \pythonils{candidate} durchprobiert.%
+\item<4-> Wir haben dann alle ungeraden Zahlen kleiner als 200 als potentielle Prinzahlen \pythonils{candidate} durchprobiert.%
 }%
 \only<-8>{%
 \item<5-> Für jede potentielle Primzahl \pythonil{candidate}, haben wir alle alle (ungeraden) Zahlen \pythonil{check} aus \pythonil{range(3, isqrt(candidate) + 1, 2)}\pythonIdx{range} als mögliche Divisoren getestet.%
@@ -848,7 +848,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 %
 \item<2-> Wir können jetzt richtige Algorithmen implementieren, wie das Berechnen von Primzahlen.%
 %
-\item<3-> Wir können mit \pythonil{for}-Schleifen über Ganzzahl-Sequenzen iterieren oder über die Daten in einer Kollektion.%
+\item<3-> Wir können mit \pythonil{for}-Schleifen über Ganzzahl-Sequenzen~(\pythonilIdx{range}) iterieren oder über die Daten in einer Kollektion.%
 %
 \item<4-> Wir können Schleifen mit \pythonil{break} frühzeitig abbrechen.%
 %
