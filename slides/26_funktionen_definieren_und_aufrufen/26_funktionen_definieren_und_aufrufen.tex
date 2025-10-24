@@ -62,7 +62,7 @@
 }%
 %
 \only<-11>{%
-\item<8-> Im Falle der Funtkion \pythonil{sqrt} war das die Zahl, deren Wurzel berechnet werden sollte.%
+\item<8-> Im Falle der Funktion \pythonil{sqrt} war das die Zahl, deren Wurzel berechnet werden sollte.%
 }%
 %
 \only<-11>{%
@@ -82,7 +82,7 @@
 \item<13-> Die Parameter werden zwischen der öffnenden und der schließenden Klammer im Funktionskopf definiert.%
 }%
 \only<-17>{%
-\item<14-> Jeder Parameter hat einen Namen, unter dem wir dann in der Funtktion auf seinen Wert zugreifen können.%
+\item<14-> Jeder Parameter hat einen Namen, unter dem wir dann in der Funktion auf seinen Wert zugreifen können.%
 }%
 \only<-17>{%
 \item<15-> Die Parameter sind durch Kommas getrennt.%
@@ -96,13 +96,13 @@
 \only<-19>{%
 \item<18-> Wir wollen ja schließlich, dass die Benutzer unserer Funktion genau verstehen, ob sie Ganzzahlen, Strings, oder Fließkommazahlen an unsere Funktion übergeben können oder nicht.
 }%
-\only<-24>{%
+\only<-22>{%
 \item<19-> Wenn wir eine Funktion \pythonil{add(value_1, value_2)} definieren, dann ist erstmal gar nicht klar, was für Datentypen für \pythonil{value_1} und \pythonil{value_2} in Frage kommen.%
 }%
-\only<-24>{%
+\only<-23>{%
 \item<20-> Definieren wir die Funktion dagegen mit \glslink{typeHint}{Type Hints}, \DEzB\ \pythonil{add(value_1: int, value_2: int)}, dann ist es offensichtlich.%
 }%
-\only<-24>{%
+\only<-25>{%
 \item<21-> Funktionen können Ergebnisse zurückliefern.%
 }%
 \only<-26>{%
@@ -221,7 +221,7 @@ Die Abfolge der Parameter-Datentypen und der Datentyp des Rückgabewertes einer 
 %
 \only<28>{%
 \bestPractice{functionTypeHints}{\pythonIdx{function!type hint}%
-Alle Parameter und der Rückgabewert einer Funtkion sollten mit \glslink{typeHint}{Type Hints}\cite{PEP3107} annotiert werden. %
+Alle Parameter und der Rückgabewert einer Funktion sollten mit \glslink{typeHint}{Type Hints}\cite{PEP3107} annotiert werden. %
 \emph{Eine Funktion ohne Type Hints ist falsch.}%
 }}%
 %
@@ -592,11 +592,11 @@ Eine Illustration von Euclid of Alexandria, dem Maler Charles Paul Landon~(1760-
 \item<32-> Natürlich wollen wir das Ergebnis unserer Funktion mit ihr vergleichen.%
 }%
 %
-\only<-37>{%
+\only<-36>{%
 \item<33-> Natürlich können wir nicht zwei Funktionen mit dem gleichen Namen (\pythonil{gcd}) im selben Kontext haben.%
 }%
 %
-\only<-38>{%
+\only<-37>{%
 \item<34-> Deshalb importieren wir die Funktion aus dem Modul \pythonilIdx{math} \emph{unter einem anderen Namen}\only<-34>{.}\uncover<35->{:}%
 }%
 %

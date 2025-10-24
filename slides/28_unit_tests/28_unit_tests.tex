@@ -86,7 +86,7 @@
 \item<3-> Wir folgen der Idee \inQuotes{code a little, test a little}\cite{BG2000TIPLWT}, so das wir immer unseren Kode verstehen und verifizieren.%
 }%
 %
-\item<4-> Dann implementieren und testen wir die Functionen~$\mathcal{B}$, die die Funktionen~$\mathcal{A}$ benutzen.%
+\item<4-> Dann implementieren und testen wir die Funktionen~$\mathcal{B}$, die die Funktionen~$\mathcal{A}$ benutzen.%
 %
 \item<5-> Dann implementieren und testen wir die Funktionen~$\mathcal{C}$, die die Funktionen~$\mathcal{B}$ und vielleicht auch die Funktionen~$\mathcal{A}$ benutzen.%
 %
@@ -148,7 +148,7 @@
 \item<10-> Die Tests sind dann normalerweise nicht Teil des Produkts, des Programms, was wir den Benutzern geben.%
 \item<11-> Sie haben keine echte Funktion außer dem Testen und vielleicht dem expliziten Dokumentieren von erwartetem Verhalten.
 \item<12-> Genaugenommen haben wir sowas sogar \alert{fast} schon gemacht.%
-\item<13-> Erinnern Sie sich, dass wir die Ergebnisse unserer eigenen \pythonil{sqrt}-Function mit denen der \pythonilIdx{sqrt}-Funktion aus dem Modul \pythonil{math} verglichen haben?%
+\item<13-> Erinnern Sie sich, dass wir die Ergebnisse unserer eigenen \pythonil{sqrt}-Funktion mit denen der \pythonilIdx{sqrt}-Funktion aus dem Modul \pythonil{math} verglichen haben?%
 \item<14-> Wir haben die Werte nebeneinander ausgegeben.%
 \item<15-> Wir hätten sie auch programmatisch vergleichen können.%
 \item<16-> Wir hätten \inQuotes{Erfolg} melden können, wenn \pythonilIdx{isclose} für sie wahr ist und \inQuotes{Test Fehler!} andernfalls\dots%
@@ -325,7 +325,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \item<33-> Mit diesem Test Cast können wir also prüfen, ob unsere \pythonil{factorial}-Funktion auch für große Zahlen funktioniert.%
 }%
 \only<-38>{%
-\item<34-> Wenn unsere \pythonil{factorial}-Function alle diese Tests besteht, dann können wir relativ sicher sein, dass sie korrekt implementiert wurde.%
+\item<34-> Wenn unsere \pythonil{factorial}-Funktion alle diese Tests besteht, dann können wir relativ sicher sein, dass sie korrekt implementiert wurde.%
 }%
 \only<-39>{%
 \item<35-> Sie könnte natürlich immer noch falsch sein.%
@@ -337,7 +337,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \item<37-> Es erscheint zumindest unwahrscheinlich, dass~\factorial{3} und~\factorial{12} \inQuotes{funktionieren,} aber nicht~\factorial{4}.%
 }%
 \only<-41>{%
-\item<38-> Für die \pythonil{sqrt}-Function erstellen wir eine ähnliche Testfunktion und nennen sie \pythonil{test_sqrt}.%
+\item<38-> Für die \pythonil{sqrt}-Funktion erstellen wir eine ähnliche Testfunktion und nennen sie \pythonil{test_sqrt}.%
 }%
 \only<-42>{%
 \item<39-> Vernünftige Test Cases sind \pythonil{sqrt(0.0) == 0.0}, \pythonil{sqrt(1.0) == 1.0}, und \pythonil{sqrt(4.0) == 2.0}.%
@@ -370,7 +370,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \item<48-> \pythonilIdx{nan} steht im Grunde für \inQuotes{undefiniert} und ist das Ergebnis von Operationen wie \DEzB\ \pythonil{inf - inf}.%
 }%
 \only<-53>{%
-\item<49-> Unsere \pythonil{sqrt}-Function sollte beide Werte verstehen und vernünftige Ergebnisse zurückliefern.%
+\item<49-> Unsere \pythonil{sqrt}-Funktion sollte beide Werte verstehen und vernünftige Ergebnisse zurückliefern.%
 }%
 \only<-54>{%
 \item<50-> \pythonil{sqrt(inf)} sollte wieder \pythonilIdx{inf} zurückliefern.%
@@ -425,7 +425,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 %
 \item<67-> Vom Output unserer Testcases sehen wir, dass \pythonil{test_factorial} ohne Probleme durchgelaufen ist.%
 %
-\item<68-> \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Function passiert ist.%
+\item<68-> \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Funktion passiert ist.%
 %
 \item<69-> Das passierte, als wir versucht haben, \pythonil{sqrt(0.0)} zu berechnen.%
 %
@@ -451,7 +451,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \parbox{0.4\paperwidth}{\small{%
 \begin{itemize}%
 \only<-5>{%
-\item \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Function passiert ist.%
+\item \pythonil{test_sqrt} ist fehlgeschlagen, und zwar mit einem \pythonilIdx{ZeroDivisionError}, der in unserer \pythonil{sqrt}-Funktion passiert ist.%
 }%
 %
 \only<-6>{%
@@ -631,7 +631,7 @@ Timouts schützen automatische Builds und \glslink{continuousIntegration}{Contin
 \item<16-> Das Zeitlimit hat uns hier gerettet!%
 }%
 \only<-21>{%
-\item<17-> Unsere \pythonil{sqrt}-Function geht in eine Endlosschleife für \pythonil{number = inf}.%
+\item<17-> Unsere \pythonil{sqrt}-Funktion geht in eine Endlosschleife für \pythonil{number = inf}.%
 }%
 \only<-22>{%
 \item<18-> Und unser Unit Test wäre für immer weitergelaufen.%

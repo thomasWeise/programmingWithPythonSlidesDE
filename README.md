@@ -15,10 +15,20 @@ Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die P
 ## 2. Ressourcen
 Die Webseite mit aktuellen Informationen über den Kurs ist <https://thomasweise.github.io/programmingWithPython>.
 
+
 ### 2.1. Das Buch
 Das Kursbuch, in englischer Sprache geschrieben, findet sich unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
 
-### 2.2. Die Slides in Deutsch
+
+### 2.2. Fragen und Übungen / Questions and Exercises
+Bei <https://thomasweise.github.io/programmingWithPythonQuestions/programmingWithPythonQuestions.pdf> stellen wir eine Liste von Fragen und Übungen zur Verfügung, die Sie verwenden können, um Ihre Python-Fähigkeiten zu testen.
+Die Fragen sind sowohl in Englisch als auch in Deutsch geschrieben.
+
+At <https://thomasweise.github.io/programmingWithPythonQuestions/programmingWithPythonQuestions.pdf>, we provide a list of questions and exercises that you can use to test your knowledge on Python.
+The questions are both in English and German language.
+
+
+### 2.3. Die Slides in Deutsch
 Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
 
 1. [Organisation](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_organisation.pdf)
@@ -70,19 +80,20 @@ Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.gith
 47. [Zwischenspiel: Debugger](https://thomasweise.github.io/programmingWithPythonSlidesDE2/47_debugger.pdf)
 
 
-### 2.3. Die Slides in Englisch
+### 2.4. Die Slides in Englisch
 Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
 The slides for the course are available at <https://thomasweise.github.io/programmingWithPythonSlides> and also listed below.
 
 1. [Introduction](https://thomasweise.github.io/programmingWithPythonSlides/01_introduction.pdf)
 2. [Getting Started](https://thomasweise.github.io/programmingWithPythonSlides/02_getting_started.pdf)
 
-### 2.4. Die Beispielprogramme
+
+### 2.5. Die Beispielprogramme
 Unser Kurs bietet sehr viele Beispiele.
 Sie können diese unter <https://github.com/thomasWeise/programmingWithPythonCode> finde.
 
 
-### 2.5. LaTeX Quelltexte, Grafiken, die Bibliographie, etc.
+### 2.6. LaTeX Quelltexte, Grafiken, die Bibliographie, etc.
 Das Buch und die Slides zu diesem Kurs sind in LaTeX geschrieben.
 Sie können die Quelldateien unter <https://github.com/thomasWeise/programmingWithPython>, <https://github.com/thomasWeise/programmingWithPythonSlidesDE>, und <https://github.com/thomasWeise/programmingWithPythonSlides> finden.
 Sie können diese unter der untenstehenden Lizenz nutzen.
