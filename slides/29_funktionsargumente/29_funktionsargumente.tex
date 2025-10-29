@@ -76,7 +76,7 @@ f(x, \mu, \sigma) = \frac{1}{\sqrt{2\numberPi\sigma^2}} \numberE^{\frac{-(x-\mu)
 }%
 %
 \only<-6>{%
-\item<4-> $x$~ist sozusagen der Eingabewert der Funtion.%
+\item<4-> $x$~ist sozusagen der Eingabewert der Funktion.%
 }%
 %
 \only<-7>{%
@@ -185,43 +185,37 @@ f(x, \mu, \sigma) = \frac{1}{\sqrt{2\numberPi\sigma^2}} \numberE^{\frac{-(x-\mu)
 \frametitle{Unveränderliche Default Values}%
 \begin{itemize}%
 %
-\only<-7>{%
+\only<-7,8-10>{%
 \item Default Values müssen nicht unbedingt \glslink{literal}{Literale} sein.%
 }%
 %
-\only<-8>{%
+\only<-11>{%
 \item<2-> Sie können das Ergebnis von beliebigen Ausdrücken sein, \DEzB~\pythonil{sqrt(2.0)}.%
 }%
 %
-\only<-9>{%
+\only<-12>{%
 \item<3-> Allerdings werden sie genau nur einmal ausgewertet, nämlich wenn die Funktion definiert wird\cite{H2025PM:MDA}.%
 }%
 %
-\only<-10>{%
+\only<-13>{%
 \item<4-> Sie werden dann mit dem Header der Funktion gespeichert and benutzt wann nötig.%
 }%
 %
-\only<-11>{%
+\only<-14>{%
 \item<5-> Das führt zu einer interessanten Implikation: Was, wenn der Default Value für ein Argument \emph{veränderlich} ist, \DEzB\ eine \pythonil{list} oder \pythonil{set}?%
 }%
 %
-\only<-12>{%
+\only<-15>{%
 \item<6-> Nunja {\dots} das sollten sie \alert{niemals}%
 }%
 %
-\only<-13>{%
 \item<7-> Das kann nämlich zu schrecklichen Problemen führen\cite{H2025PM:MDA}.%
-}%
 %
 \only<8->{%
 %
-\only<-14>{%
 \item<8-> Der Default Value für einen Funktionsparameter muss unveränderlich sein.%
-}%
 %
-\only<-15>{%
 \item<9-> Wenn Sie \DEzB\ eine \pythonil{list} verwenden, dann könnte ein Funktionsaufruf diese Liste verändern.%
-}%
 %
 \item<10-> Der nächste Funktionsaufruf würde dann mit der veränderten Liste arbeiten.%
 %
