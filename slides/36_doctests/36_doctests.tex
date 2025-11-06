@@ -15,12 +15,14 @@
 %
 \section{Einleitung}%
 %%
-\begin{frame}%
+\begin{frame}[t]%
 \frametitle{Docstrings und Unit Tests (1)}%
 \begin{itemize}%
+\only<-8>{%
 \item Wir haben bereits gelernt, das \glslink{unitTest}{Unit Tests} Teil jedes Softwareentwicklungsprozesses sind und in jede vernünftigt \glsFull{continuousIntegration} gehören.%
+}%
 %
-\item<2-> Wenn wir darüber nachdenken, erkennen wir, dass \pglspl{unitTest} auch Teil der Dokumentation von Software sind.%
+\item<2-> Wenn wir darüber nachdenken, erkennen wir, dass \glslink{unitTest}{Unit Tests} auch Teil der Dokumentation von Software sind.%
 %
 \item<3-> Der \glslink{docstring}{Docstring} einer Funktion sagt uns, was die Funktion im Grunde macht, welche Parameter sie braucht, und welche Ausnahmen sie auslösen könnte.%
 %
@@ -124,7 +126,7 @@
 }%
 %
 \only<-23>{%
-\item<9-> Normalerweise würden wir jetzt Kode bereitstellen, der \pythonil{flatten} ausführt und ihre Ausgabe präsntiert.%
+\item<9-> Normalerweise würden wir jetzt Kode bereitstellen, der \pythonil{flatten} ausführt und ihre Ausgabe präsentiert.%
 }%
 %
 \only<-24>{%
