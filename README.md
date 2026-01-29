@@ -2,111 +2,9 @@
 
 ## 1. Introduction
 
-*"Programming with Python"*, zu Deutsch "Programmieren mit Python", ist sowohl ein Buch als auch ein Kurs der [Universität Hefei](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)).
-Hier stellen wir alle Ressourcen des Kurses zur Verfügung.
+Please get more information at [Programming with Python](https://thomasweise.github.io/programmingWithPython).
 
-Diese Ressourcen könnten auch für Schüler der Oberstufe nützliche sein, oder für jeden, die oder der sich für das Thema interessiert.
-Unser Ziel ist es, eine gute Balance zwischen Theorie und Praxis zu finden, wobei wir uns eher an der Praxis orientieren.
-Genaugenommen lehren wir Programmieren zusammen mit einigen Konzepten aus der Softwaretechnologie bzw. dem Softwareingenieurswesen.
-Es ist die Meinung des Autors, dass diese beiden Themengebiete, nämlich Programmieren und Softwaretechnologie, nicht getrennt werden können.
-Wenn man nur das Programmieren lehrt, ohne ebenfalls Werkzeuge und Methoden des Softwareingenieurswesens zu bearbeiten, wie Beispiel statische Kodeanalyse, Unit-Tests, und ohne Prinzipien wie Kodestile und vernünftiges Kommentieren zu erzwingen, dann erzeugt man schlechte Programmierer.
-Deshalb diskutieren wir auch diese Aspekte, während wir unseren Weg durch die Programmierung gehen.
-
-## 2. Ressourcen
-Die Webseite mit aktuellen Informationen über den Kurs ist <https://thomasweise.github.io/programmingWithPython>.
-
-
-### 2.1. Das Buch
-Das Kursbuch, in englischer Sprache geschrieben, findet sich unter <https://thomasweise.github.io/programmingWithPython/programmingWithPython.pdf>.
-
-
-### 2.2. Fragen und Übungen / Questions and Exercises
-Bei <https://thomasweise.github.io/programmingWithPythonQuestions/programmingWithPythonQuestions.pdf> stellen wir eine Liste von Fragen und Übungen zur Verfügung, die Sie verwenden können, um Ihre Python-Fähigkeiten zu testen.
-Die Fragen sind sowohl in Englisch als auch in Deutsch geschrieben.
-
-At <https://thomasweise.github.io/programmingWithPythonQuestions/programmingWithPythonQuestions.pdf>, we provide a list of questions and exercises that you can use to test your knowledge on Python.
-The questions are both in English and German language.
-
-
-### 2.3. Die Slides in Deutsch
-Die Slides zum Kurs in deutscher Sprache können unter <https://thomasweise.github.io/programmingWithPythonSlidesDE> gefunden werden und sind hier aufgelistet:
-
-1. [Organisation](https://thomasweise.github.io/programmingWithPythonSlidesDE/01_organisation.pdf)
-2. [Einleitung](https://thomasweise.github.io/programmingWithPythonSlidesDE/02_einleitung.pdf)
-3. [Python Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/03_python_installieren.pdf)
-4. [PyCharm Installieren](https://thomasweise.github.io/programmingWithPythonSlidesDE/04_pycharm_installieren.pdf)
-5. [Programme Erstellen und Ausführen](https://thomasweise.github.io/programmingWithPythonSlidesDE/05_programme_erstellen_und_ausführen.pdf)
-6. [Beispiele Herunterladen](https://thomasweise.github.io/programmingWithPythonSlidesDE/06_beispiele_herunterladen.pdf)
-7. [Der Datentyp `int`](https://thomasweise.github.io/programmingWithPythonSlidesDE/07_int.pdf)
-8. [Der Datentyp `float`](https://thomasweise.github.io/programmingWithPythonSlidesDE/08_float.pdf)
-9. [Zwischenspiel: Python Dokumentation und Informationsquellen](https://thomasweise.github.io/programmingWithPythonSlidesDE/09_dokumentation.pdf)
-10. [Der Datentyp `bool`](https://thomasweise.github.io/programmingWithPythonSlidesDE/10_bool.pdf)
-11. [Der Datentyp `str`](https://thomasweise.github.io/programmingWithPythonSlidesDE/11_str.pdf)
-12. [`None`](https://thomasweise.github.io/programmingWithPythonSlidesDE/12_none.pdf)
-13. [Variablen: Wertzuweisung](https://thomasweise.github.io/programmingWithPythonSlidesDE/13_variablen_wertzuweisung.pdf)
-14. [Zwischenspiel: Fehler im Kode mit Exceptions und IDE finden](https://thomasweise.github.io/programmingWithPythonSlidesDE/14_fehler_im_kode_mit_exceptions_und_ide_finden.pdf)
-15. [Variablen: Typen und Type Hints](https://thomasweise.github.io/programmingWithPythonSlidesDE/15_variablen_typen_und_type_hints.pdf)
-16. [Gleichheit und Identität](https://thomasweise.github.io/programmingWithPythonSlidesDE/16_gleichheit_und_identität.pdf)
-17. [Listen](https://thomasweise.github.io/programmingWithPythonSlidesDE/17_listen.pdf)
-18. [Zwischenspiel: Der Linter Ruff](https://thomasweise.github.io/programmingWithPythonSlidesDE/18_ruff.pdf)
-19. [Tupel](https://thomasweise.github.io/programmingWithPythonSlidesDE/19_tupel.pdf)
-20. [Mengen](https://thomasweise.github.io/programmingWithPythonSlidesDE/20_mengen.pdf)
-21. [Dictionaries bzw. Hash Maps](https://thomasweise.github.io/programmingWithPythonSlidesDE/21_dictionaries.pdf)
-22. [Alternativen mit `if`](https://thomasweise.github.io/programmingWithPythonSlidesDE/22_alternativen_mit_if.pdf)
-23. [Schleifen mit `for`](https://thomasweise.github.io/programmingWithPythonSlidesDE/23_schleifen_mit_for.pdf)
-24. [`enumerate` und Zwischenspiel: Pylint](https://thomasweise.github.io/programmingWithPythonSlidesDE/24_enumerate_und_pylint.pdf)
-25. [Schleifen mit `while`](https://thomasweise.github.io/programmingWithPythonSlidesDE/25_schleifen_mit_while.pdf)
-26. [Funktionen definieren und aufrufen](https://thomasweise.github.io/programmingWithPythonSlidesDE/26_funktionen_definieren_und_aufrufen.pdf)
-27. [Funktionen in Modulen](https://thomasweise.github.io/programmingWithPythonSlidesDE/27_funktionen_in_modulen.pdf)
-28. [Zwischenspiel: Unit Tests](https://thomasweise.github.io/programmingWithPythonSlidesDE/28_unit_tests.pdf)
-29. [Funktionsargumente](https://thomasweise.github.io/programmingWithPythonSlidesDE/29_funktionsargumente.pdf)
-30. [Funktionen als Parameter, `Callable`s und `lambda`s](https://thomasweise.github.io/programmingWithPythonSlidesDE/30_callables_und_lambdas.pdf)
-31. [Ausnahmen auslösen](https://thomasweise.github.io/programmingWithPythonSlidesDE/31_ausnahmen_auslösen.pdf)
-32. [Ausnahmen verarbeiten](https://thomasweise.github.io/programmingWithPythonSlidesDE/32_ausnahmen_verarbeiten.pdf)
-33. [Zwischenspiel: Testen auf Ausnahmen](https://thomasweise.github.io/programmingWithPythonSlidesDE/33_testen_auf_ausnahmen.pdf)
-34. [Iteration](https://thomasweise.github.io/programmingWithPythonSlidesDE/34_iteration.pdf)
-35. [List Comprehension](https://thomasweise.github.io/programmingWithPythonSlidesDE/35_list_comprehension.pdf)
-36. [Zwischenspiel: Doctests](https://thomasweise.github.io/programmingWithPythonSlidesDE/36_doctests.pdf)
-37. [Set und Dictionary Comprehension](https://thomasweise.github.io/programmingWithPythonSlidesDE/37_set_und_dictionary_comprehension.pdf)
-38. [Generator-Ausdrücke](https://thomasweise.github.io/programmingWithPythonSlidesDE/38_generator_ausdrücke.pdf)
-39. [Generator-Funktionen](https://thomasweise.github.io/programmingWithPythonSlidesDE/39_generator_funktionen.pdf)
-40. [Operationen für Iteratoren](https://thomasweise.github.io/programmingWithPythonSlidesDE2/40_operationen_für_iteratoren.pdf)
-41. [Klassen: Grundlagen](https://thomasweise.github.io/programmingWithPythonSlidesDE2/41_klassen_grundlagen.pdf)
-42. [Klassen: Kapselung](https://thomasweise.github.io/programmingWithPythonSlidesDE2/42_klassen_kapselung.pdf)
-43. [Klassen: Vererbung](https://thomasweise.github.io/programmingWithPythonSlidesDE2/43_klassen_vererbung.pdf)
-44. [Klassen/Dunder: `__str__`, `__repr__`, und `__eq__`](https://thomasweise.github.io/programmingWithPythonSlidesDE2/44_klassen_dunder_str_rep_eq.pdf)
-45. [Klassen/Dunder: `__hash__`](https://thomasweise.github.io/programmingWithPythonSlidesDE2/45_klassen_dunder_hash.pdf)
-46. [Klassen/Dunder: Arithmetische Operatoren und Vergleiche](https://thomasweise.github.io/programmingWithPythonSlidesDE2/46_klassen_dunder_math.pdf)
-47. [Zwischenspiel: Debugger](https://thomasweise.github.io/programmingWithPythonSlidesDE2/47_debugger.pdf)
-
-
-### 2.4. Complete Packages / Komplettpaket
-
-The following complete packages are available:
-
-- [`2025.11.17`](https://github.com/thomasWeise/programmingWithPython/releases/download/2025.11.17/programmingWithPython_2025_11_17.tar.xz) provides the end state of the book, slides (in German), questions, and example sources after the lecture period in Winter Semester 2025 at Hefei University (合肥大学).
-
-
-### 2.5. Die Slides in Englisch
-Since the course is taught in German language at Hefei University, the English slides are and will remain incomplete.
-The slides for the course are available at <https://thomasweise.github.io/programmingWithPythonSlides> and also listed below.
-
-1. [Introduction](https://thomasweise.github.io/programmingWithPythonSlides/01_introduction.pdf)
-2. [Getting Started](https://thomasweise.github.io/programmingWithPythonSlides/02_getting_started.pdf)
-
-
-### 2.5. Die Beispielprogramme
-Unser Kurs bietet sehr viele Beispiele.
-Sie können diese unter <https://github.com/thomasWeise/programmingWithPythonCode> finde.
-
-
-### 2.6. LaTeX Quelltexte, Grafiken, die Bibliographie, etc.
-Das Buch und die Slides zu diesem Kurs sind in LaTeX geschrieben.
-Sie können die Quelldateien unter <https://github.com/thomasWeise/programmingWithPython>, <https://github.com/thomasWeise/programmingWithPythonSlidesDE>, und <https://github.com/thomasWeise/programmingWithPythonSlides> finden.
-Sie können diese unter der untenstehenden Lizenz nutzen.
-
-
-## 3. Lizenz
+## 2. Lizenz
 Alle Materialien, die ich für diesen Kurs erstellt habe, sind frei verfügbar.
 Das Kursmaterial beinhaltet auch Bilder und Grafiken, die von anderen erstellt wurden.
 Diese wurden explizit markiert und stehen unter dem Copyright ihrer entsprechenden Autoren.
@@ -163,10 +61,9 @@ Dieses Werkzeug ist natürlich von der Lizenz oben ausgenommen.
 Es steht unter der GNU GENERAL PUBLIC LICENSE Version 2, June 1991 und sein Copyright liegt bei seinen Autoren.
 
 
-## 4. Kontakt
-Wenn Sie weitere Fragen oder Vorschläge haben, kontaktieren Sie bitte
-Prof. Dr. Thomas Weise (汤卫思教授)
-vom Institute of Applied Optimization (应用优化研究所, IAO)
+## 3. Kontakt
+Wenn Sie Fragen oder Vorschläge haben, kontaktieren Sie bitte
+Prof.&nbsp;Dr.&nbsp;[Thomas Weise](https://thomasweise.github.io) (汤卫思教授) von
 der School of Artificial Intelligence and Big Data ([人工智能与大数据学院](http://www.hfuu.edu.cn/aibd))
 der [Hefei University](http://www.hfuu.edu.cn/english/) ([合肥大学](http://www.hfuu.edu.cn/)),
 in Hefei, Anhui, China (中国安徽省合肥市)
