@@ -209,7 +209,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 }%
 %
 \only<-27>{%
-\item<25-> Zweitens: Veilleicht wollte der Autor ja eine Fließkommadivision machen und wollte einen \pythonil{float}in \pythonil{int_var} speichern und hat nur einen verwirrenden Namen gewählt.%
+\item<25-> Zweitens: Vielleicht wollte der Autor ja eine Fließkommadivision machen und wollte einen \pythonil{float} in \pythonil{int_var} speichern und hat nur einen verwirrenden Namen gewählt.%
 }%
 %
 \only<-29>{%
@@ -393,7 +393,7 @@ Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei
 \item Wenn wir \mypy\ auf das korrekte (jedoch nutzlose) Programm \programUrl{variables:types} anwenden, dann sagt es uns, dass kein Fehler vorliegt.%
 }%
 \only<-12>{%
-\item<6-> Wir haben jetzt also ein Werkzeug in der Hand, mit dem wir unseren Quelltext auf Type-bezogene Fehler prüfen können.%
+\item<6-> Wir haben jetzt also ein Werkzeug in der Hand, mit dem wir unseren Quelltext auf Typ-bezogene Fehler prüfen können.%
 %}%
 %
 \item<7-> \mypy\ verändert unseren Kode nicht.%
@@ -459,7 +459,7 @@ Warum muss das sein?
 }\only<-11>{%%
 \item<7-> Es gibt zwei Antworten darauf.%
 }\only<-12>{%%
-\item<8-> Erstens:~\emph{\inQuotes{This will improve the quality of your code.}}%
+\item<8-> Erstens:~\emph{\inQuotes{Das verbessert die Qualität Ihres Kodes.}}%
 }\only<-13>{%%
 \item<9-> Und zweitens\dots}%
 \end{itemize}}%
@@ -499,7 +499,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \item<8-> Hier müssen wir nämlich den Datentyp jeder Variable definieren, bevor wir ihr einen Wert zuweisen können.%
 \item<9-> Wenn der Programmierer gewollt hätte, das \pythonil{int_var} nur Ganzzahlen beinhalten kann, dann hätte der die Variable entsprechend deklariert.%
 \item<10-> Wenn er einen \pythonil{float} hätte darin speichern wollen, dann hätte er die Variable eben als \inQuotes{vom Typ \pythonil{float}} deklariert.%
-\item<11-> Der Kompiler hätte den Fehler dann sofort gesehen und gewusst, ob Zeile~10 falsch ist oder ob die Ganzzahl in Zeile~1 einfach als Fließkommazahl zu interpretieren ist.%
+\item<11-> Der Kompiler hätte den Fehler dann sofort gesehen und gewusst, ob Zeile~4 falsch ist oder ob die Ganzzahl in Zeile~1 einfach als Fließkommazahl zu interpretieren ist.%
 \end{itemize}%
 \listingPython{-6}{variables:types_wrong}{}{0.05}{0.475}{0.9}{0.6}%
 \end{frame}%
@@ -659,7 +659,7 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \begin{frame}%
 \frametitle{Brauchen wir das wirklich?}%
 \begin{itemize}%
-\item Warum hype ich Type Hints so sehr\only<-6>{, wenn sie doch bis vor Kuzem nicht mal Teil der Programmiersprache waren}?%
+\item Warum hype ich Type Hints so sehr\only<-6>{, wenn sie doch bis vor Kurzem nicht mal Teil der Programmiersprache waren}?%
 \item<2-> Schauen wir uns dazu mal das \python-Ökosystem an, um herauszufinden, was erfahrene Programmierer wahrscheinlich denken.%
 %
 \uncover<3->{%
