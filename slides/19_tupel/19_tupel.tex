@@ -42,7 +42,7 @@ Weil sie unveränderlich sind, ist immer klar, welchen Typ das Objekt an einem b
 \uncover<10->{%
 \bestPractice{listOrTuple}{%
 Wenn Sie eine indizierbare Sequenz von Objekten brauchen, benutzen Sie \pythonil{list} nur wenn Sie die Sequenz auch verändern wollen. %
-Wenn Sie nicht vor haben, die Sequenz zu veränden, benutzen Sie ein Tupel~(\pythonil{tuple}).}%
+Wenn Sie nicht vor haben, die Sequenz zu verändern, benutzen Sie ein Tupel~(\pythonil{tuple}).}%
 }%
 \end{frame}%
 %
@@ -188,9 +188,9 @@ Und so weiter.}}}}%
 %
 \only<-8>{\uncover<5->{%
 \bestPractice{noModifiableObjectInATuple}{%
-Packen Sie immer nur unveränderliche Ojekte in Tupel.\uncover<6->{ %
+Wenn Sie wirklich unveränderliche Datenstrukturen brauchen, dann packen Sie immer nur unveränderliche Objekte in Tupel.\uncover<6->{ %
 Veränderliche Objekte in Tupel können immer noch verändert werden, wodurch die Tupel dann keine Konstanten mehr sind.\uncover<7->{ %
-Programmierer nehmen aber an, dass Tupel Konstanten sind.\uncover<8->{ %
+Programmierer nehmen aber oft an, dass Tupel Konstanten sind.\uncover<8->{ %
 Wenn man diese Annahme verletzt, dann kann das zu sehr eigenartigen Fehlern führen.%
 }}}}%
 }}%
