@@ -354,7 +354,7 @@ Diese Information ist nützlich für andere Programmierer sowie für statische K
 %
 \item<22-> Das Programm wird also \pythonil{s} nur für~$\pythonil{i}\in\intRange{0}{4}\cup\{9, 10\}$ ausgeben, bevor letztendlich~\textil{All done.} ausgegeben wird.%
 %
-\item<23-> Mit \pythonilIdx{break} und \pythonilIdx{continue} haben wir nun zwei neue Werkzeuge, mit denen wir entweder die die ganze Schleie abbrechen können oder die aktuelle Iteration beenden~(und mit der nächsten weitermachen können, wenn es eine gibt).%
+\item<23-> Mit \pythonilIdx{break} und \pythonilIdx{continue} haben wir nun zwei neue Werkzeuge, mit denen wir entweder die die ganze Schleife abbrechen können oder die aktuelle Iteration beenden~(und mit der nächsten weitermachen können, wenn es eine gibt).%
 \end{itemize}%
 }}%
 %
@@ -521,7 +521,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 }%
 %
 \only<-36>{%
-\item<33-> Für \pythonil{candidate > 3}, geht \pythonil{check} dann von~\pythonil{3} bis$\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
+\item<33-> Für \pythonil{candidate > 8}, geht \pythonil{check} dann von~\pythonil{3} bis$\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
 }%
 %
 \only<-37>{%
@@ -587,7 +587,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \begin{frame}%
 \frametitle{Iterieren über Sequenzen}%
 \begin{itemize}%
-\item Wir haben bei der Einfüührung der \pythonil{for}-Schleife gesagt, dass sie über eine \emph{Sequenz} von Daten iteriert.%
+\item Wir haben bei der Einführung der \pythonil{for}-Schleife gesagt, dass sie über eine \emph{Sequenz} von Daten iteriert.%
 %
 \item<2-> Wir haben auch gesagt, dass wir schon verschiedene Kontainerdatentypen kennen, die wir als Sequenzen behandeln können.%
 %
@@ -635,7 +635,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \item<11-> \pythonil{for f in tp} lässt die Schleifenvariable~\pythonil{f} nacheinander die Werte \pythonil{7.6}, \pythonil{9.4}, und~\pythonil{8.1} annehmen.%
 }%
 \only<-15>{%
-\item<12-> Wir verwandeln sie wieder via einem \glslink{fstring}{f-String} \pythonil{f\"f=\{f\}\"} in Text um an hängen diesen via \pythonil{append} an die Liste \pythonil{txt} an.%
+\item<12-> Wir verwandeln sie wieder via einem \glslink{fstring}{f-String} \pythonil{f\"\{f = \}\"} in Text um an hängen diesen via \pythonil{append} an die Liste \pythonil{txt} an.%
 }%
 \only<-16>{%
 \item<13-> Als drittes Beispiel erstellen wir eine Menge~\pythonil{st}, aus drei Zeichenketten als~\pythonil{\{\"u\", \"v\", \"w\"\}}.%
