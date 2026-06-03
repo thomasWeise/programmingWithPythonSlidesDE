@@ -144,7 +144,7 @@
 \item<7-> Hier kann das \inQuotes{Szenario} ein Satz Parameterwerte (Argumente) für eine Funktion sein und das \inQuotes{Verhalten} kann dann den Rückgabewerten entsprechen.%
 }%
 \item<8-> Wir wissen, welche Ergebnisse wir für die Parameterwerte erwarten und können dann die zurückgelieferten Werte damit vergleichen.%
-\item<9-> Wir können beliebig viele sollche Szenarios, also Test Cases, für eine Funktion entwickeln.%
+\item<9-> Wir können beliebig viele solche Szenarios, also Test Cases, für eine Funktion entwickeln.%
 \item<10-> Die Tests sind dann normalerweise nicht Teil des Produkts, des Programms, was wir den Benutzern geben.%
 \item<11-> Sie haben keine echte Funktion außer dem Testen und vielleicht dem expliziten Dokumentieren von erwartetem Verhalten.
 \item<12-> Genaugenommen haben wir sowas sogar \alert{fast} schon gemacht.%
@@ -170,9 +170,9 @@
 %
 \item<6-> So können wir feststellen, ob eine Änderung an einem älteren Stück Kode einen Test fehlschlagen lässt.%
 %
-\item<7-> Samit können wir wiederum feststellen, ob eine Änderung an einem Modul unerwartete Konsequenzen in anderem Kode hat und vielleicht das Verhalten unseres Programm auf unerwünschte Art ändert.%
+\item<7-> Damit können wir wiederum feststellen, ob eine Änderung an einem Modul unerwartete Konsequenzen in anderem Kode hat und vielleicht das Verhalten unseres Programm auf unerwünschte Art ändert.%
 %
-\item<8-> Besonders mit steigender Automatisierung durch \glsFull{continuousIntegration} sind Unit Tests in der Softwareentwicklung immer wichtiger geworden\cite{W2000WISTAWIISH,TLG2006UTCU,R2006ASOUTP} und ein integraler Bestandteil der Softwareentwicklung mit \python geworden\cite{P2021PUTAAOAEUTIP,O2022PTWP,DG2020TIP}.%
+\item<8-> Besonders mit steigender Automatisierung durch \glsFull{continuousIntegration} sind Unit Tests in der Softwareentwicklung immer wichtiger geworden\cite{W2000WISTAWIISH,TLG2006UTCU,R2006ASOUTP} und ein integraler Bestandteil der Softwareentwicklung mit \python\ geworden\cite{P2021PUTAAOAEUTIP,O2022PTWP,DG2020TIP}.%
 \end{itemize}%
 \end{frame}%
 %
@@ -571,7 +571,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \uncover<28-30>{%
 \bestPractice{testTimeout}{%
 Setzen Sie \alert{immer} ein Timeout für Ihre \glslink{unitTest}{Unit Tests}.\uncover<29->{ %
-Dieses Timeout kann groß sein, veilleicht eine Stunde, aber es dient als Sicherheitsgarantie gegen endlose Schleifen, Deadlocks, und andere Situationen, die praktisch äquivalent zu einem Test-Fehlschlag sind.\uncover<30->{ %
+Dieses Timeout kann groß sein, vielleicht eine Stunde, aber es dient als Sicherheitsgarantie gegen endlose Schleifen, Deadlocks, und andere Situationen, die praktisch äquivalent zu einem Test-Fehlschlag sind.\uncover<30->{ %
 Timouts schützen automatische Builds und \glslink{continuousIntegration}{Continuous Integration}-Systeme vor dem \inQuotes{Verstopfen}.}}}%
 }%
 \end{frame}%

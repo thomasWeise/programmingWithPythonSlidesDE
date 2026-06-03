@@ -254,6 +254,24 @@ Merken Sie sich, dass \pythonilIdx{/} \emph{immer} \pythonilIdx{float}-Werte zur
 \locateGraphic{18}{width=0.8\paperwidth}{graphics/intPowers/intPowers10calc2by1024done}{0.1}{0.33}%
 \end{frame}%
 %
+\section{Zusammenfassung}%
+%
+\begin{frame}%
+\frametitle{Zusammenfassung}%
+\begin{itemize}%
+\item Damit haben wir unseren ersten Datentyp in \python\ kennengelernt.%
+\item<2-> \pythonil{int} repräsentiert Ganzzahlen, die positiv oder negativ seien können und 0~einschließen.%
+\item<3-> Wir können mit diesen Zahlen normal rechnen, wobei \python\ die Operatorenrangfolge mathematisch korrekt beachtet.%
+\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}\cite{PEP238}.}}%
+\item<7-> Und wieder sind wir einen Schritt weiter.%
+\item<8-> Wenn es Sie interessiert, können Sie sich den Appendix über verschiedene Zahlensysteme und bit-basierte Operatoren anschauen.%
+\end{itemize}%
+\end{frame}%
+%
+\endPresentation%
+%
+\section{Appendix für Interessierte}%
+%
 \begin{frame}[t]%
 \frametitle{Binäres Zahlensystem und Bit-weise Operatoren}%
 \begin{itemize}%
@@ -460,22 +478,6 @@ Es gilt \pythonil{0\^0 == 0}, \pythonil{0\^1 == 1}, \pythonil{1\^0 == 1}, und \p
 \locateGraphic{37}{width=0.8\paperwidth}{graphics/intBinary/intBinary36o26done}{0.1}{0.35}%
 \end{frame}%
 %
-%
-\section{Zusammenfassung}%
-%
-\begin{frame}%
-\frametitle{Zusammenfassung}%
-\begin{itemize}%
-\item Damit haben wir unseren ersten Datentyp in \python\ kennengelernt.%
-\item<2-> \pythonil{int} repräsentiert Ganzzahlen, die positiv oder negativ seien können und 0~einschließen.%
-\item<3-> Wir können mit diesen Zahlen normal rechnen, wobei \python\ die Operatorenrangfolge mathematisch korrekt beachtet.%
-\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}\cite{PEP238}.}}%
-\item<7-> Wir können auch mit der binären Repräsentation dieser Zahlen rechnen und sie in verschiedene Zahlensysteme, die Sie sicher aus Grundlagenvorlesungen kennen, umrechnen.%
-\item<8-> Und wieder sind wir einen Schritt weiter.%
-\end{itemize}%
-\end{frame}%
-%
-\endPresentation%
 \end{document}%%
 \endinput%
 %

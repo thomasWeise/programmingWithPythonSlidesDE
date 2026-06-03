@@ -49,7 +49,7 @@
 \item Der \pythonilIdx{try}\nobreakdashes-\pythonilIdx{except} Block existiert als primäre Methode, um bestimmte Fehler aufzufangen und zu verarbeiten.%
 %
 \only<-3>{%
-\item<2-> Wir schreiben \pythonil{try:} und danach platzieren wir den Kode, der eine Ausnahme auslösen kann, in einen eingrückten Block.%
+\item<2-> Wir schreiben \pythonil{try:} und danach platzieren wir den Kode, der eine Ausnahme auslösen kann, in einen eingerückten Block.%
 }%
 %
 \only<-3>{%
@@ -204,7 +204,7 @@
 }%
 %
 \only<-13>{%
-\item<4-> Es ist akzeptabel, ass das mit einem System-bezogenen Fehler schief geht.%
+\item<4-> Es ist akzeptabel, dass das mit einem System-bezogenen Fehler schief geht.%
 %
 \item<5-> Vielleicht ist nicht genug Platz auf dem Speicher vorhanden, oder der Benutzer hat ungenügende Zugriffsrechte, oder vielleicht war der Dateiname ungültig.%
 %
@@ -368,7 +368,7 @@ Ein \pythonilIdx{except}-Block darf nicht dafür verwendet werden, beliebige \py
 Beachten Sie, dass der Kontrollfluss sofort den aktuellen Block verlässt, wenn eine Ausnahme ausgelöst wird.\uncover<33->{ %
 Der Befehl, in dem die Ausnahme ausgelöst wird, wird nicht zuende geführt, sondern sofort abgebrochen.\uncover<34->{ %
 Darum können dann keine Variablenzuweisungen mehr stattfinden und es ist möglich, das Variablen undefiniert bleiben.\uncover<35->{ %
-Beachten Sie dass, wenn Sie auf Variablen zugreifen, die in meinem \pythonil{try}-block zugewiesen werden.}}}%
+Beachten Sie dass, wenn Sie auf Variablen zugreifen, die in einem \pythonil{try}-block zugewiesen werden.}}}%
 }%
 }%
 \end{frame}%
@@ -588,7 +588,7 @@ Beachten Sie dass, wenn Sie auf Variablen zugreifen, die in meinem \pythonil{try
 %
 \item<11-> Natürlich sollte unser Prozess dann mit einem Fehler beendet werden.%
 %
-\item<12-> Wenn wir aber abbrechen, ohne die Datei vorher zu schließen, dann ist der gesamte Inhalt der Datei könnte verloren gehen.%
+\item<12-> Wenn wir aber abbrechen, ohne die Datei vorher zu schließen, dann könnte der gesamte Inhalt der Datei verloren gehen.%
 %
 \item<13-> Wenn wir die Datei noch schließen, bevor wir den Prozess abbrechen, dann werden wenigstens die bisher erfolgreich geschriebenen Daten gerettet.%
 %

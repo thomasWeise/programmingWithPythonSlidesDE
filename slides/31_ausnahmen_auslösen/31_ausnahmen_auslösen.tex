@@ -10,7 +10,7 @@
 \renewcommand*\DTstylecomment{\relax}%
 \renewcommand*\DTstyle{\small}%
 %
-\subtitle{31.~Ausnahmen auslösen)}%
+\subtitle{31.~Ausnahmen auslösen}%
 %
 \begin{document}%
 %
@@ -38,7 +38,7 @@ Vielleicht sind die ja falsch.}}%
 %
 \end{enumerate}}%
 %
-\item<10-> Diese beiden Probleme zusammen sind Situation, die wir nicht erwartet haben.%
+\item<10-> Diese beiden Probleme zusammen sind Situationen, die wir nicht erwartet haben.%
 %
 \item<11-> Es sind Ausnahmen~\inEN{Exceptions}.
 \end{itemize}%
@@ -209,7 +209,7 @@ Wenn kein solcher Kode existiert, dann wird der Prozess terminiert und ein \glsl
 %
 \end{enumerate}}%
 %
-\item<8-> In anderen Worten, eine Ausnahme auszulösen führt zum Verlassen des aktuellen Pfads des Kontrollflusses und zum Signalisieren eines Fehlers der entweder Explizit behandelt werden muss, oder der andernfalls zum Beenden des Programmes führt.%
+\item<8-> In anderen Worten, eine Ausnahme auszulösen führt zum Verlassen des aktuellen Pfads des Kontrollflusses und zum Signalisieren eines Fehlers der entweder explizit behandelt werden muss, oder der andernfalls zum Beenden des Programmes führt.%
 %
 \item<9-> Das ist meiner Meinung nach die beste Methode, um mit problematischen Situationen umzugehen.%
 \end{itemize}%
@@ -228,7 +228,7 @@ Dadurch wird es viel einfacher, herauszufinden, was den Fehler ausgelöst hat, \
 %
 \item<4-> \alert{Es verhindert, dass \pgls{GIGO} überhaupt passiert.}\only<-6>{\uncover<5->{ %
 In einer fehlerhaften Situation oder wenn fehlerhafte Daten auftauchen, dann kann das Problem sich nicht aus dem aktuellen Kontext heraus fortpflanzen.\uncover<6->{ %
-Eine Ausnahme wird ausgelöft, die den aktuellen Ausführungspfad verlässt und somit den verunreinigten Kontrollfluss beendet.}}}%
+Eine Ausnahme wird ausgelöst, die den aktuellen Ausführungspfad verlässt und somit den verunreinigten Kontrollfluss beendet.}}}%
 %
 \item<6-> \alert{Programmierer werden gezwungen, explizit mit der fehlerhaften Situation umzugehen.}\only<-10>{\uncover<7->{ %
 Sie können den Fehler nicht einfach \alert{implizit} ignorieren.\uncover<8->{ %
@@ -293,8 +293,8 @@ Fehlerhafte Eingabedaten sollten durch Fehlermeldungen signalisiert werden, die 
 \uncover<4->{
 \bestPractice{exceptionDoc}{%
 \sloppy%
-Jede Funktion die selbst explizit eine Ausnahme auslöse, muss das auch explizit in ihrem \glslink{docstring}{Docstring} anmerken.\uncover<5->{ %
-Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobei \textil{ExceptionType} mit dem Typ der Ausnahme und \textil{why} mit einer kurzen Erklärung ersetzt werden.%
+Jede Funktion die selbst explizit eine Ausnahme auslösen kann, muss das auch explizit in ihrem \glslink{docstring}{Docstring} anmerken.\uncover<5->{ %
+Dafür schreibt man eine Notiz der Form \textil{:raises ExceptionType: why} wobei \textil{ExceptionType} mit dem Typ der Ausnahme und \textil{why} mit einer kurzen Erklärung ersetzt werden.%
 }}%
 }%
 \end{frame}%
@@ -483,23 +483,23 @@ Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobe
 \item Das Terminieren des Prozesses kann hier im Program \programUrl{exceptions:use_sqrt_raise} beobachtet werden.%
 }%
 %
-\only<-5>{%
+\only<-4>{%
 \item<2-> In dem Program wenden wir unsere neue \pythonil{sqrt}-Funktion iterativ auf die Werte in einem Tupel mit Hilfe einer \pythonil{for}-Schleife an.%
 }%
 %
-\only<-6>{%
+\only<-5>{%
 \item<3-> Wir schreiben die Ergebnisse der Berechnungen auf den \glsFull{stdout} mit Hilfe von \glslink{fstring}{f-Strings} und \pythonil{print}.%
 }%
 %
-\only<-7>{%
+\only<-6>{%
 \item<4-> Beachten Sie, dass wir diesmal den optionalen Parameter \pythonilIdx{flush} von \pythonilIdx{print} verwenden, der sonst den Default Value \pythonil{False} hat.%
 }%
 %
-\only<-8>{%
+\only<-7>{%
 \item<5-> Hier setzen wir ihn auf \pythonil{flush=True}, was erzwingt dass alle Ausgaben von \pythonilIdx{print} direkt und sofort auf den \pgls{stdout} geschrieben und nicht irgendwo zwischengespeichert wird.%
 }%
 %
-\only<-9>{%
+\only<-8>{%
 \item<6-> Das ist nützlich in diesem speziellen Beispiel um Vermischungen vom \pgls{stdout}-Stream, der die normale Ausgabe des Programms erhält, und dem \glsFull{stderr}, auf dem Fehlermeldungen auftauchen, zu verhindern.%
 }%
 %
@@ -512,7 +512,7 @@ Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobe
 }%
 %
 \only<-12>{%
-\item<9-> Die drei Zahlen danach, \pythonilIdx{inf}, \pythonilIdx{nan}, und \pythonil{-1.0}, würden aber alle einen Fahler auslösen.%
+\item<9-> Die drei Zahlen danach, \pythonilIdx{inf}, \pythonilIdx{nan}, und \pythonil{-1.0}, würden aber alle einen Fehler auslösen.%
 }%
 %
 \only<-13>{%
@@ -552,7 +552,7 @@ Dafür schreibt man eine Notiz der Fork \textil{:raises ExceptionType: why} wobe
 }%
 %
 \only<-23>{%
-\item<19-> Der Pfad zu ihrem Modul wird angegeben~(er endet mit \textil{exceptions/sqrt_raise.py}) und es wird angezeigt, dass der Fehler in Zeile~15 auftrat.%
+\item<19-> Der Pfad zu ihrem Modul wird angegeben~(er endet mit \textil{exceptions/sqrt_raise.py}) und es wird angezeigt, dass der Fehler in Zeile~16 auftrat.%
 }%
 %
 \only<-24>{%
