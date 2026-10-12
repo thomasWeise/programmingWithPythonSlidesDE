@@ -250,14 +250,14 @@ Source:~\bracketCite{GR:TAGWITWFST}.%
 Aufgrund der begrenzten Auflösung von Fließkommazahlen wird vom direkten Vergleichen von Ergebnissen von Berechnungen mit Fließkommawerten mit den strengen Operatoren \pythonil{==} und \pythonil{!=} abgeraten\cite{L2020RWECSSKAFPA,PEP485}.\uncover<18->{ %
 Das kann nämlich zu unerwarteten Ergebnissen führen.\uncover<19->{
 Zum Beispiel ergibt \pythonil{(0.1 + 0.2) == 0.3} nämlich \pythonil{False}.\uncover<20->{ %
-Funktionen wir \pythonilIdx{isclose} aus dem Modul \pythonilIdx{math}, die prüfen ob zwei Fließkommawerte basierend auf ihren relativen und absoluten Unterschieden annähernd gleich sind, können dieses Problem (zumindest etwas\cite{G1991WECSSKAFPA}) abschwächen~\cite{PEP485}.}}}%
+Funktionen wir \pythonilIdx{isclose} aus dem Modul \pythonilIdx{math}, die prüfen ob zwei Fließkommawerte basierend auf ihren relativen und absoluten Unterschieden annähernd gleich sind, können dieses Problem (zumindest etwas\cite{G1991WECSSKAFPA}) abschwächen\cite{PEP485}.}}}%
 }}%
 %
 \only<22-25>{%
 \bestPractice{noFloatEqualAsCondition}{%
 Benutzen Sie keine strengen Gleichheits- oder Ungleichheits-Vergleiche von \pythonils{float} als Abbruchkriterien von Schleifen\cite{L2020RWECSSKAFPA}, denn sie können leicht zu Endlosschleifen führen, die niemals abbrechen.\uncover<23->{ %
 Es kann immer komische Eingabewerte geben, die zu einer endlosen Oszillation zwischen Werten oder dem Auftauchen von  \pythonilIdx{nan} führen können.\uncover<24->{ %
-Das erste Problem kann zumindest wieder teilweise durch annäherungsweises Vergleichen mit Funktionen wie  \pythonilIdx{isclose} abgeschwöächt werden~\cite{PEP485}.}}%
+Das erste Problem kann zumindest wieder teilweise durch annäherungsweises Vergleichen mit Funktionen wie  \pythonilIdx{isclose} abgeschwöächt werden\cite{PEP485}.}}%
 }}%
 %
 \gitLoadAndExecPython{loops:while_loop_sqrt}{}{loops}{while_loop_sqrt.py}{}%
