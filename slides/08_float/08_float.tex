@@ -40,7 +40,7 @@
 \item<2-> Wie können wir mit dem Fakt umgehen, dass wir die Zahlen nicht beliebig genau speichern können, selbst in so häufig vorkommenden Fällen wie~\numberPi\ und~\numberE?%
 \item<3-> Wie gehen wir damit um, dass es reelle Zahlen gibt so groß wie~$10^{300}$ und so klein wie~$10^{-300}$?%
 \item<4-> In \python\ gibt es dafür den Datentyp~\pythonil{float}.%
-\item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \pythonils{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN,G1991WECSSKAFPA}.%
+\item<5-> \pythonil{float} hat die selbe interne Struktur wie der Datentyp \cil{double} in \pgls{C}\cite{PSF:P3D:TPSL:NTIFC} -- er folgt dem \emph{64~Bit IEEE~Standard 754 Floating Point Number Layout}\cite{IEEE2019ISFFPA,H1997IS7FPN,G1991WECSSKAFPA}.%
 \item<6-> Das Ziel ist es, dass wir eben genau Zahlen so groß wie~$10^{300}$ und so klein wie~$10^{-300}$ darstellen können\only<-6>{.}\uncover<7->{, aber das wir auch akzeptieren, dass wir~$10^{300}+10^{-300}$ nicht exakt erfassen können.}%
 \end{itemize}%
 \end{frame}%
