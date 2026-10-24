@@ -337,7 +337,7 @@ Nehmen Sie \alert{niemals} an, dass sie genau sind\cite{PTVF2007NRTAOSC:EAAS,BHK
 }%
 %
 \only<3-8>{%
-\item<3-> Die Funktion \pythonil{round(x)} führt sogenanntes \inQuotes{Banker's Rounding} durch.%
+\item<3-> Die Funktion \pythonil{round(x)} führt sogenanntes \inQuotes{\pgls{bankersRounding}} durch.%
 }%
 %
 \only<4-5>{%
@@ -351,7 +351,7 @@ Nehmen Sie \alert{niemals} an, dass sie genau sind\cite{PTVF2007NRTAOSC:EAAS,BHK
 }%
 %
 \only<7>{%
-\item<7-> Banker's Rounding hat den Vorteil, dass es keinen Bias auslöst: Rundet man \pythonil{z.5} immer zu \pythonil{z + 1} und es gibt viele Zahlen der Form \pythonil{z.5}, dann tendiert der Durchschnitt der gerundeten Zahlen dazu, größer als der Durchschnitt der ungerundeten Zahlen zu sein. Beim Banker's Rounding ist das nicht so\cite{MB2005RA1,SE:SO:WDP3RHTE}.%
+\item<7-> \Pgls{bankersRounding} hat den Vorteil, dass es keinen Bias auslöst: Rundet man \pythonil{z.5} immer zu \pythonil{z + 1} und es gibt viele Zahlen der Form \pythonil{z.5}, dann tendiert der Durchschnitt der gerundeten Zahlen dazu, größer als der Durchschnitt der ungerundeten Zahlen zu sein. Beim \pgls{bankersRounding} ist das nicht so\cite{MB2005RA1,SE:SO:WDP3RHTE}.%
 }%
 \only<8-9>{%
 \item<8-> Deshalb ist es in \python\ und im IEEE~754~Standard\cite{IEEE2019ISFFPA} bevorzugt und wird \DEzB~auch von Alipay\textsuperscript{+} genutzt\cite{APDOC:BR}.
@@ -1198,7 +1198,7 @@ Wenn Sie große \pythonil{int}-\ oder \pythonil{float}-Werte spezifizieren müss
 \item<2-> Für reelle Zahlen können wir den Datentyp~\pythonil{float} benutzen.%
 \item<3-> Dieser Datentyp ist \alert{nicht} beliebig genau, sondern sollte \alert{immer} als ungenau betrachtet werden.%
 \item<4-> Er reicht aber aus, um viele Berechnungen genau genug durchzuführen {\dots} 15~Ziffern sind schon ziemlich viel\dots.%
-\item<5-> Durch runden können \pythonils{float} in \pythonils{int} überführt werden~(wobei zu beachten ist, das die Funktion \pythonil{round} Banker's Rounding durchführt).%
+\item<5-> Durch runden können \pythonils{float} in \pythonils{int} überführt werden~(wobei zu beachten ist, das die Funktion \pythonil{round} \pgls{bankersRounding} durchführt).%
 \item<6-> Sehr große oder kleine \pythonil{float}-Werte können in der wissenschaftlichen Notation dargestellt werden.%
 \item<7-> \pythonil{inf}, \pythonil{-inf}, und \pythonil{nan} sind \pythonil{float}-Konstanten, die für \inQuotes{zu groß für einen \pythonil{float}}, \inQuotes{negativ-zu groß für einen \pythonil{float}}, und \inQuotes{nicht definiert} stehen.%
 \end{itemize}%
