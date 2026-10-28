@@ -189,7 +189,7 @@ Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführun
 \only<-7>{\item<6-> Die Funktion~\pythonil{a.find(b)} sucht den Index, an dem die Zeichenkette \pythonil{b} in \pythonil{a} beginnt.\uncover<7->{ \pythonil{\"World\"} beginnt an Index~6 in \pythonil{\"Hello World!\"}.%
 }}%
 %
-\only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind \inQuotes{case-sensitive}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
+\only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind schreibungsabhängig \inEN{case-sensitive}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
 Somit gilt \pythonil{\"W\" != \"w\"}.}\uncover<10->{ %
 Somit kann \pythonil{\"world\"} nicht in \pythonil{\"Hello World!\"} gefunden werden.\uncover<11->{ %
 Somit liefert die Funktion~\pythonil{-1} zurück.\uncover<12->{ %
@@ -420,7 +420,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-43>{\item<42-> Wenn die geschwungenen Klammern~\textil{\{} und \textil{\}} Ausdrücke in den Zeichenketten begrenzen {\dots} was machen wir dann, wenn wir mal eine geschwungene Klammer in einem String haben wollen?\uncover<43->{ Einfach \emph{zwei} geschwungene Klammern schreiben.%
 }}%
 %
-\only<-45>{\item<44-> Ein wirklich cooles Feature ist, dass wir sowohl einen Ausdruck~\pythonil{A} als auch dessen Ergebnis~\pythonil{A} ausdrucken können, in dem wir \pythonil{f\"\{A = \}\"} schreiben.\uncover<45->{ Das wird dann in~\pythonil{\"A = E\"} umgewandelt.%
+\only<-45>{\item<44-> Ein wirklich cooles Feature ist, dass wir sowohl einen Ausdruck~\pythonil{A} als auch dessen Ergebnis~\pythonil{E} ausdrucken können, in dem wir \pythonil{f\"\{A = \}\"} schreiben.\uncover<45->{ Das wird dann in~\pythonil{\"A = E\"} umgewandelt.%
 }}%
 %
 \only<-47>{\item<46-> Das funktioniert auch mit komplizierten Ausdrücken.\uncover<47->{ Problemlos.%
