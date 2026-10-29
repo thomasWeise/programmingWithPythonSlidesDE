@@ -189,7 +189,7 @@ Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführun
 \only<-7>{\item<6-> Die Funktion~\pythonil{a.find(b)} sucht den Index, an dem die Zeichenkette \pythonil{b} in \pythonil{a} beginnt.\uncover<7->{ \pythonil{\"World\"} beginnt an Index~6 in \pythonil{\"Hello World!\"}.%
 }}%
 %
-\only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind schreibungsabhängig \inEN{case-sensitive}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
+\only<-12>{\item<8-> \only<-10>{String-Funktionen und Vergleiche sind schreibungsabhängig \inEN{\gls{caseSensitive}}:~}Groß- und Kleinbuchstaben werden als unterschiedlich betrachtet.\uncover<9->{\only<-11>{ %
 Somit gilt \pythonil{\"W\" != \"w\"}.}\uncover<10->{ %
 Somit kann \pythonil{\"world\"} nicht in \pythonil{\"Hello World!\"} gefunden werden.\uncover<11->{ %
 Somit liefert die Funktion~\pythonil{-1} zurück.\uncover<12->{ %
@@ -245,7 +245,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-44>{\item<43-> \pythonil{a.upper()} wandelt alle Kleinbuchstaben in \pythonil{a} in Großbuchstaben um und gibt das Ergebnis als neuen String zurück.\uncover<44->{ \pythonil{\"Hello World!\"} wird so zu \pythonil{\"HELLOW WORLD\"}.%
 }}%
 %
-\only<-46>{\item<45-> \pythonil{a.startswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} anfängt.\uncover<46->{ Und weil es case-sensitive ist, ergibt das hier \pythonil{False}.%
+\only<-46>{\item<45-> \pythonil{a.startswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} anfängt.\uncover<46->{ Und weil es \gls{caseSensitive} ist, ergibt das hier \pythonil{False}.%
 }}%
 %
 \only<-48>{\item<47-> \pythonil{a.startswith(b)} gibt \pythonil{True} zurück wenn und nur wenn \pythonil{a} mit \pythonil{b} anfängt.\uncover<48->{ Aber jetzt stimmt es.%
