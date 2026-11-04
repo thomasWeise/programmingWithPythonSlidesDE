@@ -39,8 +39,9 @@
 \item Listen sind \emph{veränderbare}~\inEN{mutable} Sequenzen von Objekten.%
 \item<2-> Wir können eine Listenvariable~\pythonil{my_list} bestehend aus den drei Strings~\pythonil{\"ax\"}, \pythonil{\"by\"}, und~\pythonil{\"cz\"} erstellen, in dem wir schreiben~\pythonil{my_list = [\"ax\", \"by\", \"cz\"]}.%
 \item<3-> Auf die Elemente der Liste können wir genauso zugreifen wie auf die einzelnen Zeichen einer Zeichenkette, in dem wir sie mit eckigen Klammern indizieren\cite{PSF:P3D:TPLR:S}:~\pythonil{my_list[0]} gibt uns das erste Element der Liste zurück, nämlich~\pythonil{\"ax\"}.
-\item<4-> Listen sind also veränderliche Sequenzen von Objekten, aber anstelle von nur Zeichen (wie Strings) können sie beliebige Objekte beinhalten.%
-\item<5-> Los geht's.%
+\item<4-> Listen sind also Sequenzen von Objekten.%
+\item<5-> Anders als Strings sind sie veränderlich und anstelle von nur Zeichen können sie beliebige Objekte beinhalten.%
+\item<6-> Los geht's.%
 \end{itemize}%
 \end{frame}%
 %
@@ -61,7 +62,7 @@
 \item<4-> \pythonil{lst.append(x)} hängt Element~\pythonil{x} an die Liste~\pythonil{lst} an.%
 %
 \item<5-> \pythonil{[]} ist eine leere Liste.%
-\item<6-> \pythonil{l1.extend(l2)} hängt alle Elemente des Contains~\pythonil{l2} an die Liste~\pythonil{l1} an.%
+\item<6-> \pythonil{l1.extend(l2)} hängt alle Elemente der Kollektion~\pythonil{l2} an die Liste~\pythonil{l1} an.%
 \item<7-> Indizieren erfolgt genau wie bei Strings.%
 \item<8-> \pythonil{del lst[i]} löscht das Element an Index~\pythonil{i} aus der Liste~\pythonil{lst}.%
 \end{itemize}%
