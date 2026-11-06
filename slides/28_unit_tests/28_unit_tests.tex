@@ -69,7 +69,7 @@
 \uncover<9->{%
 \begin{definition*}[Unit Testing]
 \label{def:unitTesting}%
-\glslink{unitTest}{\emph{Unit Testing}} ist eine Software-Test-Technik, bei der einzelne Komponente oder Funktionen einer Applikation in Isolation getestet werden\cite{P2021PUTAAOAEUTIP,R2006ASOUTP,TLG2006UTCU,O1991UTVIT,B2004JPG,O2003UTTETO}.%
+\glslink{unitTest}{\emph{Unit Testing}} ist eine Software-Test-Technik, bei der einzelne Komponente oder Funktionen einer Applikation in Isolation getestet werden\scite{P2021PUTAAOAEUTIP,R2006ASOUTP,TLG2006UTCU,O1991UTVIT,B2004JPG,O2003UTTETO}.%
 \end{definition*}}%
 \end{frame}%
 %
@@ -83,7 +83,7 @@
 \only<-10>{%
 \item<2-> Wir implementieren und testen erstmal die kleinsten Funktionen~$\mathcal{A}$.%
 %
-\item<3-> Wir folgen der Idee \inQuotes{code a little, test a little}\cite{BG2000TIPLWT}, so das wir immer unseren Kode verstehen und verifizieren.%
+\item<3-> Wir folgen der Idee \inQuotes{code a little, test a little}\scite{BG2000TIPLWT}, so das wir immer unseren Kode verstehen und verifizieren.%
 }%
 %
 \item<4-> Dann implementieren und testen wir die Funktionen~$\mathcal{B}$, die die Funktionen~$\mathcal{A}$ benutzen.%
@@ -172,7 +172,7 @@
 %
 \item<7-> Damit können wir wiederum feststellen, ob eine Änderung an einem Modul unerwartete Konsequenzen in anderem Kode hat und vielleicht das Verhalten unseres Programm auf unerwünschte Art ändert.%
 %
-\item<8-> Besonders mit steigender Automatisierung durch \glsFull{continuousIntegration} sind Unit Tests in der Softwareentwicklung immer wichtiger geworden\cite{W2000WISTAWIISH,TLG2006UTCU,R2006ASOUTP} und ein integraler Bestandteil der Softwareentwicklung mit \python\ geworden\cite{P2021PUTAAOAEUTIP,O2022PTWP,DG2020TIP}.%
+\item<8-> Besonders mit steigender Automatisierung durch \glsFull{continuousIntegration} sind Unit Tests in der Softwareentwicklung immer wichtiger geworden\scite{W2000WISTAWIISH,TLG2006UTCU,R2006ASOUTP} und ein integraler Bestandteil der Softwareentwicklung mit \python\ geworden\scite{P2021PUTAAOAEUTIP,O2022PTWP,DG2020TIP}.%
 \end{itemize}%
 \end{frame}%
 %
@@ -185,7 +185,7 @@
 }%
 %
 \only<-4,9->{%
-\item<2-> Wir werden dafür \pytest\ verwenden, ein \python\ Framework für Unit Tests\cite{KPDT2024PD}.%
+\item<2-> Wir werden dafür \pytest\ verwenden, ein \python\ Framework für Unit Tests\scite{KPDT2024PD}.%
 }%
 %
 \only<-5>{%
@@ -212,7 +212,7 @@
 %
 \uncover<9->{%
 \usefulTool{pytest}{%
-\pytest\ ist ein \python\ Framework zum Schreiben und Ausführen von \glslink{unitTest}{Unit Tests}\cite{KPDT2024PD}.\uncover<10->{ %
+\pytest\ ist ein \python\ Framework zum Schreiben und Ausführen von \glslink{unitTest}{Unit Tests}\scite{KPDT2024PD}.\uncover<10->{ %
 Es kann via \bashil{pip install pytest pytest-timeout} installiert werden.\uncover<11->{ %
 Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s)} ausführen, wobei \textil{toInS} mit einem vernünftigen Timeout in Sekunden und \textil{file(s)} mit den Dateien mit den Testcases ersetzt werden.%
 }}%
@@ -613,7 +613,7 @@ Timouts schützen automatische Builds und \glslink{continuousIntegration}{Contin
 \item<10-> Wir berechnen nun allerdings \pythonil{0.5 * (inf + inf / inf)}.%
 }%
 \only<-15>{%
-\item<11-> Und \pythonil{inf / inf} ergibt \pythonil{nan}\cite{G1991WECSSKAFPA}.%
+\item<11-> Und \pythonil{inf / inf} ergibt \pythonil{nan}\scite{G1991WECSSKAFPA}.%
 }%
 \only<-16>{%
 \item<12-> Das \pythonil{nan} \inQuotes{infiziert} den Rest der Berechnung, so dass am Ende \pythonil{guess = nan}.%
@@ -727,17 +727,17 @@ No single factor is likely responsible for \sqlite's popularity.
 Instead, in addition to its fundamentally embeddable design, several characteristics combine to make \sqlite\ useful in a broad range of scenarios.
 In particular, \sqlite\ strives to be:\par\relax[\dots]\par\relax%
 \textbf{Reliable}.
-There are over 600~lines of test code for every line of code in \sqlite\cite{HWACIS:HO2023WKUOS}.
+There are over 600~lines of test code for every line of code in \sqlite\scite{HWACIS:HO2023WKUOS}.
 Tests cover 100\% of branches in the library.
 The test suite is extremely diverse, including fuzz tests, boundary value tests, regression tests, and tests that simulate operating system crashes, power losses, I/O~errors, and out-of-memory errors.
-Due to its reliability, \sqlite\ is often used in mission-critical applications such as flight software\cite{HWACIS:HO2024HSIT}%
+Due to its reliability, \sqlite\ is often used in mission-critical applications such as flight software\scite{HWACIS:HO2024HSIT}%
 }%
 \uncover<4->{%
 \begin{itemize}%
 \only<-5>{%
 \item \sqlite\ ist die weitverbreitetste \glslink{SQL}{SQL} \glslink{db}{Datenbank} der Welt.%
 }%
-\item<5-> Sie ist auf fast jedem Smartphone, Computer, Web Browser, Fernseher, und Auto installiert\cite{WB2019RHSOOS,GPBHKP2022SPPAF,C20245YOQ}.%
+\item<5-> Sie ist auf fast jedem Smartphone, Computer, Web Browser, Fernseher, und Auto installiert\scite{WB2019RHSOOS,GPBHKP2022SPPAF,C20245YOQ}.%
 \item<6-> Seine Entwickler stellen die Verlässlichkeit, gezeigt durch Tests, als eine der vier Gründen davon vor.%
 \end{itemize}%
 }}%

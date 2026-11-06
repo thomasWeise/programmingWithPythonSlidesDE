@@ -29,7 +29,7 @@
 %
 \item<5-> Eine Funktion kann dann überall in unserem Kode über ihren Namen aufgerufen werden, wobei dann Werte für die Parameter übergeben und gegebenenfalls der Rückgabewert \DEzB\ in einer Variable gespeichert wird.%
 %
-\item<6-> Jetzt wollen wir unsere eigenen Funktionen definieren\cite{PSF:P3D:TPT:MCFT}.%
+\item<6-> Jetzt wollen wir unsere eigenen Funktionen definieren\scite{PSF:P3D:TPT:MCFT}.%
 %
 %
 \end{itemize}%
@@ -91,7 +91,7 @@
 \item<16-> Wir können keine oder beliebig viele Parameter definieren.%
 }%
 \only<-19>{%
-\item<17-> Genau wie Variablen sollten Parameter mit \glslink{typeHint}{Type Hints} annotiert werden\cite{PEP3107}.%
+\item<17-> Genau wie Variablen sollten Parameter mit \glslink{typeHint}{Type Hints} annotiert werden\scite{PEP3107}.%
 }%
 \only<-19>{%
 \item<18-> Wir wollen ja schließlich, dass die Benutzer unserer Funktion genau verstehen, ob sie Ganzzahlen, Strings, oder Fließkommazahlen an unsere Funktion übergeben können oder nicht.
@@ -205,7 +205,7 @@
 \listingPythonSyntax{53-}{syntax/function}{0.2}{0.3365}{0.8}{0.68}%
 %
 \only<3>{%
-\bestPractice{functionNames}{Die Namen von Funktionen werden mit Kleinbuchstaben geschrieben, wobei Worte mit Unterstrichen getrennt werden\cite{PEP8}.}}%
+\bestPractice{functionNames}{Die Namen von Funktionen werden mit Kleinbuchstaben geschrieben, wobei Worte mit Unterstrichen getrennt werden\scite{PEP8}.}}%
 %
 \only<12>{\vspace*{-0.03\paperheight}%
 \begin{definition*}[Parameter]\pythonIdx{function!parameter}%
@@ -221,7 +221,7 @@ Die Abfolge der Parameter-Datentypen und der Datentyp des Rückgabewertes einer 
 %
 \only<28>{%
 \bestPractice{functionTypeHints}{\pythonIdx{function!type hint}%
-Alle Parameter und der Rückgabewert einer Funktion sollten mit \glslink{typeHint}{Type Hints}\cite{PEP3107} annotiert werden. %
+Alle Parameter und der Rückgabewert einer Funktion sollten mit \glslink{typeHint}{Type Hints}\scite{PEP3107} annotiert werden. %
 \emph{Eine Funktion ohne Type Hints ist falsch.}%
 }}%
 %
@@ -245,7 +245,7 @@ Wenn Sie in einem Team arbeiten oder Ihren Kode mit anderen Teilen wollen, dann 
 %
 \only<52>{%
 \bestPractice{functionSpace}{%
-Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weiterer Programmtext folgt\cite{PEP8}.%
+Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weiterer Programmtext folgt\scite{PEP8}.%
 }}%
 \end{frame}%
 %
@@ -270,7 +270,7 @@ Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weit
 }%
 %
 \only<-7>{%
-\item<4-> Die Fakultät ist wie folgt definiert\cite{D1991TEHOTFF,CB2022FBDOTFF}:%
+\item<4-> Die Fakultät ist wie folgt definiert\scite{D1991TEHOTFF,CB2022FBDOTFF}:%
 \uncover<4->{
 \begin{equation}%
 \hspace*{-0.05\paperwidth}\scalebox{0.95}{\ensuremath{\displaystyle{\factorial{a}=\left\{\begin{array}{rl}%
@@ -366,7 +366,7 @@ wobei $\prod_{i=1}^a i$ für das Produkt $1*2*3*\dots*(a-1)*a$ steht.
 %
 \item<26-> In der Schleife und dem \glslink{fstring}{f-String} benutzen wir \pythonil{factorial} genau wie jede andere Funktion, genau wie \pythonil{sqrt} oder \pythonil{sin}.%%
 %
-\item<27-> Als kleine Seiteninformation sei gesagt, dass es Möglichkeiten gibt, die Fakultät schneller zu berechnen als mit dieser Produktmethode\cite{L2015ANKOFF}.%
+\item<27-> Als kleine Seiteninformation sei gesagt, dass es Möglichkeiten gibt, die Fakultät schneller zu berechnen als mit dieser Produktmethode\scite{L2015ANKOFF}.%
 \end{itemize}%
 }}%
 %
@@ -391,7 +391,7 @@ wobei $\prod_{i=1}^a i$ für das Produkt $1*2*3*\dots*(a-1)*a$ steht.
 }%
 %
 \only<-16>{%
-\item<7-> Der GCD kann mit dem Euclidischen Algorithmus\cite{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT,B1999FAOTBEA,TKY2016BEOEAOTCEG} von \citeauthor{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT} der 300~\emph{\glsFull{BCE}} gelebt hat berechnet werden.%
+\item<7-> Der GCD kann mit dem Euclidischen Algorithmus\scite{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT,B1999FAOTBEA,TKY2016BEOEAOTCEG} von \citeauthor{EHF2008EEOGTGOJLH11FEEEELIEILHIATBG11EAPWMETBFR:ENT} der 300~\emph{\glsFull{BCE}} gelebt hat berechnet werden.%
 }%
 %
 \only<-17>{%
@@ -608,7 +608,7 @@ Eine Illustration von Euclid of Alexandria, dem Maler Charles Paul Landon~(1760-
 %
 \item<37-> Wir bestätigen, dass \pythonil{gcd} und \pythonil{math_gcd} die gleichen Ergebnisse liefern für vier Testfälle am Ende unseres Programms.%
 %
-\item<38-> Nun da wir fertig sind, lassen Sie mich noch erwähnen, dass es eine besonders effiziente binäre Variante des Euklidischen Algorithmus gibt, die scheller als unsere Implementierung ist und bereits in China im ersten Jahrhundert~\glsFull{CE} entwickelt wurde\cite{B1999FAOTBEA} und zwar steht die im \emph{Jiu Zhang Suanshu}~(九章算术)\cite{OR2003LH,SCL1999TNCOTMACAC,S1998LHATFGAOCM,D2010AALHOCAS,C2002LFLHADWTDM}.%
+\item<38-> Nun da wir fertig sind, lassen Sie mich noch erwähnen, dass es eine besonders effiziente binäre Variante des Euklidischen Algorithmus gibt, die scheller als unsere Implementierung ist und bereits in China im ersten Jahrhundert~\glsFull{CE} entwickelt wurde\scite{B1999FAOTBEA} und zwar steht die im \emph{Jiu Zhang Suanshu}~(九章算术)\scite{OR2003LH,SCL1999TNCOTMACAC,S1998LHATFGAOCM,D2010AALHOCAS,C2002LFLHADWTDM}.%
 %
 \end{itemize}%
 }}%

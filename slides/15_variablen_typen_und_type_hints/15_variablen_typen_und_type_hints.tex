@@ -44,7 +44,7 @@
 \item<4-> In \python\ müssen Sie keinen Datentyp für eine Variable zu spezifizieren.%
 \item<5-> Sie können \DEzB\ zuerst einen Text-String in einer Variable speichern und später dann einen Booleschen Wert.%
 \item<6-> Das bedeutet offensichtlich, dass verschiedene Programmiersprachen verschiedene Ansätze haben, wie Datentypen gehandhabt werden.%
-\item<7-> Schauen wir uns also einmal die grundlegenden Datentyp-bezogenen Eigenschaften\cite{PSF:TPW:WIPADLAAASTL} von Programmiersprachen an.%
+\item<7-> Schauen wir uns also einmal die grundlegenden Datentyp-bezogenen Eigenschaften\scite{PSF:TPW:WIPADLAAASTL} von Programmiersprachen an.%
 \end{itemize}%
 \end{frame}%
 %
@@ -125,7 +125,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 }%
 %
 \only<-7>{%
-\item<4-> Sie haben gelernt, dass \pythonilIdx{//} eine Ganzzahldivision mit einem \pythonil{int}-Ergebnis durchführt, wohingegen die Division mit \pythonilIdx{/} immer einen \pythonil{float} ergibt\cite{PEP238}.%
+\item<4-> Sie haben gelernt, dass \pythonilIdx{//} eine Ganzzahldivision mit einem \pythonil{int}-Ergebnis durchführt, wohingegen die Division mit \pythonilIdx{/} immer einen \pythonil{float} ergibt\scite{PEP238}.%
 }%
 %
 \only<-8>{%
@@ -269,7 +269,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 }%
 %
 \only<41-43>{%
-\item<41-> Viele solche Probleme existieren in vielen Softwareprojekten -- und sie sind schwer zu finden\cite{KCVM2022AESOTRDIPP}.%
+\item<41-> Viele solche Probleme existieren in vielen Softwareprojekten -- und sie sind schwer zu finden\scite{KCVM2022AESOTRDIPP}.%
 }%
 %
 \only<42-44>{%
@@ -317,7 +317,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 %
 \item<3-> In Programmiersprachen wie \pgls{C} und \pgls{Java}, kann das der Kompiler schon zu einem Teil erledigen, denn diese Sprachen sind statisch und stark typisiert.%
 %
-\item<4-> In \python, das dynamisch typisiert ist, benutzen wir Werkzeuge wie \mypy\cite{LLHSVRZSJYYMC2024MOSTFP}.%
+\item<4-> In \python, das dynamisch typisiert ist, benutzen wir Werkzeuge wie \mypy\scite{LLHSVRZSJYYMC2024MOSTFP}.%
 }%
 %
 \item<5-> Um dieses Programm zu installieren, öffnen Sie ein \glslink{terminal}{Terminal}\only<-7>{, in dem Sie unter \ubuntu\ \ubuntuTerminal\ drücken und unter \microsoftWindows\ mit \windowsTerminal}.%
@@ -381,7 +381,7 @@ Wir können Werte verschiedenen Typs in einer Variable speichen.%
 %
 \only<-8>{%
 \usefulTool{mypy}{%
-\mypy\cite{LLHSVRZSJYYMC2024MOSTFP} ist ein statischer Type-Checker für \python.\uncover<2->{ %
+\mypy\scite{LLHSVRZSJYYMC2024MOSTFP} ist ein statischer Type-Checker für \python.\uncover<2->{ %
 Dieses Werkzeug kann Sie warnen wenn Sie, \DEzB~einen Wert einer Variable zuweisen, der einen anderen Datentyp hat als der vorher in der gespeicherte Wert -- was ein potentieller Programmierfehler ist.\uncover<3->{ %
 Sie können \mypy\ via \bashil{pip install mypy} installieren.\uncover<4->{ %
 Sie können es dann mit dem Kommando \bashil{mypy fileToScan.py} anwenden, wobei \textil{fileToScan.py} der Name der zu prüfenden Datei ist~(es kann auch ein Verzeichnis angegeben werden).}}}%
@@ -521,9 +521,9 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 \item<6-> Und während Sie das tun, bedenken Sie, dass wir in \python\ Variablen jederzeit mit Werten anderer Datentypen überschreiben dürfen\dots%
 }%
 %
-\item<7-> Die Erkenntnis, das dynamische Typisierung sowohl ein Segen als auch ein Problem seien kann, führte zu der Entwicklung von \alert{optionalen} so genannten \glslink{typeHint}{Type Hints}\cite{PEP484,R2023PTHATCPBNI}.%
+\item<7-> Die Erkenntnis, das dynamische Typisierung sowohl ein Segen als auch ein Problem seien kann, führte zu der Entwicklung von \alert{optionalen} so genannten \glslink{typeHint}{Type Hints}\scite{PEP484,R2023PTHATCPBNI}.%
 %
-\item<8-> \python\ \alert{kann} statisches Typisieren unterstützen\cite{PSF:STWP}.%
+\item<8-> \python\ \alert{kann} statisches Typisieren unterstützen\scite{PSF:STWP}.%
 %
 \item<9-> Wir können den Datentyp einer Variable deklarieren, \emph{wenn wir das wollen}.%
 %
@@ -664,15 +664,15 @@ Ein professioneller Softwareingenieur oder Programmierer kennt viele Werkzeuge u
 %
 \uncover<3->{%
 \begin{enumerate}%
-\item Es gibt mehrere wichtige Werkzeuge, wie \psycopg\cite{VDGE2022PPDAFP:ST}, den \postgresql-\python\ Adapter, die vollständig mit Type Hints nach PEP~484\cite{PEP484} annotiert sind.%
+\item Es gibt mehrere wichtige Werkzeuge, wie \psycopg\scite{VDGE2022PPDAFP:ST}, den \postgresql-\python\ Adapter, die vollständig mit Type Hints nach PEP~484\scite{PEP484} annotiert sind.%
 %
-\item<4-> Viele andere Bibliotheken benutzen Type Hints zumindest teilweise und versuchen zumindest, das aller neuer Kode annotiert ist, \DEzB~\matplotlib\cite{HDFDM2012MVWP:CG}, \numpy\cite{N2025N:TNT}, und \pandas\cite{PD2025P:CTTCB}.%
+\item<4-> Viele andere Bibliotheken benutzen Type Hints zumindest teilweise und versuchen zumindest, das aller neuer Kode annotiert ist, \DEzB~\matplotlib\scite{HDFDM2012MVWP:CG}, \numpy\scite{N2025N:TNT}, und \pandas\scite{PD2025P:CTTCB}.%
 %
-\item<5-> Andere Pakete wie \scikitlearn\ und \scipy\ unterstützen Type Hints nicht {\dots} geben als Grund aber an, dass das mit ihrer existierener Kodebasis zu schwer umzusetzen wäre\cite{CFNYLH2020ST,DPVPCHG2018ATHFS}.
+\item<5-> Andere Pakete wie \scikitlearn\ und \scipy\ unterstützen Type Hints nicht {\dots} geben als Grund aber an, dass das mit ihrer existierener Kodebasis zu schwer umzusetzen wäre\scite{CFNYLH2020ST,DPVPCHG2018ATHFS}.
 %
 \end{enumerate}}%
 %
-\item<6-> Das viele populäre Werkzeuge Type Hints nicht oder nur teilweise nutzen liegt daran, dass der Standard PEP~484\cite{PEP484} erst von \citeyear{PEP484} ist.%
+\item<6-> Das viele populäre Werkzeuge Type Hints nicht oder nur teilweise nutzen liegt daran, dass der Standard PEP~484\scite{PEP484} erst von \citeyear{PEP484} ist.%
 %
 \item<7-> Wir lernen also:%
 \end{itemize}%
@@ -687,19 +687,19 @@ Die Idee, dass man ja Kode später annotieren kann, ist falsch.}%
 \begin{frame}%
 \frametitle{Type Hints und Sicherheit~(Security)}%
 \begin{itemize}%
-\item Statische Type-Checker können auch einen positiven Einfluss auf Sicherheitsaspekte haben, wie wir in unserem \citetitle{databases}-Buch erläutern\cite{databases}.%
+\item Statische Type-Checker können auch einen positiven Einfluss auf Sicherheitsaspekte haben, wie wir in unserem \citetitle{databases}-Buch erläutern\scite{databases}.%
 %
 \item<2-> So genannte Injection-Angriffe wie \glsShort{SQL} Injection Attacken~(\glsShort{SQLi}) sind seit vielen Jahren ein Sicherheitsproblem.%
  %
 \item<3-> Solche Angriffe auf \glslink{db}{Datenbanken} können verhindert werden, wenn \sql-Anfragen niemals mit Hilfe von String-Operationen oder \glslink{fstring}{f-Strings} erstellt werden, sondern immer nur String-\glslink{literal}{Literale} sind.%
 %
-\item<4-> \python\ bietet den Datentyp~\pythonilIdx{LiteralString} für String-\glslink{literal}{Literale} an\cite{PEP675}.%
+\item<4-> \python\ bietet den Datentyp~\pythonilIdx{LiteralString} für String-\glslink{literal}{Literale} an\scite{PEP675}.%
 %
-\item<5-> Implementierungen der \python\ \db\ \glsFull{API} wie \psycopg\cite{VDGE2022PPDAFP:ST} können also so annotiert werden, dass sie \sql-Anfragen nur annehmen, wenn sie von diesem Datentyp sind.%
+\item<5-> Implementierungen der \python\ \db\ \glsFull{API} wie \psycopg\scite{VDGE2022PPDAFP:ST} können also so annotiert werden, dass sie \sql-Anfragen nur annehmen, wenn sie von diesem Datentyp sind.%
 %
 \item<6-> Ein Type Checker könnte also feststellen, wenn fälschlicherweise eine \sql-Anfrage kein String-Literal ist.%
 %
-\item<7-> Noch unterstützt das \mypy\ aber noch nicht -- dieses Feature ist zu neu\cite{ZDWVSLS2022I1SP6L,VDGE2022PPDAFP:ST}.%
+\item<7-> Noch unterstützt das \mypy\ aber noch nicht -- dieses Feature ist zu neu\scite{ZDWVSLS2022I1SP6L,VDGE2022PPDAFP:ST}.%
 %
 \end{itemize}%
 \end{frame}%

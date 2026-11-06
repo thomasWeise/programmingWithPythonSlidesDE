@@ -18,7 +18,7 @@
 \begin{frame}%
 \frametitle{Einleitung}%
 \begin{itemize}%
-\item Der vierte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.\cite{PSF:P3D:TPSL:TSTS}%
+\item Der vierte wichtige grundlegende Datentyp in \python\ sind Zeichenketten, Texte, auch genannt \emph{Strings}.\scite{PSF:P3D:TPSL:TSTS}%
 \item<2-> Zeichenketten sind beliebig lange Sequenzen von Text-Zeichen.%
 \item<3-> In \python\ sind sie durch den Datentyp \pythonil{str} repräsentiert.%
 \item<4-> Wir haben sie bereits oftmals implizit oder explizit genutzt, \DEzB\ in unserem ersten Programm, das einfach \pythonil{\"Hello World\"} ausgedruckt hat.%
@@ -128,7 +128,7 @@ Der Text wird uns wieder ausgegeben.%
 \locate{12}{%
 \parbox{0.9\paperwidth}{%
 \bestPractice{strDoubleQuote}{%
-Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführungszeichen~(\pythonil{\"...\"}) bevorzugt werden.~(Der \citetitle{PEP8}\cite{PEP8} gibt keine Empfehlung, aber vielleicht für Konsistenz mit den~\citetitle{PEP257}\cite{PEP257}.)%
+Beim Definieren von String-Literalen sollte die Variante mit doppelten Anführungszeichen~(\pythonil{\"...\"}) bevorzugt werden.~(Der \citetitle{PEP8}\scite{PEP8} gibt keine Empfehlung, aber vielleicht für Konsistenz mit den~\citetitle{PEP257}\scite{PEP257}.)%
 }}}{0.05}{0.53}%
 %
 \locateGraphic{13}{width=0.8\paperwidth}{graphics/strBasic/strBasic08strConcat}{0.1}{0.33}%
@@ -355,7 +355,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-10>{%
 \item \pythonil{str(1 < 5) + \" is True and \" + str(1 + 5) + \" = 6.\"} {\dots} das sieht ziemlich umständlich aus.}%
 \item<2-> In der Tat gibt es eine Möglichkeit, schön formatierte Zeichenketten zu erstellen, die Ergebnisse von Berechnungen beinhalten können\only<-2>{.}\uncover<3->{:~\glslink{fstring}{f\nobreakdashes-Strings}.}%
-\item<4-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns, die Ergebnisse von Ausdrücken in Zeichenketten einzufügen\cite{PEP498,PSF:P3D:TPT:FSL,M2017WAFSIPAHCIUT,B2023PFS,DEVC:WFAAPODSCMIP,G2025MFIP}.%
+\item<4-> \glslink{fstring}{f\nobreakdashes-Strings} erlauben es uns, die Ergebnisse von Ausdrücken in Zeichenketten einzufügen\scite{PEP498,PSF:P3D:TPT:FSL,M2017WAFSIPAHCIUT,B2023PFS,DEVC:WFAAPODSCMIP,G2025MFIP}.%
 \item<5-> Sie haben eine einfache Syntax\only<-5>{.}\uncover<6->{:%
 \begin{enumerate}%
 \item Sie sind mit \pythonil{f\"...\"} begrenzt~(beachten Sie das kleine \textil{f} vor dem einleitenden Anführungszeichen!).%
@@ -431,9 +431,9 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 %
 \item<50-> Das waren natürlich nur einige Beispiele.%
 \item<51-> Mehr Informationen gibt es unter %
-\citetitle{B2023PFS}\cite{B2023PFS}, %
-\citetitle{PSF:P3D:TPT:FSL}\cite{PSF:P3D:TPT:FSL}, und %
-\citetitle{PEP498}\cite{PEP498}.%
+\citetitle{B2023PFS}\scite{B2023PFS}, %
+\citetitle{PSF:P3D:TPT:FSL}\scite{PSF:P3D:TPT:FSL}, und %
+\citetitle{PEP498}\scite{PEP498}.%
 %
 \end{itemize}%
 %
@@ -525,7 +525,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 }}%
 %
 \only<-30>{%
-\item<29-> Der Grund ist, dass die Funktion \pythonil{bool} in so genanntes \alert{truth value testing} durchführt\cite{PSF:P3D:TPSL:BIF:B,PSF:P3D:TPSL:TVT}.%
+\item<29-> Der Grund ist, dass die Funktion \pythonil{bool} in so genanntes \alert{truth value testing} durchführt\scite{PSF:P3D:TPSL:BIF:B,PSF:P3D:TPSL:TVT}.%
 }%
 %
 \only<-32>{%
@@ -593,7 +593,7 @@ Das Ersetzen funktioniert also nicht rekursiv, ersetzt also nicht in bereits ers
 \only<-11,30->{\only<-9,30->{\item<7-> Aber was machen wir, wenn wir \alert{beide} Arten von Anführungszeichen brauchen?\uncover<8->{ %
 Dann können wir nicht auf \inQuotes{andere} Anführungszeichen zur Begrenzung der Strings ausweichen.}%
 \uncover<9->{ %
-\item<9-> Dann brauche wir sogenannte \glslink{escapeSequence}{Escape-Sequenzen}\cite{PSF:P3D:TPLR:ES}.}}%
+\item<9-> Dann brauche wir sogenannte \glslink{escapeSequence}{Escape-Sequenzen}\scite{PSF:P3D:TPLR:ES}.}}%
 \uncover<10->{ %
 \item<10-> Wir können dem doppelten Anführungszeichen einfach in Backslash~(\inQuotes{\textbackslash}) voranstellen.\uncover<11->{ Dann wird es nicht mehr als String-Begrenzer interpretiert und verwandelt sich in ein normales doppeltes Anführungszeichen.%
 }}%
@@ -703,7 +703,7 @@ Sie können beliebige Ausdrücke enthalten und normal \glslink{strinterpolation}
 \locateGraphic{16}{width=0.8\paperwidth}{graphics/multiline/multiline12multiDQFdone}{0.1}{0.37}%
 %
 \uncover<19->{%
-\bestPractice{longstrDoubleQuote}{Wenn wir mehrzeilige Strings definieren, dann sollte immer doppelte Anführungszeichen verwendet werden und nicht einfache~(natürlich immer in dreifacher Ausfertigung).\cite{PEP257,PEP8}}%
+\bestPractice{longstrDoubleQuote}{Wenn wir mehrzeilige Strings definieren, dann sollte immer doppelte Anführungszeichen verwendet werden und nicht einfache~(natürlich immer in dreifacher Ausfertigung).\scite{PEP257,PEP8}}%
 }%
 \end{frame}%
 %
@@ -727,12 +727,12 @@ Sie können beliebige Ausdrücke enthalten und normal \glslink{strinterpolation}
 \frametitle{Zeichen als Zahlen}%
 \begin{itemize}%
 \item Historisch gesehen gibt es viele \inQuotes{Zeichen-zu-Zahlen} Mappings.%
-\item<2-> Die bekannteste solche Zuordnung ist ASCII\cite{ASA1963ASCII,USAS1967USCFII}, welche sieben Bits pro Zeichen verwendete.%
+\item<2-> Die bekannteste solche Zuordnung ist ASCII\scite{ASA1963ASCII,USAS1967USCFII}, welche sieben Bits pro Zeichen verwendete.%
 \item<3-> Darum konnte ASCII auch nur Lateinische Buchstaben, Satzzeichen, Ziffern, und ein Kontrollzeichen~(wie \textil{\\t} und \textil{\\n}\dots) darstellen.%
 \item<4-> Ihnen ist vielleicht aufgefallen, dass verschiedene Sprachen verschiedene Zeichen verwenden {\dots} und zwar mehr als insgesamt~$2^7=128$.%
 \item<5-> Deshalb gibt es verschiedene solche Zuordnungen.%
-\item<6-> In China existieren verschiedene, auf Chinesische Zeichen spezialisierte, Zuordnungen, \DEzB\ das historische GB~2312\cite{GBT23121980PROCNSG21CCECSFIE}, GBK\cite{GBK1995CICSNSE}, und das neuere GB~18030\cite{GB180302022ITCCCS}.%
-\item<7-> Die große Mehrheit der Systeme heute~(und \python) verwendet einen gemeinsamen Standard für \alert{alle} Sprachen: \glsFull{unicode}\cite{TUC2023U1510,TUC2023U151ACS,ISOIEC106462020ITUCCSU}.%
+\item<6-> In China existieren verschiedene, auf Chinesische Zeichen spezialisierte, Zuordnungen, \DEzB\ das historische GB~2312\scite{GBT23121980PROCNSG21CCECSFIE}, GBK\scite{GBK1995CICSNSE}, und das neuere GB~18030\scite{GB180302022ITCCCS}.%
+\item<7-> Die große Mehrheit der Systeme heute~(und \python) verwendet einen gemeinsamen Standard für \alert{alle} Sprachen: \glsFull{unicode}\scite{TUC2023U1510,TUC2023U151ACS,ISOIEC106462020ITUCCSU}.%
 \end{itemize}%
 \end{frame}%
 %

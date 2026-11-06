@@ -53,7 +53,7 @@
 \only<-3>{%
 \item Eine einfache Alternative ist ein Stück Programkode das eine Menge von Befehlen ausführt wenn eine Kondition zutrifft.%
 \item<2-> Die Kondition ist ein einfacher Boolescher Ausdruck, wie wir ihn bereits in Einheit~\unitBool~(\pythonil{bool}) diskutiert haben.%
-\item<3-> Die Syntax dafür ist sehr einfach\cite{PSF:P3D:TPT:MCFT}:%
+\item<3-> Die Syntax dafür ist sehr einfach\scite{PSF:P3D:TPT:MCFT}:%
 }%
 %
 \only<-8>{%
@@ -73,7 +73,7 @@
 \end{itemize}%
 %
 \uncover<6>{%
-\bestPractice{indentation}{Blöcke von Kode werden mit vier Leerzeichen eingerückt\cite{PEP8}.}%
+\bestPractice{indentation}{Blöcke von Kode werden mit vier Leerzeichen eingerückt\scite{PEP8}.}%
 }%
 %
 \gitLoadPython{syntax/if}{}{syntax/if.py}{}%
@@ -90,7 +90,7 @@
 }%
 %
 \only<-7>{%
-\item<2-> Nach dem Gregorianischen Kalender ist ein Jahr~$y$ ein Schaltjahr wenn $y$~durch~4 geteilt werden kann, aber nicht durch~100; oder wenn es durch~400~geteilt werden kann\cite{EOEBEB:LR}.%
+\item<2-> Nach dem Gregorianischen Kalender ist ein Jahr~$y$ ein Schaltjahr wenn $y$~durch~4 geteilt werden kann, aber nicht durch~100; oder wenn es durch~400~geteilt werden kann\scite{EOEBEB:LR}.%
 }%
 %
 \only<-8>{%
@@ -200,7 +200,7 @@
 }%
 %
 \only<-9>{%
-\item<5-> Natürlich geht das auch einfacher: mit \pythonil{if...else}\cite{PSF:P3D:TPT:MCFT}.%
+\item<5-> Natürlich geht das auch einfacher: mit \pythonil{if...else}\scite{PSF:P3D:TPT:MCFT}.%
 }\only<-10>{%
 \item<7-> Das \pythonil{if...else}-Statement beginnt genau wie ein normales \pythonilIdx{if}-Statement.%
 }\only<-11>{%
@@ -341,7 +341,7 @@ Und so weiter.%
 \item<6-> Es füllt auch die Horizontale unseres Bildschirms schnell aus.%
 }%
 %
-\item<7-> Darum wurde das \pythonilIdx{elif}-Statement entwickelt, das genau ein \pythonil{else}, welches nur ein \pythonil{if} beinhaltet, ersetzt~(oder eher kombiniert)\cite{PSF:P3D:TPT:MCFT}.%
+\item<7-> Darum wurde das \pythonilIdx{elif}-Statement entwickelt, das genau ein \pythonil{else}, welches nur ein \pythonil{if} beinhaltet, ersetzt~(oder eher kombiniert)\scite{PSF:P3D:TPT:MCFT}.%
 %
 \item<9-> Anstelle dem \pythonil{else} mit dem darin eingerückten \pythonil{if} schreiben wir einfach \pythonil{elif} mit der Bedingung, die das \pythonil{if} gehabt hätte.%
 %
@@ -368,7 +368,7 @@ Und so weiter.%
 }\only<-7>{%
 \item<4-> Am Anfang steht nichts in der Variable, also setzen wir \pythonil{phase = None}.%
 }\only<-8>{%
-\item<5-> Wir benutzen den \glslink{typeHint}{Type Hint} \pythonil{str | None} um eine Variable zu spezifizieren, die entweder \pythonil{None} oder eine String beinhalten kann\cite{PEP604}.%
+\item<5-> Wir benutzen den \glslink{typeHint}{Type Hint} \pythonil{str | None} um eine Variable zu spezifizieren, die entweder \pythonil{None} oder eine String beinhalten kann\scite{PEP604}.%
 }\only<-9>{%
 \item<6-> Wir beginning mit der ersten Bedingung und schreiben \pythonil{if age <= 3}.%
 }\only<-10>{%
@@ -437,7 +437,7 @@ Und so weiter.%
 \listingPythonAndOutput{8-11}{conditionals:if_elif_nested}{}{0.45}{0.1}{0.54}{0.92}%
 %
 \uncover<12->{%
-\bestPractice{elifOverElseIf}{Bevorzugen Sie \pythonilIdx{elif} über geschachtelte \pythonil{else ... if} Konstrukte\cite{M2022RAEFPLACFWIR}.}%
+\bestPractice{elifOverElseIf}{Bevorzugen Sie \pythonilIdx{elif} über geschachtelte \pythonil{else ... if} Konstrukte\scite{M2022RAEFPLACFWIR}.}%
 }%
 %
 \end{frame}%
@@ -523,7 +523,7 @@ Und so weiter.%
 }%
 %
 \only<-6>{%
-\item<4-> Das inline / ternäre \pythonil{if...else} Statement sieht wie folgt aus\cite{PEP308}:%
+\item<4-> Das inline / ternäre \pythonil{if...else} Statement sieht wie folgt aus\scite{PEP308}:%
 }%
 %
 \only<-7>{%
@@ -554,7 +554,7 @@ Und so weiter.%
 \listingPythonSyntax{5-10}{syntax/if_else_inline}{0.1}{0.375}{0.8}{0.6}%%
 %
 \uncover<11->{%
-\bestPractice{inlineIfThenElse}{Wenn ein \pythonil{if...else}-Statement nur dazu verwendet wird, zu entscheiden welcher Wert in einer Variable gespeichert wird, dann nehmen Sie stattdessen die ternäre inline Variante, da diese kompakter ist\cite{M2022RAEFPLACFWIR}.}%
+\bestPractice{inlineIfThenElse}{Wenn ein \pythonil{if...else}-Statement nur dazu verwendet wird, zu entscheiden welcher Wert in einer Variable gespeichert wird, dann nehmen Sie stattdessen die ternäre inline Variante, da diese kompakter ist\scite{M2022RAEFPLACFWIR}.}%
 }%
 \end{frame}%
 %
@@ -589,7 +589,7 @@ Und so weiter.%
 %
 \item<4-> Das ist schon ziemlich cool.%
 %
-\item<5-> Wir könnten jetzt schon hard-kodierte Entscheidungsbäume implementieren\cite{RN2022AIAMA,SSBD2014UMLFTTA} und im Grunde war ja \programUrl{conditionals:if_elif} ein Beispiel genau dafür.%
+\item<5-> Wir könnten jetzt schon hard-kodierte Entscheidungsbäume implementieren\scite{RN2022AIAMA,SSBD2014UMLFTTA} und im Grunde war ja \programUrl{conditionals:if_elif} ein Beispiel genau dafür.%
 %
 \item<6-> Mit Alternativen können wir im Grunde \inQuotes{über Instruktionen springen}.%
 %

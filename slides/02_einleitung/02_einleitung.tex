@@ -55,7 +55,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \uncover<2->{%
 \begin{definition*}[Programmieren]%
 \label{def:programming}
-\emph{Programmieren} ist das Schreiben eines Programms\cite{CDE:PMOPIE}.%
+\emph{Programmieren} ist das Schreiben eines Programms\scite{CDE:PMOPIE}.%
 \end{definition*}%
 }%
 %
@@ -101,7 +101,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \item Vielleicht fragen Sie sich, ob Sie einen Fehler gemacht haben.\uncover<8->{ Leute machen Fehler.\uncover<9->{ Je schwieriger die Aufgabe ist, die wir lösen wollen, je mehr Programmkode wir schreiben, desto wahrscheinlicher ist es, dass wir irgendwo irgendeinen Fehler machen.\uncover<10->{ \alert<10>{Also müssen Sie Ihre Programme \glslink{unitTest}{testen}.}}}}%
 \item<11-> Was passiert wenn jemand anders Ihre Programme später verwenden will?\uncover<12->{ \alert<12>{Sie müssen eine klare Dokumentation schreiben.}}%
 \item<13-> Was, wenn Ihr Kode Funktionen zur Verfüngung stellt, die andere verwenden können?\uncover<14->{ \alert<14>{Die Ein-\ und Ausgabedatentypen müssen klar spezifiziert werden.}}%
-\item<15-> Was, wenn jemand anders Ihren Kode lesen und damit arbeiten soll?\uncover<16->{ \alert<16>{Ihr Kode muss klar sein und konsistent einem ordentlichen Stil folgen\cite{PEP8}.}}%
+\item<15-> Was, wenn jemand anders Ihren Kode lesen und damit arbeiten soll?\uncover<16->{ \alert<16>{Ihr Kode muss klar sein und konsistent einem ordentlichen Stil folgen\scite{PEP8}.}}%
 \end{enumerate}%
 }}%
 \item<17-> Alle diese Dinge müssen beachtet werden!%
@@ -137,8 +137,8 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{itemize}%
 \item Programmierer schreiben also nicht nur Kode, sie entwickeln Software.%
-\item<2-> Ein Großteil der Programmierer verbringt nur etwa 50\%~ihrer Zeit mit Programmieren\cite{T2019MOSWBFDHOT2TMOSS,AS2019DS2OSRP}.%
-\item<3-> Andere Studien stellen sogar fest, dass weniger als 20\%~der Arbeitszeit mit Programmieren verbracht wird und vielleicht weitere 15\%~mit dem Korrigieren von Fehlern\cite{MAGTOC2024EHFAP}.%
+\item<2-> Ein Großteil der Programmierer verbringt nur etwa 50\%~ihrer Zeit mit Programmieren\scite{T2019MOSWBFDHOT2TMOSS,AS2019DS2OSRP}.%
+\item<3-> Andere Studien stellen sogar fest, dass weniger als 20\%~der Arbeitszeit mit Programmieren verbracht wird und vielleicht weitere 15\%~mit dem Korrigieren von Fehlern\scite{MAGTOC2024EHFAP}.%
 %
 \item<4-> Natürlich fokussieren wir uns in diesem Kurs auf das Programmieren.%
 %
@@ -154,18 +154,18 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 \begin{frame}[t]%
 \frametitle{Warum \python?}%
 \begin{enumerate}%
-\item \python\ ist eine sehr weitverbreitete Programmiersprache\cite{CBST2024LOHPPTDDSAMLA,B2023G2GLS}.%
-\uncover<3->{ Nach der jährlichen Stack Overflow Umfrage 2024\cite{SE:SO:2024DS}, war \python\ die zweitpopulärste Programmiersprache nach \pgls{javascript} and \glslink{HTML}{HTML}/CSS.%
-\uncover<4->{ In \github's Octoverse Report vom Oktober~2024\cite{GS2024OALPTTLATNOGDS}, war \python\ die populärste Programmiersprache (vor \pgls{javascript}).}}
+\item \python\ ist eine sehr weitverbreitete Programmiersprache\scite{CBST2024LOHPPTDDSAMLA,B2023G2GLS}.%
+\uncover<3->{ Nach der jährlichen Stack Overflow Umfrage 2024\scite{SE:SO:2024DS}, war \python\ die zweitpopulärste Programmiersprache nach \pgls{javascript} and \glslink{HTML}{HTML}/CSS.%
+\uncover<4->{ In \github's Octoverse Report vom Oktober~2024\scite{GS2024OALPTTLATNOGDS}, war \python\ die populärste Programmiersprache (vor \pgls{javascript}).}}
 %
-\item<5-> \python\ wird intensiv auf dem Gebiet der \pgls{AI}\cite{RN2022AIAMA}, \pgls{ML}\cite{SSBD2014UMLFTTA}, und \pgls{DS}\cite{G2019DSFSFPWP} genutzt, die alle Zukunftstechnologien sind.%
+\item<5-> \python\ wird intensiv auf dem Gebiet der \pgls{AI}\scite{RN2022AIAMA}, \pgls{ML}\scite{SSBD2014UMLFTTA}, und \pgls{DS}\scite{G2019DSFSFPWP} genutzt, die alle Zukunftstechnologien sind.%
 %
-\item<6-> Es existieren sehr mächtige Bibliotheken sowohl für Forschung als auch für die Produktentwicklung, \DEzB~\numpy\cite{HMvdWGVCWTBSKPHvKBHFdRWPGMSRWAGO2020APWN,DBvR2024ITN,J2018NPSCADSAWNSAM}, \pandas\cite{B2012DPWP,L2024PW}, \scikitlearn\cite{PVGMTGBPWDVPCBPD2011SMLIP,RLM2022MLWPAS}, \scipy\cite{VGOHRCBPWBvdWBWMMNJKLCPFMVLPCHQHARPvMS2020SFAFSCIP,J2018NPSCADSAWNSAM}, \tensorflow\cite{ABCCDDDGIIKLMMMSTVWWYZ2016TASFLSML,L2023TDDBTADMLMWT}, \pytorch\cite{PGMLBCKLGADKYDRTCSFBC2019PAISHPDLL,RLM2022MLWPAS}, \matplotlib\cite{H2007MA2GE,P2021HOMLPAVWP,J2018NPSCADSAWNSAM}, \simpy\cite{Z2024DESIEWS}, und \moptipy\cite{WW2023RSDEWASSAA}, um nur ein paar zu nennen.%
+\item<6-> Es existieren sehr mächtige Bibliotheken sowohl für Forschung als auch für die Produktentwicklung, \DEzB~\numpy\scite{HMvdWGVCWTBSKPHvKBHFdRWPGMSRWAGO2020APWN,DBvR2024ITN,J2018NPSCADSAWNSAM}, \pandas\scite{B2012DPWP,L2024PW}, \scikitlearn\scite{PVGMTGBPWDVPCBPD2011SMLIP,RLM2022MLWPAS}, \scipy\scite{VGOHRCBPWBvdWBWMMNJKLCPFMVLPCHQHARPvMS2020SFAFSCIP,J2018NPSCADSAWNSAM}, \tensorflow\scite{ABCCDDDGIIKLMMMSTVWWYZ2016TASFLSML,L2023TDDBTADMLMWT}, \pytorch\scite{PGMLBCKLGADKYDRTCSFBC2019PAISHPDLL,RLM2022MLWPAS}, \matplotlib\scite{H2007MA2GE,P2021HOMLPAVWP,J2018NPSCADSAWNSAM}, \simpy\scite{Z2024DESIEWS}, und \moptipy\scite{WW2023RSDEWASSAA}, um nur ein paar zu nennen.%
 %
-\item<7-> \python\ ist sehr einfach zu erlernen\cite{GPBS2006WCTIPIHSUP,VR1999CPFERPASEFTPOT}.%
+\item<7-> \python\ ist sehr einfach zu erlernen\scite{GPBS2006WCTIPIHSUP,VR1999CPFERPASEFTPOT}.%
 \uncover<8->{ Es hat eine einfache und saubere Syntax, die zu einer gut lesbaren Programmstruktur führt. %
 \uncover<9->{ \python\ hat auch sehr mächtige Standarddatentypen, wie \DEzB~Listen, Tuples, und Dictionaries.%
-\uncover<10->{ Darum war \python\ auch die populärste Programmiersprache für Leute, die das Programmieren lernen wollen, nach der oben erwähnten Umfrage\cite{SE:SO:2024DS}.}}}%
+\uncover<10->{ Darum war \python\ auch die populärste Programmiersprache für Leute, die das Programmieren lernen wollen, nach der oben erwähnten Umfrage\scite{SE:SO:2024DS}.}}}%
 \end{enumerate}%
 %
 \locateGraphic[B2023G2GLS]{2}{width=0.65\paperwidth}{graphics/languagesByGithubPushes/languagesByGithubPushes}{0.175}{0.26}%
@@ -195,7 +195,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{frame}[t]\frametitle{Literatur}%
 \begin{itemize}%
-\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Für diesen Kurs reicht unser Kursbuch\scite{programmingWithPython}.%
 \item<2-> Weitere Bücher zu \python:\begin{itemize}%
 \item \furtherReading{K2018EIPFEUU},%
 \item \furtherReading{L2025LP},%
@@ -211,7 +211,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{frame}[t]\frametitle{Literatur}%
 \begin{itemize}%
-\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Für diesen Kurs reicht unser Kursbuch\scite{programmingWithPython}.%
 \item Weitere Bücher zu \glslink{unitTest}{Softwaretests} und \glslink{continuousIntegration}{kontinuierliche Integration}:\begin{itemize}%
 \item \furtherReading{O2022PTWP},%
 \item \furtherReading{P2021PUTAAOAEUTIP},%
@@ -224,7 +224,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{frame}[t]\frametitle{Literatur}%
 \begin{itemize}%
-\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Für diesen Kurs reicht unser Kursbuch\scite{programmingWithPython}.%
 \item Weitere Bücher zu \glsreset{DS}\pgls{DS}, numerische Berechnungen, Visualisierung, und \pgls{AI}:\begin{itemize}%
 \item \furtherReading{M2022PFDA},%
 \item \furtherReading{P2021HOMLPAVWP},%
@@ -236,7 +236,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{frame}[t]\frametitle{Literatur}%
 \begin{itemize}%
-\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Für diesen Kurs reicht unser Kursbuch\scite{programmingWithPython}.%
 \item Bücher zu weiteren Themen:\begin{itemize}%
 \item \furtherReading{M2017WAFSIPAHCIUT},%
 \item \furtherReading{RCKS2019PNP}.%
@@ -246,7 +246,7 @@ Ein \emph{Programm} ist eine eindeutige Sequenz von Berechnungsanweisungen für 
 %
 \begin{frame}[t]\frametitle{Literatur}%
 \begin{itemize}%
-\item Für diesen Kurs reicht unser Kursbuch\cite{programmingWithPython}.%
+\item Für diesen Kurs reicht unser Kursbuch\scite{programmingWithPython}.%
 \item Onlineressourcen:\begin{itemize}%
 \item \furtherReading{PSF:P3D},
 \item \furtherReading{PEP0},%.

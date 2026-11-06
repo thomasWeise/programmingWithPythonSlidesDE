@@ -36,7 +36,7 @@
 \frametitle{Was Sinn ergibt}%
 \begin{itemize}%
 \item Auch die Funktion~\pythonil{exit} hat einen (optionalen) Parameter.%
-\item<2-> Nämlich den Exit-Kode des Programmes\cite{J2024PTOGBSI8IS12E:TAP}, eine Ganzzahl, wobei 0 für \inQuotes{Erfolg} steht.\medskip%
+\item<2-> Nämlich den Exit-Kode des Programmes\scite{J2024PTOGBSI8IS12E:TAP}, eine Ganzzahl, wobei 0 für \inQuotes{Erfolg} steht.\medskip%
 \item<3-> Wir erkennen:~Es ergibt Sinn, verschiedene Datentypen zu unterscheiden.%
 \item<4-> Manchmal wollen wir mit Text arbeiten.%
 \item<5-> Manchmal wollen wir mit Zahlen rechnen.%
@@ -70,7 +70,7 @@
 \item<2-> Es ist auch das Erste, dass Sie hier lernen.%
 \item<3-> \emph{Integer} ist ein lateinisches Wort das \inQuotes{ganz} oder \inQuotes{intakt} bedeutet.%
 \item<4-> Die ganzen Zahlen umfassen daher die negativen Ganzzahlen, 0, und die positiven Ganzzahlen -- alle ohne Kommastellen. %
-\item<5-> Viele Programmiersprachen bieten verschiedene Datentypen mit verschiedenen Wertebereichen für Ganzzahlen.\uncover<6->{ In \pgls{Java} ist \pythonil{byte} \DEzB\ ein Ganzzahltyp mit Wertebereich~\intRange{-2^7}{2^7-1} wohingegen \pythonil{long} den Wertebereich~\intRange{-2^{63}}{2^{63}-1} abdeckt.\uncover<7->{ Der \softwareStyle{C17}-Standard für \pgls{C} listed mindestens zehn Ganzzahltypen\cite{ISOIEC98892017PLCWDOS}.}}%
+\item<5-> Viele Programmiersprachen bieten verschiedene Datentypen mit verschiedenen Wertebereichen für Ganzzahlen.\uncover<6->{ In \pgls{Java} ist \pythonil{byte} \DEzB\ ein Ganzzahltyp mit Wertebereich~\intRange{-2^7}{2^7-1} wohingegen \pythonil{long} den Wertebereich~\intRange{-2^{63}}{2^{63}-1} abdeckt.\uncover<7->{ Der \softwareStyle{C17}-Standard für \pgls{C} listed mindestens zehn Ganzzahltypen\scite{ISOIEC98892017PLCWDOS}.}}%
 \item<8-> \python~3 hat nur einen einzigen Datentyp für die Ganzzahlen:~\pythonilIdx{int}.%
 \item<9-> Dieser Datentyp hat im Grunde einen unbegrenzten Wertebereich.%
 \item<10-> Naja, begrenzt durch den Speicher Ihres Computers.%
@@ -152,7 +152,7 @@
 \item<46-> In \python\ gibt es zwei Arten von Divisionen\uncover<47->{%
 \begin{enumerate}%
 \item die Ganzzahldivision~\pythonil{//} liefert ganzzahlige Ergebnisse, wobei der \glslink{modulodiv}{Rest} mit~\pythonil{\%} berechnet werden kann\uncover<48->{,}%
-\item<49-> die Fließkommadivison~\pythonil{/} liefert Ergebnisse, die keine \pythonil{int}-Werte mehr sind und Kommastellen haben\cite{PEP238}.\uncover<49->{ Wir lernen den Datentyp \pythonil{float} später kennen.}%
+\item<49-> die Fließkommadivison~\pythonil{/} liefert Ergebnisse, die keine \pythonil{int}-Werte mehr sind und Kommastellen haben\scite{PEP238}.\uncover<49->{ Wir lernen den Datentyp \pythonil{float} später kennen.}%
 \end{enumerate}%
 }%
 %
@@ -262,7 +262,7 @@ Merken Sie sich, dass \pythonilIdx{/} \emph{immer} \pythonilIdx{float}-Werte zur
 \item Damit haben wir unseren ersten Datentyp in \python\ kennengelernt.%
 \item<2-> \pythonil{int} repräsentiert Ganzzahlen, die positiv oder negativ seien können und 0~einschließen.%
 \item<3-> Wir können mit diesen Zahlen normal rechnen, wobei \python\ die Operatorenrangfolge mathematisch korrekt beachtet.%
-\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}\cite{PEP238}.}}%
+\item<4-> Zu beachten sind besonders die Divisionsoperatoren \pythonil{/} und \pythonil{//}\uncover<5->{: \pythonil{//} führt eine Ganzzahldivision durch, wobei Nachkommastellen wegfallen.\uncover<6->{ \pythonil{/} hingegen liefert immer Fließkommazahlen zurück (lernen wir später) und niemals \pythonils{int}\scite{PEP238}.}}%
 \item<7-> Und wieder sind wir einen Schritt weiter.%
 \item<8-> Wenn es Sie interessiert, können Sie sich den Appendix über verschiedene Zahlensysteme und bit-basierte Operatoren anschauen.%
 \end{itemize}%

@@ -47,7 +47,7 @@
 %
 \begin{itemize}%
 \only<-6>{%
-\item Das Erste, was wir immer machen, ist unseren Kode mit \mypy\cite{LLHSVRZSJYYMC2024MOSTFP} prüfen.%
+\item Das Erste, was wir immer machen, ist unseren Kode mit \mypy\scite{LLHSVRZSJYYMC2024MOSTFP} prüfen.%
 }%
 \item<2-> Klar: Wir definieren \pythonil{my_list} als Liste von Strings und speichern dann \pythonils{int} drin.%
 \item<3-> Das ist offensichtlich falsch und muss korrigiert werden.%
@@ -55,7 +55,7 @@
 \item<5-> Aber haben wir \emph{nur} Datentyp-bezogene Fehler gemacht?%
 \item<6-> Gibt es Werkzeuge, die auch andere Arten von Fehlern finden können?%
 \only<7->{%
-\item<7-> \alert{Ja}:~\glslink{linter}{Linters} sind Werkzeuge zum analysieren von Kode mit dem Ziel Bugs, Probleme, Schwachstellen, und inkonsistenten Stil zu finden\cite{J1978LACPC,RJYKK2022CULTDVM}.%
+\item<7-> \alert{Ja}:~\glslink{linter}{Linters} sind Werkzeuge zum analysieren von Kode mit dem Ziel Bugs, Probleme, Schwachstellen, und inkonsistenten Stil zu finden\scite{J1978LACPC,RJYKK2022CULTDVM}.%
 }%
 \end{itemize}%
 %
@@ -71,7 +71,7 @@
 \begin{itemize}%
 %
 \only<-2>{%
-\item \ruff\ ist ein sehr schneller \python\ \glslink{linter}{Linter} der Kode nach vielen verschiedenen Arten von Problem durchsuchen kann, angefangen von Formatierungsfehlern über fehlende Dokumentation und Performanz-Probleme bis hin zu potentiellen Programmierfehlern\cite{M2022RAEFPLACFWIR}.%
+\item \ruff\ ist ein sehr schneller \python\ \glslink{linter}{Linter} der Kode nach vielen verschiedenen Arten von Problem durchsuchen kann, angefangen von Formatierungsfehlern über fehlende Dokumentation und Performanz-Probleme bis hin zu potentiellen Programmierfehlern\scite{M2022RAEFPLACFWIR}.%
 %
 }%
 \item<2-> Um dieses Programm zu installieren, öffnen Sie ein \glslink{terminal}{Terminal}, in dem Sie unter \ubuntu\ \ubuntuTerminal\ drücken und unter \microsoftWindows\ mit \windowsTerminal.%
@@ -101,7 +101,7 @@
 }%
 %
 \only<-4>{%
-\item<3-> \ruff\ hat viele zusätzliche Parameter\cite{PSF:TPPIP:R,M2022RAEFPLACFWIR}.%
+\item<3-> \ruff\ hat viele zusätzliche Parameter\scite{PSF:TPPIP:R,M2022RAEFPLACFWIR}.%
 }%
 %
 \only<-4>{%
@@ -141,10 +141,10 @@
 %
 \uncover<3->{%
 \bestPractice{module:docstrings}{
-Jede \python-Datei muss mit einem String anfangen, der ihren Zweck erklärt\cite{PEP257}.\uncover<4->{ %
+Jede \python-Datei muss mit einem String anfangen, der ihren Zweck erklärt\scite{PEP257}.\uncover<4->{ %
 Das kann eine einzele Zeile sein, wie eine Überschrift, oder auch ein längerer Text.\uncover<5->{ %
 Im zweiten Fall muss die erste Zeile eine Überschrift gefolgt von einer Leerzeile sein, auf die dann der restliche Text folgt.\uncover<6->{ %
-So oder so, ein \glslink{docstring}{Docstring} muss mit~\pythonil{\"\"\"...\"\"\"} begrenzt sein\cite{PEP257,PEP8}.}}}%
+So oder so, ein \glslink{docstring}{Docstring} muss mit~\pythonil{\"\"\"...\"\"\"} begrenzt sein\scite{PEP257,PEP8}.}}}%
 }}%
 %
 \end{frame}%
