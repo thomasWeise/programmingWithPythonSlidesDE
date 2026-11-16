@@ -112,7 +112,7 @@ Source:~\bracketCite{GR:TAGWITWFST}.%
 %
 \item<12-> Nur wenn sie \pythonil{True} ergibt, wird der Schleifenkörper ausgeführt.%
 %
-\item<13-> Nur dann kann es weitere Iteratinen geben, vor denen jeweils wieder die Schleifenbedingung ausgerechnet wird.%
+\item<13-> Nur dann kann es weitere Iterationen geben, vor denen jeweils wieder die Schleifenbedingung ausgerechnet wird.%
 %
 \item<14-> Wenn die Schleifenbedingung nicht wahr ergab, dann wird die Schleife sofort abgebrochen.%
 %
@@ -160,7 +160,7 @@ Source:~\bracketCite{GR:TAGWITWFST}.%
 }%
 %
 \only<-11>{%
-\item<8-> Unsere \pythonilIdx{while}-Schleife soll dan iterieren, so lange \pythonil{guess != old_guess} und in jedem Schritt die Annäherung der Wurzel updaten.%
+\item<8-> Unsere \pythonilIdx{while}-Schleife soll dann iterieren, so lange \pythonil{guess != old_guess} und in jedem Schritt die Annäherung der Wurzel updaten.%
 }%
 %
 \only<-12>{%
@@ -257,7 +257,7 @@ Funktionen wir \pythonilIdx{isclose} aus dem Modul \pythonilIdx{math}, die prüf
 \bestPractice{noFloatEqualAsCondition}{%
 Benutzen Sie keine strengen Gleichheits- oder Ungleichheits-Vergleiche von \pythonils{float} als Abbruchkriterien von Schleifen\scite{L2020RWECSSKAFPA}, denn sie können leicht zu Endlosschleifen führen, die niemals abbrechen.\uncover<23->{ %
 Es kann immer komische Eingabewerte geben, die zu einer endlosen Oszillation zwischen Werten oder dem Auftauchen von  \pythonilIdx{nan} führen können.\uncover<24->{ %
-Das erste Problem kann zumindest wieder teilweise durch annäherungsweises Vergleichen mit Funktionen wie  \pythonilIdx{isclose} abgeschwöächt werden\scite{PEP485}.}}%
+Das erste Problem kann zumindest wieder teilweise durch annäherungsweises Vergleichen mit Funktionen wie  \pythonilIdx{isclose} abgeschwächt werden\scite{PEP485}.}}%
 }}%
 %
 \gitLoadAndExecPython{loops:while_loop_sqrt}{}{loops}{while_loop_sqrt.py}{}%

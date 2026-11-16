@@ -48,7 +48,7 @@
 %
 \uncover<9->{%
 \begin{definition*}[Structured Programming Theorem]%
-Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion mit nur drei verschiedenen Kontrollflusselementen berechnet werden kann, nämlich mit \emph{(1)}~dem sequenziellen Ausführen von Befehlen, \emph{(2)}~dem selektiven Ausführen von Befehlen~(also mit Alternativen), und~\emph{(3)}~dem iterativen~(repetitiven) ausführen von Befehlen~(bis eine bestimmte Bedingung eintrifft)\scite{B1964OAFOTMATRPL,BJ1966FDTMALWOTFR,S2011C1GIICS:TBJTAAITSPWP,H1980OFT}.%
+Das \emph{Structured Program Theorem} sagt aus, dass jede berechenbare Funktion mit nur drei verschiedenen Kontrollflusselementen berechnet werden kann, nämlich mit \emph{(1)}~dem sequenziellen Ausführen von Befehlen, \emph{(2)}~dem selektiven Ausführen von Befehlen~(also mit Alternativen), und~\emph{(3)}~dem iterativen~(repetitiven) Ausführen von Befehlen~(bis eine bestimmte Bedingung eintrifft)\scite{B1964OAFOTMATRPL,BJ1966FDTMALWOTFR,S2011C1GIICS:TBJTAAITSPWP,H1980OFT}.%
 \end{definition*}%
 %%
 \uncover<10->{%
@@ -521,7 +521,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 }%
 %
 \only<-36>{%
-\item<33-> Für \pythonil{candidate > 8}, geht \pythonil{check} dann von~\pythonil{3} bis$\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
+\item<33-> Für \pythonil{candidate > 8}, geht \pythonil{check} dann von~\pythonil{3} bis~$\left\lfloor\sqrt{\pythonil{candidate}}\right\rfloor$.%
 }%
 %
 \only<-37>{%
@@ -529,7 +529,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 }%
 %
 \only<-38>{%
-\item<35-> Das geht, in dem wir den \glslink{modulodiv}{Rest} der Division~$\pythonil{canddiate}/\pythonil{check}$ berechnen.%
+\item<35-> Das geht, in dem wir den \glslink{modulodiv}{Rest} der Division~$\pythonil{candidate}/\pythonil{check}$ berechnen.%
 }%
 %
 \only<-39>{%
@@ -778,7 +778,7 @@ Eine Primzahl~$p\in\naturalNumbersO$ ist eine positive Ganzzahl~$p>1$, also grö
 \item<4-> Wir haben dann alle ungeraden Zahlen kleiner als 200 als potentielle Prinzahlen \pythonils{candidate} durchprobiert.%
 }%
 \only<-8>{%
-\item<5-> Für jede potentielle Primzahl \pythonil{candidate}, haben wir alle alle (ungeraden) Zahlen \pythonil{check} aus \pythonil{range(3, isqrt(candidate) + 1, 2)}\pythonIdx{range} als mögliche Divisoren getestet.%
+\item<5-> Für jede potentielle Primzahl \pythonil{candidate}, haben wir alle (ungeraden) Zahlen \pythonil{check} aus \pythonil{range(3, isqrt(candidate) + 1, 2)}\pythonIdx{range} als mögliche Divisoren getestet.%
 }%
 \only<-9>{%
 \item<6-> Wenn wir darüber nachdenken, erkennen wir, dass wir eigentlich nur Primzahlen als mögliche Divisoren testen müssen.%
