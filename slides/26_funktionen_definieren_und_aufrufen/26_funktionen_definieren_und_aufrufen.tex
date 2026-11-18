@@ -149,7 +149,7 @@
 \item<36-> Dann geht der Kontrollfluss in dem Block weiter, der die Funktion aufgerufen hat, und zwar genau nach dem Funktionsaufruf.%
 }%
 \only<-40>{%
-\item<37-> Die Funktion kann auch an jedem Punkt mit Hilfe des \pythonil{return}-Statement verlassen werden.%
+\item<37-> Die Funktion kann auch an jedem Punkt mit Hilfe des \pythonil{return}-Statements verlassen werden.%
 }%
 \only<-40>{%
 \item<38-> Soll die Funktion einen Wert \pythonil{result} zurückliefern, dann geht das über \pythonil{return result}.%
@@ -161,7 +161,7 @@
 \item<40-> Wir können mehrere \pythonil{return}-Statements an verschiedenen Stellen in der Funktion verwenden.%
 }%
 \only<-44>{%
-\item<41-> Die Funktion \pythonil{my_function} can dann in beliebigem Kode aufgerufen werden, in dem wir \pythonil{my_function(value_1, value_2)} schreiben.%
+\item<41-> Die Funktion \pythonil{my_function} kann dann in beliebigem Kode aufgerufen werden, in dem wir \pythonil{my_function(value_1, value_2)} schreiben.%
 }%
 \only<-46>{%
 \item<42-> Hier wird \pythonil{value_1} als Wert für \pythonil{param_1} und \pythonil{value_2} als Wert für \pythonil{param_2} angegeben.%
@@ -266,7 +266,7 @@ Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weit
 }%
 %
 \only<-7>{%
-\item<3-> Lassen Sie uns die Fakultäts-Funktion als, nunja, Funktion implementieren.%
+\item<3-> Lassen Sie uns die Fakultät-Funktion als, nunja, Funktion implementieren.%
 }%
 %
 \only<-7>{%
@@ -274,8 +274,8 @@ Nach dem Ende des Funktionskörper werden zwei Leerzeilen eingefügt, bevor weit
 \uncover<4->{
 \begin{equation}%
 \hspace*{-0.05\paperwidth}\scalebox{0.95}{\ensuremath{\displaystyle{\factorial{a}=\left\{\begin{array}{rl}%
-1&\textnormal{~if~}a = 0\\%
-\prod_{i=1}^a i&\textnormal{~otherwise, i.e., if~}a>0%
+1&\textnormal{~wenn~}a = 0\\%
+\prod_{i=1}^a i&\textnormal{~sonst~=~bei~}a>0%
 \end{array}\right.}}}%
 \label{eq:factorial}%
 \end{equation}%
@@ -361,7 +361,7 @@ wobei $\prod_{i=1}^a i$ für das Produkt $1*2*3*\dots*(a-1)*a$ steht.
 %
 \item<24-> Nach dem Körper der Funktion lassen wir zwei Leerzeilen.%
 %
-\item<25-> Dann berechnen wir die Fakultäten von $1$ bis $9$ in einer \pythonilIdx{for}-Schleife und drucken sie mit Hilfe von einem \glslink{fstring}{f-String} aus.%
+\item<25-> Dann berechnen wir die Fakultäten von $0$ bis $9$ in einer \pythonilIdx{for}-Schleife und drucken sie mit Hilfe von einem \glslink{fstring}{f-String} aus.%
 %
 %
 \item<26-> In der Schleife und dem \glslink{fstring}{f-String} benutzen wir \pythonil{factorial} genau wie jede andere Funktion, genau wie \pythonil{sqrt} oder \pythonil{sin}.%%
