@@ -69,7 +69,7 @@
 \uncover<9->{%
 \begin{definition*}[Unit Testing]
 \label{def:unitTesting}%
-\glslink{unitTest}{\emph{Unit Testing}} ist eine Software-Test-Technik, bei der einzelne Komponente oder Funktionen einer Applikation in Isolation getestet werden\scite{P2021PUTAAOAEUTIP,R2006ASOUTP,TLG2006UTCU,O1991UTVIT,B2004JPG,O2003UTTETO}.%
+\glslink{unitTest}{\emph{Unit Testing}} ist eine Software-Test-Technik, bei der einzelne Komponenten oder Funktionen einer Applikation in Isolation getestet werden\scite{P2021PUTAAOAEUTIP,R2006ASOUTP,TLG2006UTCU,O1991UTVIT,B2004JPG,O2003UTTETO}.%
 \end{definition*}}%
 \end{frame}%
 %
@@ -379,7 +379,7 @@ Sie können dann \pytest\ mit dem Kommando \bashil{pytest --timeout=toInS file(s
 \item<51-> \pythonil{sqrt(nan)} sollte wieder \pythonil{nan} liefern.%
 }%
 \only<-56>{%
-\item<52-> Wie können letzteres natürlich nicht mit\pythonil{sqrt(nan) == nan}, weil \pythonilIdx{==} immer \pythonil{False} liefert, sobald ein \pythonilIdx{nan} involviert ist.%
+\item<52-> Wir können Letzteres natürlich nicht mit \pythonil{sqrt(nan) == nan} prüfen, weil \pythonilIdx{==} immer \pythonil{False} liefert, sobald ein \pythonilIdx{nan} involviert ist.%
 }%
 \only<-57>{%
 \item<53-> Wir müssen also die Funktion \pythonilIdx{isnan} aus dem \pythonilIdx{math}-Module verwenden, um auf \pythonil{nan} zu testen.%
@@ -727,10 +727,10 @@ No single factor is likely responsible for \sqlite's popularity.
 Instead, in addition to its fundamentally embeddable design, several characteristics combine to make \sqlite\ useful in a broad range of scenarios.
 In particular, \sqlite\ strives to be:\par\relax[\dots]\par\relax%
 \textbf{Reliable}.
-There are over 600~lines of test code for every line of code in \sqlite\scite{HWACIS:HO2023WKUOS}.
+There are over 600~lines of test code for every line of code in \sqlite~\cite{HWACIS:HO2023WKUOS}.
 Tests cover 100\% of branches in the library.
 The test suite is extremely diverse, including fuzz tests, boundary value tests, regression tests, and tests that simulate operating system crashes, power losses, I/O~errors, and out-of-memory errors.
-Due to its reliability, \sqlite\ is often used in mission-critical applications such as flight software\scite{HWACIS:HO2024HSIT}%
+Due to its reliability, \sqlite\ is often used in mission-critical applications such as flight software~\cite{HWACIS:HO2024HSIT}%
 }%
 \uncover<4->{%
 \begin{itemize}%
